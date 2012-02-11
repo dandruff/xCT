@@ -241,6 +241,8 @@ elseif ct.myclass == "WARRIOR" then
         ct.aoespam[1680]  = true  -- Whirlwind
         ct.aoespam[94009] = true  -- Rend
         ct.aoespam[12721] = true  -- Deep Wounds
+        ct.aoespam[50622] = true  -- Bladestorm
+	ct.aoespam[52174] = true  -- Heroic Leap
     end
     if ct.healingout then
         ct.healfilter[23880] = true  -- Bloodthirst
@@ -257,7 +259,8 @@ elseif ct.myclass == "HUNTER" then
         ct.aoespam[88453] = true  -- Serpent Sting (DOT 1/2 Serpent Spread) (Thanks Naughtia)
         ct.aoespam[88466] = true  -- Serpent Sting (DOT 2/2 Serpent Spread) (Thanks Naughtia)
         ct.aoespam[1978]  = true  -- Serpent Sting                          (Thanks Naughtia)
-        ct.aoespam[13812] = true  -- Explosive Trap  
+        ct.aoespam[13812] = true  -- Explosive Trap
+        ct.aoespam[53301] = true  -- Explosive Shot (3 ticks merged as one)
     end
     if ct.filtercrits then
       -- Add spells for all hunters here (example below)
@@ -271,6 +274,8 @@ elseif ct.myclass == "DEATHKNIGHT" then
         ct.aoespam[48721] = true  -- Blood Boil
         ct.aoespam[49184] = true  -- Howling Blast
         ct.aoespam[52212] = true  -- Death and Decay
+        ct.aoespam[98957] = true  -- Burning Blood Tier 13 2pc Bonus
+	ct.aoespam[59754] = true  -- Rune Tap (aoe heal if glyphed)
         
         -- Merging MainHand/OffHand Strikes (by Bozo)    (Thanks Shestak)
         if ct.mergedualwield then
