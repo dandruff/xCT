@@ -252,8 +252,12 @@ addon.merges = {
   [845]    = CreateMergeSpellEntry("WARRIOR", .5),      -- Cleave                                     (INSTANT)
   [46968]  = CreateMergeSpellEntry("WARRIOR", .5),      -- Shockwave                                  (INSTANT)
   [6343]   = CreateMergeSpellEntry("WARRIOR", .5),      -- Thunder Clap                               (INSTANT)
+  [6572]   = CreateMergeSpellEntry("WARRIOR", .5),      -- Revenge                                    (INSTANT)
+  [115767] = CreateMergeSpellEntry("WARRIOR", 3),       -- Deep Wounds
   [1680]   = CreateMergeSpellEntry("WARRIOR"),          -- Whirlwind
+  [44949]  = CreateMergeSpellEntry("WARRIOR"),          -- Whirlwind Offhand
   [50622]  = CreateMergeSpellEntry("WARRIOR"),          -- Bladestorm
+  [113344] = CreateMergeSpellEntry("WARRIOR"),          -- Bloodbath
   [52174]  = CreateMergeSpellEntry("WARRIOR", .5),      -- Heroic Leap                                (INSTANT)
   
 -- spammy items (old) ITEM CLASS CURRENTLY DOES NOTHING
