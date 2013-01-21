@@ -76,6 +76,7 @@ addon.merges = {
 
 -- hunter
   [2643]   = CreateMergeSpellEntry("HUNTER", .5),       -- Multi-Shot                                 (INSTANT)
+  [118459] = CreateMergeSpellEntry("HUNTER", .5),       -- Beast Cleave                               (INSTANT)
   [83077]  = CreateMergeSpellEntry("HUNTER", .5),       -- Serpent Sting (Instant Serpent Spread)     (INSTANT)
   [118253] = CreateMergeSpellEntry("HUNTER"),           -- Serpent Sting (Tick)
   [13812]  = CreateMergeSpellEntry("HUNTER"),           -- Explosive Trap
@@ -124,6 +125,8 @@ addon.merges = {
   [128591] = CreateMergeSpellEntry("MONK", 3),          -- Blackout Kick (Heal??)
   
 -- paladin (damage)
+  [122032] = CreateMergeSpellEntry("PALADIN"),          -- Glyph of Mass Exorcism
+  [96172]  = CreateMergeSpellEntry("PALADIN"),          -- Mastery: Hand of Light
   [81297]  = CreateMergeSpellEntry("PALADIN"),          -- Consecration
   [53385]  = CreateMergeSpellEntry("PALADIN"),          -- Divine Storm
   [31803]  = CreateMergeSpellEntry("PALADIN", 6),       -- Censure
