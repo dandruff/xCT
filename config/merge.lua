@@ -61,7 +61,7 @@ addon.merges = {
   [62078]  = CreateMergeSpellEntry("DRUID", .5),        -- Swipe (Cat)                                (INSTANT)
   [779]    = CreateMergeSpellEntry("DRUID", .5),        -- Swipe (Bear)                               (INSTANT)
   [33745]  = CreateMergeSpellEntry("DRUID"),            -- Lacerate
-  [1079]   = CreateMergeSpellEntry("DRUID"),            -- Rip
+  [1079]   = CreateMergeSpellEntry("DRUID", 2),         -- Rip
   [106830] = CreateMergeSpellEntry("DRUID", 4),         -- Thrash (Cat)
   [77758]  = CreateMergeSpellEntry("DRUID", 4),         -- Thrash (Bear)
   [106998] = CreateMergeSpellEntry("DRUID"),            -- Astral Storm                               (Every 1s for 10s)
@@ -147,6 +147,7 @@ addon.merges = {
   [31935]  = CreateMergeSpellEntry("PALADIN"),          -- Avenger's Shield
   [114919] = CreateMergeSpellEntry("PALADIN", 6.5),     -- Arcing Light (Damage)
   [119072] = CreateMergeSpellEntry("PALADIN", .5),      -- Holy Wrath                                 (INSTANT)
+  [86704]  = CreateMergeSpellEntry("PALADIN", .5),      -- Ancient Fury                               (INSTANT)
 
 -- paladin (healing)
   [94289]  = CreateMergeSpellEntry("PALADIN"),          -- Protector of the Innocent
