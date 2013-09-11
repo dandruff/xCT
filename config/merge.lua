@@ -116,6 +116,7 @@ addon.merges = {
   [124098] = CreateMergeSpellEntry("MONK", 6),          -- Zen Sphere (Damage)                        (2 sec for 16 sec)
   [125033] = CreateMergeSpellEntry("MONK", .5),         -- Zen Sphere: Detonate (Damage)              (INSTANT)
   [132467] = CreateMergeSpellEntry("MONK", 6),          -- Chi Wave (Damage)
+  [148187] = CreateMergeSpellEntry("MONK", 2.5),	-- Rushing Jade Wind (Damage)		      (Duplicated SCK healing interval)
   
 -- monk (healing)
   [117640] = CreateMergeSpellEntry("MONK", 2.5),        -- Spinning Crane Kick (Heal)                 (Over 2s)
