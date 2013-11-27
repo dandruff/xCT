@@ -177,8 +177,8 @@ addon.merges = {
   [122032] = CreateMergeSpellEntry("PALADIN"),          -- Glyph of Mass Exorcism
   [88263]  = CreateMergeSpellEntry("PALADIN"),          -- Hammer of Righteous
   [119072] = CreateMergeSpellEntry("PALADIN", .5),      -- Holy Wrath                                 (INSTANT)
-  [114852] = CreateMergeSpellEntry("PALADIN", .5),      -- Holy Prism (Healing on Target, Damage AoE) (ISNTANT)
-  [96172]  = CreateMergeSpellEntry("PALADIN"),          -- Mastery: Hand of Light
+  [114852] = CreateMergeSpellEntry("PALADIN", .5),      -- Holy Prism (Healing on Target, Damage AoE) (INSTANT)
+  [96172]  = CreateMergeSpellEntry("PALADIN", .5),      -- Mastery: Hand of Light
   [42463]  = CreateMergeSpellEntry("PALADIN"),          -- Seal of Truth
   [101423] = CreateMergeSpellEntry("PALADIN"),          -- Seal of Righteousness
 
