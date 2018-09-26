@@ -423,12 +423,14 @@ do
 	spell '34914'  '2.5' --  Vampiric Touch
 	spell '148859' '2.5' --  Shadowy Apparition
 	spell '15407'  '2.0' --  Mind Flay
+	spell '49821'  '0.5' --  Mind Sear
 	spell '205386' '0.5' --  Talent: Shadow Crash
+	spell '263346' '0.5' --  Talent: Dark Void
+	spell '263165' '2.0' --  Talent: Void Torrent
 	spell '193473' '2.0' --  Artifact: Void Tendril (Mind Flay)
 	spell '205065' '2.0' --  Artifact: Void Torrent
 	spell '194238' '2.5' --  Artifact: Sphere of Insanity
 	spell '204778' '2.5' --  Honor Talent: Void Shield
-	alias '237388' '15407'  --  [Cleave Merger] Mind Flay AoE Component (7.1.5)
 	alias '228361' '228360' --  Void Eruption Merger
 end
 
