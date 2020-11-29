@@ -74,15 +74,12 @@ do
 	spell '212739' '0.5' --  Talent: Epidemicééé
 	spell '156000' '2.5' --  Talent: Defile
 	spell '207267' '2.5' --  Talent Bursting Sores
-<<<<<<< Updated upstream
 	spell '115994' '1.5' --  Talent Unholy Blight
-=======
 	spell '212423' '1.0' --  Talent: All will serve
 	spell '319230' '1.0' --  Talent: Unholy Pact
 	spell '115994' '1.0' --  Talent: Unholy Blight 
 	alias '319238''319230' --  [Cleave Merger] Unholy Pact
 	alias '319236' '319230' --  [Cleave Merger] Unholy Pact
->>>>>>> Stashed changes
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
 	alias '191685' '215969' --  [DD/DoT Merger] Virulent Plague Eruption
 	alias '212969' '212739' --  [DD/DoT Merger] Talent: Epidemic
