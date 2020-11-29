@@ -25,6 +25,7 @@ class 'DEATHKNIGHT'
 do
 	spec  '0' -- All Specs
 	spell '52212' '2.5' --  Death and Decay
+	spell '268194' '1.0' -- chocking brine
 
 	spec  '250' -- Blood
 	spell '55078'  '3.5' --  Blood Plague
@@ -73,6 +74,7 @@ do
 	spell '212739' '0.5' --  Talent: Epidemic
 	spell '156000' '2.5' --  Talent: Defile
 	spell '207267' '2.5' --  Talent Bursting Sores
+	spell '115994' '1.5' --  Talent Unholy Blight
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
 	alias '191685' '215969' --  [DD/DoT Merger] Virulent Plague Eruption
 	alias '212969' '212739' --  [DD/DoT Merger] Talent: Epidemic
@@ -115,11 +117,12 @@ do
 	spell '228478' '0.5' --  Soul Cleave
 	spell '203794' '1.5' --  Consume Soul
 	spell '207771' '2.5' --  Talent: Burning Alive
-	spell '227255' '1.5' --  Talent: Fel Devastation
+	--spell '227255' '1.5' --  Talent: Fel Devastation
 	spell '247455' '0.5' --  Talent: Spirit Bomb
 	spell '218677' '1.5' --  Talent: Spirit Bomb (Frailty Heal)
 	spell '213011' '2.5' --  Artifact: Charred Warblades
 	spell '207407' '1.5' --  Artifact: Soul Carver (DoT)
+	spell '212105' '1.5' --  spell fel devastation
 	alias '178741' '187727' --  [DD/DoT Merger] Immolation Aura
 	-- alias '208038' '222030' --  [DD/DoT Merger] Soul Cleave
 	-- alias '214743' '207407' --  [DD/DoT Merger] Soul Cleave
