@@ -71,10 +71,18 @@ do
 	spell '191758' '0.5' --  Artifact: Corpse Explosion
 	spell '207267' '0.5' --  Talent: Dragged to Helheim
 	spell '212338' '0.5' --  Talent: Sludge Belcher
-	spell '212739' '0.5' --  Talent: Epidemic
+	spell '212739' '0.5' --  Talent: Epidemicééé
 	spell '156000' '2.5' --  Talent: Defile
 	spell '207267' '2.5' --  Talent Bursting Sores
+<<<<<<< Updated upstream
 	spell '115994' '1.5' --  Talent Unholy Blight
+=======
+	spell '212423' '1.0' --  Talent: All will serve
+	spell '319230' '1.0' --  Talent: Unholy Pact
+	spell '115994' '1.0' --  Talent: Unholy Blight 
+	alias '319238''319230' --  [Cleave Merger] Unholy Pact
+	alias '319236' '319230' --  [Cleave Merger] Unholy Pact
+>>>>>>> Stashed changes
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
 	alias '191685' '215969' --  [DD/DoT Merger] Virulent Plague Eruption
 	alias '212969' '212739' --  [DD/DoT Merger] Talent: Epidemic
@@ -128,6 +136,7 @@ do
 	-- alias '214743' '207407' --  [DD/DoT Merger] Soul Cleave
 	-- alias '228478' '228477' --  [DD/DoT Merger] Soul Cleave
 	alias '212106' '227255' --  [MH/OH Merger] Fel Devastation
+	alias '212105' '227255' --  [MH/OH Merger] Fel Devastation
 	alias '212084' '227255' --  Reported From Curse: Should be Fel Devastation
 end
 
@@ -375,6 +384,7 @@ do
 	spec  '66' -- Protection
 	spell '31935'  '1.5'  --  Avenger's Shield
 	spell '88263'  '0.5'  --  Hammer of the Righteous
+	spell '53600'  '0.5'  --  Shield of the Righteous
 	spell '204301' '2.5'  --  Blessed Hammer
 	spell '204241' '2.0'  --  Talent: Consecrated Ground
 	spell '209478' '1.5'  --  Artifact: Tyr's Enforcer
@@ -390,6 +400,7 @@ do
 	spell '210220' '0.5'  --  Talent: Holy Wrath
 	spell '202202' '0.5'  --  Talent: Eye for an Eye
 	spell '199435' '1.0'  --  Talent (PvP): Luminescence
+	spell '157122' '1.5'  --  Talent: Holy Shield
 	spell '224239' '1.5'  --  Artifact: Echo of the Highlord (Divine Storm)
 	spell '224266' '1.25' --  Artifact: Echo of the Highlord (Templar's Verdict)
 	spell '205273' '2.0'  --  Artifact: Wake of Ashes
@@ -559,6 +570,9 @@ do
 	spec  '0' -- All Specs
 	spell '217979' '2.0' --  Heath Funnel (You)
 	spell '85692'  '2.0' --  Doomguard (Doom Bolt)
+	spell '234153' '0.5' --  Drain Life
+	spell '325640' '234153' --  Drain life multi with soulrot
+
 
 	spec  '265' -- Affliction
 	spell '198590' '1.5' --  Drain Soul
@@ -582,7 +596,6 @@ do
 	alias '233498' '233490' --  Unstable Affliction (Multiple Applications)--]]
 	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
 
-
 	spec  '266' -- Demonlogy
 	spell '603'    '0.5' --  Doom
 	spell '89753'  '2.5' --  Felguard: Felstorm
@@ -600,6 +613,7 @@ do
 	spell '267215' '0.5' --  Talent Demonic Consump
 	alias '267971' '267215' --  Talent Demonic Consump
 	alias '211727' '211720' --  Artifact: Thal'kiel's Discord
+
 
 
 	spec  '267' -- Destruction

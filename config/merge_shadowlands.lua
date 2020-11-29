@@ -31,22 +31,33 @@ end
 header "|cffd2d3d8SL|r™ |cff798BDDItems|r"
 do
 end
-
-header "|cffd2d3d8SL|r™ |cff798BDDWorld Zones|r"
-do
-end
+--]]
 
 header "|cffd2d3d8SL|r™ |cff798BDDQuest Items|r"
 do
 end
---]]
+
+header "|cffd2d3d8SL|r™ |cff798BDDWorld Zones|r"
+do
+	item '327909' '0.5' "breaking ashen phylactery" -- Thorgast
+end
+
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
 do
-	-- Venthyr
+
 	-- warlock
+	-- Night Fae 
+	item '325640' '1.0' "Soul Rot"
+
+	-- Venthyr
 	item '321792' '1.0' "Impending Catastrophe"
 	alias '322167' '321792' -- Impending Catastrophe dot
 	alias '322170' '321792' -- Impending Catastrophe dot
+
+	-- DeathKnight
+	-- Kyrian
+	item '312202' '1.0' "Shackle of the Unworthy"
+
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDQuest Spells|r"

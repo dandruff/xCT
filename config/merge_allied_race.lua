@@ -22,3 +22,8 @@ race "|cfff2ff00Races|r™ |cff8a8dedVoid Elfs|r"
 do
 	rspell '259756' '2.5' --  Entropic embrace
 end
+
+race "|cfff2ff00Races|r™ |cff8a8dedLightforged Draenei|r"
+do
+	rspell '256893' '0.5' -- Light's judgement
+end
