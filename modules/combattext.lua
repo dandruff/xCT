@@ -204,17 +204,20 @@ local function ShowDamage() return x.db.profile.frames["outgoing"].enableOutDmg 
 local function ShowHealing() return x.db.profile.frames["outgoing"].enableOutHeal end
 local function ShowAbsorbs() return x.db.profile.frames["outgoing"].enableOutAbsorbs end
 local function ShowPetDamage() return x.db.profile.frames["outgoing"].enablePetDmg end
-local function ShowPetAutoAttack() return x.db.profile.frames["outgoing"].enablePetAutoAttack end
 local function ShowVehicleDamage() return x.db.profile.frames["outgoing"].enableVehicleDmg end
 local function ShowKillCommand() return x.db.profile.frames["outgoing"].enableKillCommand end
-local function ShowAutoAttack() return x.db.profile.frames["outgoing"].enableAutoAttack end -- Also see ShowSwingCrit
+
+-- Better auto-attack terminology
+local function ShowAutoAttack_Outgoing() return x.db.profile.frames["outgoing"].enableAutoAttack_Outgoing end
+local function ShowAutoAttack_Critical() return x.db.profile.frames["critical"].enableAutoAttack_Critical end
+local function PrefixAutoAttack_Critical() return x.db.profile.frames["critical"].prefixAutoAttack_Critical end
+local function ShowPetAutoAttack_Outgoing() return x.db.profile.frames["outgoing"].enablePetAutoAttack_Outgoing end
+
 local function ShowDots() return x.db.profile.frames["outgoing"].enableDotDmg end
 local function ShowHots() return x.db.profile.frames["outgoing"].enableHots end
 local function ShowImmunes() return x.db.profile.frames["outgoing"].enableImmunes end -- outgoing immunes
 local function ShowMisses() return x.db.profile.frames["outgoing"].enableMisses end -- outgoing misses
 local function ShowPartialMisses() return x.db.profile.frames["outgoing"].enablePartialMisses end
-local function ShowSwingCrit() return x.db.profile.frames["critical"].showSwing end
-local function ShowSwingCritPrefix() return x.db.profile.frames["critical"].prefixSwing end
 local function ShowPetCrits() return x.db.profile.frames["critical"].petCrits end
 local function ShowLootItems() return x.db.profile.frames["loot"].showItems end
 local function ShowLootItemTypes() return x.db.profile.frames["loot"].showItemTypes end
@@ -409,6 +412,7 @@ local format_remove_realm       = "(.*)-.*"
 local format_spell_icon         = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_msspell_icon_right = "%s |cff%sx%d|r |T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_msspell_icon_left  = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%d|r"
+local format_msspell_no_icon    = "%s |cff%sx%d|r"
 local format_loot_icon          = "|T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_lewtz              = "%s%s: %s [%s]%s%%s"
 local format_lewtz_amount       = " |cff798BDDx%s|r"
@@ -447,6 +451,7 @@ function xCTFormat:SPELL_HEAL( outputFrame, spellID, amount, critical, merged )
   message = x:GetSpellTextureFormatted( spellID,
                                         message,
        x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+       x.db.profile.frames[outputFrame].spacerIconsEnabled,
        x.db.profile.frames[outputFrame].fontJustify )
 
   x:AddMessage(outputFrame, message, outputColor)
@@ -468,6 +473,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL( outputFrame, spellID, amount, critical, 
   message = x:GetSpellTextureFormatted( spellID,
                                         message,
        x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+       x.db.profile.frames[outputFrame].spacerIconsEnabled,
        x.db.profile.frames[outputFrame].fontJustify )
 
   x:AddMessage(outputFrame, message, outputColor)
@@ -533,20 +539,21 @@ end
 
 --[=====================================================[
  AddOn:GetSpellTextureFormatted(
-    spellID,     [number] - The spell ID you want the icon for
-    message,     [string] - The message that will be used (usually the amount)
-    iconSize,    [number] - The format size of the icon
-    justify,     [string] - Can be 'LEFT' or 'RIGHT'
-    strColor,    [string] - the color to be used or defaults white
-    mergeOverride, [bool] - If enable, will format like: "Messsage x12" where 12 is entries
-    entries      [number] - The number of entries to use
+    spellID,        [number] - The spell ID you want the icon for
+    message,        [string] - The message that will be used (usually the amount)
+    iconSize,       [number] - The format size of the icon
+    showInvisibleIcon,[bool] - Whether or not to include a blank icon (also req iconSize to be -1 if disabled)
+    justify,        [string] - Can be 'LEFT' or 'RIGHT'
+    strColor,       [string] - the color to be used or defaults white
+    mergeOverride,    [bool] - If enable, will format like: "Messsage x12" where 12 is entries
+    entries         [number] - The number of entries to use
   )
   Returns:
     message,     [string] - the message contains the formatted icon
 
     Formats an icon quickly for use when outputing to a combat text frame.
 --]=====================================================]
-function x:GetSpellTextureFormatted( spellID, message, iconSize, justify, strColor, mergeOverride, entries )
+function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIcon, justify, strColor, mergeOverride, entries )
   local icon = x.BLANK_ICON
   strColor = strColor or format_strcolor_white
   if spellID == 0 then
@@ -559,28 +566,38 @@ function x:GetSpellTextureFormatted( spellID, message, iconSize, justify, strCol
 
   if iconSize < 1 then
     icon = x.BLANK_ICON
+  else
+    -- always show unless we specify enableIcons to be off (overriding iconSize to be -1)
+    showInvisibleIcon = true
   end
 
   if mergeOverride then
     if entries > 1 then
-      if justify == "LEFT" then
-        message = sformat( format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, entries )
+      if not showInvisibleIcon then
+        message = sformat( format_msspell_no_icon, message, strColor, entries )
       else
-        message = sformat( format_msspell_icon_right, message, strColor, entries, icon, iconSize, iconSize )
+        if justify == "LEFT" then
+          message = sformat( format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, entries )
+        else
+          message = sformat( format_msspell_icon_right, message, strColor, entries, icon, iconSize, iconSize )
+        end
       end
     else
+      if showInvisibleIcon then
+        if justify == "LEFT" then
+          message = sformat( "%s %s", sformat( format_spell_icon, icon, iconSize, iconSize ), message )
+        else
+          message = sformat( "%s%s", message, sformat( format_spell_icon, icon, iconSize, iconSize ) )
+        end
+      end
+    end
+  else
+    if showInvisibleIcon then
       if justify == "LEFT" then
         message = sformat( "%s %s", sformat( format_spell_icon, icon, iconSize, iconSize ), message )
       else
         message = sformat( "%s%s", message, sformat( format_spell_icon, icon, iconSize, iconSize ) )
       end
-    end
-  else
-
-    if justify == "LEFT" then
-      message = sformat( "%s %s", sformat( format_spell_icon, icon, iconSize, iconSize ), message )
-    else
-      message = sformat( "%s%s", message, sformat( format_spell_icon, icon, iconSize, iconSize ) )
     end
   end
 
@@ -1251,6 +1268,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.spellId,
 			                                   message,
 			    x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
+          x.db.profile.frames['outgoing'].spacerIconsEnabled,
 			    x.db.profile.frames['outgoing'].fontJustify)
 
 		-- Add names
@@ -1331,7 +1349,14 @@ local CombatEventHandlers = {
 		if not isEnvironmental and not isSwing and TrackSpells() then x.spellCache.spells[spellID] = true end
 
 		if not ShowDamage() then return end
-		if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() and not ShowAutoAttack() then return end
+
+		-- Check to see if this is a HoT
+		if isDoT and not ShowDots() then return end
+
+		if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() then
+			if critical and not ShowAutoAttack_Outgoing() then return end
+			if not critical and not ShowAutoAttack_Critical() then return end
+		end
 
 		-- Filter Ougoing Damage Spell or Amount
 		if IsSpellFiltered(spellID) or FilterOutgoingDamage(amount) then return end
@@ -1339,7 +1364,7 @@ local CombatEventHandlers = {
 		-- Check to see if my pet is doing things
 		if args:IsSourceMyPet() and (not ShowKillCommand() or spellID ~= 34026) then
 			if not ShowPetDamage() then return end
-			if isSwing and not ShowPetAutoAttack() then return end
+			if isSwing and not ShowPetAutoAttack_Outgoing() then return end
 			if MergePetAttacks() then
 				local icon = x.GetPetTexture() or ""
 				x:AddSpamMessage(outputFrame, icon, amount, x.db.profile.spells.mergePetColor, 6)
@@ -1355,7 +1380,7 @@ local CombatEventHandlers = {
 
 		if args:IsSourceMyVehicle() then
 			if not ShowVehicleDamage() then return end
-			if isSwing and not ShowPetAutoAttack() then return end
+			if isSwing and not ShowPetAutoAttack_Outgoing() then return end -- for BM's second pet, Hati
 			if not ShowPetCrits() then
 				critical = nil -- stupid spam fix for hunter pets
 			end
@@ -1366,7 +1391,7 @@ local CombatEventHandlers = {
 
 		-- Check for Critical Swings
 		if critical then
-			if (isSwing or isAutoShot) and ShowSwingCrit() then
+			if (isSwing or isAutoShot) and ShowAutoAttack_Critical() then
 				outputFrame = 'critical'
 			elseif not isSwing and not isAutoShot then
 				outputFrame = 'critical'
@@ -1414,9 +1439,9 @@ local CombatEventHandlers = {
 			end
 		end
 
-		if critical and ShowSwingCrit() then
+		if critical and not (isSwing or isAutoShot) or ShowAutoAttack_Critical() then
 			settings = x.db.profile.frames['critical']
-			if ShowSwingCritPrefix() then
+			if not (isSwing or isAutoShot) or PrefixAutoAttack_Critical() then
 				message = sformat(format_crit, x.db.profile.frames['critical'].critPrefix,
 				                               x:Abbreviate(amount,'critical'),
 				                               x.db.profile.frames['critical'].critPostfix)
@@ -1443,6 +1468,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted( spellID,
 		                                      message,
 		     x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+         x.db.profile.frames[outputFrame].spacerIconsEnabled,
 		     x.db.profile.frames[outputFrame].fontJustify )
 
 		x:AddMessage(outputFrame, message, outputColor)
@@ -1455,7 +1481,6 @@ local CombatEventHandlers = {
 
 		-- Keep track of spells that go by
 		if args.spellId and TrackSpells() then x.spellCache.damage[args.spellId] = true end
-
 
 		if IsDamageFiltered(args.spellId or false) then return end
 
@@ -1514,11 +1539,13 @@ local CombatEventHandlers = {
 			message = x:GetSpellTextureFormatted(args.spellId,
 			                                     message,
 			       x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+			       x.db.profile.frames['damage'].spacerIconsEnabled,
 			       x.db.profile.frames['damage'].fontJustify)
 		else
 			message = x:GetSpellTextureFormatted(nil,
 			                                     message,
 			       x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+			       x.db.profile.frames['damage'].spacerIconsEnabled,
 			       x.db.profile.frames['damage'].fontJustify)
 		end
 
@@ -1549,6 +1576,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.spellId,
 			                                   message,
 			    x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
+          x.db.profile.frames['healing'].spacerIconsEnabled,
 			    x.db.profile.frames['healing'].fontJustify)
 
 		-- Add names
@@ -1600,6 +1628,7 @@ local CombatEventHandlers = {
 			message = x:GetSpellTextureFormatted(args.spellId,
 			                                          message,
 			           x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
+			           x.db.profile.frames['healing'].spacerIconsEnabled,
 			           x.db.profile.frames['healing'].fontJustify)
 
 			x:AddMessage("healing", message, color)
@@ -1634,6 +1663,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.spellId,
 		                                          message,
 		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+		           x.db.profile.frames['general'].spacerIconsEnabled,
 		           x.db.profile.frames['general'].fontJustify)
 
 		x:AddMessage('general', message, color)
@@ -1663,6 +1693,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.extraSpellId,
 		                                          message,
 		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+		           x.db.profile.frames['general'].spacerIconsEnabled,
 		           x.db.profile.frames['general'].fontJustify)
 
 		x:AddMessage('general', message, 'interrupts')
@@ -1673,7 +1704,7 @@ local CombatEventHandlers = {
 
 		-- If this is a melee swing, it could also be our pets
 		if args.prefix == 'SWING' then
-			if not ShowAutoAttack() then return end
+			if not ShowAutoAttack_Outgoing() then return end
 			if args:IsSourceMyPet() then
 				spellId = PET_ATTACK_TEXTURE
 			else
@@ -1689,6 +1720,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(spellId,
 		                                     message,
 		     x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
+		     x.db.profile.frames['outgoing'].spacerIconsEnabled,
 		     x.db.profile.frames['outgoing'].fontJustify)
 
 		x:AddMessage('outgoing', message, 'misstypesOut')
@@ -1703,6 +1735,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.extraSpellId,
 		                                          message,
 		          x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+		          x.db.profile.frames['damage'].spacerIconsEnabled,
 		          x.db.profile.frames['damage'].fontJustify)
 
 		x:AddMessage('damage', message, missTypeColorLookup[args.missType] or 'misstypesOut')
@@ -1718,6 +1751,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.extraSpellId,
 		                                          message,
 		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+               x.db.profile.frames['general'].spacerIconsEnabled,
 		           x.db.profile.frames['general'].fontJustify)
 
 		if MergeDispells() then
@@ -1735,6 +1769,7 @@ local CombatEventHandlers = {
 		message = x:GetSpellTextureFormatted(args.extraSpellId,
 		                                          message,
 		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+               x.db.profile.frames['general'].spacerIconsEnabled,
 		           x.db.profile.frames['general'].fontJustify)
 
 		x:AddMessage('general', message, 'dispellStolen')
@@ -1891,16 +1926,19 @@ function x.CombatLogEvent (args)
 			CombatEventHandlers.IncomingMiss(args)
 
 		elseif args.event == 'SPELL_DISPEL' then
-			local message = args.sourceName .. " dispelled:"
+			if ShowDispells() then
+				local message = args.sourceName .. " dispelled:"
 
-			if GetLocale() == "koKR" then message = args.sourceName .. " 무효화:" end
+				if GetLocale() == "koKR" then message = args.sourceName .. " 무효화:" end
 
-			message = x:GetSpellTextureFormatted(args.extraSpellId,
-			                                     message,
-			      x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
-			      x.db.profile.frames['general'].fontJustify)
+				message = x:GetSpellTextureFormatted(args.extraSpellId,
+				                                     message,
+				      x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+				      x.db.profile.frames['general'].spacerIconsEnabled,
+				      x.db.profile.frames['general'].fontJustify)
 
-			x:AddMessage('general', message, "dispellDebuffs")
+				x:AddMessage('general', message, "dispellDebuffs")
+			end
 
 		elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
 			CombatEventHandlers.ShieldIncoming(args)
@@ -1910,7 +1948,6 @@ function x.CombatLogEvent (args)
 	-- Player Auras
 	if args.atPlayer and BuffsOrDebuffs[args.suffix] then
 		CombatEventHandlers.AuraIncoming(args)
-
 	end
 end
 

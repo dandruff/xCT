@@ -358,7 +358,6 @@ function x:CompatibilityLogic( existing )
 end
 
 function x.CleanUpForLegion()
-  print("Cleaning Up Legion")
   local key = xCTSavedDB.profileKeys[UnitName("player").." - "..GetRealmName()]
   xCTSavedDB.profiles[key] = {}
   ReloadUI()

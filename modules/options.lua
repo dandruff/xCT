@@ -362,6 +362,7 @@ local function isFrameNotScrollable(info) return isFrameItemDisabled(info) or no
 local function isFrameUseCustomFade(info) return not x.db.profile.frames[info[#info-2]].enableCustomFade or isFrameItemDisabled(info) end
 local function isFrameFadingDisabled(info) return isFrameUseCustomFade(info) or not x.db.profile.frames[info[#info-2]].enableFade end
 local function isFrameIconDisabled(info) return isFrameItemDisabled(info) or not x.db.profile.frames[info[#info-2]].iconsEnabled end
+local function isFrameIconSpacerDisabled(info) return x.db.profile.frames[info[#info-2]].iconsEnabled end
 local function isFrameFontShadowDisabled(info) return isFrameItemDisabled(info) or not x.db.profile.frames[info[#info-2]].enableFontShadow end
 local function isFrameCustomColorDisabled(info) return not x.db.profile.frames[info[#info-2]].customColor end
 -- This is TEMP
@@ -2502,6 +2503,15 @@ addon.options.args["Frames"] = {
               set = set2,
               disabled = isFrameIconDisabled,
             },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
+            },
           }
         },
 
@@ -2941,6 +2951,15 @@ addon.options.args["Frames"] = {
               set = set2,
               disabled = isFrameIconDisabled,
             },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
+            },
           }
         },
 
@@ -3235,6 +3254,12 @@ addon.options.args["Frames"] = {
               name = "|cff798BDDDamage Settings|r:",
               fontSize = 'large',
             },
+            specialTweaks_PlayerDesc = {
+              type = 'description',
+              order = 1,
+              name = "\n|cffFFFF00Player Settings|r:",
+              fontSize = 'small',
+            },
             enableOutDmg = {
               order = 10,
               type = 'toggle',
@@ -3243,28 +3268,30 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
             },
-            enableAutoAttack = {
-              order = 11,
-              type = 'toggle',
-              name = "Show Auto Attack",
-              desc = "Show your auto attack damage.",
-              get = get2,
-              set = set2,
-            },
             enableDotDmg = {
-              order = 12,
+              order = 11,
               type = 'toggle',
               name = "Show DoTs",
               desc = "Show your Damage-Over-Time (DOT) damage. (|cffFF0000Requires:|r Outgoing Damage)",
               get = get2,
               set = set2,
             },
-            spacer_Damage1 = {
+            enableAutoAttack_Outgoing = {
+              order = 12,
+              type = 'toggle',
+              name = "Show Auto Attack",
+              desc = "Show your non-critical, auto attack damage.",
+              get = get2,
+              set = set2,
+            },
+
+            specialTweaks_PetVehicleDesc = {
               type = 'description',
               order = 20,
-              name = '',
+              name = "\n|cffFFFF00Pet and Vehicle Settings|r:",
               fontSize = 'small',
             },
+
             enablePetDmg = {
               order = 21,
               type = 'toggle',
@@ -3273,31 +3300,32 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
             },
-            enablePetAutoAttack = {
+            enablePetAutoAttack_Outgoing = {
               order = 22,
               type = 'toggle',
               name = "Pet Auto Attacks",
-              desc = "Show your pet's auto attacks.",
+              desc = "Show your pet's non-critical, auto attacks.",
               get = get2,
               set = set2,
             },
-            enableVehicleDmg = {
+            enableKillCommand = {
               order = 23,
+              type = 'toggle',
+              name = "Show Kill Command",
+              desc = "Change the source of |cff798BDDKill Command|r to be the |cffFF8000Player|r. This is helpful when you to turn off |cffFF8000Pet|r damage.",
+              get = get2,
+              set = set2,
+              hidden = function()return x.player.class~='HUNTER'end
+            },
+            enableVehicleDmg = {
+              order = 24,
               type = 'toggle',
               name = "Show Vehicle Damage",
               desc = "Show damage that your vehicle does. This can be anything from a vehicle you are controlling to Hati, the beast mastery pet.",
               get = get2,
               set = set2,
             },
-            enableKillCommand = {
-              order = 24,
-              type = 'toggle',
-              name = "Show Kill Command",
-              desc = "Show the player, not the player's pet, as the source of Kill Command. Will allow you to turn off pet damage.",
-              get = get2,
-              set = set2,
-              hidden = function()return x.player.class~='HUNTER'end
-            },
+            
             healingSettings = {
               type = 'description',
               order = 30,
@@ -3728,6 +3756,15 @@ addon.options.args["Frames"] = {
               set = set2,
               disabled = isFrameIconDisabled,
             },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
+            },
           }
         },
 
@@ -4022,15 +4059,15 @@ addon.options.args["Frames"] = {
               name = "|cff798BDDMiscellaneous Settings|r:",
               fontSize = 'large',
             },
-            showSwing = {
+            enableAutoAttack_Critical = {
               order = 1,
               type = 'toggle',
               name = "Show Auto Attacks",
-              desc = "Show Auto Attack and Swings criticals in this frame. If disabled here, they are automatically shown in the Outgoing frame and can be completely disabled there.",
+              desc = "Show criticals from Auto Attack and Swings. If disabled, they will be displayed as non-critical auto attacks. They will be merged into the Outgoing frame.",
               get = get2,
               set = set2,
             },
-            prefixSwing = {
+            prefixAutoAttack_Critical = {
               order = 2,
               type = 'toggle',
               name = "Show Auto Attacks (Pre)Postfix",
@@ -4060,7 +4097,7 @@ addon.options.args["Frames"] = {
               desc = "Prefix this value to the beginning when displaying a critical amount.",
               get = getTextIn2,
               set = setTextIn2,
-              disabled = isFrameItemDisabled,
+              --disabled = isFrameItemDisabled,
             },
             critPostfix = {
               order = 12,
@@ -4069,7 +4106,23 @@ addon.options.args["Frames"] = {
               desc = "Postfix this value to the end when displaying a critical amount.",
               get = getTextIn2,
               set = setTextIn2,
-              disabled = isFrameItemDisabled,
+              --disabled = isFrameItemDisabled,
+            },
+            critPostPreReset = {
+              order = 13,
+              type = 'execute',
+              name = "Reset",
+              desc = "Reset Prefix and Postfix to their default setting.",
+              func = function()
+                  local critical = x.db.profile.frames.critical
+                  critical.critPrefix = "|cffFF0000*|r"
+                  critical.critPostfix = "|cffFF0000*|r"
+                end,
+              width = 'half',
+              disabled = function()
+                  local critical = x.db.profile.frames.critical
+                  return critical.critPrefix == "|cffFF0000*|r" and critical.critPostfix == "|cffFF0000*|r"
+                end,
             },
           },
 
@@ -4377,6 +4430,15 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
               disabled = isFrameIconDisabled,
+            },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
             },
 
             iconAdditionalSettings = {
@@ -5146,6 +5208,15 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
               disabled = isFrameIconDisabled,
+            },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
             },
           }
         },
@@ -6523,6 +6594,15 @@ addon.options.args["Frames"] = {
               set = set2,
               disabled = isFrameIconDisabled,
             },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
+            },
           }
         },
 
@@ -6867,6 +6947,15 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
               disabled = isFrameIconDisabled,
+            },
+            spacerIconsEnabled = {
+              order = 4,
+              type = 'toggle',
+              name = "Show Invisible Icons",
+              desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+              get = get2,
+              set = set2,
+              disabled = isFrameIconSpacerDisabled,
             },
           }
         },
