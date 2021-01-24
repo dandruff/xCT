@@ -271,7 +271,8 @@ do
 	spell '31661'  '0.5' --  Dragon's Breath
 	spell '2120'   '1.5' --  Flamestrike (Longer for talent)
 	spell '12654'  '2.5' --  Ignite (DoT)
-	spell '11366' '2.5'   -- Pyroblast
+	spell '11366' '2.5'  --  Pyroblast
+	spell '257541' '0.5' --  Phoenix's Flames (No longer Talent)
 	spell '205345' '2.5' --  Talent: Conflagration
 	spell '88082'  '2.0' --  Talent: Mirror Images
 	spell '157981' '0.5' --  Talent: Blast Wave
@@ -281,10 +282,9 @@ do
 	spell '44461'  '0.5' --  Talent: Living Bomb (Explosion)
 	spell '153564' '0.5' --  Talent: Meteor (Explosion)
 	spell '155158' '2.5' --  Talent: Meteor (DoT)
-	spell '194466' '0.5' --  Artifact: Phoenix's Flames
 	spell '194522' '2.5' --  Artifact: Blast Furnace
 	spell '215775' '1.5' --  Artifact: Phoenix Reborn
-	alias '224637' '194466' --  [DD/Splash Merger] Phoenix's Flames
+	alias '257542' '257541' --  [DD/Splash Merger] Phoenix's Flames
 	alias '226757' '205345' --  [DD/Splash Merger] Conflagration
 	alias '205472' '2120'   --  [DD/DoT Merger] Talent: Flame Patch
 	alias '244813' '217694' --  [DD/DoT Merger] multi target living bomb
