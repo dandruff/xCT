@@ -71,13 +71,12 @@ do
 	spell '191758' '0.5' --  Artifact: Corpse Explosion
 	spell '207267' '0.5' --  Talent: Dragged to Helheim
 	spell '212338' '0.5' --  Talent: Sludge Belcher
-	spell '212739' '0.5' --  Talent: Epidemicééé
+	spell '212739' '0.5' --  Talent: Epidemic
 	spell '156000' '2.5' --  Talent: Defile
 	spell '207267' '2.5' --  Talent Bursting Sores
 	spell '115994' '1.5' --  Talent Unholy Blight
 	spell '212423' '1.0' --  Talent: All will serve
 	spell '319230' '1.0' --  Talent: Unholy Pact
-	spell '115994' '1.0' --  Talent: Unholy Blight 
 	alias '319238''319230' --  [Cleave Merger] Unholy Pact
 	alias '319236' '319230' --  [Cleave Merger] Unholy Pact
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
@@ -568,7 +567,6 @@ do
 	spell '217979' '2.0' --  Heath Funnel (You)
 	spell '85692'  '2.0' --  Doomguard (Doom Bolt)
 	spell '234153' '0.5' --  Drain Life
-	spell '325640' '234153' --  Drain life multi with soulrot
 
 
 	spec  '265' -- Affliction
@@ -587,10 +585,6 @@ do
 	spell '199581' '0.5' --  Artifact: Soul Flame	
 	spell '324540' '0.5' --  Malefic Rapture
 	spell '278350' '1.0' --  Talent Vile Taint
---[[	alias '233496' '233490' --  Unstable Affliction (Multiple Applications)
-	alias '233499' '233490' --  Unstable Affliction (Multiple Applications)
-	alias '233497' '233490' --  Unstable Affliction (Multiple Applications)
-	alias '233498' '233490' --  Unstable Affliction (Multiple Applications)--]]
 	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
 
 	spec  '266' -- Demonlogy
