@@ -505,7 +505,7 @@ end
 class 'SHAMAN'
 do
 	spec  '262' -- Elemental
-	spell '117014' '1.0' --  Elemental Blast
+	spell '285452' '1.0' --  Elemental Blast
 	spell '51505'  '1.0' --  Lavaburst (Elemental)
 	spell '188196' '1.0' --  Lightning Bolt (Elemental)
 	spell '188443' '1.5' --  Chain Lightning (Elemental)
@@ -519,7 +519,7 @@ do
 	spell '117588' '0.5' --  Talent: Primal Elementalist [Fire]
 	spell '191732' '1.5' --  Artifact: Lightning Elemental (Chain Lightning)
 	spell '205533' '1.5' --  Artifact: Volcanic Inferno
-	alias '120588' '117014' --  [Mastery Merger] Elemental Blast Overload
+	alias '285466' '285452' --  [Mastery Merger] Elemental Blast Overload
 	alias '219271' '210714' --  [Mastery Merger] Ice Fury Overload
 	alias '77451'  '51505' --  [Mastery Merger] Lavaburst Overload
 	alias '45297'  '188443' --  [Mastery Merger] Chain Lightning Overload
