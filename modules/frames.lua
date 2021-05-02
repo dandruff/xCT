@@ -166,9 +166,11 @@ function x:UpdateFrames(specificFrame)
 			end
 
 			-- Set the position
-			f:SetWidth(settings.Width)
-			f:SetHeight(settings.Height)
-			f:SetPoint("CENTER", settings.X, settings.Y)
+			if settings.enabledFrame then
+				f:SetWidth(settings.Width)
+				f:SetHeight(settings.Height)
+				f:SetPoint("CENTER", settings.X, settings.Y)
+			end
 
 			-- For keeping the frame on the screen
 			--f:SetClampRectInsets(0, 0, settings.fontSize, 0)

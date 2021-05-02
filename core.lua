@@ -1432,11 +1432,21 @@ local funcColorResetHidden = function(info)
     return not x.db.profile.frames[info[#info-3]].colors[info[#info-1]].colors[color].enabled or
       tableCompare(x.db.profile.frames[info[#info-3]].colors[info[#info-1]].colors[color].color, x.db.profile.frames[info[#info-3]].colors[info[#info-1]].colors[color].default)
   elseif info[#info-3] == 'fontColors' then
-    return not x.db.profile.frames[info[#info-4]].colors[info[#info-2]].colors[info[#info-1]].colors[color].color or
+    return not x.db.profile.frames[info[#info-4]].colors[info[#info-2]].colors[info[#info-1]].colors[color].enabled or
       tableCompare(x.db.profile.frames[info[#info-4]].colors[info[#info-2]].colors[info[#info-1]].colors[color].color, x.db.profile.frames[info[#info-4]].colors[info[#info-2]].colors[info[#info-1]].colors[color].default)
   elseif info[#info-1] == 'SpellSchools' then
     return not x.db.profile.SpellColors[color].enabled or
       tableCompare(x.db.profile.SpellColors[color].color, x.db.profile.SpellColors[color].default)
+  end
+end
+
+local funcColorDisabled = function(info)
+  if info[#info-1] == 'fontColors' then
+    return x.db.profile.frames[info[#info-2]].customColor
+  elseif info[#info-2] == 'fontColors' then
+    return x.db.profile.frames[info[#info-3]].customColor
+  elseif info[#info-3] == 'fontColors' then
+    return x.db.profile.frames[info[#info-4]].customColor
   end
 end
 
@@ -1459,6 +1469,7 @@ local function GenerateColorOptionsTable_Entry(colorName, settings, options, ind
     get = getColorDB,
     set = setColorDB,
     desc = "Enable a custom color for |cff798BDD"..settings.desc.."|r.",
+    disabled = funcColorDisabled,
   }
   options[colorName.."_color"] = {
     order = index + 1,
@@ -1468,6 +1479,7 @@ local function GenerateColorOptionsTable_Entry(colorName, settings, options, ind
     set = setColorDB,
     desc = "Change the color for |cff798BDD"..settings.desc.."|r.",
     hidden = funcColorHidden,
+    disabled = funcColorDisabled,
   }
   options[colorName.."_reset"] = {
     type = 'execute',
@@ -1477,6 +1489,7 @@ local function GenerateColorOptionsTable_Entry(colorName, settings, options, ind
     func = funcColorReset,
     desc = "Resets |cff798BDD"..settings.desc.."|r back to the default color.",
     hidden = funcColorResetHidden,
+    disabled = funcColorDisabled,
   }
   options["spacer"..index] = {
     order = index + 3,

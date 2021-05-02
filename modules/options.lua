@@ -2537,7 +2537,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -2985,7 +2986,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -3365,6 +3367,19 @@ addon.options.args["Frames"] = {
               set = set2,
               disabled = isFrameItemDisabled,
             },
+            enableOverhealingSubtraction  = {
+              order = 35,
+              type = 'toggle',
+              name = "Subtract Overhealing",
+              desc = "Subtract the overhealed amount from the Total Amount",
+              get = get2,
+              set = set2,
+              disabled = function(info)
+                return not x.db.profile.frames.outgoing.enabledFrame or
+                  not x.db.profile.frames.outgoing.enableOverhealing
+              end,
+            },
+
             spacer_Healing1 = {
               type = 'description',
               order = 40,
@@ -3384,7 +3399,7 @@ addon.options.args["Frames"] = {
               end,
             },
             overhealingPrefix = {
-              order = 42,
+              order = 45,
               type = 'input',
               name = "Overhealing Prefix",
               desc = "Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
@@ -3397,7 +3412,7 @@ addon.options.args["Frames"] = {
               end,
             },
             overhealingPostfix = {
-              order = 43,
+              order = 46,
               type = 'input',
               name = "Overhealing Postfix",
               desc = "Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
@@ -3790,7 +3805,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -4481,7 +4497,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -5243,7 +5260,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -5760,7 +5778,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -6081,7 +6100,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -6154,6 +6174,8 @@ addon.options.args["Frames"] = {
               fontSize = 'small',
             },
 
+
+            -- Disable Powers
             disableResource_MANA = {
               order = 100,
               type = 'toggle',
@@ -6162,7 +6184,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_RAGE = {
               order = 101,
               type = 'toggle',
@@ -6171,7 +6192,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_FOCUS = {
               order = 102,
               type = 'toggle',
@@ -6180,7 +6200,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_ENERGY = {
               order = 103,
               type = 'toggle',
@@ -6198,7 +6217,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_RUNIC_POWER = {
               order = 105,
               type = 'toggle',
@@ -6207,7 +6225,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_SOUL_SHARDS = {
               order = 106,
               type = 'toggle',
@@ -6216,7 +6233,6 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-
             disableResource_LUNAR_POWER = {
               order = 107,
               type = 'toggle',
@@ -6226,25 +6242,26 @@ addon.options.args["Frames"] = {
               width = "normal",
             },
 
-            disableResource_HOLY_POWER = {
-              order = 108,
-              type = 'toggle',
-              name = "Disable |cff798BDD"..HOLY_POWER,
-              get = get2,
-              set = set2,
-              width = "normal",
-            },
+
+
 
             disableResource_CHI = {
-              order = 109,
+              order = 108,
               type = 'toggle',
               name = "Disable |cff798BDD"..CHI,
               get = get2,
               set = set2,
               width = "normal",
             },
-
-            disableResource_INSANITY = {
+            disableResource_HOLY_POWER = {
+              order = 109,
+              type = 'toggle',
+              name = "Disable |cff798BDD"..HOLY_POWER,
+              get = get2,
+              set = set2,
+              width = "normal",
+            },
+            disableResource_INSANITY_POWER = {
               order = 110,
               type = 'toggle',
               name = "Disable |cff798BDD"..INSANITY,
@@ -6252,51 +6269,41 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
+            disableResource_MAELSTROM_POWER = { -- Add in Maelstrom to resources
+              order = 111,
+              type = 'toggle',
+              name = "Disable |cff798BDD"..MAELSTROM_POWER,
+              get = get2,
+              set = set2,
+              width = "normal",
+            },
 
             disableResource_ARCANE_CHARGES = {
-              order = 111,
+              order = 112,
               type = 'toggle',
               name = "Disable |cff798BDD"..ARCANE_CHARGES,
               get = get2,
               set = set2,
               width = "normal",
             },
-
             disableResource_FURY = {
-              order = 112,
+              order = 113,
               type = 'toggle',
               name = "Disable |cff798BDD"..FURY,
               get = get2,
               set = set2,
               width = "normal",
             },
-
             disableResource_PAIN = {
-              order = 113,
+              order = 114,
               type = 'toggle',
               name = "Disable |cff798BDD"..PAIN,
               get = get2,
               set = set2,
               width = "normal",
             },
-			
-			disableResource_MAELSTROM = { -- Add in Maelstrom to resources
-              order = 113,
-              type = 'toggle',
-              name = "Disable |cff798BDD"..MAELSTROM,
-              get = get2,
-              set = set2,
-              width = "normal",
-            },
+            
 
-            disableResource_ALTERNATE_POWER = {
-              order = 114,
-              type = 'toggle',
-              name = "Disable |cff798BDD"..ALTERNATE_RESOURCE_TEXT,
-              get = get2,
-              set = set2,
-              width = "double",
-            },
           },
         },
       },
@@ -6628,7 +6635,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,
@@ -6982,7 +6990,8 @@ addon.options.args["Frames"] = {
             customColor = {
               order = 2,
               type = 'toggle',
-              name = "Enable Override",
+              name = "All Text One Color (Override Color Settings)",
+              width = 'double',
               desc = "Change all the text in this frame to a specific color.",
               get = get2,
               set = set2,

@@ -246,7 +246,8 @@ local function ShowIncomingAutoAttackIcons() return x.db.profile.frames["damage"
 -- These settings are for the overhealing that the player does
 local function ShowOutgoingOverHealing() return x.db.profile.frames["outgoing"].enableOverhealing end
 local function IsOutgoingOverHealingFormatted() return x.db.profile.frames["outgoing"].enableOverhealingFormat end
-local function FormatOutgoingOverhealing(amount) return x.db.profile.frames["outgoing"].overhealingPrefix .. amount .. x.db.profile.frames["healing"].overhealingPostfix end
+local function IsOverhealingSubtracted() return x.db.profile.frames["outgoing"].enableOverhealingSubtraction end
+local function FormatOutgoingOverhealing(amount) return x.db.profile.frames["outgoing"].overhealingPrefix .. amount .. x.db.profile.frames["outgoing"].overhealingPostfix end
 
 -- TODO: Add Combo Point Support
 local function ShowRogueComboPoints() return false end -- x.db.profile.spells.combo["ROGUE"][COMBAT_TEXT_SHOW_COMBO_POINTS_TEXT] and x.player.class == "ROGUE" end
@@ -434,7 +435,7 @@ local format_currency           = "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
 --]=====================================================]
 local xCTFormat = { }
 
-function xCTFormat:SPELL_HEAL( outputFrame, spellID, amount, critical, merged )
+function xCTFormat:SPELL_HEAL( outputFrame, spellID, amount, overhealing, critical, merged, args, settings )
   local outputColor, message = "healingOut"
 
   -- Format Criticals and also abbreviate values
@@ -447,6 +448,15 @@ function xCTFormat:SPELL_HEAL( outputFrame, spellID, amount, critical, merged )
     message = x:Abbreviate( amount, outputFrame )
   end
 
+  -- Show and Format Overhealing values
+  if overhealing > 0 and IsOutgoingOverHealingFormatted() then
+    overhealing = x:Abbreviate( overhealing, outputFrame )
+    message = message .. FormatOutgoingOverhealing(overhealing)
+  end
+
+  -- Add names
+  message = message .. x.formatName(args, settings.names)
+
   -- Add Icons
   message = x:GetSpellTextureFormatted( spellID,
                                         message,
@@ -457,7 +467,7 @@ function xCTFormat:SPELL_HEAL( outputFrame, spellID, amount, critical, merged )
   x:AddMessage(outputFrame, message, outputColor)
 end
 
-function xCTFormat:SPELL_PERIODIC_HEAL( outputFrame, spellID, amount, critical, merged )
+function xCTFormat:SPELL_PERIODIC_HEAL( outputFrame, spellID, amount, overhealing, critical, merged, args, settings )
   local outputColor, message = "healingOutPeriodic"
 
   -- Format Criticals and also abbreviate values
@@ -468,6 +478,15 @@ function xCTFormat:SPELL_PERIODIC_HEAL( outputFrame, spellID, amount, critical, 
   else
     message = x:Abbreviate( amount, outputFrame )
   end
+
+  -- Show and Format Overhealing values
+  if overhealing > 0 and IsOutgoingOverHealingFormatted() then
+    overhealing = x:Abbreviate( overhealing, outputFrame )
+    message = message .. FormatOutgoingOverhealing(overhealing)
+  end
+
+  -- Add names
+  message = message .. x.formatName(args, settings.names)
 
   -- Add Icons
   message = x:GetSpellTextureFormatted( spellID,
@@ -516,16 +535,24 @@ local COMBATLOG_FILTER_MY_VEHICLE = bit.bor( COMBATLOG_OBJECT_AFFILIATION_MINE,
   to go.
 --]=====================================================]
 function x.OnCombatTextEvent(self, event, ...)
-  if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+	
+	--[====[
+	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
     local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = CombatLogGetCurrentEventInfo()
 	--local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
 
-    if sourceGUID == x.player.guid or ( sourceGUID == UnitGUID("pet") and ShowPetDamage() ) or sourceFlags == COMBATLOG_FILTER_MY_VEHICLE then
+    if sourceGUID == x.player.guid or
+    	( sourceGUID == UnitGUID("pet") and ShowPetDamage() ) or
+    	sourceFlags == COMBATLOG_FILTER_MY_VEHICLE
+    then
       if x.outgoing_events[eventType] then
         x.outgoing_events[eventType](...)
       end
     end
-  elseif event == "COMBAT_TEXT_UPDATE" then
+  else
+	]====]
+
+  if event == "COMBAT_TEXT_UPDATE" then
     local subevent, arg2, arg3 = ...
     if x.combat_events[subevent] then
       x.combat_events[subevent](arg2, arg3)
@@ -1278,7 +1305,7 @@ local CombatEventHandlers = {
 	end,
 
 	["HealingOutgoing"] = function (args)
-		local spellID, isHoT, amount, merged = args.spellId, args.prefix == "SPELL_PERIODIC", args.amount
+		local spellID, isHoT, amount, overhealing, merged = args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
 
 		-- Keep track of spells that go by
 		if TrackSpells() then x.spellCache.spells[spellID] = true end
@@ -1292,11 +1319,14 @@ local CombatEventHandlers = {
 		if IsSpellFiltered(spellID) or FilterOutgoingHealing(amount) then return end
 
 		-- Filter Overhealing
-		if not ShowOverHealing() then
-			amount = amount - args.overhealing
-			if amount < 1 then
-				return
+		if ShowOverHealing() then
+			if IsOverhealingSubtracted() then
+				amount = amount - overhealing
 			end
+		else
+			amount = amount - overhealing
+			overhealing = 0
+			if amount < 1 then return end
 		end
 
 		-- Figure out which frame and color to output
@@ -1305,6 +1335,9 @@ local CombatEventHandlers = {
 			outputFrame = "critical"
 			outputColor = "healingOutCritical"
 		end
+
+		-- Get the settings for the correct output frame
+		local settings = x.db.profile.frames[outputFrame]
 
 		-- HoTs only have one color
 		if isHoT then outputColor = "healingOutPeriodic"end
@@ -1329,9 +1362,9 @@ local CombatEventHandlers = {
 		end
 
 		if args.event == "SPELL_PERIODIC_HEAL" then
-			xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, critical, merged)
+			xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
 		elseif args.event == "SPELL_HEAL" then
-			xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, critical, merged)
+			xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
 		else
 			if UnitName('player') == "Dandraffbal" then
 				print("xCT Needs Some Help: unhandled _HEAL event", args.event)
