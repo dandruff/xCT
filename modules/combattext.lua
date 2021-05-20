@@ -1277,7 +1277,7 @@ end
 local CombatEventHandlers = {
 	["ShieldOutgoing"] = function (args)
 		local buffIndex = x.findBuffIndex(args.destName, args.spellName)
-		if not buffindex then return end
+		if not buffIndex then return end
 		local settings, value = x.db.profile.frames['outgoing'], select(16, UnitBuff(args.destName, buffIndex))
 		if not value or value <= 0 then return end
 
