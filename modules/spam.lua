@@ -4,7 +4,7 @@
 -- Spam Merger for xCT+
 local spam = {
 	handlers = {},
-	frame = CreateFrame("frame", nil, nil, 'BackDropTemplate')
+	frame = CreateFrame("frame")
 }
 
 function spam:AddMessage(key, item)

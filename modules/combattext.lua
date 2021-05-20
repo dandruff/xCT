@@ -140,7 +140,7 @@ function x:UpdateCombatTextEvents(enable)
     x.combatEvents:UnregisterAllEvents()
     f = x.combatEvents
   else
-    f = CreateFrame("FRAME", nil, nil, 'BackDropTemplate')
+    f = CreateFrame("FRAME")
   end
 
   if enable then
@@ -997,7 +997,7 @@ x.events = {
 
             -- This frame was created to make sure I always display the correct number of an item in your bag
             if not x.lootUpdater then
-              x.lootUpdater = CreateFrame("FRAME", nil, nil, 'BackDropTemplate')
+              x.lootUpdater = CreateFrame("FRAME")
               x.lootUpdater.isRunning = false
               x.lootUpdater.items = { }
             end

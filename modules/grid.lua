@@ -21,7 +21,7 @@ local x = addon.engine
 local AlignGrid
 
 function x:LoadAlignmentGrid()
-  AlignGrid = CreateFrame('Frame', nil, UIParent, 'BackDropTemplate')
+  AlignGrid = CreateFrame('Frame', nil, UIParent)
   AlignGrid:SetAllPoints(UIParent)
   local boxSize = 32
 
