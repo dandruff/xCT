@@ -971,7 +971,7 @@ function x:UpdateComboTracker()
   local myClass, mySpec = x.player.class, x.player.spec
   x.TrackingEntry = nil
 
-  if not mySpec or mySpec < 1 then return end  -- under Level 10 probably or not spec'd, I don't know what to do :P
+  if not mySpec or mySpec < 1 or mySpec > 4 then return end  -- under Level 10 return 5
 
   for i, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
     if type(entry) == "table" and entry.enabled then
