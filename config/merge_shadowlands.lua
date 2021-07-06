@@ -40,6 +40,7 @@ end
 header "|cffd2d3d8SL|r™ |cff798BDDWorld Zones|r"
 do
 	item '327909' '0.5' "breaking ashen phylactery" -- Thorgast
+	item '6660'	  '0.5' "Wild hunt guardian"		-- Battle of Ardenweald questline 9.1
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
@@ -86,6 +87,11 @@ do
 	
 	item  '182453' '0.5' "Twilight Bloom"
 	alias '339545' '182453' -- Twilight Bloom: Twilight Restoration
+
+	item  '329737' '1.0' "Vial of caustic Liquid"
+
+	item  '345215' '1.5' "Soul Igniter"
+
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"

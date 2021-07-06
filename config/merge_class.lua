@@ -77,7 +77,7 @@ do
 	spell '115994' '1.5' --  Talent Unholy Blight
 	spell '212423' '1.0' --  Talent: All will serve
 	spell '319230' '1.0' --  Talent: Unholy Pact
-	alias '319238''319230' --  [Cleave Merger] Unholy Pact
+	alias '319238' '319230' --  [Cleave Merger] Unholy Pact
 	alias '319236' '319230' --  [Cleave Merger] Unholy Pact
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
 	alias '191685' '215969' --  [DD/DoT Merger] Virulent Plague Eruption
