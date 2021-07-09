@@ -780,7 +780,7 @@ addon.options.args["spells"] = {
         },
       },
     },
-	
+
     raceList = {
       name = "Racial Spells",
       type = 'group',
@@ -3327,7 +3327,7 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
             },
-            
+
             healingSettings = {
               type = 'description',
               order = 30,
@@ -3447,8 +3447,16 @@ addon.options.args["Frames"] = {
               get = get2,
               set = set2,
             },
-            enablePartialMisses = {
+            enableAbsorbs = {
               order = 53,
+              type = 'toggle',
+              name = "Show Absorbs",
+              desc = "Display 'Absorb' when your target absorbs all damage.",
+              get = get2,
+              set = set2,
+            },
+            enablePartialMisses = {
+              order = 54,
               type = 'toggle',
               name = "Show Miss Types (Partials)",
               desc = "Show when your target takes only a percentage of your damage because it was partially absorbed, resisted, or blocked.\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells.",
@@ -3456,7 +3464,7 @@ addon.options.args["Frames"] = {
               set = set2,
             },
             showHighestPartialMiss = {
-              order = 54,
+              order = 55,
               type = 'toggle',
               name = "Show the Highest Partial Miss",
               desc = "Only show the highest partial miss, instead of all the misses. (Rare, but less spammy)\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells.",
@@ -6302,7 +6310,7 @@ addon.options.args["Frames"] = {
               set = set2,
               width = "normal",
             },
-            
+
 
           },
         },

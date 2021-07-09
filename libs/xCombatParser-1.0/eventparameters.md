@@ -1,3 +1,4 @@
+
 # Parsed Event Args --- Parameters
 
 ### Base Parameters
@@ -53,6 +54,21 @@ This is arguably one of the most complicated suffixes and will have its own sect
 | `crushing` | A true/false flag that informs if the event was a crushing blow. |
 | `isOffHand` | A true/false flag that informs if the event was from the source's off-hand. |
 
+#### `_ABSORBED`--- Additional Parameters
+
+Another complicated suffix and relatively new. If it has `"SPELL"` as its prefix, it will bring `spellId`, `spellName`, and `spellSchool` arguments.
+
+| `args.`*index* | Description |
+| ---:|:--- |
+| `casterGUID` | The [GUID](http://wow.gamepedia.com/GUID) of the source that casted the absorb-aura. |
+| `casterName` | The localized name of the source that casted the absorb-aura. |
+| `casterFlags` | The [unit flags](http://wow.gamepedia.com/UnitFlag) of the source that casted the absorb-aura. See [Combat Object Methods](#NEED-LINK) for a set of parsing functions. May be `nil` if you try parsing it yourself. |
+| `casterRaidFlags` | The [raid flags](http://wow.gamepedia.com/RaidFlag) of the source that casted the absorb-aura. See [Raid Target Methods](#NEED-LINK) for a set of parsing functions. |
+| `absorbSpellId` | The spell ID of the absorb-aura.<br><br>__NOTE:__ If this was a `SPELL_ABSORB`, you can use `args.spellId`, `args.spellName`, and `args.spellSchool` to see relevant information about the spell that did the interrupt. `SWING_ABSORB` does not have this information. |
+| `absorbSpellName` | The localized name of the absorb-aura. |
+| `absorbSpellSchool` | The school of the absorb-aura. |
+| `amount` | The _final_ amount of damage that absorb-aura absorbed from the source in the event. |
+| `critical` | A true/false flag that informs if the event was a critical strike. |
 
 #### `_MISSED`--- Additional Parameters
 
@@ -176,6 +192,3 @@ This is arguably one of the most complicated suffixes and will have its own sect
 | `args.`*index* | Description |
 | ---:|:--- |
 | `failedType` | A localized string that gives the reason the spell failed.<br><br>__Examples:__<br><br>`"Can only use outside"`<br>`"Item is not ready yet"`<br>`"No target"`<br>...<br>_etc._|
-
-
-> Written with [StackEdit](https://stackedit.io/).

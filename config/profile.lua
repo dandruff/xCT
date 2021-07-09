@@ -390,6 +390,7 @@ addon.defaults = {
         ["enableHots"] = true,
         ["enableImmunes"] = true,
         ["enableMisses"] = true,
+        ["enableAbsorbs"] = true,
         ["enablePartialMisses"] = false,
         ["showHighestPartialMiss"] = false,
         ["enableKillCommand"] = false,
@@ -1120,13 +1121,14 @@ addon.defaults = {
       ["whitelistHealing"]  = false,
       ["trackSpells"]       = true,
 
-      listBuffs    = { },  -- Used to filter gains/fades of buffs    (Spell Name)
-      listDebuffs  = { },  -- Used to filter gains/fades of debuffs  (Spell Name)
-      listSpells   = { },  -- Used to filter outgoing spells         (Spell ID)
-      listProcs    = { },  -- Used to filter spell procs             (Proc Name)
-      listItems    = { },  -- Used to filter Items                   (Item ID)
-      listDamage   = { },  -- Used to filter incoming damage         (Spell ID)
-      listHealing    = { },  -- Used to filter incoming healing        (Spell ID)
+      -- Added Monk's Stagger to default filter
+      listSpells  = { ["124255"] = true },  -- Used to filter outgoing spells        (Spell ID)
+      listBuffs   = { },                    -- Used to filter gains/fades of buffs   (Spell Name)
+      listDebuffs = { },                    -- Used to filter gains/fades of debuffs (Spell Name)
+      listProcs   = { },                    -- Used to filter spell procs            (Proc Name)
+      listItems   = { },                    -- Used to filter Items                  (Item ID)
+      listDamage  = { },                    -- Used to filter incoming damage        (Spell ID)
+      listHealing = { },                    -- Used to filter incoming healing       (Spell ID)
 
       -- Minimal Spell Amount
       filterPowerValue = 0,

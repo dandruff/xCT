@@ -323,8 +323,6 @@ do
 	spell '115181' '0.5' --  Breath of Fire
 	spell '123725' '2.5' --  Breath of Fire (DoT)
 	spell '121253' '0.5' --  Keg Smash
-	spell '130654' '1.5' --  Chi Burst (Healing)
-	spell '130654' '1.5' --  Chi Burst (Damage)
 	spell '227291' '0.5' --  Talent: Niuzao, The Black Ox (Stomp)
 	spell '196733' '0.5' --  Talent: Special Delivery
 	spell '214326' '0.5' --  Artifact: Exploding Keg
@@ -348,6 +346,7 @@ do
 	spell '115175' '1.5' --  Soothing Mist
 	spell '124682' '1.5' --  Eneloping Mist
 	spell '191840' '1.5' --  Essence Font
+	alias '344006' '191840' -- Essence Font (Faeline Stomp)
 	spell '119611' '2.0' --  Renewing Mists
 	spell '115310' '0.5' --  Revival
 	spell '116670' '0.5' --  Vivify
