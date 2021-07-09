@@ -27,22 +27,29 @@ end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
 do
+	-- warlock
+	-- Night Fae 
+	spell '325640' '1.0' 	-- Soul Rot
+	alias '234153' '325640' -- Drain life multi with soulrot
+
 	-- Venthyr
+	spell '321792' '1.0' 	-- Impending Catastrophe
 	alias '322167' '321792' -- Impending Catastrophe dot
 	alias '322170' '321792' -- Impending Catastrophe dot
-	alias '325640' '234153' --  Drain life multi with soulrot
-
-	-- Warlock
-	item '321792' '1.0' "Impending Catastrophe"
 
 	-- Night Fae
 	-- Monk
-	spell '327264' '0.5' -- Faeline Stomp (Damage)
-	spell '345727' '0.5' -- Faeline Stomp Heal / Windwalker Bonnus Damage
+	spell '327264' '0.5' 	-- Faeline Stomp (Damage)
+	spell '345727' '0.5' 	-- Faeline Stomp Heal / Windwalker Bonnus Damage
+
+	-- DeathKnight
+	-- Kyrian
+	spell '312202' '1.0' 	-- Shackle of the Unworthy
 
 	-- Necrolords
-	item '323710' '1.0' "Abomination Limb"
-	alias '323798' '323710' -- Abomination Limb
+	spell '315443' '1.0' 	-- Abomination Limb
+	alias '323798' '315443' -- Abomination Limb 
+	alias '323710' '315443' -- Abomination Limb 1st tick
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDQuest Spells|r"
