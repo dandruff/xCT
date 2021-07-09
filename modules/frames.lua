@@ -85,7 +85,7 @@ local function Frame_SendTestMessage_OnUpdate(self, e)
 		x:AddMessage(self.frameName, "0", self.settings.fontColor or {1,1,0})
 
 		if not self.timer then
-			self.timer = CreateFrame("FRAME",nil,nil, 'BackDropTemplate')
+			self.timer = CreateFrame("FRAME")
 			self.timer.name = self.frameName
 			self.timer.f = self
 			self.timer:SetScript("OnUpdate", autoClearFrame_OnUpdate)
@@ -138,14 +138,14 @@ function x:UpdateFrames(specificFrame)
 				f:SetClampedToScreen(true)
 				f:SetShadowColor(0, 0, 0, 0)
 
-				f.sizing = CreateFrame("Frame", "xCT_Plus"..framename.."SizingFrame", f, 'BackDropTemplate')
+				f.sizing = CreateFrame("Frame", "xCT_Plus"..framename.."SizingFrame", f)
 				f.sizing.parent = f
 				f.sizing:SetHeight(16)
 				f.sizing:SetWidth(16)
 				f.sizing:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
 				f.sizing:Hide()
 
-				f.moving = CreateFrame("Frame", "xCT_Plus"..framename.."MovingFrame", f, 'BackDropTemplate')
+				f.moving = CreateFrame("Frame", "xCT_Plus"..framename.."MovingFrame", f)
 				f.moving.parent = f
 				f.moving:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
 				f.moving:SetPoint("TOPRIGHT", f, "TOPRIGHT", -1, -21)
@@ -413,7 +413,7 @@ end
 
 -- WoW - Battle for Azeroth doesn't support fading textures with SetAlpha?
 -- We have to do it on a font string level
-local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME", nil, nil, 'BackDropTemplate')
+local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME")
 ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function ()
 	local now, alpha, scale = GetTime()
 	for name, frame in pairs(x.frames) do
@@ -636,8 +636,8 @@ do
 				message = x:GetSpellTextureFormatted( stack[idIndex],
 				                                  message,
 				                                  settings.iconsEnabled and settings.iconsSize or -1,
-				                                  settings.fontJustify,
 				                                  settings.spacerIconsEnabled,
+				                                  settings.fontJustify,
 				                                  strColor,
 				                                  true, -- Merge Override = true
 				                                  #item.entries )
@@ -645,8 +645,8 @@ do
 				message = x:GetSpellTextureFormatted( stack[idIndex],
 				                                  message,
 				                                  settings.iconsEnabled and settings.iconsSize or -1,
-				                                  settings.fontJustify,
 				                                  settings.spacerIconsEnabled,
+				                                  settings.fontJustify,
 				                                  strColor,
 				                                  true, -- Merge Override = true
 				                                  #item.entries )
@@ -669,7 +669,7 @@ do
 		index = index + 1
 	end
 
-	x.merge = CreateFrame("FRAME",nil, nil, 'BackDropTemplate')
+	x.merge = CreateFrame("FRAME")
 	x.merge:SetScript("OnUpdate", x.OnSpamUpdate)
 end
 
@@ -953,6 +953,11 @@ end
 function x:SaveAllFrames()
 	for framename, settings in pairs(x.db.profile.frames) do
 		local frame = x.frames[framename]
+
+		-- If frame is disabled, trying to calculate position will fail
+		if not frame.enabledFrame then
+			return
+		end
 
 		local width = frame:GetWidth()
 		local height = frame:GetHeight()

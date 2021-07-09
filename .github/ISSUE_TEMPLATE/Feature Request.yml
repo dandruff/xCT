@@ -1,0 +1,26 @@
+name: Feature Request
+description: Request a feature
+title: "[feature]: "
+labels: [feature]
+# assignees:
+#   - dandruff
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to request a feature!
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the feature you're requesting.
+      options:
+      - label: I have searched the existing issues
+        required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Feature request
+      description: What feature would you like to request
+      placeholder: It would be great if....
+    validations:
+      required: true

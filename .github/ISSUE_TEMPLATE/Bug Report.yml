@@ -1,0 +1,55 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: [bug]
+# assignees:
+#   - dandruff
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: I have searched the existing issues
+        required: true
+  - type: input
+    id: wow-version
+    attributes:
+      label: WoW version
+      description: |
+        What is the version of your World of Warcraft retail?
+        Found either below the "Play" button in the Battle.NET launcher, or bottom left corner of login screen.
+      placeholder: ex. 9.1.0.39291
+    validations:
+      required: true
+  - type: input
+    id: xct-version
+    attributes:
+      label: xCT+ version
+      description: |
+        What is the version of your xCT+?
+        Found at the top of the xCT+ configuratin window (`/xct`).
+        If you can't open the config, look in the `interface/AddOns/xCT+/xCT+.toc`.
+      placeholder: ex. 4.5.5
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: errors
+    attributes:
+      label: Related Errors
+      description: Please paste any errors you're seeing from xCT+ related to this issue
+      placeholder: |
+        Message: Interface\AddOns\xCT+\...
+      render: lua

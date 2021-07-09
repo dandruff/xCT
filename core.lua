@@ -148,7 +148,7 @@ function x:OnInitialize()
 end
 
 -- Need to create a handle to update frames when every other addon is done.
-local frameUpdate = CreateFrame("FRAME", nil, nil, 'BackDropTemplate')
+local frameUpdate = CreateFrame("FRAME")
 frameUpdate:RegisterEvent("PLAYER_ENTERING_WORLD")
 frameUpdate:SetScript("OnEvent", function(self)
   self:UnregisterEvent("PLAYER_ENTERING_WORLD")
@@ -366,7 +366,7 @@ end
 local getSpellDescription
 do
   local Descriptions, description = { }, nil
-  local tooltip = CreateFrame('GameTooltip', nil, nil, 'BackDropTemplate')
+  local tooltip = CreateFrame('GameTooltip')
   tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
   -- Add FontStrings to the tooltip
@@ -971,7 +971,7 @@ function x:UpdateComboTracker()
   local myClass, mySpec = x.player.class, x.player.spec
   x.TrackingEntry = nil
 
-  if not mySpec or mySpec < 1 then return end  -- under Level 10 probably or not spec'd, I don't know what to do :P
+  if not mySpec or mySpec < 1 or mySpec > 4 then return end  -- under Level 10 return 5
 
   for i, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
     if type(entry) == "table" and entry.enabled then
@@ -1905,7 +1905,7 @@ function x:HideConfigTool( wait )
   -- If the item that is call needs the frame for another unit of time
   if wait then
     if not x.waiterHideConfig then
-      x.waiterHideConfig = CreateFrame("FRAME", nil, nil , 'BackDropTemplate')
+      x.waiterHideConfig = CreateFrame("FRAME")
     end
 
     x.waiterHideConfig:SetScript("OnUpdate", HideConfigTool_OnUpdate)
