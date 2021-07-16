@@ -81,8 +81,7 @@ end
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
 do
 	item '324184' '1.5' "Lightless Force"
-	item '171285' '2.5' "Shadowcore Oil"
-	alias '336463' '171285' -- Shadowcore Oil Blast
+	item '336463' '2.5' "Shadowcore Oil"
 end
 
 header "|cffd2d3d8ShadowLands|r™ - |cff798BDDTorghast Anima Powers|r"
