@@ -337,7 +337,6 @@ do
 	spell '117418' '2.0' --  Fists of Fury
 	spell '100780' '0.5' --  Tiger Palm (SEF)
 	spell '185099' '0.5' --  Rising Sun Kick (SEF)
-	spell '196748' '0.5' --  Talent: Chi Orbit
 	spell '158221' '0.5' --  Talent: Whirling Dragon Punch
 	spell '222029' '0.5' --  Artifact: Strike of the Windlord
 	alias '205414' '222029' --  [MH/OH Merger] Artifact: Strike of the Windlord
@@ -349,16 +348,14 @@ do
 	spell '191894' '1.5' --  [Mastery] Gust of Mists
 	alias '228649' '100784' --  [Passive Merger] Teachings of the Monastery -> Blackout Kick
 	spell '115175' '1.5' --  Soothing Mist
-	spell '124682' '1.5' --  Enveloping Mist
 	alias '198533' '115175' --  [Statue Merger] Talent: Jade Serpent Statue
+	spell '124682' '1.5' --  Enveloping Mist
 	spell '191840' '1.5' --  Essence Font
 	alias '344006' '191840' -- Essence Font (Faeline Stomp)
 	spell '119611' '2.0' --  Renewing Mists
 	spell '115310' '0.5' --  Revival
 	spell '116670' '0.5' --  Vivify
-	spell '124081' '1.5' --  Talent: Zen Pulse
 	spell '162530' '1.5' --  Talent: Refreshing Jade Wind
-	spell '198756' '2.5' --  Talent: Invoke Chi'Ji
 	spell '274912' '0.5' --  Talent: Rising Mist
 	spell '199668' '2.0' --  Artifact: Blessing of Yu'lon
 	spell '199656' '2.0' --  Artifact: Celestial Breath
