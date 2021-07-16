@@ -37,6 +37,7 @@ do
 
 	-- Soulbind Traits
 	spell '333526' '1.5' -- Niya's Tools: Burrs
+	spell '321519' '1.5' -- Niya's Tools: Posion
 
 	-- Necrolords
 	item '323710' '1.0' "Abomination Limb"
