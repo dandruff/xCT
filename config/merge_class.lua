@@ -324,6 +324,7 @@ do
 	spell '123725' '2.5' --  Breath of Fire (DoT)
 	spell '121253' '0.5' --  Keg Smash
 	spell '227291' '0.5' --  Niuzao, The Black Ox (Stomp)
+	spell '325153' '0.5' --  Talent: Exploding Keg
 	spell '196733' '0.5' --  Talent: Special Delivery
 	spell '214326' '0.5' --  Artifact: Exploding Keg
 	spell '227681' '1.5' --  Artifact: Dragonfire Brew
