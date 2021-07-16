@@ -18,7 +18,7 @@ local ADDON_NAME, addon = ...
 -- 'alias' takes the original spell id and a replacement spell id
 -- item takes a item id, the merge interval in seconds, and a helpful description of the item
 -- header switches the header for the next set of items
-local spell, _, _, alias, item, header = unpack(addon.merge_helpers)
+local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
 do
@@ -32,12 +32,12 @@ do
 
 	-- Night Fae
 	-- Monk
-	spell '327264' '0.5' -- Faeline Stomp (Damage)
-	spell '345727' '0.5' -- Faeline Stomp Heal / Windwalker Bonnus Damage
+	item '327264' '0.5' "Faeline Stomp (Damage)"
+	item '345727' '0.5' "Faeline Stomp Heal / Windwalker Bonnus Damage"
 
 	-- Soulbind Traits
-	spell '333526' '1.5' -- Niya's Tools: Burrs
-	spell '321519' '1.5' -- Niya's Tools: Posion
+	item '333526' '1.5' "Niya's Tools: Burrs"
+	item '321519' '1.5' "Niya's Tools: Posion"
 
 	-- Necrolords
 	item '323710' '1.0' "Abomination Limb"
