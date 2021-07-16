@@ -314,7 +314,7 @@ do
 	spell '132463' '2.5' --  Talent: Chi Wave (Healing)
 	spell '148187' '1.5' --  Talent: Rushing Jade Wind
 	spell '107270' '1.5' --  Spinning Crane Kick
-	spell '100784' '1.0' --  Blackout Kick
+	spell '100784' '0.5' --  Blackout Kick
 
 	spec  '268' -- Brewmaster
 	spell '124255' '1.5' --  DmgTkn: Stagger
@@ -588,7 +588,7 @@ do
 	spell '196100' '0.5' --  Talent: Grimoire of Sacrifice
 	spell '205260' '2.5' --  Talent: Soul Effigy
 	spell '218615' '0.5' --  Artifact: Harvester of Souls
-	spell '199581' '0.5' --  Artifact: Soul Flame	
+	spell '199581' '0.5' --  Artifact: Soul Flame
 	spell '324540' '0.5' --  Malefic Rapture
 	spell '278350' '1.0' --  Talent Vile Taint
 	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
