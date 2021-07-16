@@ -84,7 +84,7 @@ do
 	item '336463' '2.5' "Shadowcore Oil"
 end
 
-header "|cffd2d3d8ShadowLands|r™ - |cff798BDDTorghast Anima Powers|r"
+header "|cffd2d3d8ShadowLands|r™ |cff798BDDTorghast|r"
 do
-	spell '348512' '1.5' -- Bloodgorged Leech
+	item '348512' '1.5' "Bloodgorged Leech"
 end
