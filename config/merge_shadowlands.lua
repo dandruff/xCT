@@ -35,6 +35,9 @@ do
 	spell '327264' '0.5' -- Faeline Stomp (Damage)
 	spell '345727' '0.5' -- Faeline Stomp Heal / Windwalker Bonnus Damage
 
+	-- Soulbind Traits
+	spell '333526' '1.5' -- Niya's Tools: Burrs
+
 	-- Necrolords
 	item '323710' '1.0' "Abomination Limb"
 	alias '323798' '323710' -- Abomination Limb
@@ -62,6 +65,9 @@ do
 
 	item '182453' '0.5' "Twilight Bloom"
 	alias '339545' '182453' -- Twilight Bloom: Twilight Restoration
+
+	item  '186976' '1.0' "Fine Razorwing Quill"
+	alias '355087' '186976' -- Fine Razorwing Quill dot
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"
@@ -75,4 +81,11 @@ end
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
 do
 	item '324184' '1.5' "Lightless Force"
+	item '171285' '2.5' "Shadowcore Oil"
+	alias '336463' '171285' -- Shadowcore Oil Blast
+end
+
+header "|cffd2d3d8ShadowLands|r™ - |cff798BDDTorghast Anima Powers|r"
+do
+	spell '348512' '1.5' -- Bloodgorged Leech
 end
