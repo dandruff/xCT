@@ -66,8 +66,7 @@ do
 	item '182453' '0.5' "Twilight Bloom"
 	alias '339545' '182453' -- Twilight Bloom: Twilight Restoration
 
-	item  '186976' '1.0' "Fine Razorwing Quill"
-	alias '355087' '186976' -- Fine Razorwing Quill dot
+	item  '355087' '1.0' "Fine Razorwing Quill"
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"
