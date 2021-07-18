@@ -756,6 +756,7 @@ function x.StartConfigMode()
 	for framename, settings in pairs(x.db.profile.frames) do
 		if settings.enabledFrame then
 			local f = x.frames[framename]
+
 			f:SetBackdrop( {
 					bgFile	 	= "Interface/Tooltips/UI-Tooltip-Background",
 					edgeFile 	= "Interface/Tooltips/UI-Tooltip-Border",
@@ -860,67 +861,69 @@ function x.EndConfigMode()
 	if x.AlignGrid then x.AlignGrid:Hide() end
 
 	for framename, settings in pairs(x.db.profile.frames) do
-		local f = x.frames[framename]
+		if settings.enabledFrame then
+			local f = x.frames[framename]
 
-		f:SetBackdrop(nil)
+			f:SetBackdrop(nil)
 
-		-- Remove Scripts
-		f:SetScript("OnEnter", nil)
-		f:SetScript("OnLeave", nil)
+			-- Remove Scripts
+			f:SetScript("OnEnter", nil)
+			f:SetScript("OnLeave", nil)
 
-		f.moving:SetScript("OnMouseDown", nil)
-		f.moving:SetScript("OnMouseUp", nil)
-		f.moving:SetScript("OnEnter", nil)
-		f.moving:SetScript("OnLeave", nil)
+			f.moving:SetScript("OnMouseDown", nil)
+			f.moving:SetScript("OnMouseUp", nil)
+			f.moving:SetScript("OnEnter", nil)
+			f.moving:SetScript("OnLeave", nil)
 
-		f.sizing:SetScript("OnMouseDown", nil)
-		f.sizing:SetScript("OnMouseUp", nil)
-		f.sizing:SetScript("OnEnter", nil)
-		f.sizing:SetScript("OnLeave", nil)
+			f.sizing:SetScript("OnMouseDown", nil)
+			f.sizing:SetScript("OnMouseUp", nil)
+			f.sizing:SetScript("OnEnter", nil)
+			f.sizing:SetScript("OnLeave", nil)
 
-		-- Clean up visual items
-		if f.title then
-			f.title:Hide()
-			f.title = nil
+			-- Clean up visual items
+			if f.title then
+				f.title:Hide()
+				f.title = nil
+			end
+
+			if f.moving.d then
+				f.moving.d:Hide()
+				f.moving.d = nil
+			end
+
+			if f.sizing.d then
+				f.sizing.d:Hide()
+				f.sizing.d = nil
+			end
+
+			if f.position then
+				f.position:Hide()
+				f.position = nil
+			end
+
+			if f.width then
+				f.width:Hide()
+				f.width = nil
+			end
+
+			if f.height then
+				f.height:Hide()
+				f.height = nil
+			end
+
+			f:EnableMouse(false)
+
+			-- Hide the sizing frame
+			f.sizing:EnableMouse(false)
+			f.sizing:Hide()
+
+			-- Hide the moving frame
+			f.moving:EnableMouse(false)
+			f.moving:Hide()
+
+			-- Set the Frame Strata
+			f:SetFrameStrata(ssub(x.db.profile.frameSettings.frameStrata, 2))
 		end
-
-		if f.moving.d then
-			f.moving.d:Hide()
-			f.moving.d = nil
-		end
-
-		if f.sizing.d then
-			f.sizing.d:Hide()
-			f.sizing.d = nil
-		end
-
-		if f.position then
-			f.position:Hide()
-			f.position = nil
-		end
-
-		if f.width then
-			f.width:Hide()
-			f.width = nil
-		end
-
-		if f.height then
-			f.height:Hide()
-			f.height = nil
-		end
-
-		f:EnableMouse(false)
-
-		-- Hide the sizing frame
-		f.sizing:EnableMouse(false)
-		f.sizing:Hide()
-
-		-- Hide the moving frame
-		f.moving:EnableMouse(false)
-		f.moving:Hide()
-
-		-- Set the Frame Strata
-		f:SetFrameStrata(ssub(x.db.profile.frameSettings.frameStrata, 2))
 	end
 
 	collectgarbage()
@@ -953,28 +956,28 @@ end
 function x:SaveAllFrames()
 	for framename, settings in pairs(x.db.profile.frames) do
 		local frame = x.frames[framename]
-
 		-- If frame is disabled, trying to calculate position will fail
-		if not frame.enabledFrame then
-			return
+		if settings.enabledFrame then
+			local x_old, y_old, width_old, height_old = settings.X, settings.Y, settings.Width, settings.Height
+
+			local width = frame:GetWidth()
+			local height = frame:GetHeight()
+
+			settings.Width = mfloor(width + .5)
+			settings.Height = mfloor(height + .5)
+
+			-- Calculate the center of the screen
+			local ResX, ResY = GetScreenWidth(), GetScreenHeight()
+			local midX, midY = ResX / 2, ResY / 2
+
+			-- Calculate the Top/Left of a frame relative to the center
+			local left, top = mfloor(frame:GetLeft() - midX + .5), mfloor(frame:GetTop() - midY + .5)
+
+			-- Calculate get the center of the screen from the left/top
+			settings.X = mfloor(left + (width / 2) + .5)
+			settings.Y = mfloor(top - (height / 2) + .5)
+
 		end
-
-		local width = frame:GetWidth()
-		local height = frame:GetHeight()
-
-		settings.Width = mfloor(width + .5)
-		settings.Height = mfloor(height + .5)
-
-		-- Calculate the center of the screen
-		local ResX, ResY = GetScreenWidth(), GetScreenHeight()
-		local midX, midY = ResX / 2, ResY / 2
-
-		-- Calculate the Top/Left of a frame relative to the center
-		local left, top = mfloor(frame:GetLeft() - midX + .5), mfloor(frame:GetTop() - midY + .5)
-
-		-- Calculate get the center of the screen from the left/top
-		settings.X = mfloor(left + (width / 2) + .5)
-		settings.Y = mfloor(top - (height / 2) + .5)
 	end
 end
 
@@ -1204,7 +1207,7 @@ StaticPopupDialogs["XCT_PLUS_CONFIGURING"] = {
 
 	button1			= SAVE_CHANGES,
 	button2			= CANCEL,
-	OnAccept		= function() x:SaveAllFrames(); x.EndConfigMode(); x:ShowConfigTool() end,
+	OnAccept		= function() x:SaveAllFrames(); x.EndConfigMode(); x:ShowConfigTool() print("|cffFF0000x|r|cffFFFF00CT+|r  Frames have been saved. Please fasten your seat belts.") end,
 	OnCancel		= function() x:UpdateFrames(); x.EndConfigMode(); x:ShowConfigTool() end,
 	hideOnEscape	= false,
 
