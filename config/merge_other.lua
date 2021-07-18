@@ -20,7 +20,7 @@ local ADDON_NAME, addon = ...
 -- header switches the header for the next set of items
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header "|cffA32C12Other|r |cff798BDDSpells|r"
+header "|cFFA32C12Other|r |cff798BDDSpells|r"
 do
 	item '143924' '3.5' "Item Leech"
 end
