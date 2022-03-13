@@ -243,10 +243,16 @@ do
 	spell '204081' '2.5' --  Artifact: On the Trail
 	spell '265157' '2.5' --  Wildfire Bomb
 	spell '259491' '2.5' --  Serpent Sting
+	spell '270338' '2.5' --  Talent wildfire infusion : shrapnel
+	spell '271048' '2.5' --  Talent wildfire infusion : volatile
+	spell '270329' '2.5' --  Talent wildfire infusion : pheromones
 	alias '269747' '265157' --  Wildfire Bomb (DOT)
 	alias '203525' '203563' --  Talen Strike (2x Hits)
 	alias '194858' '194859' --  Talent: Dragonsfire Grenade (DoT)
 	alias '203413' '203415' --  Artifact: Fury of the Eagle (Bugged Icon Fix)
+	alias '270339' '270338' --  Wildfire Bomb (DOT)
+	alias '271049' '271048' --  Wildfire Bomb (DOT)
+	alias '270332' '270329' --  Wildfire Bomb (DOT)
 end
 
 

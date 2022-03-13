@@ -38,8 +38,15 @@ do
 	alias '322170' '321792' -- Impending Catastrophe dot
 
 	-- Night Fae
+	-- Warlock 
+	alias '325640' '234153' --  Drain life multi with soulrot
+
+	-- Hunter
+	spell '328837' '0.5' 	-- wild spîrit
+	alias '328757' '328837' -- wild spîrit
+
 	-- Monk
-	spell '327264' '0.5' 	-- Faeline Stomp (Damage)
+	spell '327264' '0.5' 	-- Faeline Stomp (Daz	mage)
 	spell '345727' '0.5' 	-- Faeline Stomp Heal / Windwalker Bonnus Damage
 
 	-- DeathKnight
@@ -47,9 +54,11 @@ do
 	spell '312202' '1.0' 	-- Shackle of the Unworthy
 
 	-- Necrolords
+	-- Death Knights
 	spell '315443' '1.0' 	-- Abomination Limb
 	alias '323798' '315443' -- Abomination Limb 
 	alias '323710' '315443' -- Abomination Limb 1st tick
+
 end
 
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDQuest Spells|r"
@@ -92,4 +101,11 @@ end
 header "|cffd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
 do
 	item '324184' '1.5' "Lightless Force"
+end
+
+
+header "|cffd2d3d8ShadowLands|r™ |cff798BDDZones|r"
+do
+	-- Torghast
+	item '327909' '1.5' "Ashen Phylactery"
 end
