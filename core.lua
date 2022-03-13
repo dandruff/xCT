@@ -333,7 +333,7 @@ function x:CompatibilityLogic( existing )
         for name, settings in pairs(x.db.profile.frames) do
           if settings.colors then
             for exists in pairs(settings.colors) do
-              if not addon.defaults.profile.frames[name].colors[exists] then
+              if addon.defaults.profile.frames[name] and not addon.defaults.profile.frames[name].colors[exists] then
                 settings.colors[exists] = nil
               end
             end

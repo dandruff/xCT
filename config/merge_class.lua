@@ -201,6 +201,8 @@ do
 	spell '131900' '2.5' --  Talent: A Murder of Crows
 	spell '194392' '0.5' --  Talent: Volley
 	spell '120361' '1.5' --  Talent: Barrage
+	spell '199483' '5.0' --  Camouflage
+	spell '339400' '8.5' --  Rejuvenating Wind (every 1s for 8s)
 	alias '214303' '136' --  Mend Pet
 
 	spec  '253' -- Beast Mastery
@@ -224,6 +226,8 @@ do
 	spell '191070' '0.5' --  Artifact: Call of the Hunter
 	spell '257045' '2.0' --  Rapid Fire
 	spell '257620' '2.0' --  Multi shot
+	spell '269576' '5.0' --  Master Marksman
+	spell '324149' '4.5' --  Flayed Shot (every 2s for 18s plus, can be extended)
 	alias '191043' '19434' --  Windburst
 
 	spec  '255' -- Survival
