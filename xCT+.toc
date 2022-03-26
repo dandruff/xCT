@@ -2,7 +2,7 @@
 ## Title: xCT+
 ## Notes: An Add-On that can out-perform or enhance the default Floating Combat Text!
 ## Author: Dandruff-Stormreaver US
-## Version: 4.6.0
+## Version: 4.6.1
 ## RequiredDeps: Blizzard_CombatText
 ## OptionalDeps: xCT, ElvUI
 ## SavedVariables: xCTSavedDB
