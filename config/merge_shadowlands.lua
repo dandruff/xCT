@@ -25,7 +25,7 @@ do
 	item '6660'	  '0.5' "Wild hunt guardian"		-- Battle of Ardenweald questline 9.1
 end
 
-header "|cffd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
+header "|cFFd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
 do
 	-- warlock
 	-- Night Fae 
@@ -61,13 +61,13 @@ do
 
 end
 
-header "|cffd2d3d8ShadowLands|r™ |cff798BDDQuest Spells|r"
+header "|cFFd2d3d8ShadowLands|r™ |cff798BDDQuest Spells|r"
 do
 	-- Ardenweald
 	item '343048' '1.0' "Nature's Blessing"
 end
 
-header "|cffd2d3d8ShadowLands|r™ |cff798BDDTrinkets|r"
+header "|cFFd2d3d8ShadowLands|r™ |cff798BDDTrinkets|r"
 do
 	item '180117' '0.5' "Empyreal Ordnance"
 	alias '344540' '180117' -- Empyreal Ordnance dot
@@ -90,7 +90,7 @@ do
 
 end
 
-header "|cffd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"
+header "|cFFd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"
 do
 	-- Priest
 	item '336214' '0.5' "Eternal Call to the Void"
@@ -98,7 +98,7 @@ do
 	alias '344752' '336214' -- Eternal Call to the Void: Mind Sear
 end
 
-header "|cffd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
+header "|cFFd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
 do
 	item '324184' '1.5' "Lightless Force"
 end

@@ -33,11 +33,9 @@ do
 	spell '195292' '0.5' --  Death's Caress (DRW)
 	spell '49998'  '0.5' --  Death Strike (DRW)
 	spell '206930' '0.5' --  Heart Strike
-	spell '212744' '0.5' --  Talent: Soulgorge
 	spell '196528' '1.5' --  Talent: Bonestorm (DMG)
 	spell '196545' '1.5' --  Talent: Bonestorm (Heal)
-	spell '205223' '0.5' --  Artifact: Consumption (DMG)
-	spell '205224' '0.5' --  Artifact: Consumption (Heal)
+	spell '274156' '0.5' --  Talent: Consumption (DMG | Heal)
 	spell '203166' '2.5' --  PVP Talent: Blight (ID: 203172)
 	spell '203174' '0.5' --  PVP Talent: Death Chain (ID: 203173)
 
@@ -47,19 +45,15 @@ do
 	spell '49184'  '0.5' --  Howling Blast
 	spell '222024' '3.0' --  Obliterate (For Merge)
 	spell '222026' '3.0' --  Frost Strike (For Merge)
-	spell '207194' '0.5' --  Talent: Volatile Shielding
 	spell '195750' '0.5' --  Talent: Frozen Pulse
 	spell '207150' '0.5' --  Talent: Avalanche
 	spell '207230' '0.5' --  Talent: Frostscythe
 	spell '195975' '0.5' --  Talent: Glacial Advance
 	spell '155166' '2.5' --  Talent: Breath of Sindragosa
-	spell '190780' '1.5' --  Artifact: Sindragosa's Fury
-	spell '204959' '0.5' --  Artifact: Frozen Soul
 	alias '66198'  '222024' --  [MH/OH Merger] Obliterate
 	alias '66196'  '222026' --  [MH/OH Merger] Frost Strike
 
 	spec  '252' -- Unholy
-	spell '215969' '0.5' --  Virulent Plague (DoT)
 	spell '70890'  '3.0' --  Scourge Strike
 	spell '194311' '0.5' --  Festering Wound
 	spell '91778'  '0.5' --  Pet: Sweeping Claws
@@ -67,10 +61,7 @@ do
 	spell '191587' '2.5' --  Virulent Plague (DoT)
 	spell '286836' '2.5' --	 Dark Transformation
 	spell '47541'  '1.5' --	 Death Coil
-	spell '218321' '1.5' --  Artifact: Dragged to Helheim
-	spell '191758' '0.5' --  Artifact: Corpse Explosion
-	spell '207267' '0.5' --  Talent: Dragged to Helheim
-	spell '212338' '0.5' --  Talent: Sludge Belcher
+	spell '207267' '0.5' --  Talent: Bursting Sores
 	spell '212739' '0.5' --  Talent: Epidemic
 	spell '156000' '2.5' --  Talent: Defile
 	spell '207267' '2.5' --  Talent Bursting Sores
@@ -80,7 +71,6 @@ do
 	alias '319238' '319230' --  [Cleave Merger] Unholy Pact
 	alias '319236' '319230' --  [Cleave Merger] Unholy Pact
 	alias '55090'  '70890'  --  [Cleave Merger] Scourge Strike
-	alias '191685' '215969' --  [DD/DoT Merger] Virulent Plague Eruption
 	alias '212969' '212739' --  [DD/DoT Merger] Talent: Epidemic
 end
 
@@ -88,7 +78,6 @@ end
 class 'DEMONHUNTER'
 do
 	spec  '577' -- Havoc
-	spell '342857' '3.5' --  Glaive Tempest (damage over 3 sec to 5 nearby enemies)
 	spell '222031' '3.0' --  Chaos Strike (server side delay?)
 	spell '185123' '1.5' --  Throw Glaive (Havoc)
 	spell '198030' '1.5' --  Eye Beam
@@ -101,17 +90,13 @@ do
 	spell '258921' '1.5' --  Immolation Aura
 	spell '258922' '1.5' --  Immolation Aura
 	spell '179057' '0.5' --  Chaos Nova
+	spell '342857' '3.5' --  Talent: Glaive Tempest (damage over 3 sec to 5 nearby enemies)
 	spell '203796' '2.5' --  Talent: Demon Blades
 	spell '211052' '1.5' --  Talent: Fel Barrage
-	spell '202388' '0.5' --  Artifact: Inner Demons
-	spell '201628' '1.5' --  Artifact: Fury of the Illidari
-	spell '217070' '0.5' --  Artifact: Rage of the Illidari
-	spell '202446' '0.5' --  Artifact: Anguish
 	alias '199547' '222031' --  [MH/OH Merger] Chaos Strike
 	alias '200685' '199552' --  [MH/OH Merger] Blade Dance
 	alias '258883' '199552' --  [MH/OH Merger] Blade Dance
 	alias '210155' '210153' --  [MH/OH Merger] Death Sweep
-	alias '201789' '201628' --  [MH/OH Merger] Fury of the Illidari
 	-- spell '258922' '258921' --  [DD/DOT Merger]Immolation Aura
 
 	spec  '581' -- Vengeance
@@ -125,8 +110,6 @@ do
 	--spell '227255' '1.5' --  Talent: Fel Devastation
 	spell '247455' '0.5' --  Talent: Spirit Bomb
 	spell '218677' '1.5' --  Talent: Spirit Bomb (Frailty Heal)
-	spell '213011' '2.5' --  Artifact: Charred Warblades
-	spell '207407' '1.5' --  Artifact: Soul Carver (DoT)
 	spell '212105' '1.5' --  spell fel devastation
 	alias '178741' '187727' --  [DD/DoT Merger] Immolation Aura
 	-- alias '208038' '222030' --  [DD/DoT Merger] Soul Cleave
@@ -150,8 +133,6 @@ do
 	spell '202347' '2.5' --  Talent: Stellar Flare
 	spell '202497' '2.5' --  Talent: Shooting Stars
 	spell '211545' '2.5' --  Talent: Fury of Elune
-	spell '202771' '0.5' --  Artifact: Full Moon
-	alias '226104' '191037' --  Artifact: Echoing Stars
 
 	spec  '103' -- Feral
 	spell '106785' '0.5' --  Swipe (Cat)
@@ -160,8 +141,6 @@ do
 	spell '1079'   '2.5' --  Rip
 	spell '155625' '2.5' --  Talent: Lunar Inspiration
 	spell '202028' '0.5' --  Talent: Brutal Slash
-	spell '210723' '1.5' --  Artifact: Ashamane's Frenzy
-	spell '210687' '0.5' --  Artifact: Shadow Thrash
 	alias '1822'   '155722' --  [DD/DoT Merger] Rake
 
 	spec  '104' -- Guardian
@@ -172,7 +151,6 @@ do
 	spell '77758'  '2.5' --  Thrash (Bear)
 	spell '213709' '2.5' --  Talent: Brambles
 	spell '204069' '2.5' --  Talent: Lunbar Beam
-	spell '219432' '2.5' --  Artifact: Rage of the Sleeper
 	alias '192090' '77758'  --  [DD/DoT Merger] Thrash
 	alias '203958' '213709' --  [Barkskin Merger] Brambles
 
@@ -186,7 +164,6 @@ do
 	spell '48438'  '2.5' --  Wild Growth (Instant)
 	spell '42231'  '2.5' --  Hurricane
 	spell '200389' '3.5' --  Talent: Cultivation
-	spell '189853' '0.5' --  Artifact: Dreamwalker
 	alias '189800' '48438' --  [HoT/Artifact Merger] Nature's Essence
 	alias '155777' '774'   --  [HoT/HoT Merger] Talent: Germination
 	alias '207386' '81269' --  [Heal/HoT Merger] Talent: Spring Blossom
@@ -210,9 +187,6 @@ do
 	spell '201754' '0.5' --  Talent: Stomp
 	spell '217207' '0.5' --  Talent: Dire Frenzy
 	spell '171454' '0.5' --  Talent: Chimaera Shot
-	spell '197465' '0.5' --  Artifact: Surge of the Stormgod
-	spell '207097' '1.5' --  Artifact: Titan's Thunder
-	spell '197205' '0.5' --  Artifact: Spirit Bond
 	spell '217200' '4.5' --  Barbed Shot (Seems every 2s over 8s)
 	alias '171457' '171454' --  [Cleave Merger] Chimaera Shot
 
@@ -223,7 +197,6 @@ do
 	spell '212680' '0.5' --  Talent: Explosive Shot
 	spell '214581' '1.5' --  Talent: Sidewinders
 	spell '198670' '0.5' --  Talent: Piercing Shot
-	spell '191070' '0.5' --  Artifact: Call of the Hunter
 	spell '257045' '2.0' --  Rapid Fire
 	spell '257620' '2.0' --  Multi shot
 	spell '269576' '5.0' --  Master Marksman
@@ -238,9 +211,6 @@ do
 	spell '194279' '2.5' --  Talent: Caltrops
 	spell '212436' '0.5' --  Talent: Butchery
 	spell '194859' '2.5' --  Talent: Dragonsfire Grenade
-	spell '203563' '0.5' --  Artifact: Talen Strike (Bugged Icon Fix)
-	spell '203415' '2.5' --  Artifact: Fury of the Eagle (Bugged Icon Fix)
-	spell '204081' '2.5' --  Artifact: On the Trail
 	spell '265157' '2.5' --  Wildfire Bomb
 	spell '259491' '2.5' --  Serpent Sting
 	spell '270338' '2.5' --  Talent wildfire infusion : shrapnel
@@ -270,8 +240,6 @@ do
 	spell '114923' '2.5' --  Talent: Nether Tempest
 	spell '153640' '2.5' --  Talent: Arcane Orb
 	spell '157979' '0.5' --  Talent: Unstable Magic
-	spell '210833' '0.5' --  Artifact: Touch of the Magi
-	spell '211088' '2.5' --  Artifact: Mark of Aluneth (DoT)
 	alias '210817' '44425'  --  [DD/Splash Merger] Arcane Rebound
 	alias '114954' '114923' --  [DD/DoT Merger] Arcane Rebound
 	alias '211076' '211088' --  [DD/Splash Merger] Arcane Rebound
@@ -292,8 +260,6 @@ do
 	spell '44461'  '0.5' --  Talent: Living Bomb (Explosion)
 	spell '153564' '0.5' --  Talent: Meteor (Explosion)
 	spell '155158' '2.5' --  Talent: Meteor (DoT)
-	spell '194522' '2.5' --  Artifact: Blast Furnace
-	spell '215775' '1.5' --  Artifact: Phoenix Reborn
 	alias '257542' '257541' --  [DD/Splash Merger] Phoenix's Flames
 	alias '226757' '205345' --  [DD/Splash Merger] Conflagration
 	alias '205472' '2120'   --  [DD/DoT Merger] Talent: Flame Patch
@@ -335,9 +301,6 @@ do
 	spell '121253' '0.5' --  Keg Smash
 	spell '227291' '0.5' --  Talent: Niuzao, The Black Ox (Stomp)
 	spell '196733' '0.5' --  Talent: Special Delivery
-	spell '214326' '0.5' --  Artifact: Exploding Keg
-	spell '227681' '1.5' --  Artifact: Dragonfire Brew
-	alias '178173' '124507' --  [Greater Merger] Artifact: Overflow (double check)
 
 	spec  '269' -- Windwalker
 	spell '117952' '0.5' --  Crackling Jade Lightning (SEF)
@@ -348,8 +311,6 @@ do
 	spell '185099' '0.5' --  Rising Sun Kick (SEF)
 	spell '196748' '0.5' --  Talent: Chi Orbit
 	spell '158221' '0.5' --  Talent: Whirling Dragon Punch
-	spell '222029' '0.5' --  Artifact: Strike of the Windlord
-	alias '205414' '222029' --  [MH/OH Merger] Artifact: Strike of the Windlord
 	alias '196061' '117418' --  [DMG Merger] Artifact: Crosswinds
 
 	spec  '270' -- Mistweaver
@@ -363,8 +324,6 @@ do
 	spell '124081' '1.5' --  Talent: Zen Pulse
 	spell '162530' '1.5' --  Talent: Refreshing Jade Wind
 	spell '198756' '2.5' --  Talent: Invoke Chi'Ji
-	spell '199668' '2.0' --  Artifact: Blessing of Yu'lon
-	spell '199656' '2.0' --  Artifact: Celestial Breath
 	alias '198533' '115175' --  [Statue Merger] Talent: Jade Serpent Statue
 	alias '228649' '100784' --  [Passive Merger] Teachings of the Monastery
 end
@@ -385,7 +344,6 @@ do
 	spell '114852' '0.5'  --  Talent: Holy Prism (Heal)
 	spell '114871' '0.5'  --  Talent: Holy Prism (Damage)
 	spell '210291' '2.5'  --  Talent: Aura of Mercy
-	spell '200654' '2.5'  --  Artifact: Tyr's Deliverance
 
 	spec  '66' -- Protection
 	spell '31935'  '1.5'  --  Avenger's Shield
@@ -393,8 +351,6 @@ do
 	spell '53600'  '0.5'  --  Shield of the Righteous
 	spell '204301' '2.5'  --  Blessed Hammer
 	spell '204241' '2.0'  --  Talent: Consecrated Ground
-	spell '209478' '1.5'  --  Artifact: Tyr's Enforcer
-	spell '209202' '0.5'  --  Artifact: Eye of Tyr
 
 	spec  '70' -- Retribution
 	spell '20271' ' 0.5'  --  Judgment
@@ -407,11 +363,6 @@ do
 	spell '202202' '0.5'  --  Talent: Eye for an Eye
 	spell '199435' '1.0'  --  Talent (PvP): Luminescence
 	spell '157122' '1.5'  --  Talent: Holy Shield
-	spell '224239' '1.5'  --  Artifact: Echo of the Highlord (Divine Storm)
-	spell '224266' '1.25' --  Artifact: Echo of the Highlord (Templar's Verdict)
-	spell '205273' '2.0'  --  Artifact: Wake of Ashes
-	spell '224239' '1.5'  --  Artifact: Divine Tempest (Divine Storm)
-	spell '215257' '1.75' --  Artifact: Healing Storm
 	alias '228288' '20271' --  [Bounce Merger] Judgment
 	alias '216527' '20271' --  [Pvp Talent - Bounce Merger]: Lawbringer
 end
@@ -447,12 +398,6 @@ do
 	spell '2061'   '0.5' --  Talent: Trail of Light (Flash Heal)
 	spell '32546'  '0.5' --  Talent: Binding Heal
 	spell '204883' '0.5' --  Talent: Circle of Healing
-	spell '196810' '1.0' --  Artifact: Invoke the Naaru (Prayer of Healing & Sanctify)
-	spell '196809' '1.0' --  Artifact: Invoke the Naaru (Heal, Flash Heal & Serenity)
-	spell '196813' '1.0' --  Artifact: Invoke the Naaru (Divine Hymn & Prayer of Mending)
-	alias '196816' '139' --  Artifact: Invoke the Naaru (Renew)
-	alias '196811' '585' --  Artifact: Invoke the Naaru (Smite, Holy Fire & Chastise)
-	alias '196812' '132157' --  Artifact: Invoke the Naaru (Holy Nova)
 
 	spec  '258' -- Shadow
 	spell '228360' '1.0' --  Void Eruption
@@ -484,7 +429,6 @@ do
 	spell '113780' '0.5' --  Deadly Poison (Instant)
 	spell '51723'  '0.5' --  Fan of Knives
 	spell '192660' '2.5' --  Poison Bomb
-	alias '192380' '113780' --  Artifact: Poison Knives
 	alias '27576'  '5374'    --  Mutilate (OH)
 
 	spec  '260' -- Outlaw
@@ -495,8 +439,6 @@ do
 	spell '22482'  '1.5' --  Blade Flurry
 	spell '57841'  '3.5' --  Killing Spree
 	spell '185779' '2.0' --  Talent: Cannonball Barrage
-	spell '202822' '1.0' --  Artifact: Greed
-	alias '202823' '202822' --  [MH/OH Merger] Artifact: Greed
 	alias '197834' '193315' --  [Proc Merger] Saber Slash
 
 	spec  '261' -- Sublety
@@ -506,10 +448,9 @@ do
 	spell '197800' '0.5' --  Shadow Nova
 	spell '195452' '2.5' --  Nightblade (DoT)
 	spell '158188' '2.5' --  Talent: Soothing Darkness
-	spell '220893' '2.5' --  Artifact: Akaari's Soul
-	alias '121474' '121473' --  [MH/OH Merger] Artifact: Greed
-end
 
+	alias '121474' '121473' --  [MH/OH Merger] Shadowblades
+end
 
 class 'SHAMAN'
 do
@@ -526,8 +467,6 @@ do
 	spell '170379' '2.0' --  Talent: Earthn Rage
 	spell '197568' '0.5' --  Talent: Lightning Rod
 	spell '117588' '0.5' --  Talent: Primal Elementalist [Fire]
-	spell '191732' '1.5' --  Artifact: Lightning Elemental (Chain Lightning)
-	spell '205533' '1.5' --  Artifact: Volcanic Inferno
 	alias '285466' '285452' --  [Mastery Merger] Elemental Blast Overload
 	alias '219271' '210714' --  [Mastery Merger] Ice Fury Overload
 	alias '77451'  '51505' --  [Mastery Merger] Lavaburst Overload
@@ -541,16 +480,11 @@ do
 	spell '25504'  '0.5' --  Windfury Attacks
 	spell '32175'  '0.5' --  Stormstrike MH/OH Merger
 	spell '10444'  '1.5' --  Flametongue
-	spell '199054' '0.5' --  Artifact: Unleash Doom
-	spell '198485' '0.5' --  Artifact: Alpha Wolf
-	spell '198483' '1.5' --  Artifact: Doom Wolves
-	spell '199116' '2.0' --  Artifact: Doom Vortex
 	spell '210854' '0.5' --  Talent: Hailstorm
 	spell '210801' '2.5' --  Talent: Crashing Storm
 	spell '197385' '2.5' --  Talent: Fury of Air
 	spell '197214' '2.5' --  Talent: Sundering
 	alias '32176'  '32175'   --  [MH/OH Merger] Stormstrike
-	alias '199053' '199054' --  [MH/OH Merger] Artifact: Unleash Weapons
 
 	spec  '264' -- Restoration
 	spell '421'    '0.5' --  Chain Lightning (Resto)
@@ -564,9 +498,6 @@ do
 	spell '157503' '0.5' --  Talent: Cloudburst
 	spell '114083' '1.5' --  Talent: Ascendance
 	spell '201633' '2.5' --  Talent: Earthen Shield
-	spell '209069' '2.5' --  Artifact: Tidal Pools
-	spell '208899' '3.0' --  Artifact: Queen's Decree
-	spell '207778' '0.5' --  Artifact: Gift of the Queen
 end
 
 
@@ -590,11 +521,8 @@ do
 	spell '205246' '1.5' --  Talent: Phantom Singularity
 	spell '196100' '0.5' --  Talent: Grimoire of Sacrifice
 	spell '205260' '2.5' --  Talent: Soul Effigy
-	spell '218615' '0.5' --  Artifact: Harvester of Souls
-	spell '199581' '0.5' --  Artifact: Soul Flame	
 	spell '324540' '0.5' --  Malefic Rapture
 	spell '278350' '1.0' --  Talent Vile Taint
-	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
 
 	spec  '266' -- Demonlogy
 	spell '603'    '0.5' --  Doom
@@ -606,13 +534,10 @@ do
 	spell '205196' '0.5' --  Dreadstalkers (Dreadbite)
 	spell '196278' '0.5' --  Talent: Implosion
 	spell '205231' '0.5' --  Talent: Summon Darkglare
-	spell '211720' '2.5' --  Artifact: Thal'kiel's Discord
 	spell '108447' '2.5' --  Soul Link Heal
 	spell '108446' '2.5' --  Soul Link dmgs
-	spell '211714' '0.5' --  Artifact: Thal'kiel's Consumption (Demon Life Tap)
 	spell '267215' '0.5' --  Talent Demonic Consump
 	alias '267971' '267215' --  Talent Demonic Consump
-	alias '211727' '211720' --  Artifact: Thal'kiel's Discord
 
 
 
@@ -624,7 +549,6 @@ do
 	spell '42223'  '2.5' --  Rain of Fire
 	spell '152108' '0.5' --  Talent: Cataclysm
 	spell '196448' '1.5' --  Talent: Channel Demonfire
-	spell '187394' '1.5' --  Artifact: Dimensional Rift
 	alias '348'    '157736' --  [DD/DoT Merger] Immolate
 end
 
@@ -641,9 +565,6 @@ do
 	spell '12294'  '0.5' --  Talent: Sweeping Strikes (Mortal Strike)
 	spell '772'    '3.5' --  Talent: Rend
 	spell '215537' '2.5' --  Talent: Trauma
-	spell '209569' '2.5' --  Artifact: Corrupted Blood of Zakajz
-	spell '209700' '0.5' --  Artifact: Void Cleave
-	spell '209577' '2.5' --  Artifact: Warbreaker
 	spell '199658' '1.5' --  Whirlwind
 	spell '278497' '0.5' --  Seismic Wave
 	spell '262115' '3.0' --  Mastery: Deep Wounds (DoT over 6s)
@@ -658,12 +579,10 @@ do
 	spell '113344' '2.5' --  Talent: Bloodbath
 	spell '118000' '0.5' --  Talent: Dragon Roar
 	spell '50622'  '2.5' --  Talent: Bladestorm
-	spell '205546' '3.0' --  Artifact: Odyn's Fury (DoT)
 	alias '163558' '5308'   --  [MH/OH] Execute OH
 	alias '85384'  '96103'  --  [MH/OH] Raging Blow
 	alias '44949'  '199667' --  [MH/OH] Whirlwind
 	alias '95738'  '50622'  --  [MH/OH] Bladestorm
-	alias '205547' '205546' --  Artifact: Odyn's Fury (Hit)
 	alias '218617' '184367' --  Rampage (1st Hit)
 	alias '184707' '184367' --  Rampage (2nd Hit)
 	alias '184709' '184367' --  Rampage (3rd Hit)
@@ -676,5 +595,4 @@ do
 	spell '6343'   '0.5' --  Thunder Clap
 	spell '7922'   '0.5' --  Talent: Warbringer
 	spell '222944' '3.0' --  Talent: Inspiring Presence
-	spell '203526' '3.5' --  Artifact: Neltharion's Fury
 end
