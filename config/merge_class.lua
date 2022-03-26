@@ -290,7 +290,7 @@ do
 	spell '132463' '2.5' --  Talent: Chi Wave (Healing)
 	spell '148187' '1.5' --  Talent: Rushing Jade Wind
 	spell '107270' '1.5' --  Spinning Crane Kick
-	spell '100784' '1.0' --  Blackout Kick
+	spell '100784' '0.5' --  Blackout Kick
 
 	spec  '268' -- Brewmaster
 	spell '124255' '1.5' --  DmgTkn: Stagger
@@ -299,7 +299,8 @@ do
 	spell '115181' '0.5' --  Breath of Fire
 	spell '123725' '2.5' --  Breath of Fire (DoT)
 	spell '121253' '0.5' --  Keg Smash
-	spell '227291' '0.5' --  Talent: Niuzao, The Black Ox (Stomp)
+	spell '227291' '0.5' --  Niuzao, The Black Ox (Stomp)
+	spell '325153' '0.5' --  Talent: Exploding Keg
 	spell '196733' '0.5' --  Talent: Special Delivery
 
 	spec  '269' -- Windwalker
@@ -309,23 +310,30 @@ do
 	spell '117418' '2.0' --  Fists of Fury
 	spell '100780' '0.5' --  Tiger Palm (SEF)
 	spell '185099' '0.5' --  Rising Sun Kick (SEF)
-	spell '196748' '0.5' --  Talent: Chi Orbit
 	spell '158221' '0.5' --  Talent: Whirling Dragon Punch
 	alias '196061' '117418' --  [DMG Merger] Artifact: Crosswinds
+	spell '123996' '0.5' -- Xuen (Crackling Tiger Lightning)
+	alias '335913' '123996' -- Xuen (Crackling Tiger Lightning - Anima Power: constellation-star-chart)
 
 	spec  '270' -- Mistweaver
+	spell '191894' '1.5' --  [Mastery] Gust of Mists
+	alias '228649' '100784' --  [Passive Merger] Teachings of the Monastery -> Blackout Kick
 	spell '115175' '1.5' --  Soothing Mist
-	spell '124682' '1.5' --  Eneloping Mist
+	alias '198533' '115175' --  [Statue Merger] Talent: Jade Serpent Statue
+	spell '124682' '1.5' --  Enveloping Mist
 	spell '191840' '1.5' --  Essence Font
 	alias '344006' '191840' -- Essence Font (Faeline Stomp)
 	spell '119611' '2.0' --  Renewing Mists
 	spell '115310' '0.5' --  Revival
 	spell '116670' '0.5' --  Vivify
-	spell '124081' '1.5' --  Talent: Zen Pulse
 	spell '162530' '1.5' --  Talent: Refreshing Jade Wind
 	spell '198756' '2.5' --  Talent: Invoke Chi'Ji
-	alias '198533' '115175' --  [Statue Merger] Talent: Jade Serpent Statue
-	alias '228649' '100784' --  [Passive Merger] Teachings of the Monastery
+	spell '274912' '0.5' --  Talent: Rising Mist
+	spell '199668' '2.0' --  Artifact: Blessing of Yu'lon
+	spell '199656' '2.0' --  Artifact: Celestial Breath
+	spell '343737' '1.5' --  Yu'lon (Soothing Breath)
+	spell '343819' '0.5' --  Chi-Ji (Gust of Mists)
+	spell '325209' '0.5' --  Yu'lon/Chi-ji (Enveloping Breath)
 end
 
 
@@ -521,6 +529,8 @@ do
 	spell '205246' '1.5' --  Talent: Phantom Singularity
 	spell '196100' '0.5' --  Talent: Grimoire of Sacrifice
 	spell '205260' '2.5' --  Talent: Soul Effigy
+	spell '218615' '0.5' --  Artifact: Harvester of Souls
+	spell '199581' '0.5' --  Artifact: Soul Flame
 	spell '324540' '0.5' --  Malefic Rapture
 	spell '278350' '1.0' --  Talent Vile Taint
 

@@ -53,6 +53,10 @@ do
 	-- Kyrian
 	spell '312202' '1.0' 	-- Shackle of the Unworthy
 
+	-- Soulbind Traits
+	spell '333526' '1.5' -- Niya's Tools: Burrs
+	spell '321519' '1.5' -- Niya's Tools: Posion
+	
 	-- Necrolords
 	-- Death Knights
 	spell '315443' '1.0' 	-- Abomination Limb
@@ -88,6 +92,7 @@ do
 
 	item  '345215' '1.5' "Soul Igniter"
 
+	item  '355087' '1.0' "Fine Razorwing Quill"
 end
 
 header "|cFFd2d3d8ShadowLands|r™ |cff798BDDLegendaries|r"
@@ -101,6 +106,12 @@ end
 header "|cFFd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
 do
 	item '324184' '1.5' "Lightless Force"
+	item '336463' '2.5' "Shadowcore Oil"
+end
+
+header "|cffd2d3d8ShadowLands|r™ |cff798BDDTorghast|r"
+do
+	item '348512' '1.5' "Bloodgorged Leech"
 end
 
 
