@@ -18,6 +18,8 @@ local ADDON_NAME, addon = ...
 -- 'alias' takes the original spell id and a replacement spell id
 -- item takes a item id, the merge interval in seconds, and a helpful description of the item
 -- header switches the header for the next set of items
+-- @TODO : Spells of covennats doesn't appear in config tab, creat covenant tab?
+
 local spell, _, _, alias, item, header = unpack(addon.merge_helpers)
 header "|cffd2d3d8SL|r™ |cff798BDDWorld Zones|r"
 do
@@ -28,7 +30,7 @@ end
 header "|cFFd2d3d8ShadowLands|r™ |cff798BDDCovenants|r"
 do
 	-- warlock
-	-- Night Fae 
+	-- Night Fae
 	spell '325640' '1.0' 	-- Soul Rot
 	alias '234153' '325640' -- Drain life multi with soulrot
 
@@ -38,7 +40,7 @@ do
 	alias '322170' '321792' -- Impending Catastrophe dot
 
 	-- Night Fae
-	-- Warlock 
+	-- Warlock
 	alias '325640' '234153' --  Drain life multi with soulrot
 
 	-- Hunter

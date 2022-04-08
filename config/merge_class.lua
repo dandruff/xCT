@@ -115,8 +115,8 @@ do
 	-- alias '208038' '222030' --  [DD/DoT Merger] Soul Cleave
 	-- alias '214743' '207407' --  [DD/DoT Merger] Soul Cleave
 	-- alias '228478' '228477' --  [DD/DoT Merger] Soul Cleave
-	alias '212106' '227255' --  [MH/OH Merger] Fel Devastation
-	alias '212105' '227255' --  [MH/OH Merger] Fel Devastation
+	-- alias '212106' '227255' --  [MH/OH Merger] Fel Devastation
+	-- alias '212105' '227255' --  [MH/OH Merger] Fel Devastation
 	alias '212084' '227255' --  Reported From Curse: Should be Fel Devastation
 end
 
