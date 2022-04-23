@@ -166,6 +166,8 @@ do
 	spell '48438'  '2.5' --  Wild Growth (Instant)
 	spell '42231'  '2.5' --  Hurricane
 	spell '200389' '3.5' --  Talent: Cultivation
+	spell '189853' '0.5' --  Artifact: Dreamwalker
+	spell '364686' '5.0' --  Tier[id=188849]: Renewing Bloom (every 1s)
 	alias '189800' '48438' --  [HoT/Artifact Merger] Nature's Essence
 	alias '155777' '774'   --  [HoT/HoT Merger] Talent: Germination
 	alias '207386' '81269' --  [Heal/HoT Merger] Talent: Spring Blossom

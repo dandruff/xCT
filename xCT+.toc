@@ -1,4 +1,4 @@
-## Interface: 90105
+## Interface: 90200
 ## Title: xCT+
 ## Notes: An Add-On that can out-perform or enhance the default Floating Combat Text!
 ## Author: Dandruff-Stormreaver US
@@ -6,7 +6,7 @@
 ## RequiredDeps: Blizzard_CombatText
 ## OptionalDeps: xCT, ElvUI
 ## SavedVariables: xCTSavedDB
-## X-Curse-Packaged-Version: 4.6.0
+## X-Curse-Packaged-Version: 4.6.1
 ## X-Curse-Project-Name: xCT+
 ## X-Curse-Project-ID: xct-plus
 ## X-Curse-Repository-ID: wow/xct-plus/mainline
