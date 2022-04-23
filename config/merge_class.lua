@@ -77,6 +77,10 @@ end
 
 class 'DEMONHUNTER'
 do
+	spec  '0' -- All Spec
+	spell '258921' '1.5' --  Immolation Aura
+	alias '258922' '258921' --  [DD/DOT Merger]Immolation Aura
+
 	spec  '577' -- Havoc
 	spell '222031' '3.0' --  Chaos Strike (server side delay?)
 	spell '185123' '1.5' --  Throw Glaive (Havoc)
@@ -87,8 +91,6 @@ do
 	spell '210153' '2.0' --  Death Sweep
 	spell '200166' '0.5' --  Metamorphosis (Landing)
 	spell '198813' '0.5' --  Vengeful Retreat
-	spell '258921' '1.5' --  Immolation Aura
-	spell '258922' '1.5' --  Immolation Aura
 	spell '179057' '0.5' --  Chaos Nova
 	spell '342857' '3.5' --  Talent: Glaive Tempest (damage over 3 sec to 5 nearby enemies)
 	spell '203796' '2.5' --  Talent: Demon Blades
@@ -97,11 +99,9 @@ do
 	alias '200685' '199552' --  [MH/OH Merger] Blade Dance
 	alias '258883' '199552' --  [MH/OH Merger] Blade Dance
 	alias '210155' '210153' --  [MH/OH Merger] Death Sweep
-	-- spell '258922' '258921' --  [DD/DOT Merger]Immolation Aura
 
 	spec  '581' -- Vengeance
 	spell '204157' '1.5' --  Throw Glaive (Vengeance)
-	spell '187727' '2.5' --  Immolation Aura
 	spell '204598' '2.5' --  Sigil of Flame
 	spell '189112' '0.5' --  Infernal Strike
 	spell '228478' '0.5' --  Soul Cleave
@@ -111,13 +111,15 @@ do
 	spell '247455' '0.5' --  Talent: Spirit Bomb
 	spell '218677' '1.5' --  Talent: Spirit Bomb (Frailty Heal)
 	spell '212105' '1.5' --  spell fel devastation
-	alias '178741' '187727' --  [DD/DoT Merger] Immolation Aura
 	-- alias '208038' '222030' --  [DD/DoT Merger] Soul Cleave
 	-- alias '214743' '207407' --  [DD/DoT Merger] Soul Cleave
 	-- alias '228478' '228477' --  [DD/DoT Merger] Soul Cleave
 	-- alias '212106' '227255' --  [MH/OH Merger] Fel Devastation
 	-- alias '212105' '227255' --  [MH/OH Merger] Fel Devastation
 	alias '212084' '227255' --  Reported From Curse: Should be Fel Devastation
+	alias '320334' '258921' --  Talent : Infernal Armor
+
+
 end
 
 
@@ -197,11 +199,13 @@ do
 	spell '212680' '0.5' --  Talent: Explosive Shot
 	spell '214581' '1.5' --  Talent: Sidewinders
 	spell '198670' '0.5' --  Talent: Piercing Shot
+	spell '260243' '1.0' --  Talent: Volley
 	spell '257045' '2.0' --  Rapid Fire
 	spell '257620' '2.0' --  Multi shot
 	spell '269576' '5.0' --  Master Marksman
 	spell '324149' '4.5' --  Flayed Shot (every 2s for 18s plus, can be extended)
 	alias '191043' '19434' --  Windburst
+	alias '260247' '260243' -- merger volley
 
 	spec  '255' -- Survival
 	spell '185855' '2.5' --  Lacerate

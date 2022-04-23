@@ -103,6 +103,11 @@ do
 	item '336214' '0.5' "Eternal Call to the Void"
 	alias '193473' '336214' -- Eternal Call to the Void: Mind Flay
 	alias '344752' '336214' -- Eternal Call to the Void: Mind Sear
+
+
+	-- Hunter 
+	item '336899' '1.0' "WildFire Cluster"
+
 end
 
 header "|cFFd2d3d8ShadowLands|r™ |cff798BDDEnchants|r"
@@ -121,4 +126,7 @@ header "|cffd2d3d8ShadowLands|r™ |cff798BDDZones|r"
 do
 	-- Torghast
 	item '327909' '1.5' "Ashen Phylactery"
+	
+	item '331269' '1.5' "Tar tap + Flare"
+	item '335614' '1.5' "Capsule of pure moonlight"
 end
