@@ -154,7 +154,7 @@ frameUpdate:SetScript("OnEvent", function(self)
   self:UnregisterEvent("PLAYER_ENTERING_WORLD")
   x:UpdateFrames()
   x.cvar_update()
-  x.UpdateBlizzardOptions()
+  --x.UpdateBlizzardOptions()
 end)
 
 -- Version Compare Helpers... Yeah!
@@ -365,37 +365,35 @@ end
 
 local getSpellDescription
 do
-  local Descriptions, description = { }, nil
-  local tooltip = CreateFrame('GameTooltip')
+  local tooltip = CreateFrame('GameTooltip', 'xCT_SpellDescriptionTooltip', nil, 'GameTooltipTemplate')
   tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
-  -- Add FontStrings to the tooltip
-  local LeftStrings, temporaryRight = {}, nil
-  for i = 1, 5 do
-    LeftStrings[i] = tooltip:CreateFontString()
-    temporaryRight = tooltip:CreateFontString()
-    LeftStrings[i]:SetFontObject(GameFontNormal)
-    temporaryRight:SetFontObject(GameFontNormal)
-    tooltip:AddFontStrings(LeftStrings[i], temporaryRight)
-  end
-
-  function getSpellDescription(spellID)
-    if Descriptions[spellID] then
-      return Descriptions[spellID]
+  local Descriptions, description = { }, nil
+  
+  function getSpellDescription(spellId)
+    if Descriptions[spellId] then
+      return Descriptions[spellId]
     end
 
-    tooltip:SetSpellByID(spellID)
-
-    description = ""
-    if LeftStrings[tooltip:NumLines()] then
-      description = LeftStrings[ tooltip:NumLines() ]:GetText()
+    tooltip:ClearLines()
+    tooltip:SetSpellByID(spellId)
+    
+    local font
+    for i=4,1,-1 do
+      font = _G['xCT_SpellDescriptionTooltipTextLeft'..i]
+      if font then
+        break
+      end
     end
+
+    description = font:GetText()
 
     if description == "" then
       description = "No Description"
     end
 
-    Descriptions[spellID] = description
+    Descriptions[spellId] = description
+
     return description
   end
 end
@@ -1706,8 +1704,8 @@ ACD:SetDefaultSize(AddonName, 803, 560)
 AC:RegisterOptionsTable(AddonName, addon.options)
 
 
-AC:RegisterOptionsTable(AddonName.."Blizzard", x.blizzardOptions)
-ACD:AddToBlizOptions(AddonName.."Blizzard", "|cffFF0000x|rCT+")
+--AC:RegisterOptionsTable(AddonName.."Blizzard", x.blizzardOptions)
+--ACD:AddToBlizOptions(AddonName.."Blizzard", "|cffFF0000x|rCT+")
 
 -- Close Config when entering combat
 local lastConfigState, shownWarning = false, false
@@ -1871,7 +1869,7 @@ function x:ShowConfigTool(...)
   x.myContainer:SetCallback("OnClose", myContainer_OnRelease)
 
   -- Last minute settings and SHOW
-  x.myContainer.content:GetParent():SetMinResize(803, 300)
+  --x.myContainer.content:GetParent():SetMinResize(803, 300)
 
   -- Go through and select all the groups that are relevant to the player
   if not x.selectDefaultGroups then

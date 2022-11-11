@@ -140,8 +140,8 @@ function x:UpdateFrames(specificFrame)
 				f:ClearAllPoints()
 				f:SetMovable(true)
 				f:SetResizable(true)
-				f:SetMinResize(64, 32)
-				f:SetMaxResize(768, 768)
+				--f:SetMinResize(64, 32)
+				--f:SetMaxResize(768, 768)
 				f:SetClampedToScreen(true)
 				f:SetShadowColor(0, 0, 0, 0)
 
@@ -196,6 +196,7 @@ function x:UpdateFrames(specificFrame)
 					f:ClearAllPoints()
 					f:SetPoint("CENTER", x, y)
 				else
+					f:ClearAllPoints()
 					f:SetPoint("CENTER", settings.X, settings.Y)
 				end
 			end
@@ -217,7 +218,13 @@ function x:UpdateFrames(specificFrame)
 			end
 
 			-- Font Template
-			f:SetFont(LSM:Fetch("font", settings.font), settings.fontSize, ssub(settings.fontOutline, 2))
+			local outline = ssub(settings.fontOutline, 2)
+			
+			if outline == "NONE" then
+				f:SetFont(LSM:Fetch("font", settings.font), settings.fontSize, "")
+			else
+				f:SetFont(LSM:Fetch("font", settings.font), settings.fontSize, outline)
+			end
 
 			if settings.fontJustify then
 				f:SetJustifyH(settings.fontJustify)

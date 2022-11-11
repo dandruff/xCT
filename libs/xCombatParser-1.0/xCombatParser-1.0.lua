@@ -1,11 +1,14 @@
 
 -- Create out library
-local Lib, oldLib = LibStub:NewLibrary("xCombatParser-1.0", 1)
+local Lib, oldLib = LibStub:NewLibrary("xCombatParser-1.0", 2)
 if not Lib then return end
 
 -- Our own personal space
 local private = {}
 Lib.private = private
+
+-- This library's functions
+local mt = {__index = {}}
 
 do
 	-- Upvalues
@@ -68,8 +71,10 @@ do
 	local pairs,error,next=pairs,error,next
 
 	-- Pool of tables we've destroyed (they are kept as weak)
+	private.mt_weakKeys=oldLib and oldLib.private.mt_weakKeys or setmetatable({}, {__mode = 'k'})
+
 	-- Use our older table pool
-	private.tables=oldLib and oldLib.private.tables or setmetatable({},mt_weakKeys)
+	private.tables=oldLib and oldLib.private.tables or setmetatable({},private.mt_weakKeys)
 
 	-- ------------------------------------------------------------------------------
 	-- function private.create ( )
@@ -199,34 +204,34 @@ do
 	-- Handle all the combat events. This needs to be extremely efficient
 	private.frame:SetScript("OnEvent", function(self, frameEvent)
 		if frameEvent == "COMBAT_LOG_EVENT_UNFILTERED" then
-			local startIndex = 12
+			local n = 12
 			local i, args = 0, private.create()
 
 			-- Create the table so that we can resuse it later
-			local tempTable = private.populate( CombatLogGetCurrentEventInfo() )
+			local t = private.populate( CombatLogGetCurrentEventInfo() )
 
 			-- fast event
-			local event = tempTable[2]
+			local event = t[2]
 
 			-- 11 Parameters of the COMBAT_LOG_EVENT   ---   Index
-			args.timestamp       = tempTable[1]
-			args.event           = tempTable[2]
-			args.hideCaster      = tempTable[3]
-			args.sourceGUID      = tempTable[4]
-			args.sourceName      = tempTable[5]
-			args.sourceFlags     = tempTable[6]
-			args.sourceRaidFlags = tempTable[7]
-			args.destGUID        = tempTable[8]
-			args.destName        = tempTable[9]
-			args.destFlags       = tempTable[10]
-			args.destRaidFlags   = tempTable[11]
+			args.timestamp       = t[1]
+			args.event           = t[2]
+			args.hideCaster      = t[3]
+			args.sourceGUID      = t[4]
+			args.sourceName      = t[5]
+			args.sourceFlags     = t[6]
+			args.sourceRaidFlags = t[7]
+			args.destGUID        = t[8]
+			args.destName        = t[9]
+			args.destFlags       = t[10]
+			args.destRaidFlags   = t[11]
 
 			local prefix, suffix
 			if event == "DAMAGE_SHIELD" or event == "DAMAGE_SPLIT" then
 				prefix = "SPELL"
 				suffix = "_DAMAGE"
 			elseif event == "SPELL_ABSORBED" then
-				if tempTable.n <= 21 then
+				if t.n <= 21 then
 					prefix = "SWING"
 					suffix = "_ABSORBED"
 				else
@@ -237,11 +242,11 @@ do
 				prefix = "SPELL"
 				suffix = "_MISSED"
 			elseif event == "ENCHANT_APPLIED" or event == "ENCHANT_REMOVED" then
-				args.spellName, args.itemId, args.itemName = tempTable[startIndex], tempTable[startIndex+1], tempTable[startIndex+2]
+				args.spellName, args.itemId, args.itemName = t[n], t[n+1], t[n+2]
 				--args.spellName, args.itemId, args.itemName = select(1, ...)
 
 			elseif event == "UNIT_DIED" or event == "UNIT_DESTROYED" or event == "UNIT_DISSIPATES" then
-				args.recapID, args.unconsciousOnDeath = tempTable[startIndex], tempTable[startIndex+1]
+				args.recapID, args.unconsciousOnDeath = t[n], t[n+1]
 
 			elseif event == "PARTY_KILL" then -- do nothing
 			else
@@ -267,12 +272,10 @@ do
 			args.suffix = suffix
 
 			if prefix == "SPELL" or prefix == "SPELL_PERIODIC" or prefix == "RANGE" or prefix == "SPELL_BUILDING" then
-				args.spellId, args.spellName, args.spellSchool = tempTable[startIndex], tempTable[startIndex+1], tempTable[startIndex+2]
-				--args.spellId, args.spellName, args.spellSchool = select(1, ...)
+				args.spellId, args.spellName, args.spellSchool = t[n], t[n+1], t[n+2]
 				i = 3
 			elseif prefix == "ENVIRONMENTAL" then
-				local environmentalType = tempTable[startIndex]
-				--local environmentalType = select(1, ...)
+				local environmentalType = t[n]
 
 				args.environmentalType = environmentalType
 				args.sourceName = ENVIRONMENT_SUBHEADER
@@ -280,7 +283,6 @@ do
 				-- Fake out some spell things for icons and names
 				args.spellId, args.spellName, args.spellSchool = ENVIRONMENTAL_FAKE_IDS[environmentalType],
 				ENVIRONMENTAL_TYPES[environmentalType], ENVIRONMENTAL_FAKE_SPELLSCHOOL[environmentalType]
-
 				i = 1
 			elseif prefix == "SWING" then
 				-- SpellId for Auto Attack, "Auto Attack" (Localized), Physical Damage (Spell School)
@@ -291,113 +293,71 @@ do
 				args.amount, args.overkill, args.school,
 				args.resisted, args.blocked, args.absorbed,
 				args.critical, args.glancing, args.crushing,
-				args.isOffHand = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2],
-				tempTable[startIndex+i+3], tempTable[startIndex+i+4], tempTable[startIndex+i+5], tempTable[startIndex+i+6],
-				tempTable[startIndex+i+7], tempTable[startIndex+i+8], tempTable[startIndex+i+9]
+				args.isOffHand = t[n+i], t[n+i+1], t[n+i+2],
+				t[n+i+3], t[n+i+4], t[n+i+5], t[n+i+6],
+				t[n+i+7], t[n+i+8], t[n+i+9]
 
 			elseif suffix == "_ABSORBED" then
 				args.casterGUID, args.casterName, args.casterFlags,
 				args.casterRaidFlags, args.absorbSpellId, args.absorbSpellName,
 				args.absorbSpellSchool, args.amount, args.critical =
-				tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2],
-				tempTable[startIndex+i+3], tempTable[startIndex+i+4], tempTable[startIndex+i+5],
-				tempTable[startIndex+i+6], tempTable[startIndex+i+7], tempTable[startIndex+i+8]
+				t[n+i], t[n+i+1], t[n+i+2],
+				t[n+i+3], t[n+i+4], t[n+i+5],
+				t[n+i+6], t[n+i+7], t[n+i+8]
 
 			elseif suffix == "_MISSED" then
 				args.missType, args.isOffHand,
-				args.amountMissed = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2] or 0
+				args.amountMissed = t[n+i], t[n+i+1], t[n+i+2] or 0
 
 			elseif suffix == "_HEAL" then
 				args.amount, args.overhealing, args.absorbed,
-				args.critical = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2], tempTable[startIndex+i+3]
+				args.critical = t[n+i], t[n+i+1], t[n+i+2], t[n+i+3]
 
 			elseif suffix == "_ENERGIZE" then
 				args.amount, args.overEnergize, args.powerType,
-				args.alternatePowerType = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2], tempTable[startIndex+i+3]
+				args.alternatePowerType = t[n+i], t[n+i+1], t[n+i+2], t[n+i+3]
 
 			elseif suffix == "_DRAIN" or suffix == "_LEECH" then
 				args.amount, args.powerType,
-				args.extraAmount = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2]
+				args.extraAmount = t[n+i], t[n+i+1], t[n+i+2]
 
 			elseif suffix == "_INTERRUPT" or suffix == "_DISPEL_FAILED" then
 				args.extraSpellId, args.extraSpellName,
-				args.extraSchool = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2]
+				args.extraSchool = t[n+i], t[n+i+1], t[n+i+2]
 
 			elseif suffix == "_DISPEL" or suffix == "_STOLEN" then
 				args.extraSpellId, args.extraSpellName,
-				args.extraSchool, args.auraType = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2], tempTable[startIndex+i+3]
+				args.extraSchool, args.auraType = t[n+i], t[n+i+1], t[n+i+2], t[n+i+3]
 
 			elseif suffix == "_EXTRA_ATTACKS" then
-				args.amount = tempTable[startIndex+i]
+				args.amount = t[n+i]
 
 			elseif suffix == "_AURA_APPLIED" or suffix == "_AURA_REMOVED"
 				or suffix == "_AURA_APPLIED_DOSE" or suffix == "_AURA_REMOVED_DOSE"
 				or suffix == "_AURA_REFRESH" then
-				args.auraType, args.amount = tempTable[startIndex+i], tempTable[startIndex+i+1] -- auraType: BUFF, DEBUFF
+				-- auraType: BUFF, DEBUFF
+				args.auraType, args.amount = t[n+i], t[n+i+1]
 
 			elseif suffix == "_AURA_BROKEN" then
-				args.auraType = tempTable[startIndex+i]
+				args.auraType = t[n+i]
 
 			elseif suffix == "_AURA_BROKEN_SPELL" then
 				args.extraSpellId, args.extraSpellName,
-				args.extraSchool, args.auraType = tempTable[startIndex+i], tempTable[startIndex+i+1], tempTable[startIndex+i+2]
+				args.extraSchool, args.auraType = t[n+i], t[n+i+1], t[n+i+2]
 
 			elseif suffix == "_CAST_FAILED" then
-				args.failedType = tempTable[startIndex+i]
+				args.failedType = t[n+i]
 			end
 
 			-- Destroy the old
-			private.destroy(tempTable)
+			private.destroy(t)
 
 			-- IsPlayer helpers
 			args.isPlayer = playerGUID == args.sourceGUID
 			args.atPlayer = playerGUID == args.destGUID
 
 			-- Add Our API to the Combat Event Args
-			-- TODO: Do this through a metatable
-			-- Memory Helpers
-			args.pin = private.pin
-			args.free = private.free
-
-			-- Unit Flag Helpers
-			args.GetSourceType             = private.GetSourceType
-			args.GetDestinationType        = private.GetDestinationType
-			args.GetSourceController       = private.GetSourceController
-			args.GetDestinationController  = private.GetDestinationController
-			args.GetSourceReaction         = private.GetSourceReaction
-			args.GetDestinationReaction    = private.GetDestinationReaction
-			args.GetSourceAffiliation      = private.GetSourceAffiliation
-			args.GetDestinationAffiliation = private.GetDestinationAffiliation
-
-			-- Raid Target Flag Helpers
-			args.GetSourceRaidTargetIndex      = private.GetSourceRaidTargetIndex
-			args.GetDestinationRaidTargetIndex = private.GetDestinationRaidTargetIndex
-			args.GetSourceRaidTargetName       = private.GetSourceRaidTargetName
-			args.GetDestinationRaidTargetName  = private.GetDestinationRaidTargetName
-
-			-- Special Unit Flag Helpers
-			args.IsSourceNotSpecial      = private.IsSourceNotSpecial
-			args.IsDestinationNotSpecial = private.IsDestinationNotSpecial
-			args.IsSourceMainAssist      = private.IsSourceMainAssist
-			args.IsDestinationMainAssist = private.IsDestinationMainAssist
-			args.IsSourceMainTank        = private.IsSourceMainTank
-			args.IsDestinationMainTank   = private.IsDestinationMainTank
-			args.IsSourceFocus           = private.IsSourceFocus
-			args.IsDestinationFocus      = private.IsDestinationFocus
-			args.IsSourceTarget          = private.IsSourceTarget
-			args.IsDestinationTarget     = private.IsDestinationTarget
-
-			-- Crafted Unit Flag Helpers
-			args.IsSourceMyPet          = private.IsSourceMyPet
-			args.IsDestinationMyPet     = private.IsDestinationMyPet
-			args.IsSourceMyVehicle      = private.IsSourceMyVehicle
-			args.IsDestinationMyVehicle = private.IsDestinationMyVehicle
-
-			-- Raid/Party Member Checks
-			args.IsSourceRaidMember       = private.IsSourceRaidMember
-			args.IsDestinationRaidMember  = private.IsDestinationRaidMember
-			args.IsSourcePartyMember      = private.IsSourcePartyMember
-			args.IsDestinationPartyMember = private.IsDestinationPartyMember
+			setmetatable(args, mt)
 
 			-- Call all the registered handlers
 			args:pin()
@@ -405,8 +365,6 @@ do
 				func(args)
 			end
 			args:free() -- If no one else pinned this table, it should be cleaned up now
-
-
 		else
 			self:UnregisterEvent"PLAYER_ENTERING_WORLD"
 			playerGUID=UnitGUID"player"
@@ -651,3 +609,47 @@ do
 		return hasFlag(args.destFlags, MY_PARTY_MEMBER)
 	end
 end
+
+-- Memory Helpers
+mt.__index.pin = private.pin
+mt.__index.free = private.free
+
+-- Unit Flag Helpers
+mt.__index.GetSourceType             = private.GetSourceType
+mt.__index.GetDestinationType        = private.GetDestinationType
+mt.__index.GetSourceController       = private.GetSourceController
+mt.__index.GetDestinationController  = private.GetDestinationController
+mt.__index.GetSourceReaction         = private.GetSourceReaction
+mt.__index.GetDestinationReaction    = private.GetDestinationReaction
+mt.__index.GetSourceAffiliation      = private.GetSourceAffiliation
+mt.__index.GetDestinationAffiliation = private.GetDestinationAffiliation
+
+-- Raid Target Flag Helpers
+mt.__index.GetSourceRaidTargetIndex      = private.GetSourceRaidTargetIndex
+mt.__index.GetDestinationRaidTargetIndex = private.GetDestinationRaidTargetIndex
+mt.__index.GetSourceRaidTargetName       = private.GetSourceRaidTargetName
+mt.__index.GetDestinationRaidTargetName  = private.GetDestinationRaidTargetName
+
+-- Special Unit Flag Helpers
+mt.__index.IsSourceNotSpecial      = private.IsSourceNotSpecial
+mt.__index.IsDestinationNotSpecial = private.IsDestinationNotSpecial
+mt.__index.IsSourceMainAssist      = private.IsSourceMainAssist
+mt.__index.IsDestinationMainAssist = private.IsDestinationMainAssist
+mt.__index.IsSourceMainTank        = private.IsSourceMainTank
+mt.__index.IsDestinationMainTank   = private.IsDestinationMainTank
+mt.__index.IsSourceFocus           = private.IsSourceFocus
+mt.__index.IsDestinationFocus      = private.IsDestinationFocus
+mt.__index.IsSourceTarget          = private.IsSourceTarget
+mt.__index.IsDestinationTarget     = private.IsDestinationTarget
+
+-- Crafted Unit Flag Helpers
+mt.__index.IsSourceMyPet          = private.IsSourceMyPet
+mt.__index.IsDestinationMyPet     = private.IsDestinationMyPet
+mt.__index.IsSourceMyVehicle      = private.IsSourceMyVehicle
+mt.__index.IsDestinationMyVehicle = private.IsDestinationMyVehicle
+
+-- Raid/Party Member Checks
+mt.__index.IsSourceRaidMember       = private.IsSourceRaidMember
+mt.__index.IsDestinationRaidMember  = private.IsDestinationRaidMember
+mt.__index.IsSourcePartyMember      = private.IsSourcePartyMember
+mt.__index.IsDestinationPartyMember = private.IsDestinationPartyMember
