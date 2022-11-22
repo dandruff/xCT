@@ -38,6 +38,9 @@ do
 	spell '274156' '0.5' --  Talent: Consumption (DMG | Heal)
 	spell '203166' '2.5' --  PVP Talent: Blight (ID: 203172)
 	spell '203174' '0.5' --  PVP Talent: Death Chain (ID: 203173)
+	spell '377642' '0.5' --  Talent: Shattering Bone (ID: 377640)
+	spell '383313' '0.5' --  Talent: Abomination Limb (ID: 383269)
+
 
 	spec  '251' -- Frost
 	spell '196771' '2.5' --  Remorseless Winter
@@ -143,7 +146,9 @@ do
 	spell '1079'   '2.5' --  Rip
 	spell '155625' '2.5' --  Talent: Lunar Inspiration
 	spell '202028' '0.5' --  Talent: Brutal Slash
-	alias '1822'   '155722' --  [DD/DoT Merger] Rake
+	spell '285381' '0.5' --  Talent: Primal Wrath
+	alias '1822'   '155722' -- [DD/DoT Merger] Rake
+	alias '391786' '106830' -- [DD/DoT Merger] Thrash
 
 	spec  '104' -- Guardian
 	spell '227034' '1.5' --  Mastery: Nature's Guardian
@@ -418,7 +423,7 @@ do
 	spell '34914'  '2.5' --  Vampiric Touch
 	spell '148859' '2.5' --  Shadowy Apparition
 	spell '15407'  '2.0' --  Mind Flay
-	spell '49821'  '0.5' --  Mind Sear
+	spell '48045'  '4.5' --  Mind Sear
 	spell '205386' '0.5' --  Talent: Shadow Crash
 	spell '263165' '3.9' --  Talent: Void Torrent
 	spell '341385' '0.5' --  Talent: Searing Nightmare
@@ -427,6 +432,9 @@ do
 	spell '346111' '2.0' --  Mastery: Shadow Weaving (Shadowfiend/Mindbender extra mastery damage)
 	alias '228361' '228360' --  Void Eruption Merger
 	alias '263446' '228360' --  Void Eruption Merger
+	alias '49821' '48045'  --  Mind Sear Merger
+	alias '396895' '48045' --  Mind Sear Merger
+
 end
 
 
@@ -554,6 +562,9 @@ do
 	spell '108446' '2.5' --  Soul Link dmgs
 	spell '267215' '0.5' --  Talent Demonic Consump
 	alias '267971' '267215' --  Talent Demonic Consump
+	spell '267211' '4.0' --  Talent Bilescourge Bomber
+	alias '267213' '267211' --  Talent Demonic Consump
+	
 
 
 
