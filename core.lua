@@ -484,6 +484,11 @@ local CLASS_NAMES = {
     [72] = 2,    -- Fury
     [73] = 3,    -- Protection
   },
+  ["EVOKER"] = {
+    [0]    = 0,  -- All Specs
+    [1467] = 1,  -- Devastation
+    [1468] = 2,  -- Preservation
+  },
 }
 
 function x.GenerateDefaultSpamSpells()

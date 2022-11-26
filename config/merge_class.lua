@@ -623,3 +623,18 @@ do
 	spell '7922'   '0.5' --  Talent: Warbringer
 	spell '222944' '3.0' --  Talent: Inspiring Presence
 end
+
+class 'EVOKER'
+do
+	spec '0'  -- All Specs
+	spell '361469' '0.5' -- Living Flame
+	spell '362969' '1.5' -- Azure Strike
+	spell '356995' '1.5' -- Disintegrate
+
+    spec '1467'   -- Devastation
+
+
+
+
+    spec '1468'  -- Preservation
+end

@@ -756,6 +756,7 @@ addon.options.args["spells"] = {
         ["SHAMAN"]      = { type = 'group', order = 10, name = "|cff0070DEShaman|r" },
         ["WARLOCK"]     = { type = 'group', order = 11, name = "|cff9482C9Warlock|r" },
         ["WARRIOR"]     = { type = 'group', order = 12, name = "|cffC79C6EWarrior|r" },
+        ["EVOKER"]      = { type = 'group', order = 12, name = "|cff33937FEvoker|r" },
 
       },
     },

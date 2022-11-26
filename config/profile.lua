@@ -1101,6 +1101,11 @@ addon.defaults = {
           [3] = { },
         },
 
+        ["EVOKER"] = {
+          [1] = { },
+          [2] = { },
+        },
+
       },
 
       -- This gets dynamically generated

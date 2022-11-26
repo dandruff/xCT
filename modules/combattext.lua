@@ -1120,7 +1120,8 @@ local CLASS_LOOKUP = {
 	[256] = "ROGUE",
 	[512] = "SHAMAN",
 	[1024] = "WARLOCK",
-	[2048] = "WARRIOR"
+	[2048] = "WARRIOR",
+	[4096] = "EVOKER"
 }
 
 local formatNameTypes
