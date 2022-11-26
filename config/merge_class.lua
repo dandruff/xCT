@@ -627,13 +627,24 @@ end
 class 'EVOKER'
 do
 	spec '0'  -- All Specs
+	spell '355913' '0.5' -- Emerald Blossom
 	spell '361469' '0.5' -- Living Flame
 	spell '362969' '1.5' -- Azure Strike
-	spell '356995' '1.5' -- Disintegrate
+	spell '356995' '2.5' -- Disintegrate'
+	spell '357208' '1.5' -- Fire Breath
+	spell '357210' '1.0' -- Deep Breath
+	alias '357209' '357208' -- [DD/DoT Merger] Fire Breath
+	alias '353759' '357210' -- Merger Deep Breath
+	alias '355916' '355913' -- Merger Emerald Blossom
 
     spec '1467'   -- Devastation
-
-
+	spell '357211' '0.5' -- Pyre
+ 	spell '370452' '0.5' -- Talent: Shattering Star
+	spell '359073' '1.5' -- Talent: Eternity Surge
+	spell '375087' '0.5' -- Talent: Dragonrage
+ 	alias '377420' '359073' -- [DD/DoT Merger] Eternity Surge
+    alias '359077' '359073' -- [DD/DoT Merger] Eternity Surge
+	alias '357212' '357211' -- Merger Pyre
 
 
     spec '1468'  -- Preservation
