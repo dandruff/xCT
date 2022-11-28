@@ -83,7 +83,10 @@ do
 	spec  '0' -- All Spec
 	spell '258921' '1.5' --  Immolation Aura
 	alias '258922' '258921' --  [DD/DOT Merger]Immolation Aura
-
+	spell '370965' '0.5' 	--  Talent: The Hunt
+	alias '370966' '370965' --  [DD/DOT Merger]The Hunt
+	alias '370969' '370965' --  [DD/DOT Merger]The Hunt
+	
 	spec  '577' -- Havoc
 	spell '222031' '3.0' --  Chaos Strike (server side delay?)
 	spell '185123' '1.5' --  Throw Glaive (Havoc)
@@ -98,10 +101,21 @@ do
 	spell '342857' '3.5' --  Talent: Glaive Tempest (damage over 3 sec to 5 nearby enemies)
 	spell '203796' '2.5' --  Talent: Demon Blades
 	spell '211052' '1.5' --  Talent: Fel Barrage
+	spell '258860' '0.5' --  Talent: Essence Break
+	spell '390137' '0.5' --  Talent: Inner Demon
+	spell '393834' '1.5' --  Talent: Any Means Necessary
+	spell '391191' '1.5' --  Talent: Burning Wound
+	spell '390197' '1.5' --  Talent: Ragefire
 	alias '199547' '222031' --  [MH/OH Merger] Chaos Strike
 	alias '200685' '199552' --  [MH/OH Merger] Blade Dance
 	alias '258883' '199552' --  [MH/OH Merger] Blade Dance
+	alias '391374' '199552' --  [Talent modifier] Blade Dance  (Trail of Ruin)
+	alias '393055' '199552' --  [Talent modifier] Blade Dance  (First Blood)
+	alias '391378' '199552' --  [Talent modifier MH/OH Merger] Blade Dance (First Blood)
 	alias '210155' '210153' --  [MH/OH Merger] Death Sweep
+	alias '337819' '185123' --  [MH/OH Merger] Throw Glaive
+	alias '393035' '185123' --  [Talent modifier] Throw Glaive (Bouncing Glaive)
+	alias '390181' '185123' --  [Talent modifier] Throw Glaive (Soulrend)
 
 	spec  '581' -- Vengeance
 	spell '204157' '1.5' --  Throw Glaive (Vengeance)
@@ -121,8 +135,6 @@ do
 	-- alias '212105' '227255' --  [MH/OH Merger] Fel Devastation
 	alias '212084' '227255' --  Reported From Curse: Should be Fel Devastation
 	alias '320334' '258921' --  Talent : Infernal Armor
-
-
 end
 
 
@@ -395,6 +407,7 @@ do
 	spell '110745' '2.5' --  Talent: Divine Star (Heal)
 	spell '120696' '2.0' --  Talent: Halo (Damage)
 	spell '120692' '2.0' --  Talent: Halo (Heal)
+	alias '390845' '122128' -- [Merger] Divine Star
 
 	spec  '256' -- Discipline
 	spell '81751'  '2.5' --  Atonement
@@ -648,4 +661,5 @@ do
 
 
     spec '1468'  -- Preservation
+	spell '355936' '0.5' -- Dream Breath
 end
