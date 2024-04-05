@@ -45,8 +45,6 @@ do
 	spell '203166' '2.5' --  PVP Talent: Blight (ID: 203172)
 	spell '203174' '0.5' --  PVP Talent: Death Chain (ID: 203173)
 	alias '49998' '45470' -- Death Strike (DRW)
-	-- TODO Consumption
-	-- TODO Blooddrinker Heal
 
 	spec  '251' -- Frost
 	spell '196771' '2.5' --  Remorseless Winter
