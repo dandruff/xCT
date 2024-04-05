@@ -868,6 +868,7 @@ x.events = {
       end
     end,
   ["RUNE_POWER_UPDATE"] = function(slot)
+	  if slot < 0 then return end
       if GetRuneCooldown(slot) ~= 0 then return end
       local message = sformat(format_gain_rune, x.runeIcons[4], COMBAT_TEXT_RUNE_DEATH, x.runeIcons[4])
       x:AddSpamMessage("power", RUNES, message, x.runecolors[4], 1)
