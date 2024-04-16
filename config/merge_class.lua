@@ -108,6 +108,7 @@ do
 	spell '179057' '0.5' --  Chaos Nova
 	spell '203796' '2.5' --  Talent: Demon Blades
 	spell '211052' '1.5' --  Talent: Fel Barrage
+	spell '390197' '0.5' --  Talent: Ragefire
 	spell '202388' '0.5' --  Artifact: Inner Demons
 	spell '201628' '1.5' --  Artifact: Fury of the Illidari
 	spell '217070' '0.5' --  Artifact: Rage of the Illidari
@@ -611,7 +612,7 @@ do
 	spell '278350' '1.0' --  Talent Vile Taint
 	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
 
-	spec  '266' -- Demonlogy
+	spec  '266' -- Demonology
 	spell '603'    '0.5' --  Doom
 	spell '89753'  '2.5' --  Felguard: Felstorm
 	spell '104318' '1.5' --  Wild Imp: Fel Firebolt
