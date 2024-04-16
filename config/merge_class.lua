@@ -233,6 +233,9 @@ do
 	spell '212680' '0.5' --  Talent: Explosive Shot
 	spell '214581' '1.5' --  Talent: Sidewinders
 	spell '198670' '0.5' --  Talent: Piercing Shot
+	spell '260247' '0.5' --  Talent: Volley
+	spell '392058' '0.5' --  Talent: Wailing Arrow
+	spell '191043' '0.5' --  Talent: Wind Arrow
 	spell '191070' '0.5' --  Artifact: Call of the Hunter
 	spell '257045' '2.0' --  Rapid Fire
 	spell '257620' '2.0' --  Multi shot
@@ -500,6 +503,7 @@ do
 	spell '113780' '0.5' --  Deadly Poison (Instant)
 	spell '51723'  '0.5' --  Fan of Knives
 	spell '192660' '2.5' --  Poison Bomb
+	spell '121411' '2.5' --  Talent: Crimson Tempest (DoT)
 	alias '192380' '113780' --  Artifact: Poison Knives
 	alias '27576'  '5374'    --  Mutilate (OH)
 
