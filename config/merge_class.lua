@@ -314,6 +314,7 @@ do
 	spell '228598' '1.0' --  Talent: Spliting Ice
 	spell '113092' '1.0' --  Talent: Frost Bomb
 	spell '157978' '0.5' --  Talent: Unstable Magic
+	spell '418735' '0.5' --  Talent: Splintering Ray
 end
 
 
