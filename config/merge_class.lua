@@ -385,17 +385,19 @@ do
 	spell '105421' '0.5'  --  Talent: Blinding Light
 	spell '183811' '2.5'  --  Talent: Judgment of Light
 	spell '403460' '1.0'  --  Talent: Lightforged Blessing
-	spell '377129' '1.0'  --  Talent: Golden Path
+	spell '377129' '2.5'  --  Talent: Golden Path
+	alias '384906' '377129'  --  Talent: Seal of Mercy (merged into Golden Path)
 	alias '407467' '403460'  --  Talent: Lightforged Blessing
 
 	spec  '65' -- Holy
 	spell '225311' '0.5'  --  Light of Dawn
-	spell '53652'  '1.5'  --  Becon of Light
+	spell '53652'  '1.5'  --  Beacon of Light
 	spell '119952' '2.5'  --  Talent: Light's Hammer (Heal)
 	spell '114919' '2.5'  --  Talent: Light's Hammer (Damage)
 	spell '114852' '0.5'  --  Talent: Holy Prism (Heal)
 	spell '114871' '0.5'  --  Talent: Holy Prism (Damage)
 	spell '210291' '2.5'  --  Talent: Aura of Mercy
+	spell '392903' '0.5'  --  Talent: Resplendent Light
 	spell '200654' '2.5'  --  Artifact: Tyr's Deliverance
 
 	spec  '66' -- Protection
