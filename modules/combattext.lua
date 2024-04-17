@@ -89,6 +89,7 @@ x.POWER_LOOKUP = {
 	[16] = "ARCANE_CHARGES",
 	[17] = "FURY",
 	[18] = "PAIN",
+	[25] = "VIGOR",
 }
 
 
@@ -868,6 +869,7 @@ x.events = {
       end
     end,
   ["RUNE_POWER_UPDATE"] = function(slot)
+      if slot < 0 then return end
       if GetRuneCooldown(slot) ~= 0 then return end
       local message = sformat(format_gain_rune, x.runeIcons[4], COMBAT_TEXT_RUNE_DEATH, x.runeIcons[4])
       x:AddSpamMessage("power", RUNES, message, x.runecolors[4], 1)
@@ -1831,6 +1833,10 @@ local CombatEventHandlers = {
 
 	["SpellEnergize"] = function (args)
 		local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
+		if not energy_type then 
+		    print('xct: unknown SpellEnergize power type: ' .. args.powerType) 
+		    return 
+		end
 		if not ShowEnergyGains() then return end
 		if FilterPlayerPower(mabs(tonumber(amount))) then return end
 		if IsResourceDisabled( energy_type, amount ) then return end

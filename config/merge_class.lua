@@ -23,23 +23,28 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class 'DEATHKNIGHT'
 do
+
 	spec  '0' -- All Specs
 	spell '52212' '2.5' --  Death and Decay
 	spell '268194' '1.0' -- chocking brine
-
+	spell '45470'  '0.5' -- Death Strike
+	
 	spec  '250' -- Blood
 	spell '55078'  '3.5' --  Blood Plague
 	spell '50842'  '0.5' --  Blood Boil
 	spell '195292' '0.5' --  Death's Caress (DRW)
-	spell '49998'  '0.5' --  Death Strike (DRW)
 	spell '206930' '0.5' --  Heart Strike
 	spell '212744' '0.5' --  Talent: Soulgorge
 	spell '196528' '1.5' --  Talent: Bonestorm (DMG)
 	spell '196545' '1.5' --  Talent: Bonestorm (Heal)
+	spell '377642' '0.5' --  Talent: Shattering Bone
+	spell '383313' '1.0' --  Talent: Abomination Limb
+	spell '274156' '0.5' --  Talent: Consumption (DMG)
 	spell '205223' '0.5' --  Artifact: Consumption (DMG)
 	spell '205224' '0.5' --  Artifact: Consumption (Heal)
 	spell '203166' '2.5' --  PVP Talent: Blight (ID: 203172)
 	spell '203174' '0.5' --  PVP Talent: Death Chain (ID: 203173)
+	alias '49998' '45470' -- Death Strike (DRW)
 
 	spec  '251' -- Frost
 	spell '196771' '2.5' --  Remorseless Winter
@@ -103,6 +108,7 @@ do
 	spell '179057' '0.5' --  Chaos Nova
 	spell '203796' '2.5' --  Talent: Demon Blades
 	spell '211052' '1.5' --  Talent: Fel Barrage
+	spell '390197' '0.5' --  Talent: Ragefire
 	spell '202388' '0.5' --  Artifact: Inner Demons
 	spell '201628' '1.5' --  Artifact: Fury of the Illidari
 	spell '217070' '0.5' --  Artifact: Rage of the Illidari
@@ -172,6 +178,9 @@ do
 	spell '77758'  '2.5' --  Thrash (Bear)
 	spell '213709' '2.5' --  Talent: Brambles
 	spell '204069' '2.5' --  Talent: Lunbar Beam
+	spell '400360' '1.0' --  Talent: Moonless Night
+	spell '400254' '0.5' --  Talent: Raze
+	spell '371982' '1.0' --  Talent: After the Wildfire
 	spell '219432' '2.5' --  Artifact: Rage of the Sleeper
 	alias '192090' '77758'  --  [DD/DoT Merger] Thrash
 	alias '203958' '213709' --  [Barkskin Merger] Brambles
@@ -224,6 +233,9 @@ do
 	spell '212680' '0.5' --  Talent: Explosive Shot
 	spell '214581' '1.5' --  Talent: Sidewinders
 	spell '198670' '0.5' --  Talent: Piercing Shot
+	spell '260247' '0.5' --  Talent: Volley
+	spell '392058' '0.5' --  Talent: Wailing Arrow
+	spell '191043' '0.5' --  Talent: Wind Arrow
 	spell '191070' '0.5' --  Artifact: Call of the Hunter
 	spell '257045' '2.0' --  Rapid Fire
 	spell '257620' '2.0' --  Multi shot
@@ -306,6 +318,7 @@ do
 	spell '228598' '1.0' --  Talent: Spliting Ice
 	spell '113092' '1.0' --  Talent: Frost Bomb
 	spell '157978' '0.5' --  Talent: Unstable Magic
+	spell '418735' '0.5' --  Talent: Splintering Ray
 end
 
 
@@ -371,15 +384,20 @@ do
 	spell '81297'  '2.5'  --  Consecration
 	spell '105421' '0.5'  --  Talent: Blinding Light
 	spell '183811' '2.5'  --  Talent: Judgment of Light
+	spell '403460' '1.0'  --  Talent: Lightforged Blessing
+	spell '377129' '2.5'  --  Talent: Golden Path
+	alias '384906' '377129'  --  Talent: Seal of Mercy (merged into Golden Path)
+	alias '407467' '403460'  --  Talent: Lightforged Blessing
 
 	spec  '65' -- Holy
 	spell '225311' '0.5'  --  Light of Dawn
-	spell '53652'  '1.5'  --  Becon of Light
+	spell '53652'  '1.5'  --  Beacon of Light
 	spell '119952' '2.5'  --  Talent: Light's Hammer (Heal)
 	spell '114919' '2.5'  --  Talent: Light's Hammer (Damage)
 	spell '114852' '0.5'  --  Talent: Holy Prism (Heal)
 	spell '114871' '0.5'  --  Talent: Holy Prism (Damage)
 	spell '210291' '2.5'  --  Talent: Aura of Mercy
+	spell '392903' '0.5'  --  Talent: Resplendent Light
 	spell '200654' '2.5'  --  Artifact: Tyr's Deliverance
 
 	spec  '66' -- Protection
@@ -388,27 +406,35 @@ do
 	spell '53600'  '0.5'  --  Shield of the Righteous
 	spell '204301' '2.5'  --  Blessed Hammer
 	spell '204241' '2.0'  --  Talent: Consecrated Ground
-	spell '209478' '1.5'  --  Artifact: Tyr's Enforcer
-	spell '209202' '0.5'  --  Artifact: Eye of Tyr
+	spell '378286' '1.5'  --  Talent: Tyr's Enforcer
+	spell '387174' '0.5'  --  Talent: Eye of Tyr
+	spell '425261' '0.5'  --  Amirdrassil Tier Set: Cleansing Flame
 
 	spec  '70' -- Retribution
 	spell '20271' ' 0.5'  --  Judgment
 	spell '217020' '0.5'  --  Zeal
 	spell '203539' '5.5'  --  Greater Blessings of Wisdom
+	spell '53385'  '0.5'  --  Divine Storm
 	spell '184689' '0.5'  --  Shield of Vengeance
+	spell '404358' '0.5'  --  Blade of Justice
 	spell '20271'  '1.5'  --  Talent: Greater Judgment
 	spell '198137' '2.5'  --  Talent: Divine Hammer
 	spell '210220' '0.5'  --  Talent: Holy Wrath
 	spell '202202' '0.5'  --  Talent: Eye for an Eye
 	spell '199435' '1.0'  --  Talent (PvP): Luminescence
 	spell '157122' '1.5'  --  Talent: Holy Shield
+	spell '405345' '2.0'  --  Talent: Wake of Ashes
+	spell '408385' '0.5'  --  Talent: Crusading Strikes
+	spell '343721' '0.5'  --  Talent: Final Reckoning
 	spell '224239' '1.5'  --  Artifact: Echo of the Highlord (Divine Storm)
 	spell '224266' '1.25' --  Artifact: Echo of the Highlord (Templar's Verdict)
-	spell '205273' '2.0'  --  Artifact: Wake of Ashes
 	spell '224239' '1.5'  --  Artifact: Divine Tempest (Divine Storm)
 	spell '215257' '1.75' --  Artifact: Healing Storm
 	alias '228288' '20271' --  [Bounce Merger] Judgment
 	alias '216527' '20271' --  [Pvp Talent - Bounce Merger]: Lawbringer
+	alias '184575' '404358'  --  Talent: Blade of Vengeance into Blade of Justice
+	alias '255937' '405345'  --  Talent: Wake of Ashes
+	alias '405350' '405345'  --  Talent: Wake of Ashes
 end
 
 
@@ -479,6 +505,7 @@ do
 	spell '113780' '0.5' --  Deadly Poison (Instant)
 	spell '51723'  '0.5' --  Fan of Knives
 	spell '192660' '2.5' --  Poison Bomb
+	spell '121411' '2.5' --  Talent: Crimson Tempest (DoT)
 	alias '192380' '113780' --  Artifact: Poison Knives
 	alias '27576'  '5374'    --  Mutilate (OH)
 
@@ -591,7 +618,7 @@ do
 	spell '278350' '1.0' --  Talent Vile Taint
 	alias '231489' '233490' --  Unstable Affliction (Artifact: Compounding Horror)
 
-	spec  '266' -- Demonlogy
+	spec  '266' -- Demonology
 	spell '603'    '0.5' --  Doom
 	spell '89753'  '2.5' --  Felguard: Felstorm
 	spell '104318' '1.5' --  Wild Imp: Fel Firebolt
@@ -672,4 +699,11 @@ do
 	spell '7922'   '0.5' --  Talent: Warbringer
 	spell '222944' '3.0' --  Talent: Inspiring Presence
 	spell '203526' '3.5' --  Artifact: Neltharion's Fury
+end
+
+
+class 'EVOKER'
+do
+	spec  '0' -- All Specs
+	spell '357209'  '0.5' --  Fire Breath
 end
