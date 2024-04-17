@@ -1491,14 +1491,14 @@ addon.options.args["Credits"] = {
     githubTitleSL = {
       type = 'description',
       order = 41,
-      name = "|cffFFFF00Github Contributors - Version 4.5.0+ (Shadowlands)|r",
+      name = "|cffFFFF00Github Contributors|r",
       fontSize = "large",
     },
     userNameSL = {
       type = 'description',
       order = 42,
       fontSize = "medium",
-      name = " |cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
+      name = " |cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
     },
 
     testerTitleSpace4 = {
