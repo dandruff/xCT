@@ -700,3 +700,10 @@ do
 	spell '222944' '3.0' --  Talent: Inspiring Presence
 	spell '203526' '3.5' --  Artifact: Neltharion's Fury
 end
+
+
+class 'EVOKER'
+do
+	spec  '0' -- All Specs
+	spell '357209'  '0.5' --  Fire Breath
+end
