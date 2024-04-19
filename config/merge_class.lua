@@ -543,6 +543,7 @@ do
 	spell '77478'  '1.5' --  Earthquake
 	spell '188389' '2.5' --  Flame Shock
 	spell '51490'  '0.5' --  Thunderstorm
+	spell '196840' '0.5' --  Frost Shock Cleave via Icefury
 	spell '192231' '2.5' --  Talent: Liquid Magma Totem
 	spell '210714' '1.0' --  Talent: Ice Fury
 	spell '170379' '2.0' --  Talent: Earthn Rage
@@ -563,6 +564,7 @@ do
 	spell '25504'  '0.5' --  Windfury Attacks
 	spell '32175'  '0.5' --  Stormstrike MH/OH Merger
 	spell '10444'  '1.5' --  Flametongue
+	spell '196840' '0.5' --  Frost Shock Cleave via Hailstorm
 	spell '199054' '0.5' --  Artifact: Unleash Doom
 	spell '198485' '0.5' --  Artifact: Alpha Wolf
 	spell '198483' '1.5' --  Artifact: Doom Wolves
