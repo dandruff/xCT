@@ -305,7 +305,7 @@ do
 	alias '226757' '205345' --  [DD/Splash Merger] Conflagration
 	alias '205472' '2120'   --  [DD/DoT Merger] Talent: Flame Patch
 	alias '244813' '217694' --  [DD/DoT Merger] multi target living bomb
-	alias '277703' '11366'   -- [DD/Splash Merger] Pyroblast
+	alias '277703' '11366'  -- [DD/Splash Merger] Pyroblast
 
 	spec  '64' -- Frost
 	spell '84721'  '1.5' --  Frozen Orb
@@ -507,7 +507,7 @@ do
 	spell '192660' '2.5' --  Poison Bomb
 	spell '121411' '2.5' --  Talent: Crimson Tempest (DoT)
 	alias '192380' '113780' --  Artifact: Poison Knives
-	alias '27576'  '5374'    --  Mutilate (OH)
+	alias '27576'  '5374'   --  Mutilate (OH)
 
 	spec  '260' -- Outlaw
 	spell '202895' '0.5' --  Blunderbuss
@@ -553,7 +553,7 @@ do
 	spell '205533' '1.5' --  Artifact: Volcanic Inferno
 	alias '285466' '285452' --  [Mastery Merger] Elemental Blast Overload
 	alias '219271' '210714' --  [Mastery Merger] Ice Fury Overload
-	alias '77451'  '51505' --  [Mastery Merger] Lavaburst Overload
+	alias '77451'  '51505'  --  [Mastery Merger] Lavaburst Overload
 	alias '45297'  '188443' --  [Mastery Merger] Chain Lightning Overload
 	alias '45284'  '188196' --  [Mastery Merger] Lightning Bolt Overload
 
@@ -573,7 +573,7 @@ do
 	spell '210801' '2.5' --  Talent: Crashing Storm
 	spell '197385' '2.5' --  Talent: Fury of Air
 	spell '197214' '2.5' --  Talent: Sundering
-	alias '32176'  '32175'   --  [MH/OH Merger] Stormstrike
+	alias '32176'  '32175'  --  [MH/OH Merger] Stormstrike
 	alias '199053' '199054' --  [MH/OH Merger] Artifact: Unleash Weapons
 
 	spec  '264' -- Restoration
