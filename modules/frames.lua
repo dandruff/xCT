@@ -516,9 +516,9 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 			last = now,
 
 			-- how often to update
-			update = interval or (db and db.interval) or 3,
+			update = interval or (db and db.interval) or 0.5,
 
-			prep = prep or (db and db.prep) or interval or 3,
+			prep = prep or (db and db.prep) or interval or 0.5,
 
 			-- entries to merge
 			entries = {

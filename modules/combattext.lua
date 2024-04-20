@@ -373,14 +373,8 @@ local function IsHealingFiltered(name)
   return spell
 end
 
-local function IsMerged(spellID)
-	local merged = false
-	if x.db.profile.spells.enableMerger then
-		spellID = addon.merge2h[spellID] or spellID
-		local db = x.db.profile.spells.merge[spellID] or addon.defaults.profile.spells.merge[spellID]
-		if db and db.enabled then merged = true end
-	end
-	return merged
+local function MergeSpells()
+	return x.db.profile.spells.enableMerger
 end
 
 local function UseStandardSpellColors() return not x.db.profile.frames["outgoing"].standardSpellColor end
@@ -1353,7 +1347,7 @@ local CombatEventHandlers = {
 		if isHoT then outputColor = "healingOutPeriodic"end
 
 		-- Condensed Critical Merge
-		if IsMerged(spellID) then
+		if MergeSpells() then
 			merged = true
 			if critical then
 				if MergeCriticalsByThemselves() then
@@ -1465,7 +1459,7 @@ local CombatEventHandlers = {
 				x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
 				return
 			end
-		elseif not isSwing and not isAutoShot and IsMerged(spellID) then
+		elseif not isSwing and not isAutoShot and MergeSpells() then
 			merged = true
 			if critical then
 				if MergeCriticalsByThemselves() then
@@ -1581,7 +1575,7 @@ local CombatEventHandlers = {
 			colorOverride = args.critical and 'spellDamageTakenCritical' or 'spellDamageTaken'
 		end
 
-		if IsMerged(args.spellId) then
+		if MergeSpells() then
 			x:AddSpamMessage('damage', args.spellId, args.amount, colorOverride, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "sourceController", args:GetSourceController())
 			return
 		end
