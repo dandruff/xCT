@@ -20,7 +20,7 @@ local ADDON_NAME, addon = ...
 -- header switches the header for the next set of items
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header "|cff93BE3DLegion|r™ |cff798BDDBodyguards|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDBodyguards|r"
 do
 	-- Druid
 	item '218797' '3.5' "Broll Bearmantle (Moonfire)"
@@ -37,7 +37,7 @@ do
 	item '228672' '1.0' "Archmage Modera (Flurry)"
 end
 
-header "|cff93BE3DLegion|r™ |cff798BDDConsumables|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDConsumables|r"
 do
 	item '188091' '1.5' "Potion: Potion of Deadly Grace"
 	item '188028' '1.5' "Potion: Potion of the Old War"
@@ -47,7 +47,7 @@ do
 	alias '233150' '188028' --  Hack to give the Old War potion an icon
 end
 
-header "|cff93BE3DLegion|r™ |cff798BDDItems|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDItems|r"
 do
 	-- Trinkets
 	item '215047' '3.0' "Trinket: Terrorbound Nexus"
@@ -77,7 +77,7 @@ do
 	item '223667' '1.5' "Druid: Thornstalk Barbs"
 end
 
-header "|cff93BE3DLegion|r™ |cff798BDDWorld Zones|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDWorld Zones|r"
 do
 		-- Suramar
 	item '218895' '1.0' "World Quest: Withered Army Training (Throw Rock)"
@@ -101,14 +101,14 @@ do
 	item '215555' '1.5' "Quest: The Walk of Shame (Prince Farondis)"
 end
 
-header "|cff93BE3DLegion|r™ |cff798BDDQuest Items|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDQuest Items|r"
 do
 	-- Val'sharah
 	item '202917' '2.5' "Trinket: Temple Priestess' Charm"
 	item '202891' '2.5' "Trinket: Lodestone of the Stormbreaker"
 end
 
-header "|cff93BE3DLegion|r™ |cff798BDDRaids|r"
+header " 7.x |cff93BE3DLegion|r™ |cff798BDDRaids|r"
 do
 	item '215300' '2.0' "Elerethe Renferal: Web of Pain [Tanks]"
 	item '215307' '2.0' "Elerethe Renferal: Web of Pain [Other]"

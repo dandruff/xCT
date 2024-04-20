@@ -23,7 +23,6 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class 'DEATHKNIGHT'
 do
-
 	spec  '0' -- All Specs
 	spell '52212'  '2.5' --  Death and Decay
 	spell '268194' '1.0' -- chocking brine

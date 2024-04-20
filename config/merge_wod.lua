@@ -20,7 +20,7 @@ local ADDON_NAME, addon = ...
 -- header switches the header for the next set of items
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header "|cffA32C12Warlords of Draenor|r™ |cff798BDDItems|r"
+header " 6.x |cffA32C12Warlords of Draenor|r™ |cff798BDDItems|r"
 do
 	-- Enchants
 	item '159238' '3.5' "Shattered Hand"
@@ -36,7 +36,7 @@ do
 	item '188046' '1.5' "T18 Druid Balance 2P"
 end
 
-header "|cffA32C12Warlords of Draenor|r™ |cff798BDDBodyguards|r"
+header " 6.x |cffA32C12Warlords of Draenor|r™ |cff798BDDBodyguards|r"
 do
 	-- Bodyguards
 	item '171764' '3.5' "Bodyguard: Vivianne"
@@ -48,16 +48,15 @@ do
 	item '175796' '3.5' "Bodyguard: Delvar"
 end
 
-header "|cffA32C12Warlords of Draenor|r™ |cff798BDDWorld Zone|r"
+header " 6.x |cffA32C12Warlords of Draenor|r™ |cff798BDDWorld Zone|r"
 do
 	-- Vehicles
 	item '165421' '3.5' "Shredder"
 	item '164603' '3.5' "Shredder"
 end
 
-header "|cffA32C12Warlords of Draenor|r™ |cff798BDDRaids|r"
+header " 6.x |cffA32C12Warlords of Draenor|r™ |cff798BDDRaids|r"
 do
 	-- HFC
-	item '181102' '.5' "Mark Eruption"
 	item '180223' '1.5' "HFC Construct #4"
 end

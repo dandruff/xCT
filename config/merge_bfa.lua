@@ -20,20 +20,20 @@ local ADDON_NAME, addon = ...
 -- header switches the header for the next set of items
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header "|cff325A93Battle for Azeroth|r™ |cff798BDDItems|r"
+header " 8.x |cff325A93Battle for Azeroth|r™ |cff798BDDItems|r"
 do
 	-- Trinkets
 	item '276199' '1.0' "Trinket: Darkmoon Deck: Fathoms"
 	item '276132' '2.0' "Trinket: Darkmoon Deck: Squalls"
 end
 
-header "|cff325A93Battle for Azeroth|r™ |cff798BDDHeart Of Azeroth|r"
+header " 8.x |cff325A93Battle for Azeroth|r™ |cff798BDDHeart Of Azeroth|r"
 do
 	item '295367' '1.0' "Heart of Azeroth (Crucible of flames)"  
 	item '295261' '1.5' "Heart of Azeroth (Focusing iris)"  
 end
 
-header "|cff325A93Battle for Azeroth|r™ |cff798BDDAzerite Traits|r"
+header " 8.x |cff325A93Battle for Azeroth|r™ |cff798BDDAzerite Traits|r"
 do
 	alias '271685' '271686' -- Azerite Trait: "Heed My Call"
 
@@ -46,13 +46,13 @@ do
 	alias '275931' '47541'  								-- Harrowing Decay links to Death Coil
 end
 
-header "|cff325A93Battle for Azeroth|r™ |cff798BDDWorldQuest|r"
+header " 8.x |cff325A93Battle for Azeroth|r™ |cff798BDDWorldQuest|r"
 do
 	-- worldquest
 	item '269238' '1.5' "World Quest: Drustvar "			-- Vehicles world quest in Drustvar
 end
 
-header "|cff325A93Battle for Azeroth|r™ |cff6D1192Corruption|r"
+header " 8.x |cff325A93Battle for Azeroth|r™ |cff6D1192Corruption|r"
 do
 	item '318187' '1.0' "Gushing Wound"
 end
