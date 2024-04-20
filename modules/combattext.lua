@@ -107,7 +107,7 @@ x.player = {
 --[=====================================================[
  AddOn:UpdatePlayer()
     Updates important information about the player we
-  need inorder to correctly show combat text events.
+  need in order to correctly show combat text events.
 --]=====================================================]
 function x:UpdatePlayer()
   -- Set the Player's Current Playing Unit

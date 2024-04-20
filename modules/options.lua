@@ -122,7 +122,7 @@ addon.options = {
       type = 'execute',
       name = "Test",
       func = x.ToggleTestMode,
-      desc = "Allows you to preview xCT+ inorder to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
+      desc = "Allows you to preview xCT+ in order to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
       width = 'half',
     },
     ToggleFrames = {
@@ -711,7 +711,7 @@ addon.options.args["spells"] = {
     },
 
     classList = {
-      name = "Class Spells", --"List of Mergeable Spells |cff798BDD(Class Specific)|r",
+      name = "Class Spells",
       type = 'group',
       order = 21,
       childGroups = 'select',
@@ -732,17 +732,6 @@ addon.options.args["spells"] = {
           fontSize = "small",
           name = "Uncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
         },
-
-        --[[classes = {
-          name = "Class Spells",
-          type = 'group',
-          order = 2,
-          childGroups = 'select',
-          args = {
-
-          },
-        }]]
-
 
         ["DEATHKNIGHT"] = { type = 'group', order = 1,  name = "|cffC41F3BDeath Knight|r" },
         ["DEMONHUNTER"] = { type = 'group', order = 2,  name = "|cffA330C9Demon Hunter|r" },
@@ -835,7 +824,7 @@ addon.options.args["spellFilter"] = {
           order = 1,
           type = 'input',
           name = "Incoming Power",
-          desc = "The minimal amount of player's power required inorder for it to be displayed.",
+          desc = "The minimal amount of player's power required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -851,7 +840,7 @@ addon.options.args["spellFilter"] = {
           order = 11,
           type = 'input',
           name = "Outgoing Damage",
-          desc = "The minimal amount of damage required inorder for it to be displayed.",
+          desc = "The minimal amount of damage required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -869,7 +858,7 @@ addon.options.args["spellFilter"] = {
           order = 12,
           type = 'input',
           name = "Outgoing Damage (Critical)",
-          desc = "The minimal amount of damage required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -888,7 +877,7 @@ addon.options.args["spellFilter"] = {
           order = 15,
           type = 'input',
           name = "Outgoing Healing",
-          desc = "The minimal amount of healing required inorder for it to be displayed.",
+          desc = "The minimal amount of healing required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -906,7 +895,7 @@ addon.options.args["spellFilter"] = {
           order = 16,
           type = 'input',
           name = "Outgoing Healing (Critical)",
-          desc = "The minimal amount of healing required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -925,7 +914,7 @@ addon.options.args["spellFilter"] = {
           order = 21,
           type = 'input',
           name = "Incoming Damage",
-          desc = "The minimal amount of damage required inorder for it to be displayed.",
+          desc = "The minimal amount of damage required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -943,7 +932,7 @@ addon.options.args["spellFilter"] = {
           order = 22,
           type = 'input',
           name = "Incoming Damage (Critical)",
-          desc = "The minimal amount of damage required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -962,7 +951,7 @@ addon.options.args["spellFilter"] = {
           order = 25,
           type = 'input',
           name = "Incoming Healing",
-          desc = "The minimal amount of healing required inorder for it to be displayed.",
+          desc = "The minimal amount of healing required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -980,7 +969,7 @@ addon.options.args["spellFilter"] = {
           order = 26,
           type = 'input',
           name = "Incoming Healing (Critical)",
-          desc = "The minimal amount of healing required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
