@@ -708,4 +708,27 @@ class 'EVOKER'
 do
 	spec  '0' -- All Specs
 	spell '357209'  '0.5' --  Fire Breath
+	spell '362969'  '0.5' --  Azure Strike
+	spell '353759'  '0.5' --  Deep Breath
+	spell '361500'  '0.5' --  Talent: Leaping Flames -> Living Flame Damage Cleave
+	spell '361509'  '0.5' --  Talent: Leaping Flames -> Living Flame Healing Cleave
+
+	spec '1467' -- Devastation
+	spell '359077'  '0.5' --  Eternity Surge
+	spell '357212'  '0.5' --  Pyre
+	spell '370452'  '0.5' --  Talent: Eternity's Span -> Shattering Star Cleave
+	spell '369374'  '0.5' --  Talent: Firestorm
+
+	spec '1468' -- Preservation
+	spell '355941'  '0.5' --  Dream Breath
+	spell '373862'  '0.5' --  Temporal Anomaly
+	spell '355916'  '0.5' --  Emerald Blossom
+	spell '363502'  '3.0' --  Talent: Dream Flight
+	spell '367230'  '0.5' --  Talent: Spiritbloom
+	alias '367231' '367230' --  Talent: Spiritbloom Cleave via Empowered Spell
+	alias '409895' '367230' --  Talent: Spiritbloom Cleave via Empowered Spell
+
+	spec '1473' -- Augmentation
+	spell '395160'  '0.5' --  Eruption
+	spell '396288'  '0.5' --  Upheaval
 end
