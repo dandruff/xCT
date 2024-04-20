@@ -31,9 +31,9 @@ do
 	spell '55078'  '3.5' --  Blood Plague
 	spell '196528' '1.5' --  Talent: Bonestorm (DMG)
 	spell '196545' '1.5' --  Talent: Bonestorm (Heal)
-	spell '383313' '1.0' --  Talent: Abomination Limb
 	spell '203166' '2.5' --  PVP Talent: Blight (ID: 203172)
 	alias '49998'  '45470' -- Death Strike (DRW)
+	alias '383312' '383313' -- Talent: Abomination Limb
 
 	spec  '251' -- Frost
 	spell '196771' '2.5' --  Remorseless Winter
