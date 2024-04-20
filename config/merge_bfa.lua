@@ -25,9 +25,6 @@ do
 	-- Trinkets
 	item '276199' '1.0' "Trinket: Darkmoon Deck: Fathoms"
 	item '276132' '2.0' "Trinket: Darkmoon Deck: Squalls"
-	item '278057' '0.5' "Trinket: Vigilant's Bloodshaper"
-	item '270827' '0.5' "Trinket: Vessel of Skittering Shadows"
-	item '302311' '0.5' "Trinket: Remote Guidance Device"
 end
 
 header "|cff325A93Battle for Azeroth|r™ |cff798BDDHeart Of Azeroth|r"
@@ -38,12 +35,6 @@ end
 
 header "|cff325A93Battle for Azeroth|r™ |cff798BDDAzerite Traits|r"
 do
-	item '280705' '0.5' "Laser Matrix"
-	item '280286' '0.5' "Dagger in the Back"
-	item '269031' '0.5' "Gutripper"
-	item '279958' '0.5' "Azerite Globules"
-	item '271685' '0.5' "Heed My Call"
-
 	alias '271685' '271686' -- Azerite Trait: "Heed My Call"
 
 	-- Warlock
@@ -58,11 +49,10 @@ end
 header "|cff325A93Battle for Azeroth|r™ |cff798BDDWorldQuest|r"
 do
 	-- worldquest
-	item '269238' '1.5' "World Quest: Drustvar "			-- Vehicules world quest Drustvar
+	item '269238' '1.5' "World Quest: Drustvar "			-- Vehicles world quest in Drustvar
 end
 
 header "|cff325A93Battle for Azeroth|r™ |cff6D1192Corruption|r"
 do
-	item '316661' '0.5' "Obsidian Destruction"
 	item '318187' '1.0' "Gushing Wound"
 end
