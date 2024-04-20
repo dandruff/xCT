@@ -430,6 +430,12 @@ local CLASS_NAMES = {
     [104] = 3,   -- Guardian
     [105] = 4,   -- Restoration
   },
+  ["EVOKER"] = {
+    [0]  = 0,    -- All Specs
+    [1467] = 1,  -- Devastation
+    [1468] = 2,  -- Preservation
+    [1473] = 3,  -- Augmentation
+  },
   ["HUNTER"] = {
     [0]   = 0,   -- All Specs
     [253] = 1,   -- Beast Mastery
