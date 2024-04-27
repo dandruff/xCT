@@ -504,7 +504,11 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 	local heap, stack = spamHeap[framename], spamStack[framename]
 	if heap[mergeID] then
 		heap[mergeID].color = colorname
-		table_insert(heap[mergeID].entries, message)
+
+		if tonumber(message) then
+			heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
+			heap[mergeID].mergedCount  = heap[mergeID].mergedCount + 1
+		end
 
 		if heap[mergeID].last + heap[mergeID].update <= now then
 			heap[mergeID].last = now
@@ -520,10 +524,9 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 
 			prep = prep or (db and db.prep) or interval or 0.5,
 
-			-- entries to merge
-			entries = {
-					message,
-				},
+			-- merged entries
+			mergedAmount = tonumber(message) or 0,
+			mergedCount = 1,
 
 			-- color
 			color = colorname,
@@ -635,22 +638,17 @@ do
 		local item = heap[stack[idIndex]]
 
 		--if item then print(item.last, "+", item.update, "<", now) end
-		if item and item.last + item.update <= now and #item.entries > 0 then
+		if item and item.last + item.update <= now and item.mergedCount > 0 then
 			item.last = now
 
-			-- Add up all the entries
-			local total = 0
-			for _, amount in pairs(item.entries) do
-				if not tonumber(amount) then total = amount; break end
-				total = total + amount	-- Add all the amounts
-			end
-
 			-- total as a string
-			local message = tostring(total)
+			local message
 
 			-- Abbreviate the merged total
-			if tonumber(total) then
-				message = x:Abbreviate(tonumber(total), frameName)
+			if tonumber(item.mergedAmount) then
+				message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
+			else
+				message = tostring(item.mergedAmount)
 			end
 
 			--local format_mergeCount = "%s |cffFFFFFFx%s|r"
@@ -706,10 +704,10 @@ do
 				                                      settings.fontJustify,
 				                                      strColor,
 				                                      true, -- Merge Override = true
-				                                      #item.entries )
+				                                      item.mergedCount )
 			elseif frameName == "healing" then
-				if #item.entries > 1 then
-					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%s|r", settings.iconsSize, settings.iconsSize, message, strColor, #item.entries)
+				if item.mergedCount > 1 then
+					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%s|r", settings.iconsSize, settings.iconsSize, message, strColor, item.mergedCount)
 				else
 					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s", settings.iconsSize, settings.iconsSize, message)
 				end
@@ -717,10 +715,9 @@ do
 
 			x:AddMessage(frameIndex[index], message, item.color)
 
-			-- Clear all the old entries, we dont need them anymore
-			for k in pairs(item.entries) do
-				item.entries[k] = nil
-			end
+			-- Clear all the old amounts, we dont need them anymore
+			item.mergedAmount = 0
+			item.mergedCount  = 0
 		end
 
 		frames[frameIndex[index]] = idIndex + 1
