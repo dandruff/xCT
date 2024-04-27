@@ -501,6 +501,9 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 	-- Check for a Secondary Spell ID
 	mergeID = addon.merge2h[mergeID] or mergeID
 
+	-- how often to update
+	interval = interval or (db and db.interval) or 0.5
+
 	local heap, stack = spamHeap[framename], spamStack[framename]
 	if heap[mergeID] then
 		heap[mergeID].color = colorname
@@ -510,17 +513,18 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 			heap[mergeID].mergedCount  = heap[mergeID].mergedCount + 1
 		end
 
-		if heap[mergeID].last + heap[mergeID].update <= now then
-			heap[mergeID].last = now
+		if heap[mergeID].displayTime <= now then
+			heap[mergeID].displayTime = now + interval
 		end
 	else
 		local db = addon.defaults.profile.spells.merge[mergeID]
+
 		heap[mergeID] = {
-			-- last update
-			last = now,
+			-- after this time we display it on the frame
+			displayTime = now + interval,
 
 			-- how often to update
-			update = interval or (db and db.interval) or 0.5,
+			update = interval,
 
 			prep = prep or (db and db.prep) or interval or 0.5,
 
@@ -637,9 +641,9 @@ do
 		-- This item contains a lot of information about what we need to merge
 		local item = heap[stack[idIndex]]
 
-		--if item then print(item.last, "+", item.update, "<", now) end
-		if item and item.last + item.update <= now and item.mergedCount > 0 then
-			item.last = now
+		--if item then print(item.displayTime, " < ", now, "?") end
+		if item and item.displayTime <= now and item.mergedCount > 0 then
+			item.displayTime = now
 
 			-- total as a string
 			local message
