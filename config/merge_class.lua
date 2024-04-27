@@ -23,7 +23,6 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class 'DEATHKNIGHT'
 do
-
 	spec  '0' -- All Specs
 	spell '52212' '2.5' --  Death and Decay
 	spell '268194' '1.0' -- chocking brine
@@ -430,11 +429,13 @@ do
 	spell '224266' '1.25' --  Artifact: Echo of the Highlord (Templar's Verdict)
 	spell '224239' '1.5'  --  Artifact: Divine Tempest (Divine Storm)
 	spell '215257' '1.75' --  Artifact: Healing Storm
-	alias '228288' '20271' --  [Bounce Merger] Judgment
-	alias '216527' '20271' --  [Pvp Talent - Bounce Merger]: Lawbringer
-	alias '184575' '404358'  --  Talent: Blade of Vengeance into Blade of Justice
-	alias '255937' '405345'  --  Talent: Wake of Ashes
-	alias '405350' '405345'  --  Talent: Wake of Ashes
+	alias '228288' '20271'  --  [Bounce Merger] Judgment
+	alias '216527' '20271'  --  [Pvp Talent - Bounce Merger]: Lawbringer
+	alias '184575' '404358' --  Talent: Blade of Vengeance into Blade of Justice
+	alias '255937' '405345' --  Talent: Wake of Ashes
+	alias '405350' '405345' --  Talent: Wake of Ashes
+	alias '224239' '53385'  -- Divine Storm
+	alias '423593' '53385'  -- Divine Storm
 end
 
 
