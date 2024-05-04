@@ -389,7 +389,7 @@ local function UseStandardSpellColors() return not x.db.profile.frames["outgoing
  String Formatters
 --]=====================================================]
 local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-local format_getCraftedItemString
+local format_getCraftedItemString = ""
 if GetLocale() == "koKR" then
   format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
 end
