@@ -919,6 +919,10 @@ x.events = {
         linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
       end
 
+      if not itemString or itemString == "" then
+        return
+      end
+
       -- Decode item string: (linkQuality for pets only)
       local linkType, linkID, _, linkQuality = strsplit(':', itemString)
 
