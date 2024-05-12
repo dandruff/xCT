@@ -21,25 +21,19 @@ local ADDON_NAME, addon = ...
 local spell, _, _, alias, item, header = unpack(addon.merge_helpers)
 
 
-header "|cffd2d3d8Dragonflight|r™ |cff798BDDTrinkets|r"
+header "10.x |cff33937FDragonflight|r™ |cff798BDDTrinkets|r"
 do
-	item '426564' '1.0' "Augury of the Primal Flame"
-	
-	item '425701' '1.0' "Tainted Rageheart"
-	alias '425461' '425701' -- Shadowflame Lash
-	
-	item '425509' '1.0' "Branch of the Tormented Ancient"
+	alias '425461' '425701' -- Shadowflame Lash -> Trinket: Tainted Rageheart
 end
 
-header "|cffd2d3d8Dragonflight|r™ |cff798BDDLegendaries|r"
+header "10.x |cff33937FDragonflight|r™ |cff798BDDLegendaries|r"
 do
-	item '417134' '0.5' "Rage of Fyr'alath"	
-	alias '424094' '417134' -- Rage of Fyr'alath
-	alias '413584' '417134' -- Explosive Rage
+	item '417134' '3.0' "Rage of Fyr'alath"
+	alias '424094' '417134' -- Rage of Fyr'alath -> Weapon Fyr'alath
+	alias '413584' '417134' -- Explosive Rage -> Weapon Fyr'alath
 end
 
 header "|cffd2d3d8Dragonflight|r™ |cff798BDDEnchants|r"
 do
-	item '426288' '0.5' "Smolderon's Delusions of Grandeur"	
+	alias '426527' '426535' -- Amirdrassil Head Enchant (Melee) - 2nd Effect
 end
-

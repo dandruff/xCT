@@ -38,9 +38,9 @@ do
 		-- Create the spell here
 		addon.merges[_working.spellId] = {
 			class = _working.class or "ITEM",
-			interval = interval or 3,
+			interval = interval or 0.5,
 			desc = _working.desc,
-			prep = _working.prep or interval or 3,
+			prep = _working.prep or interval or 0.5,
 		}
 	end
 
@@ -71,9 +71,9 @@ do
 		-- Create the spell here
 		addon.merges[_working_race.spellId] = {
 			class = _working_race.race or "ITEM",
-			interval = interval or 3,
+			interval = interval or 0.5,
 			desc = "Racial Spell",
-			prep = _working_race.prep or interval or 3,
+			prep = _working_race.prep or interval or 0.5,
 		}
 	end
 	
@@ -118,9 +118,9 @@ do
 		-- Create the spell here
 		addon.merges[_working_item.spellId] = {
 			class = _working_item.class or "ITEM",
-			interval = _working_item.interval or 3,
+			interval = _working_item.interval or 0.5,
 			desc = desc,
-			prep = _working_item.prep or _working_item.interval or 3,
+			prep = _working_item.prep or _working_item.interval or 0.5,
 		}
 	end
 
