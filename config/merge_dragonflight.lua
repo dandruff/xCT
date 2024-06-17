@@ -40,6 +40,9 @@ end
 
 header "|cffd2d3d8Dragonflight|r™ |cff798BDDEnchants|r"
 do
-	item '426288' '0.5' "Smolderon's Delusions of Grandeur"	
+	item '426288' '0.5' "Smolderon's Delusions of Grandeur" -- Amirdrassil Head Enchant (Tank)
+
+	item '426535' '0.5' "Igira's Crual Nightmare" -- Amirdrassil Head Enchant (Melee)
+	alias '426527' '426535' -- Amirdrassil Head Enchant (Melee) - 2nd Effect
 end
 

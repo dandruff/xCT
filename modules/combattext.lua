@@ -389,7 +389,7 @@ local function UseStandardSpellColors() return not x.db.profile.frames["outgoing
  String Formatters
 --]=====================================================]
 local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-local format_getCraftedItemString
+local format_getCraftedItemString = ""
 if GetLocale() == "koKR" then
   format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
 end
@@ -925,6 +925,10 @@ x.events = {
         linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
       end
 
+      if not itemString or itemString == "" then
+        return
+      end
+
       -- Decode item string: (linkQuality for pets only)
       local linkType, linkID, _, linkQuality = strsplit(':', itemString)
 
@@ -1111,18 +1115,19 @@ end
 
 -- Format Handlers for name
 local CLASS_LOOKUP = {
-	[1] = "DEATHKNIGHT",
-	[2] = "DEMONHUNTER",
-	[4] = "DRUID",
-	[8] = "HUNTER",
-	[16] = "MAGE",
-	[32] = "MONK",
-	[64] = "PALADIN",
-	[128] = "PRIEST",
-	[256] = "ROGUE",
-	[512] = "SHAMAN",
-	[1024] = "WARLOCK",
-	[2048] = "WARRIOR"
+	[1]    = "DEATHKNIGHT",
+	[2]    = "DEMONHUNTER",
+	[4]    = "DRUID",
+    [8]    = "EVOKER",
+	[16]   = "HUNTER",
+	[32]   = "MAGE",
+	[64]   = "MONK",
+	[128]  = "PALADIN",
+	[256]  = "PRIEST",
+	[512]  = "ROGUE",
+	[1024] = "SHAMAN",
+	[2048] = "WARLOCK",
+	[4096] = "WARRIOR"
 }
 
 local formatNameTypes

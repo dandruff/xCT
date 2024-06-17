@@ -23,7 +23,6 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class 'DEATHKNIGHT'
 do
-
 	spec  '0' -- All Specs
 	spell '52212' '2.5' --  Death and Decay
 	spell '268194' '1.0' -- chocking brine
@@ -305,7 +304,7 @@ do
 	alias '226757' '205345' --  [DD/Splash Merger] Conflagration
 	alias '205472' '2120'   --  [DD/DoT Merger] Talent: Flame Patch
 	alias '244813' '217694' --  [DD/DoT Merger] multi target living bomb
-	alias '277703' '11366'   -- [DD/Splash Merger] Pyroblast
+	alias '277703' '11366'  -- [DD/Splash Merger] Pyroblast
 
 	spec  '64' -- Frost
 	spell '84721'  '1.5' --  Frozen Orb
@@ -430,11 +429,13 @@ do
 	spell '224266' '1.25' --  Artifact: Echo of the Highlord (Templar's Verdict)
 	spell '224239' '1.5'  --  Artifact: Divine Tempest (Divine Storm)
 	spell '215257' '1.75' --  Artifact: Healing Storm
-	alias '228288' '20271' --  [Bounce Merger] Judgment
-	alias '216527' '20271' --  [Pvp Talent - Bounce Merger]: Lawbringer
-	alias '184575' '404358'  --  Talent: Blade of Vengeance into Blade of Justice
-	alias '255937' '405345'  --  Talent: Wake of Ashes
-	alias '405350' '405345'  --  Talent: Wake of Ashes
+	alias '228288' '20271'  --  [Bounce Merger] Judgment
+	alias '216527' '20271'  --  [Pvp Talent - Bounce Merger]: Lawbringer
+	alias '184575' '404358' --  Talent: Blade of Vengeance into Blade of Justice
+	alias '255937' '405345' --  Talent: Wake of Ashes
+	alias '405350' '405345' --  Talent: Wake of Ashes
+	alias '224239' '53385'  -- Divine Storm
+	alias '423593' '53385'  -- Divine Storm
 end
 
 
@@ -507,7 +508,7 @@ do
 	spell '192660' '2.5' --  Poison Bomb
 	spell '121411' '2.5' --  Talent: Crimson Tempest (DoT)
 	alias '192380' '113780' --  Artifact: Poison Knives
-	alias '27576'  '5374'    --  Mutilate (OH)
+	alias '27576'  '5374'   --  Mutilate (OH)
 
 	spec  '260' -- Outlaw
 	spell '202895' '0.5' --  Blunderbuss
@@ -543,6 +544,7 @@ do
 	spell '77478'  '1.5' --  Earthquake
 	spell '188389' '2.5' --  Flame Shock
 	spell '51490'  '0.5' --  Thunderstorm
+	spell '196840' '0.5' --  Frost Shock Cleave via Icefury
 	spell '192231' '2.5' --  Talent: Liquid Magma Totem
 	spell '210714' '1.0' --  Talent: Ice Fury
 	spell '170379' '2.0' --  Talent: Earthn Rage
@@ -552,7 +554,7 @@ do
 	spell '205533' '1.5' --  Artifact: Volcanic Inferno
 	alias '285466' '285452' --  [Mastery Merger] Elemental Blast Overload
 	alias '219271' '210714' --  [Mastery Merger] Ice Fury Overload
-	alias '77451'  '51505' --  [Mastery Merger] Lavaburst Overload
+	alias '77451'  '51505'  --  [Mastery Merger] Lavaburst Overload
 	alias '45297'  '188443' --  [Mastery Merger] Chain Lightning Overload
 	alias '45284'  '188196' --  [Mastery Merger] Lightning Bolt Overload
 
@@ -563,6 +565,7 @@ do
 	spell '25504'  '0.5' --  Windfury Attacks
 	spell '32175'  '0.5' --  Stormstrike MH/OH Merger
 	spell '10444'  '1.5' --  Flametongue
+	spell '196840' '0.5' --  Frost Shock Cleave via Hailstorm
 	spell '199054' '0.5' --  Artifact: Unleash Doom
 	spell '198485' '0.5' --  Artifact: Alpha Wolf
 	spell '198483' '1.5' --  Artifact: Doom Wolves
@@ -571,7 +574,7 @@ do
 	spell '210801' '2.5' --  Talent: Crashing Storm
 	spell '197385' '2.5' --  Talent: Fury of Air
 	spell '197214' '2.5' --  Talent: Sundering
-	alias '32176'  '32175'   --  [MH/OH Merger] Stormstrike
+	alias '32176'  '32175'  --  [MH/OH Merger] Stormstrike
 	alias '199053' '199054' --  [MH/OH Merger] Artifact: Unleash Weapons
 
 	spec  '264' -- Restoration
@@ -706,4 +709,27 @@ class 'EVOKER'
 do
 	spec  '0' -- All Specs
 	spell '357209'  '0.5' --  Fire Breath
+	spell '362969'  '0.5' --  Azure Strike
+	spell '353759'  '0.5' --  Deep Breath
+	spell '361500'  '0.5' --  Talent: Leaping Flames -> Living Flame Damage Cleave
+	spell '361509'  '0.5' --  Talent: Leaping Flames -> Living Flame Healing Cleave
+
+	spec '1467' -- Devastation
+	spell '359077'  '0.5' --  Eternity Surge
+	spell '357212'  '0.5' --  Pyre
+	spell '370452'  '0.5' --  Talent: Eternity's Span -> Shattering Star Cleave
+	spell '369374'  '0.5' --  Talent: Firestorm
+
+	spec '1468' -- Preservation
+	spell '355941'  '0.5' --  Dream Breath
+	spell '373862'  '0.5' --  Temporal Anomaly
+	spell '355916'  '0.5' --  Emerald Blossom
+	spell '363502'  '3.0' --  Talent: Dream Flight
+	spell '367230'  '0.5' --  Talent: Spiritbloom
+	alias '367231' '367230' --  Talent: Spiritbloom Cleave via Empowered Spell
+	alias '409895' '367230' --  Talent: Spiritbloom Cleave via Empowered Spell
+
+	spec '1473' -- Augmentation
+	spell '395160'  '0.5' --  Eruption
+	spell '396288'  '0.5' --  Upheaval
 end
