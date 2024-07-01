@@ -33,8 +33,8 @@ local utf8 = {
 local xCP = LibStub and LibStub("xCombatParser-1.0", true)
 if not xCP then print("Something went wrong when xCT+ tried to load. Please reinstall and inform the author.") end
 
-local L_AUTOATTACK = GetSpellInfo(6603)
-local L_KILLCOMMAND =  GetSpellInfo(34026)
+local L_AUTOATTACK = C_Spell.GetSpellName(6603)
+local L_KILLCOMMAND =  C_Spell.GetSpellName(34026)
 
 --[=====================================================[
  Holds cached spells, buffs, and debuffs
@@ -107,7 +107,7 @@ x.player = {
 --[=====================================================[
  AddOn:UpdatePlayer()
     Updates important information about the player we
-  need inorder to correctly show combat text events.
+  need in order to correctly show combat text events.
 --]=====================================================]
 function x:UpdatePlayer()
   -- Set the Player's Current Playing Unit
@@ -373,14 +373,8 @@ local function IsHealingFiltered(name)
   return spell
 end
 
-local function IsMerged(spellID)
-	local merged = false
-	if x.db.profile.spells.enableMerger then
-		spellID = addon.merge2h[spellID] or spellID
-		local db = x.db.profile.spells.merge[spellID] or addon.defaults.profile.spells.merge[spellID]
-		if db and db.enabled then merged = true end
-	end
-	return merged
+local function MergeSpells()
+	return x.db.profile.spells.enableMerger
 end
 
 local function UseStandardSpellColors() return not x.db.profile.frames["outgoing"].standardSpellColor end
@@ -389,7 +383,7 @@ local function UseStandardSpellColors() return not x.db.profile.frames["outgoing
  String Formatters
 --]=====================================================]
 local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-local format_getCraftedItemString
+local format_getCraftedItemString = ""
 if GetLocale() == "koKR" then
   format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
 end
@@ -592,7 +586,7 @@ function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIc
   elseif type(spellID) == 'string' then
     icon = spellID
   else
-    icon = GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
+    icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
   end
 
   if iconSize < 1 then
@@ -700,14 +694,14 @@ local function UpdateAuraTracking(unit)
 
   if entry then
     if unit == entry.unit then
-      local i, name, icon, count, _, _, _, _, _, _, spellId = 1, UnitBuff(entry.unit, 1)
+      local i, name, icon, count, _, _, _, _, _, _, spellId = 1, C_UnitAuras.GetBuffDataByIndex(entry.unit, 1)
 
       while name do
         if entry.id == spellId then
           break
         end
         i = i + 1;
-        name, icon, count, _, _, _, _, _, _, spellId = UnitBuff(entry.unit, i)
+        name, icon, count, _, _, _, _, _, _, spellId = C_UnitAuras.GetBuffDataByIndex(entry.unit, i)
       end
 
       if name and count > 0 then
@@ -750,7 +744,7 @@ function x:QuickClassFrameUpdate()
 end
 
 --[=====================================================[
- Looted Item - Latency Update Adpation
+ Looted Item - Latency Update Adaption
 --]=====================================================]
 local function LootFrame_OnUpdate(self, elapsed)
   local removeItems = { }
@@ -759,7 +753,7 @@ local function LootFrame_OnUpdate(self, elapsed)
 
     -- Time to wait before showing a looted item
     if item.t > 0.5 then
-      x:AddMessage("loot", sformat(item.message, sformat(format_lewtz_total, GetItemCount(item.id))), {item.r, item.g, item.b})
+      x:AddMessage("loot", sformat(item.message, sformat(format_lewtz_total, C_Item.GetItemCount(item.id))), {item.r, item.g, item.b})
       removeItems[i] = true
     end
   end
@@ -925,6 +919,10 @@ x.events = {
         linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
       end
 
+      if not itemString or itemString == "" then
+        return
+      end
+
       -- Decode item string: (linkQuality for pets only)
       local linkType, linkID, _, linkQuality = strsplit(':', itemString)
 
@@ -932,7 +930,7 @@ x.events = {
       --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
       -- "|cff0070dd|Hbattlepet:1343:1:3:158:10:12:BattlePet-0-000002C398CB|h[Bonkers]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(1343)
       -- "|cff9d9d9d|Hbattlepet:467:1:0:140:9:9:BattlePet-0-000002C398C4|h[Dung Beetle]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(467)
-      -- GetItemQualityColor(3)
+      -- ITEM_QUALITY_COLORS[3]
 
       -- local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
       -- "|cffffffff|Hitem:119299::::::::100:252::::::|h[드레노어 기계공학의 비밀]|h|r을 만들었습니다."
@@ -949,11 +947,10 @@ x.events = {
         local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
         local petTypeName = PET_TYPE_SUFFIX[petType]
         local message = sformat(format_pet, speciesName, petTypeName)
-
-        local r, g, b = GetItemQualityColor(linkQuality or 0)
+        local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
 
         -- Add the message
-        x:AddMessage("loot", message, { r, g, b } )
+        x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b } )
         return
       end
 
@@ -962,7 +959,7 @@ x.events = {
         local crafted, looted, pushed = (preMessage == format_crafted), (preMessage == format_looted), (preMessage == format_pushed)
 
         -- Item Quality, See "GetAuctionItemClasses()" For Type and Subtype, Item Icon Texture Location
-        local itemQuality, _, _, itemType, itemSubtype, _, _, itemTexture = select(3, GetItemInfo(linkID))
+        local itemQuality, _, _, itemType, itemSubtype, _, _, itemTexture = select(3, C_Item.GetItemInfo(linkID))
 
         -- Item White-List Filter
         local listed = x.db.profile.spells.items[itemType] and (x.db.profile.spells.items[itemType][itemSubtype] == true)
@@ -977,7 +974,7 @@ x.events = {
            (crafted and ShowLootCrafted()) or
            (pushed and ShowLootPurchased()) then
 
-          local r, g, b = GetItemQualityColor(itemQuality)
+          local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
           -- "%s%s: %s [%s]%s %%s"
           local message = sformat(format_lewtz,
               ShowLootItemTypes() and itemType or "Item",		-- Item Type
@@ -1008,7 +1005,7 @@ x.events = {
             end
 
             -- Enqueue the item to wait 1 second before showing
-            tinsert(x.lootUpdater.items, { id=linkID, message=message, t=0, r=r, g=g, b=b, })
+            tinsert(x.lootUpdater.items, { id=linkID, message=message, t=0, r=itemQualityColor.r, g=itemQualityColor.g, b=itemQualityColor.b, })
 
             if not x.lootUpdater.isRunning then
               x.lootUpdater:SetScript("OnUpdate", LootFrame_OnUpdate)
@@ -1017,7 +1014,7 @@ x.events = {
           else
 
             -- Add the message
-            x:AddMessage("loot", sformat(message, ""), {r, g, b})
+            x:AddMessage("loot", sformat(message, ""), {itemQualityColor.r, itemQualityColor.g, itemQualityColor.b})
           end
         end
       end
@@ -1062,9 +1059,9 @@ x.events = {
       -- TODO: Add a minimum amount of money
 
       if ShowColorBlindMoney() then
-        o = o..(g and g.." G " or "")..(s and s.." S " or "")..(c and c.." C " or "")
+        o = o .. (g and g .. " G " or "") .. (s and s .. " S " or "") .. (c and c .. " C " or "")
       else
-        o = o..GetCoinTextureString(money).." "
+        o = o .. C_CurrencyInfo.GetCoinTextureString(money) .. " "
       end
 
       -- This only works on english clients :\
@@ -1075,7 +1072,7 @@ x.events = {
 
   ["SPELL_ACTIVATION_OVERLAY_GLOW_SHOW"] = function(spellID)
       if spellID == 32379 then  -- Shadow Word: Death
-        local name = GetSpellInfo(spellID)
+        local name = C_Spell.GetSpellName(spellID)
         --x:AddMessage("procs", name, "spellProc")
       end
     end,
@@ -1111,18 +1108,19 @@ end
 
 -- Format Handlers for name
 local CLASS_LOOKUP = {
-	[1] = "DEATHKNIGHT",
-	[2] = "DEMONHUNTER",
-	[4] = "DRUID",
-	[8] = "HUNTER",
-	[16] = "MAGE",
-	[32] = "MONK",
-	[64] = "PALADIN",
-	[128] = "PRIEST",
-	[256] = "ROGUE",
-	[512] = "SHAMAN",
-	[1024] = "WARLOCK",
-	[2048] = "WARRIOR"
+	[1]    = "DEATHKNIGHT",
+	[2]    = "DEMONHUNTER",
+	[4]    = "DRUID",
+	[8]    = "EVOKER",
+	[16]   = "HUNTER",
+	[32]   = "MAGE",
+	[64]   = "MONK",
+	[128]  = "PALADIN",
+	[256]  = "PRIEST",
+	[512]  = "ROGUE",
+	[1024] = "SHAMAN",
+	[2048] = "WARLOCK",
+	[4096] = "WARRIOR"
 }
 
 local formatNameTypes
@@ -1286,7 +1284,7 @@ local CombatEventHandlers = {
 	["ShieldOutgoing"] = function (args)
 		local buffIndex = x.findBuffIndex(args.destName, args.spellName)
 		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['outgoing'], select(16, UnitBuff(args.destName, buffIndex))
+		local settings, value = x.db.profile.frames['outgoing'], select(16, C_UnitAuras.GetBuffDataByIndex(args.destName, buffIndex))
 		if not value or value <= 0 then return end
 
 		-- Keep track of spells that go by
@@ -1352,7 +1350,7 @@ local CombatEventHandlers = {
 		if isHoT then outputColor = "healingOutPeriodic"end
 
 		-- Condensed Critical Merge
-		if IsMerged(spellID) then
+		if MergeSpells() then
 			merged = true
 			if critical then
 				if MergeCriticalsByThemselves() then
@@ -1464,7 +1462,7 @@ local CombatEventHandlers = {
 				x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
 				return
 			end
-		elseif not isSwing and not isAutoShot and IsMerged(spellID) then
+		elseif not isSwing and not isAutoShot and MergeSpells() then
 			merged = true
 			if critical then
 				if MergeCriticalsByThemselves() then
@@ -1580,7 +1578,7 @@ local CombatEventHandlers = {
 			colorOverride = args.critical and 'spellDamageTakenCritical' or 'spellDamageTaken'
 		end
 
-		if IsMerged(args.spellId) then
+		if MergeSpells() then
 			x:AddSpamMessage('damage', args.spellId, args.amount, colorOverride, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "sourceController", args:GetSourceController())
 			return
 		end
@@ -1610,7 +1608,7 @@ local CombatEventHandlers = {
 	["ShieldIncoming"] = function (args)
 		local buffIndex = x.findBuffIndex("player", args.spellName)
 		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['healing'], select(16, UnitBuff("player", buffIndex))
+		local settings, value = x.db.profile.frames['healing'], select(16, C_UnitAuras.GetBuffDataByIndex("player", buffIndex))
 		if not value or value <= 0 then return end
 
 		if TrackSpells() then x.spellCache.healing[args.spellId] = true end
@@ -2015,9 +2013,9 @@ function x.findBuffIndex(unitName, spellName)
 	for i = 1, 40 do
 
 		-- TODO: Keep if we want to change this to find SpellID index
-		-- buffName, _, _, _, _, _, _, _, _ , spellId = UnitBuff(unitName, i)
+		-- buffName, _, _, _, _, _, _, _, _ , spellId = C_UnitAuras.GetBuffDataByIndex(unitName, i)
 
-		if UnitBuff(unitName, i) == spellName then
+		if C_UnitAuras.GetBuffDataByIndex(unitName, i) == spellName then
 			return i
 		end
 	end

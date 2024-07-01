@@ -170,7 +170,7 @@ do
 	private.frame:RegisterEvent"PLAYER_ENTERING_WORLD"
 
 	-- Localize Auto Attack
-	local ENVIRONMENT_SUBHEADER,AUTO_ATTACK=ENVIRONMENT_SUBHEADER,GetSpellInfo(6603)
+	local ENVIRONMENT_SUBHEADER,AUTO_ATTACK=ENVIRONMENT_SUBHEADER,C_Spell.GetSpellName(6603)
 
 	-- Localize Environmental Damage
 	local ENVIRONMENTAL_TYPES = {

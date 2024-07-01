@@ -37,7 +37,7 @@ end
 -- Creating an Config
 addon.options = {
   -- Add a place for the user to grab
-  name = "                                                      " .. "Version: "..(GetAddOnMetadata("xCT+", "Version") or "Unknown") .. "                                                      ",
+  name = "                                                      " .. "Version: "..(C_AddOns.GetAddOnMetadata("xCT+", "Version") or "Unknown") .. "                                                      ",
   handler = x,
   type = 'group',
   args = {
@@ -122,7 +122,7 @@ addon.options = {
       type = 'execute',
       name = "Test",
       func = x.ToggleTestMode,
-      desc = "Allows you to preview xCT+ inorder to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
+      desc = "Allows you to preview xCT+ in order to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
       width = 'half',
     },
     ToggleFrames = {
@@ -467,7 +467,8 @@ local function GetSpellHistory()
   end
 
   for i in pairs(x.spellCache.spells) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     spellHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 
@@ -492,7 +493,8 @@ local function GetItemHistory()
   end
 
   for i in pairs(x.spellCache.items) do
-	local name, _, _, _, _, _, _, _, _, texture = GetItemInfo( i )
+	local name = C_Item.GetItemNameByID( i )
+	local texture = C_Item.GetItemIconByID( i )
     itemHistory[i] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture, 16, 16, name)
   end
 
@@ -503,7 +505,8 @@ local function GetDamageIncomingHistory()
   for i in pairs(damageHistory) do damageHistory[i] = nil end
 
   for i in pairs(x.spellCache.damage) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     damageHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 
@@ -514,7 +517,8 @@ local function GetHealingIncomingHistory()
   for i in pairs(healingHistory) do healingHistory[i] = nil end
 
   for i in pairs(x.spellCache.healing) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     healingHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 
@@ -711,7 +715,7 @@ addon.options.args["spells"] = {
     },
 
     classList = {
-      name = "Class Spells", --"List of Mergeable Spells |cff798BDD(Class Specific)|r",
+      name = "Class Spells",
       type = 'group',
       order = 21,
       childGroups = 'select',
@@ -733,29 +737,19 @@ addon.options.args["spells"] = {
           name = "Uncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
         },
 
-        --[[classes = {
-          name = "Class Spells",
-          type = 'group',
-          order = 2,
-          childGroups = 'select',
-          args = {
-
-          },
-        }]]
-
-
         ["DEATHKNIGHT"] = { type = 'group', order = 1,  name = "|cffC41F3BDeath Knight|r" },
         ["DEMONHUNTER"] = { type = 'group', order = 2,  name = "|cffA330C9Demon Hunter|r" },
         ["DRUID"]       = { type = 'group', order = 3,  name = "|cffFF7D0ADruid|r" },
-        ["HUNTER"]      = { type = 'group', order = 4,  name = "|cffABD473Hunter|r" },
-        ["MAGE"]        = { type = 'group', order = 5,  name = "|cff69CCF0Mage|r" },
-        ["MONK"]        = { type = 'group', order = 6,  name = "|cff00FF96Monk|r" },
-        ["PALADIN"]     = { type = 'group', order = 7,  name = "|cffF58CBAPaladin|r" },
-        ["PRIEST"]      = { type = 'group', order = 8,  name = "|cffFFFFFFPriest|r" },
-        ["ROGUE"]       = { type = 'group', order = 9,  name = "|cffFFF569Rogue|r" },
-        ["SHAMAN"]      = { type = 'group', order = 10, name = "|cff0070DEShaman|r" },
-        ["WARLOCK"]     = { type = 'group', order = 11, name = "|cff9482C9Warlock|r" },
-        ["WARRIOR"]     = { type = 'group', order = 12, name = "|cffC79C6EWarrior|r" },
+        ["EVOKER"]      = { type = 'group', order = 4,  name = "|cff33937FEvoker|r" },
+        ["HUNTER"]      = { type = 'group', order = 5,  name = "|cffABD473Hunter|r" },
+        ["MAGE"]        = { type = 'group', order = 6,  name = "|cff69CCF0Mage|r" },
+        ["MONK"]        = { type = 'group', order = 7,  name = "|cff00FF96Monk|r" },
+        ["PALADIN"]     = { type = 'group', order = 8,  name = "|cffF58CBAPaladin|r" },
+        ["PRIEST"]      = { type = 'group', order = 9,  name = "|cffFFFFFFPriest|r" },
+        ["ROGUE"]       = { type = 'group', order = 10, name = "|cffFFF569Rogue|r" },
+        ["SHAMAN"]      = { type = 'group', order = 11, name = "|cff0070DEShaman|r" },
+        ["WARLOCK"]     = { type = 'group', order = 12, name = "|cff9482C9Warlock|r" },
+        ["WARRIOR"]     = { type = 'group', order = 13, name = "|cffC79C6EWarrior|r" },
 
       },
     },
@@ -834,7 +828,7 @@ addon.options.args["spellFilter"] = {
           order = 1,
           type = 'input',
           name = "Incoming Power",
-          desc = "The minimal amount of player's power required inorder for it to be displayed.",
+          desc = "The minimal amount of player's power required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -850,7 +844,7 @@ addon.options.args["spellFilter"] = {
           order = 11,
           type = 'input',
           name = "Outgoing Damage",
-          desc = "The minimal amount of damage required inorder for it to be displayed.",
+          desc = "The minimal amount of damage required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -868,7 +862,7 @@ addon.options.args["spellFilter"] = {
           order = 12,
           type = 'input',
           name = "Outgoing Damage (Critical)",
-          desc = "The minimal amount of damage required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -887,7 +881,7 @@ addon.options.args["spellFilter"] = {
           order = 15,
           type = 'input',
           name = "Outgoing Healing",
-          desc = "The minimal amount of healing required inorder for it to be displayed.",
+          desc = "The minimal amount of healing required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -905,7 +899,7 @@ addon.options.args["spellFilter"] = {
           order = 16,
           type = 'input',
           name = "Outgoing Healing (Critical)",
-          desc = "The minimal amount of healing required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -924,7 +918,7 @@ addon.options.args["spellFilter"] = {
           order = 21,
           type = 'input',
           name = "Incoming Damage",
-          desc = "The minimal amount of damage required inorder for it to be displayed.",
+          desc = "The minimal amount of damage required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -942,7 +936,7 @@ addon.options.args["spellFilter"] = {
           order = 22,
           type = 'input',
           name = "Incoming Damage (Critical)",
-          desc = "The minimal amount of damage required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
@@ -961,7 +955,7 @@ addon.options.args["spellFilter"] = {
           order = 25,
           type = 'input',
           name = "Incoming Healing",
-          desc = "The minimal amount of healing required inorder for it to be displayed.",
+          desc = "The minimal amount of healing required in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
         },
@@ -979,7 +973,7 @@ addon.options.args["spellFilter"] = {
           order = 26,
           type = 'input',
           name = "Incoming Healing (Critical)",
-          desc = "The minimal amount of healing required for a critical inorder for it to be displayed.",
+          desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
           set = setNumber2,
           get = getNumber2,
           hidden = function(info)
