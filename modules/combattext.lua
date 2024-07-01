@@ -694,14 +694,14 @@ local function UpdateAuraTracking(unit)
 
   if entry then
     if unit == entry.unit then
-      local i, name, icon, count, _, _, _, _, _, _, spellId = 1, UnitBuff(entry.unit, 1)
+      local i, name, icon, count, _, _, _, _, _, _, spellId = 1, C_UnitAuras.GetBuffDataByIndex(entry.unit, 1)
 
       while name do
         if entry.id == spellId then
           break
         end
         i = i + 1;
-        name, icon, count, _, _, _, _, _, _, spellId = UnitBuff(entry.unit, i)
+        name, icon, count, _, _, _, _, _, _, spellId = C_UnitAuras.GetBuffDataByIndex(entry.unit, i)
       end
 
       if name and count > 0 then
@@ -1284,7 +1284,7 @@ local CombatEventHandlers = {
 	["ShieldOutgoing"] = function (args)
 		local buffIndex = x.findBuffIndex(args.destName, args.spellName)
 		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['outgoing'], select(16, UnitBuff(args.destName, buffIndex))
+		local settings, value = x.db.profile.frames['outgoing'], select(16, C_UnitAuras.GetBuffDataByIndex(args.destName, buffIndex))
 		if not value or value <= 0 then return end
 
 		-- Keep track of spells that go by
@@ -1608,7 +1608,7 @@ local CombatEventHandlers = {
 	["ShieldIncoming"] = function (args)
 		local buffIndex = x.findBuffIndex("player", args.spellName)
 		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['healing'], select(16, UnitBuff("player", buffIndex))
+		local settings, value = x.db.profile.frames['healing'], select(16, C_UnitAuras.GetBuffDataByIndex("player", buffIndex))
 		if not value or value <= 0 then return end
 
 		if TrackSpells() then x.spellCache.healing[args.spellId] = true end
@@ -2013,9 +2013,9 @@ function x.findBuffIndex(unitName, spellName)
 	for i = 1, 40 do
 
 		-- TODO: Keep if we want to change this to find SpellID index
-		-- buffName, _, _, _, _, _, _, _, _ , spellId = UnitBuff(unitName, i)
+		-- buffName, _, _, _, _, _, _, _, _ , spellId = C_UnitAuras.GetBuffDataByIndex(unitName, i)
 
-		if UnitBuff(unitName, i) == spellName then
+		if C_UnitAuras.GetBuffDataByIndex(unitName, i) == spellName then
 			return i
 		end
 	end
