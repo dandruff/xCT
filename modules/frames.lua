@@ -1051,7 +1051,7 @@ local function GetRandomSpellID()
 	local icon, spellID
 	repeat
 		spellID = random(100, 80000)
-		icon = select(3, C_Spell.GetSpellTexture(spellID))
+		icon = C_Spell.GetSpellTexture(spellID)
 	until icon and icon ~= 136243
 	return spellID
 end
@@ -1214,7 +1214,7 @@ function x.TestMoreUpdate(self, elapsed)
 					if not g and not s and not c then return end
 					x:AddMessage(output, MONEY .. ": " .. message, color)
 				else
-					x:AddMessage(output, MONEY .. ": " .. GetCoinTextureString(random(1000000)), color)
+					x:AddMessage(output, MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)), color)
 				end
 			end
 		end
