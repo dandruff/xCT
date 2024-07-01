@@ -930,7 +930,7 @@ x.events = {
       --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
       -- "|cff0070dd|Hbattlepet:1343:1:3:158:10:12:BattlePet-0-000002C398CB|h[Bonkers]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(1343)
       -- "|cff9d9d9d|Hbattlepet:467:1:0:140:9:9:BattlePet-0-000002C398C4|h[Dung Beetle]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(467)
-      -- GetItemQualityColor(3)
+      -- ITEM_QUALITY_COLORS[3]
 
       -- local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
       -- "|cffffffff|Hitem:119299::::::::100:252::::::|h[드레노어 기계공학의 비밀]|h|r을 만들었습니다."
@@ -947,11 +947,10 @@ x.events = {
         local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
         local petTypeName = PET_TYPE_SUFFIX[petType]
         local message = sformat(format_pet, speciesName, petTypeName)
-
-        local r, g, b = GetItemQualityColor(linkQuality or 0)
+        local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
 
         -- Add the message
-        x:AddMessage("loot", message, { r, g, b } )
+        x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b } )
         return
       end
 
@@ -975,7 +974,7 @@ x.events = {
            (crafted and ShowLootCrafted()) or
            (pushed and ShowLootPurchased()) then
 
-          local r, g, b = GetItemQualityColor(itemQuality)
+          local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
           -- "%s%s: %s [%s]%s %%s"
           local message = sformat(format_lewtz,
               ShowLootItemTypes() and itemType or "Item",		-- Item Type
@@ -1006,7 +1005,7 @@ x.events = {
             end
 
             -- Enqueue the item to wait 1 second before showing
-            tinsert(x.lootUpdater.items, { id=linkID, message=message, t=0, r=r, g=g, b=b, })
+            tinsert(x.lootUpdater.items, { id=linkID, message=message, t=0, r=itemQualityColor.r, g=itemQualityColor.g, b=itemQualityColor.b, })
 
             if not x.lootUpdater.isRunning then
               x.lootUpdater:SetScript("OnUpdate", LootFrame_OnUpdate)
@@ -1015,7 +1014,7 @@ x.events = {
           else
 
             -- Add the message
-            x:AddMessage("loot", sformat(message, ""), {r, g, b})
+            x:AddMessage("loot", sformat(message, ""), {itemQualityColor.r, itemQualityColor.g, itemQualityColor.b})
           end
         end
       end
