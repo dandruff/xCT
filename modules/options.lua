@@ -37,7 +37,7 @@ end
 -- Creating an Config
 addon.options = {
   -- Add a place for the user to grab
-  name = "                                                      " .. "Version: "..(GetAddOnMetadata("xCT+", "Version") or "Unknown") .. "                                                      ",
+  name = "                                                      " .. "Version: "..(C_AddOns.GetAddOnMetadata("xCT+", "Version") or "Unknown") .. "                                                      ",
   handler = x,
   type = 'group',
   args = {
@@ -467,7 +467,8 @@ local function GetSpellHistory()
   end
 
   for i in pairs(x.spellCache.spells) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     spellHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 
@@ -503,7 +504,8 @@ local function GetDamageIncomingHistory()
   for i in pairs(damageHistory) do damageHistory[i] = nil end
 
   for i in pairs(x.spellCache.damage) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     damageHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 
@@ -514,7 +516,8 @@ local function GetHealingIncomingHistory()
   for i in pairs(healingHistory) do healingHistory[i] = nil end
 
   for i in pairs(x.spellCache.healing) do
-    local name, _, icon = GetSpellInfo(i)
+    local name = C_Spell.GetSpellName(i)
+    local icon = C_Spell.GetSpellTexture(i)
     healingHistory[tostring(i)] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
   end
 

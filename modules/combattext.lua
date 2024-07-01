@@ -33,8 +33,8 @@ local utf8 = {
 local xCP = LibStub and LibStub("xCombatParser-1.0", true)
 if not xCP then print("Something went wrong when xCT+ tried to load. Please reinstall and inform the author.") end
 
-local L_AUTOATTACK = GetSpellInfo(6603)
-local L_KILLCOMMAND =  GetSpellInfo(34026)
+local L_AUTOATTACK = C_Spell.GetSpellName(6603)
+local L_KILLCOMMAND =  C_Spell.GetSpellName(34026)
 
 --[=====================================================[
  Holds cached spells, buffs, and debuffs
@@ -1073,7 +1073,7 @@ x.events = {
 
   ["SPELL_ACTIVATION_OVERLAY_GLOW_SHOW"] = function(spellID)
       if spellID == 32379 then  -- Shadow Word: Death
-        local name = GetSpellInfo(spellID)
+        local name = C_Spell.GetSpellName(spellID)
         --x:AddMessage("procs", name, "spellProc")
       end
     end,

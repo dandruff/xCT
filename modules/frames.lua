@@ -1051,7 +1051,7 @@ local function GetRandomSpellID()
 	local icon, spellID
 	repeat
 		spellID = random(100, 80000)
-		icon = select(3, GetSpellInfo(spellID))
+		icon = select(3, C_Spell.GetSpellTexture(spellID))
 	until icon and icon ~= 136243
 	return spellID
 end
