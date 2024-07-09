@@ -501,29 +501,36 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 	-- Check for a Secondary Spell ID
 	mergeID = addon.merge2h[mergeID] or mergeID
 
+	-- how often to update
+	interval = interval or (db and db.interval) or 0.5
+
 	local heap, stack = spamHeap[framename], spamStack[framename]
 	if heap[mergeID] then
 		heap[mergeID].color = colorname
-		table_insert(heap[mergeID].entries, message)
 
-		if heap[mergeID].last + heap[mergeID].update <= now then
-			heap[mergeID].last = now
+		if tonumber(message) then
+			heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
+			heap[mergeID].mergedCount  = heap[mergeID].mergedCount + 1
+		end
+
+		if heap[mergeID].displayTime <= now then
+			heap[mergeID].displayTime = now + interval
 		end
 	else
 		local db = addon.defaults.profile.spells.merge[mergeID]
+
 		heap[mergeID] = {
-			-- last update
-			last = now,
+			-- after this time we display it on the frame
+			displayTime = now + interval,
 
 			-- how often to update
-			update = interval or (db and db.interval) or 3,
+			update = interval,
 
-			prep = prep or (db and db.prep) or interval or 3,
+			prep = prep or (db and db.prep) or interval or 0.5,
 
-			-- entries to merge
-			entries = {
-					message,
-				},
+			-- merged entries
+			mergedAmount = tonumber(message) or 0,
+			mergedCount = 1,
 
 			-- color
 			color = colorname,
@@ -634,23 +641,18 @@ do
 		-- This item contains a lot of information about what we need to merge
 		local item = heap[stack[idIndex]]
 
-		--if item then print(item.last, "+", item.update, "<", now) end
-		if item and item.last + item.update <= now and #item.entries > 0 then
-			item.last = now
-
-			-- Add up all the entries
-			local total = 0
-			for _, amount in pairs(item.entries) do
-				if not tonumber(amount) then total = amount; break end
-				total = total + amount	-- Add all the amounts
-			end
+		--if item then print(item.displayTime, " < ", now, "?") end
+		if item and item.displayTime <= now and item.mergedCount > 0 then
+			item.displayTime = now
 
 			-- total as a string
-			local message = tostring(total)
+			local message
 
 			-- Abbreviate the merged total
-			if tonumber(total) then
-				message = x:Abbreviate(tonumber(total), frameName)
+			if tonumber(item.mergedAmount) then
+				message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
+			else
+				message = tostring(item.mergedAmount)
 			end
 
 			--local format_mergeCount = "%s |cffFFFFFFx%s|r"
@@ -706,10 +708,10 @@ do
 				                                      settings.fontJustify,
 				                                      strColor,
 				                                      true, -- Merge Override = true
-				                                      #item.entries )
-			elseif frameName == "healing" then
-				if #item.entries > 1 then
-					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%s|r", settings.iconsSize, settings.iconsSize, message, strColor, #item.entries)
+				                                      item.mergedCount )
+			elseif frameName == "healing" or frameName == "damage" then
+				if item.mergedCount > 1 then
+					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%s|r", settings.iconsSize, settings.iconsSize, message, strColor, item.mergedCount)
 				else
 					message = sformat(" |T"..x.BLANK_ICON..":%d:%d:0:0:64:64:5:59:5:59|t %s", settings.iconsSize, settings.iconsSize, message)
 				end
@@ -717,10 +719,9 @@ do
 
 			x:AddMessage(frameIndex[index], message, item.color)
 
-			-- Clear all the old entries, we dont need them anymore
-			for k in pairs(item.entries) do
-				item.entries[k] = nil
-			end
+			-- Clear all the old amounts, we dont need them anymore
+			item.mergedAmount = 0
+			item.mergedCount  = 0
 		end
 
 		frames[frameIndex[index]] = idIndex + 1
@@ -1050,7 +1051,7 @@ local function GetRandomSpellID()
 	local icon, spellID
 	repeat
 		spellID = random(100, 80000)
-		icon = select(3, GetSpellInfo(spellID))
+		icon = C_Spell.GetSpellTexture(spellID)
 	until icon and icon ~= 136243
 	return spellID
 end
@@ -1213,7 +1214,7 @@ function x.TestMoreUpdate(self, elapsed)
 					if not g and not s and not c then return end
 					x:AddMessage(output, MONEY .. ": " .. message, color)
 				else
-					x:AddMessage(output, MONEY .. ": " .. GetCoinTextureString(random(1000000)), color)
+					x:AddMessage(output, MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)), color)
 				end
 			end
 		end

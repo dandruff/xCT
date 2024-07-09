@@ -268,7 +268,7 @@ end
 
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic( existing )
-    local addonVersionString = GetAddOnMetadata("xCT+", "Version")
+    local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
     local currentVersion = VersionToTable(addonVersionString)
     local previousVersion = VersionToTable(self.db.profile.dbVersion or "4.3.0 Beta 2")
 
@@ -429,6 +429,12 @@ local CLASS_NAMES = {
     [103] = 2,   -- Feral
     [104] = 3,   -- Guardian
     [105] = 4,   -- Restoration
+  },
+  ["EVOKER"] = {
+    [0]  = 0,    -- All Specs
+    [1467] = 1,  -- Devastation
+    [1468] = 2,  -- Preservation
+    [1473] = 3,  -- Augmentation
   },
   ["HUNTER"] = {
     [0]   = 0,   -- All Specs
@@ -621,7 +627,7 @@ function x:UpdateSpamSpells()
 
   -- Update the UI
   for spellID, entry in pairs(addon.merges) do
-    local name = GetSpellInfo(spellID)
+    local name = C_Spell.GetSpellName(spellID)
     if name then
     
     --TODO better code when i understand more the code
@@ -937,7 +943,7 @@ function x:UpdateComboPointOptions(force)
         comboSpells.args[tostring(spec) .. "," .. tostring(index)] = {
           order = offset,
           type = 'toggle',
-          name = GetSpellInfo(entry.id),
+          name = C_Spell.GetSpellName(entry.id),
           desc = "Unit to track: |cffFF0000" .. entry.unit .. "|r\nSpell ID: |cffFF0000" .. entry.id .. "|r",
           get = getCP_2,
           set = setCP_2,
@@ -1109,7 +1115,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     for id in pairs(x.db.profile.spellFilter.listSpells) do
       local spellID = tonumber(string_match(id, "%d+"))
-      local spellName = GetSpellInfo(spellID)
+      local spellName = C_Spell.GetSpellName(spellID)
       if spellName then
         updated = true
         spells[id] = {
@@ -1150,7 +1156,8 @@ function x:UpdateAuraSpellFilter(specific)
 
     for id in pairs(x.db.profile.spellFilter.listItems) do
       local spellID = tonumber(string_match(id, "%d+"))
-      local name, _, _, _, _, _, _, _, _, texture = GetItemInfo(spellID or id)
+      local name = C_Item.GetItemNameByID(spellID or id)
+      local texture = C_Item.GetItemIconByID(spellID or id)
       name = name or "Unknown Item"
       updated = true
       spells[id] = {
@@ -1187,7 +1194,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     for id in pairs(x.db.profile.spellFilter.listDamage) do
       local spellID = tonumber(string_match(id, "%d+"))
-      local spellName = GetSpellInfo(spellID or id)
+      local spellName = C_Spell.GetSpellName(spellID or id)
       if spellName then
         updated = true
         spells[id] = {
@@ -1227,7 +1234,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     for id in pairs(x.db.profile.spellFilter.listHealing) do
       local spellID = tonumber(string_match(id, "%d+"))
-      local spellName = GetSpellInfo(spellID or id)
+      local spellName = C_Spell.GetSpellName(spellID or id)
       if spellName then
         updated = true
         spells[id] = {
@@ -1264,7 +1271,7 @@ function x.AddFilteredSpell(name, category)
     x:UpdateAuraSpellFilter("debuffs")
   elseif category == "listSpells" then
     local spellID = tonumber(string_match(name, "%d+"))
-    if spellID and GetSpellInfo(spellID) then
+    if spellID and C_Spell.GetSpellName(spellID) then
       x.db.profile.spellFilter.listSpells[name] = true
       x:UpdateAuraSpellFilter("spells")
     else
@@ -1296,7 +1303,7 @@ function x.RemoveFilteredSpell(name, category)
     x:UpdateAuraSpellFilter("debuffs")
   elseif category == "listSpells" then
     local spellID = tonumber(string_match(name, "%d+"))
-    if spellID and GetSpellInfo(spellID) then
+    if spellID and C_Spell.GetSpellName(spellID) then
       x.db.profile.spellFilter.listSpells[name] = nil
       x:UpdateAuraSpellFilter("spells")
     else
@@ -1703,6 +1710,15 @@ local ACR = LibStub('AceConfigRegistry-3.0')
 ACD:SetDefaultSize(AddonName, 803, 560)
 AC:RegisterOptionsTable(AddonName, addon.options)
 
+-- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
+AddonCompartmentFrame:RegisterAddon({
+  text = AddonName,
+  registerForAnyClick = true,
+  notCheckable = true,
+  func = function(btn, arg1, arg2, checked, mouseButton)
+    x.ToggleConfigTool()
+  end
+})
 
 --AC:RegisterOptionsTable(AddonName.."Blizzard", x.blizzardOptions)
 --ACD:AddToBlizOptions(AddonName.."Blizzard", "|cffFF0000x|rCT+")
