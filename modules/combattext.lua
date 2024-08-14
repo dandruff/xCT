@@ -586,7 +586,7 @@ function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIc
   elseif type(spellID) == 'string' then
     icon = spellID
   else
-    icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
+    icon = spellID and C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
   end
 
   if iconSize < 1 then
