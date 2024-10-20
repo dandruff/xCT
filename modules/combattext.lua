@@ -1582,7 +1582,6 @@ local CombatEventHandlers = {
         end
 
         if MergeSpells() then
-          print('DamageIncoming ' .. args.spellId .. ' ' .. args.amount)
             x:AddSpamMessage(
                 'damage',
                 args.spellId,
