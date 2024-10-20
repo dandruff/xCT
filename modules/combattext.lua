@@ -594,7 +594,7 @@ function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIc
       elseif type(spellID) == 'string' then
           icon = spellID
       else
-          icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
+          icon = spellID and C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
       end
   end
 
@@ -1850,9 +1850,9 @@ local CombatEventHandlers = {
 
     ["SpellEnergize"] = function (args)
         local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
-        if not energy_type then 
-            print('xct: unknown SpellEnergize power type: ' .. args.powerType) 
-            return 
+        if not energy_type then
+            print('xct: unknown SpellEnergize power type: ' .. args.powerType)
+            return
         end
         if not ShowEnergyGains() then return end
         if FilterPlayerPower(mabs(tonumber(amount))) then return end
