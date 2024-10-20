@@ -245,7 +245,6 @@ local function HideAbsorbedHealing() return x.db.profile.frames["healing"].hideA
 local function ShowEnergyGains() return x.db.profile.frames["power"].showEnergyGains end
 local function ShowPeriodicEnergyGains() return x.db.profile.frames["power"].showPeriodicEnergyGains end
 local function ShowEnergyTypes() return x.db.profile.frames["power"].showEnergyType end
-local function ShowIncomingAutoAttackIcons() return x.db.profile.frames["damage"].iconsEnabledAutoAttack end
 
 -- These settings are for the overhealing that the player does
 local function ShowOutgoingOverHealing() return x.db.profile.frames["outgoing"].enableOverhealing end
@@ -562,6 +561,10 @@ function x.OnCombatTextEvent(self, event, ...)
   end
 end
 
+function x:ShowIncomingAutoAttackIcons()
+    return x.db.profile.frames["damage"].iconsEnabledAutoAttack
+end
+
 --[=====================================================[
  AddOn:GetSpellTextureFormatted(
     spellID,        [number] - The spell ID you want the icon for
@@ -576,27 +579,23 @@ end
   Returns:
     message,     [string] - the message contains the formatted icon
 
-    Formats an icon quickly for use when outputing to a combat text frame.
+    Formats an icon quickly for use when outputting to a combat text frame.
 --]=====================================================]
 function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIcon, justify, strColor, mergeOverride, entries )
-  local icon = x.BLANK_ICON
   strColor = strColor or format_strcolor_white
-  if spellID == 0 then
-    icon = PET_ATTACK_TEXTURE
-  elseif type(spellID) == 'string' then
-    icon = spellID
-  elseif spellID == 6603 then
-    -- Auto attack
-    icon = x.BLANK_ICON
-  else
-    icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
-  end
 
-  if iconSize < 1 then
-    icon = x.BLANK_ICON
-  else
-    -- always show unless we specify enableIcons to be off (overriding iconSize to be -1)
-    showInvisibleIcon = true
+  local icon = x.BLANK_ICON
+  if iconSize >= 1 then
+      -- always show unless we specify enableIcons to be off (overriding iconSize to be -1)
+      showInvisibleIcon = true
+
+      if spellID == 0 then
+          icon = PET_ATTACK_TEXTURE
+      elseif type(spellID) == 'string' then
+          icon = spellID
+      else
+          icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
+      end
   end
 
   if mergeOverride then
@@ -1603,18 +1602,22 @@ local CombatEventHandlers = {
         message = message .. x.formatName(args, settings.names, true)
 
         -- Add Icons (Hide Auto Attack icons)
-        if args.prefix ~= "SWING" or ShowIncomingAutoAttackIcons() then
-            message = x:GetSpellTextureFormatted(args.spellId,
-                                                 message,
-                   x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
-                   x.db.profile.frames['damage'].spacerIconsEnabled,
-                   x.db.profile.frames['damage'].fontJustify)
+        if args.prefix ~= "SWING" or x:ShowIncomingAutoAttackIcons() then
+            message = x:GetSpellTextureFormatted(
+                args.spellId,
+                message,
+                x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+                x.db.profile.frames['damage'].spacerIconsEnabled,
+                x.db.profile.frames['damage'].fontJustify
+            )
         else
-            message = x:GetSpellTextureFormatted(nil,
-                                                 message,
-                   x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
-                   x.db.profile.frames['damage'].spacerIconsEnabled,
-                   x.db.profile.frames['damage'].fontJustify)
+            message = x:GetSpellTextureFormatted(
+                nil,
+                message,
+                x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+                x.db.profile.frames['damage'].spacerIconsEnabled,
+                x.db.profile.frames['damage'].fontJustify
+            )
         end
 
         -- Output message

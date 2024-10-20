@@ -696,10 +696,16 @@ do
             end
 
             -- Add Icons
+            local iconSize = settings.iconsEnabled and settings.iconsSize or -1
+            if frameName == 'damage' and stack[idIndex] == 6603 and not x:ShowIncomingAutoAttackIcons() then
+                -- Disable the auto attack icon for the incoming damage frame
+                iconSize = -1
+            end
+
             message = x:GetSpellTextureFormatted(
                 stack[idIndex],
                 message,
-                settings.iconsEnabled and settings.iconsSize or -1,
+                iconSize,
                 settings.spacerIconsEnabled,
                 settings.fontJustify,
                 strColor,
