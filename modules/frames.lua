@@ -679,7 +679,7 @@ do
             -- Show healer name (colored)
             elseif frameName == "healing" then
                 --format_mergeCount = "%s |cffFFFF00x%s|r"
-                local strColor = "ffff00"
+                strColor = "ffff00"
 
                 if settings.names[item.sourceController].nameType == 1 then
                     fakeArgs.sourceName = stack[idIndex]

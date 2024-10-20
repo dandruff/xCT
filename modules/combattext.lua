@@ -1098,7 +1098,7 @@ local function hexNameColor(t)
     return sformat("ff%2X%2X%2X", mfloor(t[1]*255+.5), mfloor(t[2]*255+.5), mfloor(t[3]*255+.5))
 end
 
--- Checks the options you provide and outputs the correctly formated name
+-- Checks the options you provide and outputs the correctly formatted name
 local function formatNameHelper(name, enableColor, color, enableCustomColor, customColor)
     if enableColor then
         if enableCustomColor then
@@ -1155,7 +1155,7 @@ formatNameTypes = {
 
     function (args, settings, isSource) -- [2] = Spell Name
         local color
-            if settings.enableNameColor and not settings.enableCustomNameColor then
+        if settings.enableNameColor and not settings.enableCustomNameColor then
 
             -- NOTE: I don't think we want the spell school of the spell
             --       being cast. We want the spell school of the damage
@@ -1190,7 +1190,7 @@ formatNameTypes = {
     end
 }
 
--- Check to see if the name needs for be formated, if so, handle all the logistics
+-- Check to see if the name needs for be formatted, if so, handle all the logistics
 function x.formatName(args, settings, isSource)
     -- Event Type helper
     local index = isSource and (args.fake_sourceController or args:GetSourceController())
