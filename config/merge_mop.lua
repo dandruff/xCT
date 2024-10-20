@@ -22,10 +22,10 @@ local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
 header " 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDLegendary Cloaks|r"
 do
-	item '147891' '3.5' "Legedary Cloak for Melee"
-	item '148008' '3.5' "Legedary Cloak for Casters"
-	item '148009' '5.0' "Legedary Cloak for Healers"
-	item '149276' '3.5' "Legedary Cloak for Hunters"
+	item '147891' '3.5' "Legendary Cloak for Melee"
+	item '148008' '3.5' "Legendary Cloak for Casters"
+	item '148009' '5.0' "Legendary Cloak for Healers"
+	item '149276' '3.5' "Legendary Cloak for Hunters"
 end
 
 header " 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDTrinkets|r"
