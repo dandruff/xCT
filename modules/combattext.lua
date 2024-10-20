@@ -585,6 +585,9 @@ function x:GetSpellTextureFormatted( spellID, message, iconSize, showInvisibleIc
     icon = PET_ATTACK_TEXTURE
   elseif type(spellID) == 'string' then
     icon = spellID
+  elseif spellID == 6603 then
+    -- Auto attack
+    icon = x.BLANK_ICON
   else
     icon = C_Spell.GetSpellTexture( addon.merge2h[spellID] or spellID ) or x.BLANK_ICON
   end
@@ -1579,6 +1582,7 @@ local CombatEventHandlers = {
         end
 
         if MergeSpells() then
+          print('DamageIncoming ' .. args.spellId .. ' ' .. args.amount)
             x:AddSpamMessage(
                 'damage',
                 args.spellId,
