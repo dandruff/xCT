@@ -70,26 +70,26 @@ end
  Power Type Definitions
 --]=====================================================]
 x.POWER_LOOKUP = {
-	[0] = "MANA",
-	[1] = "RAGE",
-	[2] = "FOCUS",
-	[3] = "ENERGY",
-	[4] = "COMBO_POINTS",
-	[5] = "RUNES",
-	[6] = "RUNIC_POWER",
-	[7] = "SOUL_SHARDS",
-	[8] = "LUNAR_POWER",
-	[9] = "HOLY_POWER",
-	[10] = "ALTERNATE_POWER_INDEX",
-	[11] = "MAELSTROM",
-	[12] = "CHI",
-	[13] = "INSANITY",
-	[14] = "BURNING_EMBERS",
-	[15] = "DEMONIC_FURY",
-	[16] = "ARCANE_CHARGES",
-	[17] = "FURY",
-	[18] = "PAIN",
-	[25] = "VIGOR",
+    [0] = "MANA",
+    [1] = "RAGE",
+    [2] = "FOCUS",
+    [3] = "ENERGY",
+    [4] = "COMBO_POINTS",
+    [5] = "RUNES",
+    [6] = "RUNIC_POWER",
+    [7] = "SOUL_SHARDS",
+    [8] = "LUNAR_POWER",
+    [9] = "HOLY_POWER",
+    [10] = "ALTERNATE_POWER_INDEX",
+    [11] = "MAELSTROM",
+    [12] = "CHI",
+    [13] = "INSANITY",
+    [14] = "BURNING_EMBERS",
+    [15] = "DEMONIC_FURY",
+    [16] = "ARCANE_CHARGES",
+    [17] = "FURY",
+    [18] = "PAIN",
+    [25] = "VIGOR",
 }
 
 
@@ -277,47 +277,47 @@ local function MergeDispells() return x.db.profile.spells.mergeDispells end
 
 local function FilterPlayerPower(value) return x.db.profile.spellFilter.filterPowerValue > value end
 local function FilterOutgoingDamage(value, critical)
-	if critical and x.db.profile.spellFilter.filterOutgoingDamageCritEnabled then
-		return x.db.profile.spellFilter.filterOutgoingDamageCritValue > value
-	else
-		return x.db.profile.spellFilter.filterOutgoingDamageValue > value
-	end
+    if critical and x.db.profile.spellFilter.filterOutgoingDamageCritEnabled then
+        return x.db.profile.spellFilter.filterOutgoingDamageCritValue > value
+    else
+        return x.db.profile.spellFilter.filterOutgoingDamageValue > value
+    end
 end
 local function FilterOutgoingHealing(value, critical)
-	if critical and x.db.profile.spellFilter.filterOutgoingHealingCritEnabled then
-		return x.db.profile.spellFilter.filterOutgoingHealingCritValue > value
-	else
-		return x.db.profile.spellFilter.filterOutgoingHealingValue > value
-	end
+    if critical and x.db.profile.spellFilter.filterOutgoingHealingCritEnabled then
+        return x.db.profile.spellFilter.filterOutgoingHealingCritValue > value
+    else
+        return x.db.profile.spellFilter.filterOutgoingHealingValue > value
+    end
 end
 local function FilterIncomingDamage(value, critical)
-	if critical and x.db.profile.spellFilter.filterIncomingDamageCritEnabled then
-		return x.db.profile.spellFilter.filterIncomingDamageCritValue > value
-	else
-		return x.db.profile.spellFilter.filterIncomingDamageValue > value
-	end
+    if critical and x.db.profile.spellFilter.filterIncomingDamageCritEnabled then
+        return x.db.profile.spellFilter.filterIncomingDamageCritValue > value
+    else
+        return x.db.profile.spellFilter.filterIncomingDamageValue > value
+    end
 end
 local function FilterIncomingHealing(value, critical)
-	if critical and x.db.profile.spellFilter.filterIncomingHealingCritEnabled then
-		return x.db.profile.spellFilter.filterIncomingHealingCritValue > value
-	else
-		return x.db.profile.spellFilter.filterIncomingHealingValue > value
-	end
+    if critical and x.db.profile.spellFilter.filterIncomingHealingCritEnabled then
+        return x.db.profile.spellFilter.filterIncomingHealingCritValue > value
+    else
+        return x.db.profile.spellFilter.filterIncomingHealingValue > value
+    end
 end
 local function TrackSpells() return x.db.profile.spellFilter.trackSpells end
 
 local function IsResourceDisabled( resource, amount )
-	if resource == "ECLIPSE" then
-		if amount > 0 then
-			return x.db.profile.frames["power"].disableResource_ECLIPSE_positive
-		elseif amount < 0 then
-			return x.db.profile.frames["power"].disableResource_ECLIPSE_negative
-		end
-	end
-	if x.db.profile.frames["power"]["disableResource_"..resource] ~= nil then
-		return x.db.profile.frames["power"]["disableResource_"..resource]
-	end
-	return true
+    if resource == "ECLIPSE" then
+        if amount > 0 then
+            return x.db.profile.frames["power"].disableResource_ECLIPSE_positive
+        elseif amount < 0 then
+            return x.db.profile.frames["power"].disableResource_ECLIPSE_negative
+        end
+    end
+    if x.db.profile.frames["power"]["disableResource_"..resource] ~= nil then
+        return x.db.profile.frames["power"]["disableResource_"..resource]
+    end
+    return true
 end
 
 local function IsBearForm() return GetShapeshiftForm() == 1 and x.player.class == "DRUID" end
@@ -374,7 +374,7 @@ local function IsHealingFiltered(name)
 end
 
 local function MergeSpells()
-	return x.db.profile.spells.enableMerger
+    return x.db.profile.spells.enableMerger
 end
 
 local function UseStandardSpellColors() return not x.db.profile.frames["outgoing"].standardSpellColor end
@@ -534,21 +534,21 @@ local COMBATLOG_FILTER_MY_VEHICLE = bit.bor( COMBATLOG_OBJECT_AFFILIATION_MINE,
 --]=====================================================]
 function x.OnCombatTextEvent(self, event, ...)
 
-	--[====[
-	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
+    --[====[
+    if event == "COMBAT_LOG_EVENT_UNFILTERED" then
     local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = CombatLogGetCurrentEventInfo()
-	--local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
+    --local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
 
     if sourceGUID == x.player.guid or
-    	( sourceGUID == UnitGUID("pet") and ShowPetDamage() ) or
-    	sourceFlags == COMBATLOG_FILTER_MY_VEHICLE
+        ( sourceGUID == UnitGUID("pet") and ShowPetDamage() ) or
+        sourceFlags == COMBATLOG_FILTER_MY_VEHICLE
     then
       if x.outgoing_events[eventType] then
         x.outgoing_events[eventType](...)
       end
     end
   else
-	]====]
+    ]====]
 
   if event == "COMBAT_TEXT_UPDATE" then
     local subevent, arg2, arg3 = ...
@@ -787,7 +787,7 @@ end
 x.combat_events = {
 
   ["SPELL_ACTIVE"] = function(spellName)
-	  if not spellName then return end -- trying to fix table index is nil error
+      if not spellName then return end -- trying to fix table index is nil error
       if TrackSpells() then x.spellCache.procs[spellName] = true end
       if IsProcFiltered(spellName) then return end
 
@@ -816,22 +816,22 @@ x.combat_events = {
   -- REMOVING PERIODIC_ENERGIZE, AS IT'S NOW COVERED BY SPELLENERGIZE Event
 
   -- TODO: Create a merger for faction and honor xp
-	["HONOR_GAINED"] = function() -- UNTESTED
-		local amount = GetCurrentCombatTextEventInfo()
-		local num = mfloor(tonumber(amount) or 0)
-		if num > 0 and ShowHonor() then
-			x:AddMessage('general', sformat(format_honor, HONOR, x:Abbreviate(amount,"general")), 'honorGains')
-		end
-	end,
+    ["HONOR_GAINED"] = function() -- UNTESTED
+        local amount = GetCurrentCombatTextEventInfo()
+        local num = mfloor(tonumber(amount) or 0)
+        if num > 0 and ShowHonor() then
+            x:AddMessage('general', sformat(format_honor, HONOR, x:Abbreviate(amount,"general")), 'honorGains')
+        end
+    end,
 
-	["FACTION"] = function() -- TESTED
-		local faction, amount = GetCurrentCombatTextEventInfo()
-		local num = mfloor(tonumber(amount) or 0)
-		if num > 0 and ShowFaction() then
-			x:AddMessage('general', sformat(format_faction_add, faction, x:Abbreviate(amount,'general')), 'reputationGain')
-		elseif num < 0 and ShowFaction() then
-			x:AddMessage('general', sformat(format_faction_sub, faction, x:Abbreviate(amount,'general')), 'reputationLoss')
-		end
+    ["FACTION"] = function() -- TESTED
+        local faction, amount = GetCurrentCombatTextEventInfo()
+        local num = mfloor(tonumber(amount) or 0)
+        if num > 0 and ShowFaction() then
+            x:AddMessage('general', sformat(format_faction_add, faction, x:Abbreviate(amount,'general')), 'reputationGain')
+        elseif num < 0 and ShowFaction() then
+            x:AddMessage('general', sformat(format_faction_sub, faction, x:Abbreviate(amount,'general')), 'reputationLoss')
+        end
     end,
 }
 
@@ -977,7 +977,7 @@ x.events = {
           local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
           -- "%s%s: %s [%s]%s %%s"
           local message = sformat(format_lewtz,
-              ShowLootItemTypes() and itemType or "Item",		-- Item Type
+              ShowLootItemTypes() and itemType or "Item",        -- Item Type
               ShowColorBlindMoney()                     -- Item Quality (Color Blind)
                 and sformat(format_lewtz_blind,
                               _G[sformat(format_quality,
@@ -1085,121 +1085,121 @@ x.events = {
 -- Changes a color table into a hex string
 
 local function hexNameColor(t)
-	if type(t) == "string" then
-		return "ff"..t
-	elseif not t then
-		return "ffFFFFFF"
-	elseif t.colorStr then -- Support Blizzard's raid colors
-		return t.colorStr
-	end
-	return sformat("ff%2X%2X%2X", mfloor(t[1]*255+.5), mfloor(t[2]*255+.5), mfloor(t[3]*255+.5))
+    if type(t) == "string" then
+        return "ff"..t
+    elseif not t then
+        return "ffFFFFFF"
+    elseif t.colorStr then -- Support Blizzard's raid colors
+        return t.colorStr
+    end
+    return sformat("ff%2X%2X%2X", mfloor(t[1]*255+.5), mfloor(t[2]*255+.5), mfloor(t[3]*255+.5))
 end
 
 -- Checks the options you provide and outputs the correctly formated name
 local function formatNameHelper(name, enableColor, color, enableCustomColor, customColor)
-	if enableColor then
-		if enableCustomColor then
-			return "|c"..hexNameColor(customColor)..name.."|r"
-		end
-		return "|c"..hexNameColor(color)..name.."|r"
-	end
-	return "|cffFFFFFF"..name.."|r"
+    if enableColor then
+        if enableCustomColor then
+            return "|c"..hexNameColor(customColor)..name.."|r"
+        end
+        return "|c"..hexNameColor(color)..name.."|r"
+    end
+    return "|cffFFFFFF"..name.."|r"
 end
 
 -- Format Handlers for name
 local CLASS_LOOKUP = {
-	[1]    = "DEATHKNIGHT",
-	[2]    = "DEMONHUNTER",
-	[4]    = "DRUID",
-	[8]    = "EVOKER",
-	[16]   = "HUNTER",
-	[32]   = "MAGE",
-	[64]   = "MONK",
-	[128]  = "PALADIN",
-	[256]  = "PRIEST",
-	[512]  = "ROGUE",
-	[1024] = "SHAMAN",
-	[2048] = "WARLOCK",
-	[4096] = "WARRIOR"
+    [1]    = "DEATHKNIGHT",
+    [2]    = "DEMONHUNTER",
+    [4]    = "DRUID",
+    [8]    = "EVOKER",
+    [16]   = "HUNTER",
+    [32]   = "MAGE",
+    [64]   = "MONK",
+    [128]  = "PALADIN",
+    [256]  = "PRIEST",
+    [512]  = "ROGUE",
+    [1024] = "SHAMAN",
+    [2048] = "WARLOCK",
+    [4096] = "WARRIOR"
 }
 
 local formatNameTypes
 formatNameTypes = {
-	function (args, settings, isSource) -- [1] = Source/Destination Name
-		local guid, name, color = isSource and args.sourceGUID or args.destGUID, isSource and args.sourceName or args.destName
+    function (args, settings, isSource) -- [1] = Source/Destination Name
+        local guid, name, color = isSource and args.sourceGUID or args.destGUID, isSource and args.sourceName or args.destName
 
-		if settings.removeRealmName then
-			name = smatch(name, format_remove_realm) or name
-		end
+        if settings.removeRealmName then
+            name = smatch(name, format_remove_realm) or name
+        end
 
-		if settings.enableNameColor and not settings.enableCustomNameColor then
-			if args.prefix == "ENVIRONMENTAL" then
-				color = x.spellColors[args.school or args.spellSchool or 1]
-			else
-				if smatch(guid, "^Player") then
-					local _, class = GetPlayerInfoByGUID(guid)
-					color = RAID_CLASS_COLORS[class or 0]
-				end
-			end
-		end
+        if settings.enableNameColor and not settings.enableCustomNameColor then
+            if args.prefix == "ENVIRONMENTAL" then
+                color = x.spellColors[args.school or args.spellSchool or 1]
+            else
+                if smatch(guid, "^Player") then
+                    local _, class = GetPlayerInfoByGUID(guid)
+                    color = RAID_CLASS_COLORS[class or 0]
+                end
+            end
+        end
 
-		return formatNameHelper(name,
-		               settings.enableNameColor,
-		                        color,
-		               settings.enableCustomNameColor,
-		               settings.customNameColor)
-	end,
+        return formatNameHelper(name,
+                       settings.enableNameColor,
+                                color,
+                       settings.enableCustomNameColor,
+                       settings.customNameColor)
+    end,
 
-	function (args, settings, isSource) -- [2] = Spell Name
-		local color
-			if settings.enableNameColor and not settings.enableCustomNameColor then
+    function (args, settings, isSource) -- [2] = Spell Name
+        local color
+            if settings.enableNameColor and not settings.enableCustomNameColor then
 
-			-- NOTE: I don't think we want the spell school of the spell
-			--       being cast. We want the spell school of the damage
-			--       being done. That said, if you want to change it so
-			--       that the spell name matches the type of spell it
-			--       is, and not the type of damage it does, change
-			--       "args.school" to "args.spellSchool".
-			color = x.GetSpellSchoolColor(args.school or args.spellSchool)
-		end
+            -- NOTE: I don't think we want the spell school of the spell
+            --       being cast. We want the spell school of the damage
+            --       being done. That said, if you want to change it so
+            --       that the spell name matches the type of spell it
+            --       is, and not the type of damage it does, change
+            --       "args.school" to "args.spellSchool".
+            color = x.GetSpellSchoolColor(args.school or args.spellSchool)
+        end
 
-		return formatNameHelper(args.spellName,
-		                    settings.enableSpellColor,
-		                             color,
-		                    settings.enableCustomSpellColor,
-		                    settings.customSpellColor)
-	end,
+        return formatNameHelper(args.spellName,
+                            settings.enableSpellColor,
+                                     color,
+                            settings.enableCustomSpellColor,
+                            settings.customSpellColor)
+    end,
 
-	function (args, settings, isSource) -- [3] = Source Name - Spell Name
-		if args.hideCaster then
-			return formatNameTypes[2](args, settings, isSource)
-		end
+    function (args, settings, isSource) -- [3] = Source Name - Spell Name
+        if args.hideCaster then
+            return formatNameTypes[2](args, settings, isSource)
+        end
 
-		return formatNameTypes[1](args, settings, isSource) .. " - " .. formatNameTypes[2](args, settings, isSource)
-	end,
+        return formatNameTypes[1](args, settings, isSource) .. " - " .. formatNameTypes[2](args, settings, isSource)
+    end,
 
-	function (args, settings, isSource) -- [4] = Spell Name - Source Name
-		if args.hideCaster then
-			return formatNameTypes[2](args, settings, isSource)
-		end
+    function (args, settings, isSource) -- [4] = Spell Name - Source Name
+        if args.hideCaster then
+            return formatNameTypes[2](args, settings, isSource)
+        end
 
-		return formatNameTypes[2](args, settings, isSource) .. " - " .. formatNameTypes[1](args, settings, isSource)
-	end
+        return formatNameTypes[2](args, settings, isSource) .. " - " .. formatNameTypes[1](args, settings, isSource)
+    end
 }
 
 -- Check to see if the name needs for be formated, if so, handle all the logistics
 function x.formatName(args, settings, isSource)
-	-- Event Type helper
-	local index = isSource and (args.fake_sourceController or args:GetSourceController())
-													or (args.fake_destinationController or args:GetDestinationController())
+    -- Event Type helper
+    local index = isSource and (args.fake_sourceController or args:GetSourceController())
+                                                    or (args.fake_destinationController or args:GetDestinationController())
 
-	local eventType = settings[index]
+    local eventType = settings[index]
 
-	-- If we have a valid event type that we can handle
-	if eventType and eventType.nameType > 0 then
-		return settings.namePrefix .. formatNameTypes[eventType.nameType](args, eventType, isSource) .. settings.namePostfix
-	end
-	return "" -- Names not supported
+    -- If we have a valid event type that we can handle
+    if eventType and eventType.nameType > 0 then
+        return settings.namePrefix .. formatNameTypes[eventType.nameType](args, eventType, isSource) .. settings.namePostfix
+    end
+    return "" -- Names not supported
 end
 
 -- =====================================================
@@ -1207,72 +1207,72 @@ end
 -- =====================================================
 
 local missTypeColorLookup = {
-	['MISS'] = 'missTypeMiss',
-	['DODGE'] = 'missTypeDodge',
-	['PARRY'] = 'missTypeParry',
-	['EVADE'] = 'missTypeEvade',
-	['IMMUNE'] = 'missTypeImmune',
-	['DEFLECT'] = 'missTypeDeflect',
-	['REFLECT'] = 'missTypeReflect'
+    ['MISS'] = 'missTypeMiss',
+    ['DODGE'] = 'missTypeDodge',
+    ['PARRY'] = 'missTypeParry',
+    ['EVADE'] = 'missTypeEvade',
+    ['IMMUNE'] = 'missTypeImmune',
+    ['DEFLECT'] = 'missTypeDeflect',
+    ['REFLECT'] = 'missTypeReflect'
 }
 
 local PARTIAL_MISS_FORMATTERS = {
-	['absorbed'] = " |c%s"..(TEXT_MODE_A_STRING_RESULT_ABSORB:gsub("%%d","%%s")).."|r", -- |c%s(%s Absorbed)|r
-	['blocked']  = " |c%s"..( TEXT_MODE_A_STRING_RESULT_BLOCK:gsub("%%d","%%s")).."|r", -- |c%s(%s Blocked)|r
-	['resisted'] = " |c%s"..(TEXT_MODE_A_STRING_RESULT_RESIST:gsub("%%d","%%s")).."|r", -- |c%s(%s Resisted)|r
+    ['absorbed'] = " |c%s"..(TEXT_MODE_A_STRING_RESULT_ABSORB:gsub("%%d","%%s")).."|r", -- |c%s(%s Absorbed)|r
+    ['blocked']  = " |c%s"..( TEXT_MODE_A_STRING_RESULT_BLOCK:gsub("%%d","%%s")).."|r", -- |c%s(%s Blocked)|r
+    ['resisted'] = " |c%s"..(TEXT_MODE_A_STRING_RESULT_RESIST:gsub("%%d","%%s")).."|r", -- |c%s(%s Resisted)|r
 }
 
 local PARTIAL_MISS_COLORS = {
-	['absorbed'] = 'missTypeAbsorbPartial',
-	['blocked']  = 'missTypeBlockPartial',
-	['resisted'] = 'missTypeResistPartial',
+    ['absorbed'] = 'missTypeAbsorbPartial',
+    ['blocked']  = 'missTypeBlockPartial',
+    ['resisted'] = 'missTypeResistPartial',
 }
 
 local FULL_MISS_COLORS = {
-	['absorbed'] = 'missTypeAbsorb',
-	['blocked']  = 'missTypeBlock',
-	['resisted'] = 'missTypeResist',
+    ['absorbed'] = 'missTypeAbsorb',
+    ['blocked']  = 'missTypeBlock',
+    ['resisted'] = 'missTypeResist',
 }
 
 
 local function GetPartialMiss(args, settings, outgoingFrame)
-	local blocked, absorbed, resisted = args.blocked or 0, args.absorbed or 0, args.resisted or 0
-	if blocked > 0 or absorbed > 0 or resisted > 0 then
+    local blocked, absorbed, resisted = args.blocked or 0, args.absorbed or 0, args.resisted or 0
+    if blocked > 0 or absorbed > 0 or resisted > 0 then
 
-		-- Show only the highest partial miss
-		if settings.showHighestPartialMiss then
-			local maxType, color
-			if blocked > absorbed then
-				if blocked > resisted then maxType = 'blocked' else maxType = 'resisted' end
-			else
-				if absorbed > resisted then maxType = 'absorbed' else maxType = 'resisted' end
-			end
+        -- Show only the highest partial miss
+        if settings.showHighestPartialMiss then
+            local maxType, color
+            if blocked > absorbed then
+                if blocked > resisted then maxType = 'blocked' else maxType = 'resisted' end
+            else
+                if absorbed > resisted then maxType = 'absorbed' else maxType = 'resisted' end
+            end
 
-			color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType]))
-			return true, sformat(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
-		end
+            color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType]))
+            return true, sformat(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
+        end
 
-		-- Show All the partial misses that exsist
-		local message, color = ""
-		if absorbed > 0 then
-			color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed))
-			message = message .. sformat(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
-		end
+        -- Show All the partial misses that exsist
+        local message, color = ""
+        if absorbed > 0 then
+            color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed))
+            message = message .. sformat(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
+        end
 
-		if blocked > 0 then
-			color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked))
-			message = message .. sformat(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
-		end
+        if blocked > 0 then
+            color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked))
+            message = message .. sformat(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
+        end
 
-		if resisted > 0 then
-			color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted))
-			message = message .. sformat(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
-		end
+        if resisted > 0 then
+            color = hexNameColor(x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted))
+            message = message .. sformat(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
+        end
 
-		return true, message
-	else
-		return false, ""
-	end
+        return true, message
+    else
+        return false, ""
+    end
 end
 
 
@@ -1281,743 +1281,756 @@ end
 --               The New Combat Handlers
 -- =====================================================
 local CombatEventHandlers = {
-	["ShieldOutgoing"] = function (args)
-		local buffIndex = x.findBuffIndex(args.destName, args.spellName)
-		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['outgoing'], select(16, C_UnitAuras.GetBuffDataByIndex(args.destName, buffIndex))
-		if not value or value <= 0 then return end
+    ["ShieldOutgoing"] = function (args)
+        local buffIndex = x.findBuffIndex(args.destName, args.spellName)
+        if not buffIndex then return end
+        local settings, value = x.db.profile.frames['outgoing'], select(16, C_UnitAuras.GetBuffDataByIndex(args.destName, buffIndex))
+        if not value or value <= 0 then return end
 
-		-- Keep track of spells that go by
-		if TrackSpells() then x.spellCache.spells[args.spellId] = true end
+        -- Keep track of spells that go by
+        if TrackSpells() then x.spellCache.spells[args.spellId] = true end
 
-		if not ShowAbsorbs() then return end
+        if not ShowAbsorbs() then return end
 
-		-- Filter Ougoing Healing Spell or Amount
-		if IsSpellFiltered(args.spellId) or FilterOutgoingHealing(args.amount) then return end
+        -- Filter Ougoing Healing Spell or Amount
+        if IsSpellFiltered(args.spellId) or FilterOutgoingHealing(args.amount) then return end
 
-		-- Create the message
-		local message = x:Abbreviate(value, 'outgoing')
+        -- Create the message
+        local message = x:Abbreviate(value, 'outgoing')
 
-		message = x:GetSpellTextureFormatted(args.spellId,
-			                                   message,
-			    x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
+        message = x:GetSpellTextureFormatted(args.spellId,
+                                               message,
+                x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
           x.db.profile.frames['outgoing'].spacerIconsEnabled,
-			    x.db.profile.frames['outgoing'].fontJustify)
+                x.db.profile.frames['outgoing'].fontJustify)
 
-		-- Add names
-		message = message .. x.formatName(args, settings.names, true)
+        -- Add names
+        message = message .. x.formatName(args, settings.names, true)
 
-		x:AddMessage('outgoing', message, 'shieldOut')
-	end,
+        x:AddMessage('outgoing', message, 'shieldOut')
+    end,
 
-	["HealingOutgoing"] = function (args)
-		local spellName, spellSchool = args.spellName, args.spellSchool
-		local spellID, isHoT, amount, overhealing, merged = args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
+    ["HealingOutgoing"] = function (args)
+        local spellName, spellSchool = args.spellName, args.spellSchool
+        local spellID, isHoT, amount, overhealing, merged = args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
 
-		-- Keep track of spells that go by
-		if TrackSpells() then x.spellCache.spells[spellID] = true end
+        -- Keep track of spells that go by
+        if TrackSpells() then x.spellCache.spells[spellID] = true end
 
-		if not ShowHealing() then return end
+        if not ShowHealing() then return end
 
-		-- Check to see if this is a HoT
-		if isHoT and not ShowHots() then return end
+        -- Check to see if this is a HoT
+        if isHoT and not ShowHots() then return end
 
-		-- Filter Ougoing Healing Spell or Amount
-		if IsSpellFiltered(spellID) or FilterOutgoingHealing(amount) then return end
+        -- Filter Ougoing Healing Spell or Amount
+        if IsSpellFiltered(spellID) or FilterOutgoingHealing(amount) then return end
 
-		-- Filter Overhealing
-		if ShowOverHealing() then
-			if IsOverhealingSubtracted() then
-				amount = amount - overhealing
-			end
-		else
-			amount = amount - overhealing
-			overhealing = 0
-			if amount < 1 then return end
-		end
+        -- Filter Overhealing
+        if ShowOverHealing() then
+            if IsOverhealingSubtracted() then
+                amount = amount - overhealing
+            end
+        else
+            amount = amount - overhealing
+            overhealing = 0
+            if amount < 1 then return end
+        end
 
-		-- Figure out which frame and color to output
-		local outputFrame, outputColor, critical = "outgoing", "healingOut", args.critical
-		if critical then
-			outputFrame = "critical"
-			outputColor = "healingOutCritical"
-		end
+        -- Figure out which frame and color to output
+        local outputFrame, outputColor, critical = "outgoing", "healingOut", args.critical
+        if critical then
+            outputFrame = "critical"
+            outputColor = "healingOutCritical"
+        end
 
-		-- Get the settings for the correct output frame
-		local settings = x.db.profile.frames[outputFrame]
+        -- Get the settings for the correct output frame
+        local settings = x.db.profile.frames[outputFrame]
 
-		-- HoTs only have one color
-		if isHoT then outputColor = "healingOutPeriodic"end
+        -- HoTs only have one color
+        if isHoT then outputColor = "healingOutPeriodic"end
 
-		-- Condensed Critical Merge
-		if MergeSpells() then
-			merged = true
-			if critical then
-				if MergeCriticalsByThemselves() then
-					x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-					return
-				elseif MergeCriticalsWithOutgoing() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-				elseif MergeHideMergedCriticals() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-					return
-				end
-			else
-				x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-				return
-			end
-		end
+        -- Condensed Critical Merge
+        if MergeSpells() then
+            merged = true
+            if critical then
+                if MergeCriticalsByThemselves() then
+                    x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                    return
+                elseif MergeCriticalsWithOutgoing() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                elseif MergeHideMergedCriticals() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                    return
+                end
+            else
+                x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                return
+            end
+        end
 
-		if args.event == "SPELL_PERIODIC_HEAL" then
-			xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
-		elseif args.event == "SPELL_HEAL" then
-			xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
-		else
-			if UnitName('player') == "Dandraffbal" then
-				print("xCT Needs Some Help: unhandled _HEAL event", args.event)
-			end
-		end
-	end,
+        if args.event == "SPELL_PERIODIC_HEAL" then
+            xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+        elseif args.event == "SPELL_HEAL" then
+            xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+        else
+            if UnitName('player') == "Dandraffbal" then
+                print("xCT Needs Some Help: unhandled _HEAL event", args.event)
+            end
+        end
+    end,
 
-	["DamageOutgoing"] = function (args)
-		local message
-		local spellName, spellSchool = args.spellName, args.spellSchool
-		local critical, spellID, amount, merged = args.critical, args.spellId, args.amount
-		local isEnvironmental, isSwing, isAutoShot, isDoT = args.prefix == "ENVIRONMENTAL", args.prefix == "SWING", spellID == 75, args.prefix == "SPELL_PERIODIC"
-		local outputFrame, outputColorType = "outgoing"
+    ["DamageOutgoing"] = function (args)
+        local message
+        local spellName, spellSchool = args.spellName, args.spellSchool
+        local critical, spellID, amount, merged = args.critical, args.spellId, args.amount
+        local isEnvironmental, isSwing, isAutoShot, isDoT = args.prefix == "ENVIRONMENTAL", args.prefix == "SWING", spellID == 75, args.prefix == "SPELL_PERIODIC"
+        local outputFrame, outputColorType = "outgoing"
 
-		-- Keep track of spells that go by (Don't track Swings or Environmental damage)
-		if not isEnvironmental and not isSwing and TrackSpells() then x.spellCache.spells[spellID] = true end
+        -- Keep track of spells that go by (Don't track Swings or Environmental damage)
+        if not isEnvironmental and not isSwing and TrackSpells() then x.spellCache.spells[spellID] = true end
 
-		if not ShowDamage() then return end
+        if not ShowDamage() then return end
 
-		-- Check to see if this is a HoT
-		if isDoT and not ShowDots() then return end
+        -- Check to see if this is a HoT
+        if isDoT and not ShowDots() then return end
 
-		if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() then
-			if critical and not ShowAutoAttack_Outgoing() then return end
-			if not critical and not ShowAutoAttack_Critical() then return end
-		end
+        if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() then
+            if critical and not ShowAutoAttack_Outgoing() then return end
+            if not critical and not ShowAutoAttack_Critical() then return end
+        end
 
-		-- Filter Ougoing Damage Spell or Amount
-		if IsSpellFiltered(spellID) or FilterOutgoingDamage(amount) then return end
+        -- Filter Ougoing Damage Spell or Amount
+        if IsSpellFiltered(spellID) or FilterOutgoingDamage(amount) then return end
 
-		-- Check to see if my pet is doing things
-		if args:IsSourceMyPet() and (not ShowKillCommand() or spellID ~= 34026) then
-			if not ShowPetDamage() then return end
-			if isSwing and not ShowPetAutoAttack_Outgoing() then return end
-			if MergePetAttacks() then
-				local icon = x.GetPetTexture() or ""
-				x:AddSpamMessage(outputFrame, icon, amount, x.db.profile.spells.mergePetColor, 6, nil, "auto", spellID == 34026 and L_KILLCOMMAND or L_AUTOATTACK, "destinationController", args:GetDestinationController())
-				return
-			end
-			if not ShowPetCrits() then
-				critical = nil -- stupid spam fix for hunter pets
-			end
-			if isSwing then
-				spellID = 0 -- this will get fixed later
-			end
-		end
+        -- Check to see if my pet is doing things
+        if args:IsSourceMyPet() and (not ShowKillCommand() or spellID ~= 34026) then
+            if not ShowPetDamage() then return end
+            if isSwing and not ShowPetAutoAttack_Outgoing() then return end
+            if MergePetAttacks() then
+                local icon = x.GetPetTexture() or ""
+                x:AddSpamMessage(outputFrame, icon, amount, x.db.profile.spells.mergePetColor, 6, nil, "auto", spellID == 34026 and L_KILLCOMMAND or L_AUTOATTACK, "destinationController", args:GetDestinationController())
+                return
+            end
+            if not ShowPetCrits() then
+                critical = nil -- stupid spam fix for hunter pets
+            end
+            if isSwing then
+                spellID = 0 -- this will get fixed later
+            end
+        end
 
-		if args:IsSourceMyVehicle() then
-			if not ShowVehicleDamage() then return end
-			if isSwing and not ShowPetAutoAttack_Outgoing() then return end -- for BM's second pet, Hati
-			if not ShowPetCrits() then
-				critical = nil -- stupid spam fix for hunter pets
-			end
-			if isSwing then
-				spellID = 0 -- this will get fixed later
-			end
-		end
+        if args:IsSourceMyVehicle() then
+            if not ShowVehicleDamage() then return end
+            if isSwing and not ShowPetAutoAttack_Outgoing() then return end -- for BM's second pet, Hati
+            if not ShowPetCrits() then
+                critical = nil -- stupid spam fix for hunter pets
+            end
+            if isSwing then
+                spellID = 0 -- this will get fixed later
+            end
+        end
 
-		-- Check for Critical Swings
-		if critical then
-			if (isSwing or isAutoShot) and ShowAutoAttack_Critical() then
-				outputFrame = 'critical'
-			elseif not isSwing and not isAutoShot then
-				outputFrame = 'critical'
-			end
-		end
+        -- Check for Critical Swings
+        if critical then
+            if (isSwing or isAutoShot) and ShowAutoAttack_Critical() then
+                outputFrame = 'critical'
+            elseif not isSwing and not isAutoShot then
+                outputFrame = 'critical'
+            end
+        end
 
-		-- Lookup the color
-		if isSwing or isAutoShot then
-			outputColorType = critical and 'meleeCrit' or 'melee'
-		end
+        -- Lookup the color
+        if isSwing or isAutoShot then
+            outputColorType = critical and 'meleeCrit' or 'melee'
+        end
 
-		local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
+        local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
-		if (isSwing or isAutoShot) and MergeMeleeSwings() then
-			merged = true
-			if outputFrame == "critical" then
-				if MergeCriticalsByThemselves() then
-					x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
-					return
-				elseif MergeCriticalsWithOutgoing() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
-				elseif MergeHideMergedCriticals() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
-					return
-				end
-			else
-				x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
-				return
-			end
-		elseif not isSwing and not isAutoShot and MergeSpells() then
-			merged = true
-			if critical then
-				if MergeCriticalsByThemselves() then
-					x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-					return
-				elseif MergeCriticalsWithOutgoing() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-				elseif MergeHideMergedCriticals() then
-					x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-					return
-				end
-			else
-				-- args:GetSourceController() / args:GetDestinationController()
-				x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
-				return
-			end
-		end
+        if (isSwing or isAutoShot) and MergeMeleeSwings() then
+            merged = true
+            if outputFrame == "critical" then
+                if MergeCriticalsByThemselves() then
+                    x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
+                    return
+                elseif MergeCriticalsWithOutgoing() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
+                elseif MergeHideMergedCriticals() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
+                    return
+                end
+            else
+                x:AddSpamMessage(outputFrame, spellID, amount, outputColor, 6, nil, "auto", L_AUTOATTACK, "destinationController", args:GetDestinationController())
+                return
+            end
+        elseif not isSwing and not isAutoShot and MergeSpells() then
+            merged = true
+            if critical then
+                if MergeCriticalsByThemselves() then
+                    x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                    return
+                elseif MergeCriticalsWithOutgoing() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                elseif MergeHideMergedCriticals() then
+                    x:AddSpamMessage("outgoing", spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                    return
+                end
+            else
+                -- args:GetSourceController() / args:GetDestinationController()
+                x:AddSpamMessage(outputFrame, spellID, amount, outputColor, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "destinationController", args:GetDestinationController())
+                return
+            end
+        end
 
-		if critical and (not (isSwing or isAutoShot) or ShowAutoAttack_Critical()) then
-			settings = x.db.profile.frames['critical']
-			if not (isSwing or isAutoShot) or PrefixAutoAttack_Critical() then
-				message = sformat(format_crit, x.db.profile.frames['critical'].critPrefix,
-				                               x:Abbreviate(amount,'critical'),
-				                               x.db.profile.frames['critical'].critPostfix)
-			else
-				message = x:Abbreviate(amount, 'critical')
-			end
-		else
-			settings = x.db.profile.frames['outgoing']
-			message = x:Abbreviate(amount, 'outgoing')
-		end
+        if critical and (not (isSwing or isAutoShot) or ShowAutoAttack_Critical()) then
+            settings = x.db.profile.frames['critical']
+            if not (isSwing or isAutoShot) or PrefixAutoAttack_Critical() then
+                message = sformat(format_crit, x.db.profile.frames['critical'].critPrefix,
+                                               x:Abbreviate(amount,'critical'),
+                                               x.db.profile.frames['critical'].critPostfix)
+            else
+                message = x:Abbreviate(amount, 'critical')
+            end
+        else
+            settings = x.db.profile.frames['outgoing']
+            message = x:Abbreviate(amount, 'outgoing')
+        end
 
-		-- Add the Partial Miss Types
-		if ShowPartialMisses() then
-			local hasPartialMiss, formattedMessage = GetPartialMiss(args, settings, critical and 'critical' or 'outgoing')
-			if hasPartialMiss then
-				message = message .. formattedMessage
-			end
-		end
+        -- Add the Partial Miss Types
+        if ShowPartialMisses() then
+            local hasPartialMiss, formattedMessage = GetPartialMiss(args, settings, critical and 'critical' or 'outgoing')
+            if hasPartialMiss then
+                message = message .. formattedMessage
+            end
+        end
 
-		-- Add names
-		message = message .. x.formatName(args, settings.names)
+        -- Add names
+        message = message .. x.formatName(args, settings.names)
 
-		-- Add Icons
-		message = x:GetSpellTextureFormatted( spellID,
-		                                      message,
-		     x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-		     x.db.profile.frames[outputFrame].spacerIconsEnabled,
-		     x.db.profile.frames[outputFrame].fontJustify )
+        -- Add Icons
+        message = x:GetSpellTextureFormatted( spellID,
+                                              message,
+             x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+             x.db.profile.frames[outputFrame].spacerIconsEnabled,
+             x.db.profile.frames[outputFrame].fontJustify )
 
-		x:AddMessage(outputFrame, message, outputColor)
-	end,
+        x:AddMessage(outputFrame, message, outputColor)
+    end,
 
-	["DamageIncoming"] = function (args)
-		local message
-		local settings = x.db.profile.frames["damage"]
-		local spellName, spellSchool = args.spellName, args.spellSchool
+    ["DamageIncoming"] = function (args)
+        local message
+        local settings = x.db.profile.frames["damage"]
+        local spellName, spellSchool = args.spellName, args.spellSchool
 
-		-- Keep track of spells that go by
-		if args.spellId and TrackSpells() then x.spellCache.damage[args.spellId] = true end
+        -- Keep track of spells that go by
+        if args.spellId and TrackSpells() then x.spellCache.damage[args.spellId] = true end
 
-		if IsDamageFiltered(args.spellId or false) then return end
+        if IsDamageFiltered(args.spellId or false) then return end
 
-		-- Check for resists
-		if ShowResistances() then
-			if FilterIncomingDamage(args.amount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)) then return end
+        -- Check for resists
+        if ShowResistances() then
+            if FilterIncomingDamage(args.amount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)) then return end
 
-			local resistedAmount, resistType, color
+            local resistedAmount, resistType, color
 
-			-- Check for resists (full and partials)
-			if (args.resisted or 0) > 0 then
-				resistType, resistedAmount = RESIST, args.amount > 0 and args.resisted
-				color = resistedAmount and 'missTypeResist' or 'missTypeResistPartial'
-			elseif (args.blocked or 0) > 0 then
-				resistType, resistedAmount = BLOCK, args.amount > 0 and args.blocked
-				color = resistedAmount and 'missTypeBlock' or 'missTypeBlockPartial'
-			elseif (args.absorbed or 0) > 0 then
-				resistType, resistedAmount = ABSORB, args.amount > 0 and args.absorbed
-				color = resistedAmount and 'missTypeAbsorb' or 'missTypeAbsorbPartial'
-			end
+            -- Check for resists (full and partials)
+            if (args.resisted or 0) > 0 then
+                resistType, resistedAmount = RESIST, args.amount > 0 and args.resisted
+                color = resistedAmount and 'missTypeResist' or 'missTypeResistPartial'
+            elseif (args.blocked or 0) > 0 then
+                resistType, resistedAmount = BLOCK, args.amount > 0 and args.blocked
+                color = resistedAmount and 'missTypeBlock' or 'missTypeBlockPartial'
+            elseif (args.absorbed or 0) > 0 then
+                resistType, resistedAmount = ABSORB, args.amount > 0 and args.absorbed
+                color = resistedAmount and 'missTypeAbsorb' or 'missTypeAbsorbPartial'
+            end
 
-			if resistType then
-				-- Craft the new message (if is partial)
-				if resistedAmount then
-					-- format_resist: "-%s |c%s(%s %s)|r"
-					color = hexNameColor(x.LookupColorByName(color))
-					message = sformat(format_resist, x:Abbreviate(args.amount, 'damage'), color, resistType, x:Abbreviate(resistedAmount, 'damage'))
-				else
-					-- It was a full resist
-					message = resistType	-- TODO: Add an option to still see how much was reisted on a full resist
-				end
-			end
-		else
-			if FilterIncomingDamage(args.amount) then return end
-		end
+            if resistType then
+                -- Craft the new message (if is partial)
+                if resistedAmount then
+                    -- format_resist: "-%s |c%s(%s %s)|r"
+                    color = hexNameColor(x.LookupColorByName(color))
+                    message = sformat(format_resist, x:Abbreviate(args.amount, 'damage'), color, resistType, x:Abbreviate(resistedAmount, 'damage'))
+                else
+                    -- It was a full resist
+                    message = resistType    -- TODO: Add an option to still see how much was reisted on a full resist
+                end
+            end
+        else
+            if FilterIncomingDamage(args.amount) then return end
+        end
 
-		-- If this is not a resist, then lets format it as normal
-		if not message then
-			-- Format Criticals and also abbreviate values
-			if args.critical then
-				message = sformat(format_crit, x.db.profile.frames['damage'].critPrefix,
-				                               x:Abbreviate(-args.amount, 'damage'),
-				                               x.db.profile.frames['damage'].critPostfix)
-			else
-				message = x:Abbreviate(-args.amount, 'damage')
-			end
-		end
+        -- If this is not a resist, then lets format it as normal
+        if not message then
+            -- Format Criticals and also abbreviate values
+            if args.critical then
+                message = sformat(format_crit, x.db.profile.frames['damage'].critPrefix,
+                                               x:Abbreviate(-args.amount, 'damage'),
+                                               x.db.profile.frames['damage'].critPostfix)
+            else
+                message = x:Abbreviate(-args.amount, 'damage')
+            end
+        end
 
-		local colorOverride
-		if args.spellSchool == 1 then
-			colorOverride = args.critical and 'damageTakenCritical' or 'damageTaken'
-		else
-			colorOverride = args.critical and 'spellDamageTakenCritical' or 'spellDamageTaken'
-		end
+        local colorOverride
+        if args.spellSchool == 1 then
+            colorOverride = args.critical and 'damageTakenCritical' or 'damageTaken'
+        else
+            colorOverride = args.critical and 'spellDamageTakenCritical' or 'spellDamageTaken'
+        end
 
-		if MergeSpells() then
-			x:AddSpamMessage('damage', args.spellId, args.amount, colorOverride, nil, nil, "spellName", spellName, "spellSchool", spellSchool, "sourceController", args:GetSourceController())
-			return
-		end
+        if MergeSpells() then
+            x:AddSpamMessage(
+                'damage',
+                args.spellId,
+                args.amount,
+                colorOverride,
+                nil,
+                nil,
+                "spellName",
+                spellName,
+                "spellSchool",
+                spellSchool,
+                "sourceController",
+                args:GetSourceController()
+            )
+            return
+        end
 
-		-- Add names
-		message = message .. x.formatName(args, settings.names, true)
+        -- Add names
+        message = message .. x.formatName(args, settings.names, true)
 
-		-- Add Icons (Hide Auto Attack icons)
-		if args.prefix ~= "SWING" or ShowIncomingAutoAttackIcons() then
-			message = x:GetSpellTextureFormatted(args.spellId,
-			                                     message,
-			       x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
-			       x.db.profile.frames['damage'].spacerIconsEnabled,
-			       x.db.profile.frames['damage'].fontJustify)
-		else
-			message = x:GetSpellTextureFormatted(nil,
-			                                     message,
-			       x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
-			       x.db.profile.frames['damage'].spacerIconsEnabled,
-			       x.db.profile.frames['damage'].fontJustify)
-		end
+        -- Add Icons (Hide Auto Attack icons)
+        if args.prefix ~= "SWING" or ShowIncomingAutoAttackIcons() then
+            message = x:GetSpellTextureFormatted(args.spellId,
+                                                 message,
+                   x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+                   x.db.profile.frames['damage'].spacerIconsEnabled,
+                   x.db.profile.frames['damage'].fontJustify)
+        else
+            message = x:GetSpellTextureFormatted(nil,
+                                                 message,
+                   x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+                   x.db.profile.frames['damage'].spacerIconsEnabled,
+                   x.db.profile.frames['damage'].fontJustify)
+        end
 
-		-- Output message
-		x:AddMessage('damage', message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
-	end,
+        -- Output message
+        x:AddMessage('damage', message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
+    end,
 
-	["ShieldIncoming"] = function (args)
-		local buffIndex = x.findBuffIndex("player", args.spellName)
-		if not buffIndex then return end
-		local settings, value = x.db.profile.frames['healing'], select(16, C_UnitAuras.GetBuffDataByIndex("player", buffIndex))
-		if not value or value <= 0 then return end
+    ["ShieldIncoming"] = function (args)
+        local buffIndex = x.findBuffIndex("player", args.spellName)
+        if not buffIndex then return end
+        local settings, value = x.db.profile.frames['healing'], select(16, C_UnitAuras.GetBuffDataByIndex("player", buffIndex))
+        if not value or value <= 0 then return end
 
-		if TrackSpells() then x.spellCache.healing[args.spellId] = true end
+        if TrackSpells() then x.spellCache.healing[args.spellId] = true end
 
-		if IsHealingFiltered(args.spellId) then return end
+        if IsHealingFiltered(args.spellId) then return end
 
-		-- Create the message
-		local message = sformat(format_gain, x:Abbreviate(value, "healing"))
+        -- Create the message
+        local message = sformat(format_gain, x:Abbreviate(value, "healing"))
 
-		message = x:GetSpellTextureFormatted(args.spellId,
-			                                   message,
-			    x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
+        message = x:GetSpellTextureFormatted(args.spellId,
+                                               message,
+                x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
           x.db.profile.frames['healing'].spacerIconsEnabled,
-			    x.db.profile.frames['healing'].fontJustify)
+                x.db.profile.frames['healing'].fontJustify)
 
-		-- Add names
-		message = message .. x.formatName(args, settings.names, true)
+        -- Add names
+        message = message .. x.formatName(args, settings.names, true)
 
-		x:AddMessage('healing', message, 'shieldTaken')
-	end,
+        x:AddMessage('healing', message, 'shieldTaken')
+    end,
 
-	["HealingIncoming"] = function (args)
-		local amount, isHoT, spellID = args.amount, args.prefix == "SPELL_PERIODIC", args.spellId
-		local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
-		local settings = x.db.profile.frames["healing"]
+    ["HealingIncoming"] = function (args)
+        local amount, isHoT, spellID = args.amount, args.prefix == "SPELL_PERIODIC", args.spellId
+        local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
+        local settings = x.db.profile.frames["healing"]
 
-		if TrackSpells() then x.spellCache.healing[args.spellId] = true end
+        if TrackSpells() then x.spellCache.healing[args.spellId] = true end
 
-		if IsHealingFiltered(args.spellId) then return end
+        if IsHealingFiltered(args.spellId) then return end
 
-		-- Adjust the amount if the user doesnt want over healing
-		if not ShowOverHealing() then
-			amount = amount - args.overhealing
-		end
+        -- Adjust the amount if the user doesnt want over healing
+        if not ShowOverHealing() then
+            amount = amount - args.overhealing
+        end
 
-		-- Don't show healing that gets absorbed by a debuff or mechanic
-		if HideAbsorbedHealing() then
-			amount = amount - args.absorbed
-		end
+        -- Don't show healing that gets absorbed by a debuff or mechanic
+        if HideAbsorbedHealing() then
+            amount = amount - args.absorbed
+        end
 
-		-- Filter out small amounts
-		if amount <= 0 or FilterIncomingHealing(amount) then return end
+        -- Filter out small amounts
+        if amount <= 0 or FilterIncomingHealing(amount) then return end
 
-		if ShowOnlyMyHeals() and not args.isPlayer then
-			if ShowOnlyMyPetsHeals() and args:IsSourceMyPet() then
-				-- If its the pet, then continue
-			else
-				return
-			end
-		end
+        if ShowOnlyMyHeals() and not args.isPlayer then
+            if ShowOnlyMyPetsHeals() and args:IsSourceMyPet() then
+                -- If its the pet, then continue
+            else
+                return
+            end
+        end
 
-		-- format_gain = "+%s"
-		local message = sformat(format_gain, x:Abbreviate(amount,"healing"))
+        -- format_gain = "+%s"
+        local message = sformat(format_gain, x:Abbreviate(amount,"healing"))
 
-		if MergeIncomingHealing() then
-			x:AddSpamMessage("healing", args.sourceName or "Unknown Source Name", amount, "healingTaken", 5, nil, "sourceGUID", args.sourceGUID, "sourceController", args:GetSourceController())
-		else
-			-- Add names
-			message = message .. x.formatName(args, settings.names, true)
+        if MergeIncomingHealing() then
+            x:AddSpamMessage("healing", args.sourceName or "Unknown Source Name", amount, "healingTaken", 5, nil, "sourceGUID", args.sourceGUID, "sourceController", args:GetSourceController())
+        else
+            -- Add names
+            message = message .. x.formatName(args, settings.names, true)
 
-			-- Add the icon
-			message = x:GetSpellTextureFormatted(args.spellId,
-			                                          message,
-			           x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
-			           x.db.profile.frames['healing'].spacerIconsEnabled,
-			           x.db.profile.frames['healing'].fontJustify)
+            -- Add the icon
+            message = x:GetSpellTextureFormatted(args.spellId,
+                                                      message,
+                       x.db.profile.frames['healing'].iconsEnabled and x.db.profile.frames['healing'].iconsSize or -1,
+                       x.db.profile.frames['healing'].spacerIconsEnabled,
+                       x.db.profile.frames['healing'].fontJustify)
 
-			x:AddMessage("healing", message, color)
-		end
-	end,
+            x:AddMessage("healing", message, color)
+        end
+    end,
 
-	["AuraIncoming"] = function (args)
+    ["AuraIncoming"] = function (args)
 
-		-- Some useful information about the event
-		local isBuff, isGaining = args.auraType == "BUFF", args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_APPLIED_DOSE"
+        -- Some useful information about the event
+        local isBuff, isGaining = args.auraType == "BUFF", args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_APPLIED_DOSE"
 
-		-- Track the aura
-		if TrackSpells() then x.spellCache[isBuff and 'buffs' or 'debuffs'][args.spellName]=true end
+        -- Track the aura
+        if TrackSpells() then x.spellCache[isBuff and 'buffs' or 'debuffs'][args.spellName]=true end
 
-		if isBuff then
-			-- Stop if we're not showing buffs _or_ the spell's name is filtered
-			if not ShowBuffs() or IsBuffFiltered(args.spellName) then return end
-		else -- Aura is debuff
-			-- Stop if we're not showing debuffs _or_ the spell's name is filtered
-			if not ShowDebuffs() or IsDebuffFiltered(args.spellName) then return end
-		end
+        if isBuff then
+            -- Stop if we're not showing buffs _or_ the spell's name is filtered
+            if not ShowBuffs() or IsBuffFiltered(args.spellName) then return end
+        else -- Aura is debuff
+            -- Stop if we're not showing debuffs _or_ the spell's name is filtered
+            if not ShowDebuffs() or IsDebuffFiltered(args.spellName) then return end
+        end
 
-		-- Begin constructing the event message and color
-		local color, message
-		if isGaining then
-			message = sformat(format_gain, args.spellName)
-			color = isBuff and 'buffsGained' or 'debuffsGained'
-		else
-			message = sformat(format_fade, args.spellName)
-			color = isBuff and 'buffsFaded' or 'debuffsFaded'
-		end
+        -- Begin constructing the event message and color
+        local color, message
+        if isGaining then
+            message = sformat(format_gain, args.spellName)
+            color = isBuff and 'buffsGained' or 'debuffsGained'
+        else
+            message = sformat(format_fade, args.spellName)
+            color = isBuff and 'buffsFaded' or 'debuffsFaded'
+        end
 
-		-- Add the icon
-		message = x:GetSpellTextureFormatted(args.spellId,
-		                                          message,
-		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
-		           x.db.profile.frames['general'].spacerIconsEnabled,
-		           x.db.profile.frames['general'].fontJustify)
+        -- Add the icon
+        message = x:GetSpellTextureFormatted(args.spellId,
+                                                  message,
+                   x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+                   x.db.profile.frames['general'].spacerIconsEnabled,
+                   x.db.profile.frames['general'].fontJustify)
 
-		x:AddMessage('general', message, color)
-	end,
+        x:AddMessage('general', message, color)
+    end,
 
-	["KilledUnit"] = function (args)
-		if not ShowPartyKill() then return end
+    ["KilledUnit"] = function (args)
+        if not ShowPartyKill() then return end
 
-		local color = 'killingBlow'
-		if args.destGUID then
-			local class = select(2, GetPlayerInfoByGUID(args.destGUID))
-			if RAID_CLASS_COLORS[class] then
-				color = RAID_CLASS_COLORS[class]
-			end
-		end
+        local color = 'killingBlow'
+        if args.destGUID then
+            local class = select(2, GetPlayerInfoByGUID(args.destGUID))
+            if RAID_CLASS_COLORS[class] then
+                color = RAID_CLASS_COLORS[class]
+            end
+        end
 
-		x:AddMessage('general', sformat(format_dispell, XCT_KILLED, args.destName), color)
-	end,
+        x:AddMessage('general', sformat(format_dispell, XCT_KILLED, args.destName), color)
+    end,
 
-	["InterruptedUnit"] = function (args)
-		if not ShowInterrupts() then return end
+    ["InterruptedUnit"] = function (args)
+        if not ShowInterrupts() then return end
 
-		-- Create and format the message
-		local message = sformat(format_dispell, INTERRUPTED, args.extraSpellName)
+        -- Create and format the message
+        local message = sformat(format_dispell, INTERRUPTED, args.extraSpellName)
 
-		-- Add the icon
-		message = x:GetSpellTextureFormatted(args.extraSpellId,
-		                                          message,
-		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
-		           x.db.profile.frames['general'].spacerIconsEnabled,
-		           x.db.profile.frames['general'].fontJustify)
+        -- Add the icon
+        message = x:GetSpellTextureFormatted(args.extraSpellId,
+                                                  message,
+                   x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+                   x.db.profile.frames['general'].spacerIconsEnabled,
+                   x.db.profile.frames['general'].fontJustify)
 
-		x:AddMessage('general', message, 'interrupts')
-	end,
+        x:AddMessage('general', message, 'interrupts')
+    end,
 
-	["OutgoingMiss"] = function (args)
-		local message, spellId = _G["COMBAT_TEXT_"..args.missType], args.spellId
+    ["OutgoingMiss"] = function (args)
+        local message, spellId = _G["COMBAT_TEXT_"..args.missType], args.spellId
 
-		-- If this is a melee swing, it could also be our pets
-		if args.prefix == 'SWING' then
-			if not ShowAutoAttack_Outgoing() then return end
-			if args:IsSourceMyPet() then
-				spellId = PET_ATTACK_TEXTURE
-			else
-				spellId = 6603
-			end
-		end
+        -- If this is a melee swing, it could also be our pets
+        if args.prefix == 'SWING' then
+            if not ShowAutoAttack_Outgoing() then return end
+            if args:IsSourceMyPet() then
+                spellId = PET_ATTACK_TEXTURE
+            else
+                spellId = 6603
+            end
+        end
 
-		-- Check for filtered immunes
-		if args.missType == "ABSORB" and not ShowAbsorbs() then return end
-		if args.missType == "IMMUNE" and not ShowImmunes() then return end
-		if args.missType ~= "IMMUNE" and not ShowMisses() then return end
+        -- Check for filtered immunes
+        if args.missType == "ABSORB" and not ShowAbsorbs() then return end
+        if args.missType == "IMMUNE" and not ShowImmunes() then return end
+        if args.missType ~= "IMMUNE" and not ShowMisses() then return end
 
-		-- Check if spell is filtered
-		if IsSpellFiltered(spellId) then return end
+        -- Check if spell is filtered
+        if IsSpellFiltered(spellId) then return end
 
-		-- Add Icons
-		message = x:GetSpellTextureFormatted(spellId,
-		                                     message,
-		     x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
-		     x.db.profile.frames['outgoing'].spacerIconsEnabled,
-		     x.db.profile.frames['outgoing'].fontJustify)
+        -- Add Icons
+        message = x:GetSpellTextureFormatted(spellId,
+                                             message,
+             x.db.profile.frames['outgoing'].iconsEnabled and x.db.profile.frames['outgoing'].iconsSize or -1,
+             x.db.profile.frames['outgoing'].spacerIconsEnabled,
+             x.db.profile.frames['outgoing'].fontJustify)
 
-		x:AddMessage('outgoing', message, 'misstypesOut')
-	end,
+        x:AddMessage('outgoing', message, 'misstypesOut')
+    end,
 
-	["IncomingMiss"] = function (args)
-		if not ShowMissTypes() then return end
+    ["IncomingMiss"] = function (args)
+        if not ShowMissTypes() then return end
 
-		-- Check if incoming spell is filtered
-		if IsDamageFiltered(args.spellId) then return end
+        -- Check if incoming spell is filtered
+        if IsDamageFiltered(args.spellId) then return end
 
-		local message = _G["COMBAT_TEXT_"..args.missType]
+        local message = _G["COMBAT_TEXT_"..args.missType]
 
-		-- Add Icons
-		message = x:GetSpellTextureFormatted(args.spellId,
-		                                          message,
-		          x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
-		          x.db.profile.frames['damage'].spacerIconsEnabled,
-		          x.db.profile.frames['damage'].fontJustify)
+        -- Add Icons
+        message = x:GetSpellTextureFormatted(args.spellId,
+                                                  message,
+                  x.db.profile.frames['damage'].iconsEnabled and x.db.profile.frames['damage'].iconsSize or -1,
+                  x.db.profile.frames['damage'].spacerIconsEnabled,
+                  x.db.profile.frames['damage'].fontJustify)
 
-		x:AddMessage('damage', message, missTypeColorLookup[args.missType] or 'misstypesOut')
-	end,
+        x:AddMessage('damage', message, missTypeColorLookup[args.missType] or 'misstypesOut')
+    end,
 
-	["SpellDispel"] = function (args)
-		if not ShowDispells() then return end
+    ["SpellDispel"] = function (args)
+        if not ShowDispells() then return end
 
-		local color = args.auraType == 'BUFF' and 'dispellBuffs' or 'dispellDebuffs'
-		local message = sformat(format_dispell, XCT_DISPELLED, args.extraSpellName)
+        local color = args.auraType == 'BUFF' and 'dispellBuffs' or 'dispellDebuffs'
+        local message = sformat(format_dispell, XCT_DISPELLED, args.extraSpellName)
 
-		-- Add Icons
-		message = x:GetSpellTextureFormatted(args.extraSpellId,
-		                                          message,
-		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+        -- Add Icons
+        message = x:GetSpellTextureFormatted(args.extraSpellId,
+                                                  message,
+                   x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
                x.db.profile.frames['general'].spacerIconsEnabled,
-		           x.db.profile.frames['general'].fontJustify)
+                   x.db.profile.frames['general'].fontJustify)
 
-		if MergeDispells() then
-			x:AddSpamMessage('general', args.extraSpellName, message, color, 0.5)
-		else
-			x:AddMessage('general', message, color)
-		end
-	end,
+        if MergeDispells() then
+            x:AddSpamMessage('general', args.extraSpellName, message, color, 0.5)
+        else
+            x:AddMessage('general', message, color)
+        end
+    end,
 
-	["SpellStolen"] = function (args)
-		if not ShowDispells() then return end
-		local message = sformat(format_dispell, XCT_STOLE, args.extraSpellName)
+    ["SpellStolen"] = function (args)
+        if not ShowDispells() then return end
+        local message = sformat(format_dispell, XCT_STOLE, args.extraSpellName)
 
-		-- Add Icons
-		message = x:GetSpellTextureFormatted(args.extraSpellId,
-		                                          message,
-		           x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+        -- Add Icons
+        message = x:GetSpellTextureFormatted(args.extraSpellId,
+                                                  message,
+                   x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
                x.db.profile.frames['general'].spacerIconsEnabled,
-		           x.db.profile.frames['general'].fontJustify)
+                   x.db.profile.frames['general'].fontJustify)
 
-		x:AddMessage('general', message, 'dispellStolen')
-	end,
+        x:AddMessage('general', message, 'dispellStolen')
+    end,
 
-	["SpellEnergize"] = function (args)
-		local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
-		if not energy_type then 
-		    print('xct: unknown SpellEnergize power type: ' .. args.powerType) 
-		    return 
-		end
-		if not ShowEnergyGains() then return end
-		if FilterPlayerPower(mabs(tonumber(amount))) then return end
-		if IsResourceDisabled( energy_type, amount ) then return end
+    ["SpellEnergize"] = function (args)
+        local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
+        if not energy_type then 
+            print('xct: unknown SpellEnergize power type: ' .. args.powerType) 
+            return 
+        end
+        if not ShowEnergyGains() then return end
+        if FilterPlayerPower(mabs(tonumber(amount))) then return end
+        if IsResourceDisabled( energy_type, amount ) then return end
 
-		local color, message = nil, x:Abbreviate( amount, "power" )
-		if energy_type == "ECLIPSE" then
-			if amount > 0 then
-				color = x.LookupColorByName("color_ECLIPSE_positive")
-			elseif amount < 0 then
-				color = x.LookupColorByName("color_ECLIPSE_negative")
-			end
-		else
-			color = x.LookupColorByName("color_" .. energy_type )
-		end
+        local color, message = nil, x:Abbreviate( amount, "power" )
+        if energy_type == "ECLIPSE" then
+            if amount > 0 then
+                color = x.LookupColorByName("color_ECLIPSE_positive")
+            elseif amount < 0 then
+                color = x.LookupColorByName("color_ECLIPSE_negative")
+            end
+        else
+            color = x.LookupColorByName("color_" .. energy_type )
+        end
 
-		-- Default Color will be white
-		if not color then
-			color = {1,1,1}
-		end
-		x:AddMessage("power", sformat(format_energy, message, ShowEnergyTypes() and _G[energy_type] or ""), color)
-	end,
+        -- Default Color will be white
+        if not color then
+            color = {1,1,1}
+        end
+        x:AddMessage("power", sformat(format_energy, message, ShowEnergyTypes() and _G[energy_type] or ""), color)
+    end,
 }
 
 local BuffsOrDebuffs = {
-	["_AURA_APPLIED"] = true,
-	["_AURA_REMOVED"] = true,
-	["_AURA_APPLIED_DOSE"] = true,
-	["_AURA_REMOVED_DOSE"] = true,
-	--["_AURA_REFRESH"] = true, -- I dont know how we should support this
+    ["_AURA_APPLIED"] = true,
+    ["_AURA_REMOVED"] = true,
+    ["_AURA_APPLIED_DOSE"] = true,
+    ["_AURA_REMOVED_DOSE"] = true,
+    --["_AURA_REFRESH"] = true, -- I dont know how we should support this
 }
 
 -- List from: http://www.tukui.org/addons/index.php?act=view&id=236
 local AbsorbList = {
-	-- All
-	[187805] = true, -- Etheralus (WoD Legendary Ring)
-	[173260] = true, -- Shield Tronic (Like a health potion from WoD)
-	[64413]  = true, -- Val'anyr, Hammer of Ancient Kings (WotLK Legendary Mace)
-	[82626]  = true, -- Grounded Plasma Shield (Engineer's Belt Enchant)
-	[207472] = true, -- Prydaz, Xavaric's Magnum Opus (Legendary Neck)
+    -- All
+    [187805] = true, -- Etheralus (WoD Legendary Ring)
+    [173260] = true, -- Shield Tronic (Like a health potion from WoD)
+    [64413]  = true, -- Val'anyr, Hammer of Ancient Kings (WotLK Legendary Mace)
+    [82626]  = true, -- Grounded Plasma Shield (Engineer's Belt Enchant)
+    [207472] = true, -- Prydaz, Xavaric's Magnum Opus (Legendary Neck)
 
-	-- Coming Soon (Delicious Cake!) Trinket
-	--[231290] = true, -- TODO: Figure out which one is correct
-	[225723] = true, -- Both are Delicious Cake! from item:140793
+    -- Coming Soon (Delicious Cake!) Trinket
+    --[231290] = true, -- TODO: Figure out which one is correct
+    [225723] = true, -- Both are Delicious Cake! from item:140793
 
-	-- Coming Soon (Royal Dagger Haft, item:140791)
-	-- Sooooo I dont think this one is going to be trackable... we will see when i can get some logs!
-	--[225720] = true, -- TODO: Figure out which is the real one
-	--[229457] = true, -- Sands of Time (From the Royal Dagger Haft tinket) (Its probably this one)
-	--[229333] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
-	--[225124] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
+    -- Coming Soon (Royal Dagger Haft, item:140791)
+    -- Sooooo I dont think this one is going to be trackable... we will see when i can get some logs!
+    --[225720] = true, -- TODO: Figure out which is the real one
+    --[229457] = true, -- Sands of Time (From the Royal Dagger Haft tinket) (Its probably this one)
+    --[229333] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
+    --[225124] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
 
-	-- Coming Soon -- Animated Exoskeleton (Trinket, Item: 140789)
-	[225033] = true, -- Living Carapace (Needs to be verified)
+    -- Coming Soon -- Animated Exoskeleton (Trinket, Item: 140789)
+    [225033] = true, -- Living Carapace (Needs to be verified)
 
-	-- Coming Soon -- Infernal Contract (Trinket, Item: 140807)
-	[225140] = true, -- Infernal Contract (Needs to be verified)
+    -- Coming Soon -- Infernal Contract (Trinket, Item: 140807)
+    [225140] = true, -- Infernal Contract (Needs to be verified)
 
 
 
-	-- Legion Trinkets
-	[221878] = true, -- Buff: Spirit Fragment        - Trinket[138222]: Vial of Nightmare Fog
-	[215248] = true, -- Buff: Shroud of the Naglfar  - Trinket[133645]: Naglfar Fare
-	[214366] = true, -- Buff: Crystalline Body       - Trinket[137338]: Shard of Rokmora
-	[214423] = true, -- Buff: Stance of the Mountain - Trinket[137344]: Talisman of the Cragshaper
-	[214971] = true, -- Buff: Gaseous Bubble         - Trinket[137369]: Giant Ornamental Pearl
-	[222479] = true, -- Buff: Shadowy Reflection     - Trinket[138225]: Phantasmal Echo
+    -- Legion Trinkets
+    [221878] = true, -- Buff: Spirit Fragment        - Trinket[138222]: Vial of Nightmare Fog
+    [215248] = true, -- Buff: Shroud of the Naglfar  - Trinket[133645]: Naglfar Fare
+    [214366] = true, -- Buff: Crystalline Body       - Trinket[137338]: Shard of Rokmora
+    [214423] = true, -- Buff: Stance of the Mountain - Trinket[137344]: Talisman of the Cragshaper
+    [214971] = true, -- Buff: Gaseous Bubble         - Trinket[137369]: Giant Ornamental Pearl
+    [222479] = true, -- Buff: Shadowy Reflection     - Trinket[138225]: Phantasmal Echo
 
-	-- Death Knight
-	[48707] = true,  -- Anti-Magic Shield
-	[77535] = true,  -- Blood Shield
-	[116888] = true, -- Purgatory
-	[219809] = true, -- Tombstone
+    -- Death Knight
+    [48707] = true,  -- Anti-Magic Shield
+    [77535] = true,  -- Blood Shield
+    [116888] = true, -- Purgatory
+    [219809] = true, -- Tombstone
 
-	-- Demon Hunter
-	[227225] = true, -- Soul Barrier
+    -- Demon Hunter
+    [227225] = true, -- Soul Barrier
 
-	-- Mage
-	[11426] = true,  -- Ice Barrier
+    -- Mage
+    [11426] = true,  -- Ice Barrier
 
-	-- Monk
-	[116849] = true, -- Life Cocoon
+    -- Monk
+    [116849] = true, -- Life Cocoon
 
-	-- Paladin
-	[203538] = true, -- Greater Blessing of Kings
-	[185676] = true, -- Protection Paladin T18 - 2 piece
-	[184662] = true, -- Shield of Vengeance
+    -- Paladin
+    [203538] = true, -- Greater Blessing of Kings
+    [185676] = true, -- Protection Paladin T18 - 2 piece
+    [184662] = true, -- Shield of Vengeance
 
-	--Priest
-	[152118] = true, -- Clarity of Will
-	[17] = true,     -- Power Word: Shield
+    --Priest
+    [152118] = true, -- Clarity of Will
+    [17] = true,     -- Power Word: Shield
 
-	-- Shaman
-	[145378] = true, -- Shaman T16 - 2 piece
-	[114893] = true, -- Stone Bulwark
+    -- Shaman
+    [145378] = true, -- Shaman T16 - 2 piece
+    [114893] = true, -- Stone Bulwark
 
-	-- Warlock
-	[108416] = true, -- Dark Pact
-	[108366] = true, -- Soul Leech
+    -- Warlock
+    [108416] = true, -- Dark Pact
+    [108366] = true, -- Soul Leech
 
-	-- Warrior
-	[190456] = true, -- Ignore Pain
-	[112048] = true, -- Shield Barrier
+    -- Warrior
+    [190456] = true, -- Ignore Pain
+    [112048] = true, -- Shield Barrier
 }
 
 function x.CombatLogEvent (args)
-	-- Is the source someone we care about?
-	if args.isPlayer or args:IsSourceMyVehicle() or ShowPetDamage() and args:IsSourceMyPet() then
-		if args.suffix == "_HEAL" then
-			CombatEventHandlers.HealingOutgoing(args)
+    -- Is the source someone we care about?
+    if args.isPlayer or args:IsSourceMyVehicle() or ShowPetDamage() and args:IsSourceMyPet() then
+        if args.suffix == "_HEAL" then
+            CombatEventHandlers.HealingOutgoing(args)
 
-		elseif args.suffix == "_DAMAGE" then
-			CombatEventHandlers.DamageOutgoing(args)
+        elseif args.suffix == "_DAMAGE" then
+            CombatEventHandlers.DamageOutgoing(args)
 
-		elseif args.suffix == '_MISSED' then
-			CombatEventHandlers.OutgoingMiss(args)
+        elseif args.suffix == '_MISSED' then
+            CombatEventHandlers.OutgoingMiss(args)
 
-		elseif args.event == 'PARTY_KILL' then
-			CombatEventHandlers.KilledUnit(args)
+        elseif args.event == 'PARTY_KILL' then
+            CombatEventHandlers.KilledUnit(args)
 
-		elseif args.event == 'SPELL_INTERRUPT' then
-			CombatEventHandlers.InterruptedUnit(args)
+        elseif args.event == 'SPELL_INTERRUPT' then
+            CombatEventHandlers.InterruptedUnit(args)
 
-		elseif args.event == 'SPELL_DISPEL' then
-			CombatEventHandlers.SpellDispel(args)
+        elseif args.event == 'SPELL_DISPEL' then
+            CombatEventHandlers.SpellDispel(args)
 
-		elseif args.event == 'SPELL_STOLEN' then
-			CombatEventHandlers.SpellStolen(args)
+        elseif args.event == 'SPELL_STOLEN' then
+            CombatEventHandlers.SpellStolen(args)
 
-		elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
-			CombatEventHandlers.ShieldOutgoing(args)
+        elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
+            CombatEventHandlers.ShieldOutgoing(args)
 
-		elseif args.suffix == "_ENERGIZE" then
-			CombatEventHandlers.SpellEnergize(args)
+        elseif args.suffix == "_ENERGIZE" then
+            CombatEventHandlers.SpellEnergize(args)
 
-		end
-	end
+        end
+    end
 
-	-- Is the destination someone we care about?
-	if args.atPlayer or args:IsDestinationMyVehicle() then
-		if args.suffix == "_HEAL" then
-			CombatEventHandlers.HealingIncoming(args)
+    -- Is the destination someone we care about?
+    if args.atPlayer or args:IsDestinationMyVehicle() then
+        if args.suffix == "_HEAL" then
+            CombatEventHandlers.HealingIncoming(args)
 
-		elseif args.suffix == "_DAMAGE" then
-			CombatEventHandlers.DamageIncoming(args)
+        elseif args.suffix == "_DAMAGE" then
+            CombatEventHandlers.DamageIncoming(args)
 
-		elseif args.suffix == "_MISSED" then
-			CombatEventHandlers.IncomingMiss(args)
+        elseif args.suffix == "_MISSED" then
+            CombatEventHandlers.IncomingMiss(args)
 
-		elseif args.event == 'SPELL_DISPEL' then
-			if ShowDispells() then
-				local message = args.sourceName .. " dispelled:"
+        elseif args.event == 'SPELL_DISPEL' then
+            if ShowDispells() then
+                local message = args.sourceName .. " dispelled:"
 
-				if GetLocale() == "koKR" then message = args.sourceName .. " 무효화:" end
+                if GetLocale() == "koKR" then message = args.sourceName .. " 무효화:" end
 
-				message = x:GetSpellTextureFormatted(args.extraSpellId,
-				                                     message,
-				      x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
-				      x.db.profile.frames['general'].spacerIconsEnabled,
-				      x.db.profile.frames['general'].fontJustify)
+                message = x:GetSpellTextureFormatted(args.extraSpellId,
+                                                     message,
+                      x.db.profile.frames['general'].iconsEnabled and x.db.profile.frames['general'].iconsSize or -1,
+                      x.db.profile.frames['general'].spacerIconsEnabled,
+                      x.db.profile.frames['general'].fontJustify)
 
-				x:AddMessage('general', message, "dispellDebuffs")
-			end
+                x:AddMessage('general', message, "dispellDebuffs")
+            end
 
-		elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
-			CombatEventHandlers.ShieldIncoming(args)
-		end
-	end
+        elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
+            CombatEventHandlers.ShieldIncoming(args)
+        end
+    end
 
-	-- Player Auras
-	if args.atPlayer and BuffsOrDebuffs[args.suffix] then
-		CombatEventHandlers.AuraIncoming(args)
-	end
+    -- Player Auras
+    if args.atPlayer and BuffsOrDebuffs[args.suffix] then
+        CombatEventHandlers.AuraIncoming(args)
+    end
 end
 
 function x.findBuffIndex(unitName, spellName)
-	for i = 1, 40 do
+    for i = 1, 40 do
 
-		-- TODO: Keep if we want to change this to find SpellID index
-		-- buffName, _, _, _, _, _, _, _, _ , spellId = C_UnitAuras.GetBuffDataByIndex(unitName, i)
+        -- TODO: Keep if we want to change this to find SpellID index
+        -- buffName, _, _, _, _, _, _, _, _ , spellId = C_UnitAuras.GetBuffDataByIndex(unitName, i)
 
-		if C_UnitAuras.GetBuffDataByIndex(unitName, i) == spellName then
-			return i
-		end
-	end
-	return false
+        if C_UnitAuras.GetBuffDataByIndex(unitName, i) == spellName then
+            return i
+        end
+    end
+    return false
 end
