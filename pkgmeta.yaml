@@ -8,6 +8,3 @@ externals:
     libs/Ace3:
         url: git://github.com/WoWUIDev/Ace3
         tag: master
-    libs/LibCustomGlow-1.0:
-        url: it://github.com/Stanzilla/LibCustomGlow
-        tag: master
