@@ -356,21 +356,12 @@ function x.CleanUpForLegion()
     ReloadUI()
 end
 
-local SpellDescriptions = {}
-local function getSpellDescription(spellId)
-    if SpellDescriptions[spellId] then
-        return SpellDescriptions[spellId]
-    end
-
-    SpellDescriptions[spellId] = C_Spell.GetSpellDescription(spellId)
-    return SpellDescriptions[spellId] or ""
-end
-
 -- Spammy Spell Get/Set Functions
 local function SpamMergerGetSpellInterval(info)
     local spellId = tonumber(info[#info])
-    return x.db.profile.spells.merge[spellId].interval or addon.merges[spellId].interval
+    return x.db.profile.spells.merge[spellId].interval or addon.merges[spellId].interval or 0
 end
+
 local function SpamMergerSetSpellInterval(info, value)
     local spellId = tonumber(info[#info])
     local db = x.db.profile.spells.merge[spellId] or {}
@@ -570,7 +561,7 @@ function x:UpdateSpamSpells()
         if name then
             --TODO better code when i understand more the code
             -- Create a useful description for the spell
-            local spellDesc = getSpellDescription(spellID) or "No Description"
+            local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
             local desc = ""
             if entry.desc and not CLASS_NAMES[entry.class] then
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"

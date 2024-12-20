@@ -239,7 +239,6 @@ do
     spec(0) -- All Specs
     spell(130654, 1.0) --  Talent: Chi Burst (Healing)
     spell(148135, 1.0) --  Talent: Chi Burst (Damage)
-    spell(196608, 1.0) --  Talent: Eye of the Tiger
     spell(132467, 1.0) --  Talent: Chi Wave (Damage)
     spell(132463, 1.0) --  Talent: Chi Wave (Healing)
     spell(148187, 1.0) --  Talent: Rushing Jade Wind
@@ -256,9 +255,10 @@ do
     spell(387621, 1.0) --  Talent: Dragonfire Brew
 
     spec(269) -- Windwalker
-    spell(124280, 3.0) --  Touch of Karma
+    spell(122470, 3.0) --  Touch of Karma
     spell(117418, 1.0) --  Fists of Fury
-    alias(205414, 222029) --  [MH/OH Merger] Artifact: Strike of the Windlord
+    alias(124280, 122470) --  Touch of Karma
+    alias(205414, 222029) --  Talent: Strike of the Windlord
 
     spec(270) -- Mistweaver
     spell(115175, 3.0) --  Soothing Mist
