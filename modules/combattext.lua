@@ -17,7 +17,7 @@ local ADDON_NAME, addon = ...
 -- Shorten my handle
 local x = addon.engine
 
--- up values
+-- Set up values
 local sformat, mfloor, mabs, smatch, sgsub, tinsert, tremove =
     string.format,
     math.floor,
@@ -27,14 +27,10 @@ local sformat, mfloor, mabs, smatch, sgsub, tinsert, tremove =
     table.insert,
     table.remove
 
--- UTF8 Functions
-local utf8 = {
-    len = string.utf8len,
-    sub = string.utf8sub,
-    reverse = string.utf8reverse,
-    upper = string.utf8upper,
-    lower = string.utf8lower,
-}
+-- returns a string with the first character in upper case
+local function utf8_fc_upper(source)
+    return string.utf8upper(string.utf8sub(source, 1, 1)) .. string.utf8sub(source, 2)
+end
 
 local xCP = LibStub and LibStub("xCombatParser-1.0", true)
 if not xCP then
@@ -682,9 +678,9 @@ if unsupportedLocales[GetLocale()] then
     XCT_KILLED = ACTION_PARTY_KILL
     XCT_DISPELLED = ACTION_SPELL_DISPEL
 else
-    XCT_STOLE = utf8.upper(utf8.sub(ACTION_SPELL_STOLEN, 1, 1)) .. utf8.sub(ACTION_SPELL_STOLEN, 2)
-    XCT_KILLED = utf8.upper(utf8.sub(ACTION_PARTY_KILL, 1, 1)) .. utf8.sub(ACTION_PARTY_KILL, 2)
-    XCT_DISPELLED = utf8.upper(utf8.sub(ACTION_SPELL_DISPEL, 1, 1)) .. utf8.sub(ACTION_SPELL_DISPEL, 2)
+    XCT_STOLE = utf8_fc_upper(ACTION_SPELL_STOLEN)
+    XCT_KILLED = utf8_fc_upper(ACTION_PARTY_KILL)
+    XCT_DISPELLED = utf8_fc_upper(ACTION_SPELL_DISPEL)
 end
 
 --[=====================================================[
