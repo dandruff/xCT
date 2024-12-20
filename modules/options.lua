@@ -556,8 +556,6 @@ end
 local buffHistory, debuffHistory, spellHistory, procHistory, itemHistory, damageHistory, healingHistory =
     {}, {}, {}, {}, {}, {}, {}
 
--- GetSpellTextureFormatted( spellID, message, multistrike, iconSize, justify, strColor, mergeOverride, forceOff )
-
 local function GetBuffHistory()
     for i in pairs(buffHistory) do
         buffHistory[i] = nil
@@ -665,7 +663,6 @@ addon.options.args["spells"] = {
             type = "group",
             order = 11,
             args = {
-
                 enableMerger = {
                     order = 1,
                     type = "toggle",
@@ -859,7 +856,7 @@ addon.options.args["spells"] = {
                 title = {
                     type = "description",
                     order = 0,
-                    name = "List of Mergeable Spells |cff798BDD(Class Specific)|r",
+                    name = "List of mergeable Class Spells",
                     fontSize = "large",
                     width = "double",
                 },
@@ -870,7 +867,7 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Uncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
                 },
 
                 ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
@@ -890,14 +887,14 @@ addon.options.args["spells"] = {
         },
 
         globalList = {
-            name = "Global Spells",
+            name = "Global Spells / Items",
             type = "group",
             order = 22,
             args = {
                 title = {
                     type = "description",
                     order = 0,
-                    name = "List of Mergeable Spells |cff798BDD(See Category)|r",
+                    name = "List of mergeable global Spells and Items",
                     fontSize = "large",
                     width = "double",
                 },
@@ -905,7 +902,7 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Uncheck an item if you do not want it merged. Contact me to add new items. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
                 },
             },
         },
@@ -918,7 +915,7 @@ addon.options.args["spells"] = {
                 title = {
                     type = "description",
                     order = 0,
-                    name = "List of Mergeable Spells |cff798BDD(See Category)|r",
+                    name = "List of mergeable Spells of the various player races",
                     fontSize = "large",
                     width = "double",
                 },
@@ -926,7 +923,7 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Uncheck an item if you do not want it merged. Contact me to add new items. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
                 },
             },
         },
