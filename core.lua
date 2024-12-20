@@ -9,7 +9,7 @@
  [=====================================]
  [  Author: Dandraffbal-Stormreaver US ]
  [  xCT+ Version 4.x.x                 ]
- [  ©2020. All Rights Reserved.        ]
+ [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
 -- Get Addon's name and Blizzard's Addon Stub
@@ -47,7 +47,6 @@ local function RefreshConfig()
 
     x:UpdateFrames()
     x:UpdateSpamSpells()
-    x:UpdateItemTypes()
 
     -- Will this fix the profile issue?
     x.GenerateSpellSchoolColors()
@@ -65,7 +64,6 @@ local function ProfileReset()
 
     x:UpdateFrames()
     x:UpdateSpamSpells()
-    x:UpdateItemTypes()
 
     collectgarbage()
 end
@@ -118,7 +116,6 @@ function x:OnInitialize()
     -- Delay updating frames until all other addons are loaded!
     x:UpdateCombatTextEvents(true)
     x:UpdateSpamSpells()
-    x:UpdateItemTypes()
     x:UpdateAuraSpellFilter()
     x.GenerateColorOptions()
     x.GenerateSpellSchoolColors()
@@ -450,12 +447,8 @@ local CLASS_NAMES = {
     },
 }
 
-function x.GenerateDefaultSpamSpells()
-    local defaults = addon.defaults.spells.merge
-end
-
 local function cleanColors(colorTable)
-    for index, color in pairs(colorTable) do
+    for _, color in pairs(colorTable) do
         if color.colors then
             cleanColors(color.colors)
         else
@@ -465,7 +458,7 @@ local function cleanColors(colorTable)
 end
 
 function addon.LoadDefaultColors()
-    for name, settings in pairs(addon.defaults.profile.frames) do
+    for _, settings in pairs(addon.defaults.profile.frames) do
         if settings.colors then
             cleanColors(settings.colors)
         end
@@ -478,13 +471,12 @@ function x:UpdateSpamSpells()
     --[[ Update our saved DB
   for id, item in pairs(addon.merges) do
     if not self.db.profile.spells.merge[id] then
-      self.db.profile.spells.merge[id] = item
-      self.db.profile.spells.merge[id]['enabled'] = true    -- default all to on
+        self.db.profile.spells.merge[id] = { interval = item.interval }
     else
-    -- update merge setting incase they are outdated
-      self.db.profile.spells.merge[id].interval = item.interval
-      self.db.profile.spells.merge[id].desc = item.desc
-      self.db.profile.spells.merge[id].class = item.class
+        -- update merge setting in case they are outdated
+        self.db.profile.spells.merge[id].interval = item.interval
+        self.db.profile.spells.merge[id].desc = item.desc
+        self.db.profile.spells.merge[id].class = item.class
     end
   end]]
 
@@ -492,7 +484,6 @@ function x:UpdateSpamSpells()
     local global = addon.options.args.spells.args.globalList.args
     local racetab = addon.options.args.spells.args.raceList.args
 
-    -- Clear out the old spells
     for class, specs in pairs(CLASS_NAMES) do
         spells[class].args = {}
         for spec, index in pairs(specs) do
@@ -500,6 +491,7 @@ function x:UpdateSpamSpells()
             if index ~= 0 then
                 _, name = GetSpecializationInfoByID(spec)
             end
+
             spells[class].args["specHeader" .. index] = {
                 type = "header",
                 order = index * 2,
@@ -527,7 +519,7 @@ function x:UpdateSpamSpells()
         end
     end
 
-    -- Show Categories in alphabetical order
+    -- Show Categories in insert order
     local function sortTableByOrder(a, b)
         return a.order < b.order
     end
@@ -636,169 +628,6 @@ function x:UpdateSpamSpells()
         end
     end
 end
-
-local function ItemToggleAll(info)
-    local state = (info[#info] == "disableAll")
-    for key in pairs(x.db.profile.spells.items[info[#info - 1]]) do
-        x.db.profile.spells.items[info[#info - 1]][key] = state
-    end
-end
-
-local function getIF_1(info)
-    return x.db.profile.spells.items[info[#info - 1]][info[#info]]
-end
-local function setIF_1(info, value)
-    x.db.profile.spells.items[info[#info - 1]][info[#info]] = value
-end
-local function getIF_2(info)
-    return x.db.profile.spells.items[info[#info - 1]][info[#info - 1]]
-end
-local function setIF_2(info, value)
-    x.db.profile.spells.items[info[#info - 1]][info[#info - 1]] = value
-end
-
--- For Legion - Reimplement legacy GetAuctionItemClasses and GetAuctionItemSubClasses
-
--- TODO: Figure out how to list all items in Legion
---[[if build >= 70000 then
-
-
-  function GetAuctionItemClasses()
-    local list = {}
-    for i, v in pairs(OPEN_FILTER_LIST) do
-      if v.type == "category" then
-        list[v.categoryIndex] = v.name
-      end
-    end
-    return list
-  end
-
-  function GetAuctionItemSubClasses(index)
-    local list, found = {}
-    for i, v in pairs(OPEN_FILTER_LIST) do
-      if v.type == "category" then
-        if found then break end
-        if v.categoryIndex == index then
-          found = 1
-        end
-      elseif v.type == "subCategory" then
-        if found then
-          list[v.subCategoryIndex] = v.name
-        end
-      end
-    end
-    return list
-  end
-end]]
-
-x.UpdateItemTypes = function(self) end
-
---[===[
-
--- Updates item filter list
-function x:UpdateItemTypes()
-  -- check to see if this is the first time we are loading this version
-  local first = false
-  if not self.db.profile.spells.items.version then
-    self.db.profile.spells.items.version = 1
-    first = true
-  end
-
-  local itemTypes = { GetAuctionItemClasses() }
-
-  local allTypes = {
-    order = 100,
-    name = "|cffFFFFFFFilter:|r |cff798BDDLoot|r",
-    type = 'group',
-    childGroups = "select",
-    args = {
-      secondaryFrame = {
-          type = 'description',
-          order = 0,
-          name = "These options allow you to bypass the loot item filter and always show a item from any category, reguardless of the quality.\n",
-        },
-    },
-  }
-
-  for i, itype in ipairs(itemTypes) do
-    local subtypes = { GetAuctionItemSubClasses(i) }
-
-    if self.db.profile.spells.items[itype] == nil then
-      self.db.profile.spells.items[itype] = { }
-    end
-
-    -- Page for the MAIN ITEM GROUP
-    local group = {
-      order = i,
-      name = itype,
-      type = 'group',
-      args = { },
-    }
-
-    -- the footer for the current MAIN ITEM GROUP
-    if #subtypes > 0 then
-      -- Separator for the TOP toggle switches, and the BOTTOM enable/disable buttons
-      group.args['enableHeader'] = {
-        order = 100,
-        type = 'header',
-        name = "",
-        width = "full",
-      }
-
-      -- Button to DISABLE all
-      group.args['disableAll'] = {
-        order = 101,
-        type = 'execute',
-        name = "|cffDDDD00Enable All|r",
-        --width = "half",
-        func = ItemToggleAll,
-      }
-
-      -- Button to ENABLE all
-      group.args['enableAll'] = {
-        order = 102,
-        type = 'execute',
-        name = "|cffDD0000Disable All|r",
-        --width = "half",
-        func = ItemToggleAll,
-      }
-    else
-      -- Quest Items... maybe others
-      if first or self.db.profile.spells.items[itype][itype] == nil then
-        self.db.profile.spells.items[itype][itype] = false
-      end
-
-      group.args[itype] = {
-        order = 1,
-        type = 'toggle',
-        name = "Enable",
-        get = getIF_2,
-        set = setIF_2,
-      }
-    end
-
-    -- add all the SUBITEMS
-    for j, subtype in ipairs(subtypes) do
-      if first or self.db.profile.spells.items[itype][subtype] == nil then
-        self.db.profile.spells.items[itype][subtype] = false
-      end
-
-      group.args[subtype] = {
-        order = j,
-        type = 'toggle',
-        name = subtype,
-        get = getIF_1, --function(info) return self.db.profile.spells.items[itype][subtype] end,
-        set = setIF_1, --function(info, value) self.db.profile.spells.items[itype][subtype] = value end,
-      }
-    end
-
-    allTypes.args[itype] = group
-  end
-
-  addon.options.args["spellFilter"].args["typeFilter"] = allTypes
-end
-
-]===]
 
 local function getCP_1(info)
     return x.db.profile.spells.combo[x.player.class][info[#info]]
@@ -946,7 +775,7 @@ function x:UpdateComboTracker()
         return
     end -- under Level 10 return 5
 
-    for i, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
+    for _, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
         if type(entry) == "table" and entry.enabled then
             x.TrackingEntry = entry
         end
@@ -1519,8 +1348,8 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
 
         -- Sort the Colors Alphabetical
         local sortedList = {}
-        for colorName in pairs(settings.colors) do
-            table.insert(sortedList, colorName)
+        for currentColorName in pairs(settings.colors) do
+            table.insert(sortedList, currentColorName)
         end
 
         table.sort(sortedList)
