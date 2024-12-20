@@ -483,7 +483,6 @@ function x:UpdateSpamSpells()
     else
     -- update merge setting incase they are outdated
       self.db.profile.spells.merge[id].interval = item.interval
-      self.db.profile.spells.merge[id].prep = item.prep
       self.db.profile.spells.merge[id].desc = item.desc
       self.db.profile.spells.merge[id].class = item.class
     end

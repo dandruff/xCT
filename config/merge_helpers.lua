@@ -49,7 +49,6 @@ do
             categoryOrder = _working_category_order, -- doesnt matter
             interval = tonumber(interval) or interval,
             desc = _working_desc, -- TODO its the spec ID
-            prep = tonumber(interval) or interval, -- TODO what is .prep?!
         }
     end
 
@@ -61,7 +60,6 @@ do
             categoryOrder = _working_category_order,
             interval = tonumber(interval) or interval,
             desc = "Racial Spell",
-            prep = tonumber(interval) or interval,
         }
     end
 
@@ -73,7 +71,6 @@ do
             categoryOrder = _working_category_order,
             interval = tonumber(interval) or interval,
             desc = desc,
-            prep = tonumber(interval) or interval,
         }
     end
 

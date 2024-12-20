@@ -521,7 +521,7 @@ local spamHeap, spamStack, now = {}, {}, 0
 -- )
 -- Sends a message to the framename specified.
 -- =====================================================
-function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep, ...)
+function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
     -- Check for a Secondary Spell ID
     mergeID = addon.replaceSpellId[mergeID] or mergeID
 
@@ -530,14 +530,10 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
     -- how often to update
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
-    -- TODO what is this?
-    prep = prep or (db and db.prep) or interval or 0.5
-
     local heap, stack = spamHeap[framename], spamStack[framename]
     if heap[mergeID] then
         heap[mergeID].color = colorname
         heap[mergeID].update = interval
-        heap[mergeID].prep = prep
 
         if tonumber(message) then
             heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
@@ -554,8 +550,6 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
 
             -- how often to update
             update = interval,
-
-            prep = prep,
 
             -- merged entries
             mergedAmount = tonumber(message) or 0,
