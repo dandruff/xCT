@@ -493,8 +493,8 @@ local function GetItemHistory()
   end
 
   for i in pairs(x.spellCache.items) do
-	local name = C_Item.GetItemNameByID( i )
-	local texture = C_Item.GetItemIconByID( i )
+    local name = C_Item.GetItemNameByID(i)
+    local texture = C_Item.GetItemIconByID(i)
     itemHistory[i] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture, 16, 16, name)
   end
 

@@ -20,5 +20,5 @@ local _, _, _, _, _, _, race, rspell = unpack(addon.merge_helpers)
 
 race "|cfff2ff00Races|r |cff8a8dedVoid Elfs|r"
 do
-	rspell '259756' '2.5' --  Entropic embrace
+  rspell '259756' '2.5' --  Entropic embrace
 end

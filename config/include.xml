@@ -1,13 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-	<Script file="merge_init.lua"/>
-	<Script file="merge_class.lua"/>
-	<Script file="merge_legion.lua"/>
-	<Script file="merge_wod.lua"/>
-	<Script file="merge_mop.lua"/>
-	<Script file="merge_bfa.lua"/>
-	<Script file="merge_other.lua"/>
-	<Script file="merge_allied_race.lua"/>
-	<Script file="merge_shadowlands.lua"/>
-	<Script file="merge_dragonflight.lua"/>
-	<Script file="profile.lua"/>
+  <Script file="merge_init.lua"/>
+  <Script file="merge_class.lua"/>
+  <Script file="merge_legion.lua"/>
+  <Script file="merge_wod.lua"/>
+  <Script file="merge_mop.lua"/>
+  <Script file="merge_bfa.lua"/>
+  <Script file="merge_other.lua"/>
+  <Script file="merge_allied_race.lua"/>
+  <Script file="merge_shadowlands.lua"/>
+  <Script file="merge_dragonflight.lua"/>
+  <Script file="profile.lua"/>
 </Ui>

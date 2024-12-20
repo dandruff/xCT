@@ -9,20 +9,13 @@
  [=====================================]
  [  Author: Dandraffbal-Stormreaver US ]
  [  xCT+ Version 4.x.x                 ]
- [  ©2020. All Rights Reserved.        ]
+ [  ©2024. All Rights Reserved.        ]
  [====================================]]
-
--- Dont do anything for Legion
---local build = select(4, GetBuildInfo())
---if build >= 70000 then return end
-
 
 -- TODO: Fix this up
 
 local ADDON_NAME, addon = ...
 local x = addon.engine
-
-local LSM = LibStub("LibSharedMedia-3.0");
 
 -- Intercept Messages Sent by other Add-Ons that use CombatText_AddMessage
 hooksecurefunc('CombatText_AddMessage', function(message, scrollFunction, r, g, b, displayType, isStaggered)
