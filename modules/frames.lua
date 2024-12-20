@@ -454,7 +454,7 @@ function x:AddMessage(framename, message, colorname)
             if color then
                 r, g, b = unpack(color)
             else
-                x:Print("FRAME:", framename, "  xct+ says there is no color named:", colorname)
+                x:Print("FRAME:", framename, "  there is no color named:", colorname)
                 error("missing color")
             end
         end
@@ -530,10 +530,6 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
     -- how often to update
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
-    if mergeID == 52212 then
-        x.Print(mergeID, interval)
-    end
-
     -- TODO what is this?
     prep = prep or (db and db.prep) or interval or 0.5
 
@@ -580,6 +576,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
             --x:Print(" -->", select(i, ...), "=", select(i+1, ...))
             heap[mergeID][select(i, ...)] = select(i + 1, ...)
         end
+        -- Insert into the stack - thats our queue for the display!
         table_insert(stack, mergeID)
     end
 end
@@ -599,32 +596,19 @@ end
       | |                                          __/ |
       |_|                                         |___/
 
-    This is the new spam merger.    Here is how it works:
-
-    -- On Each Update
-        + Go to the current frame (one frame at a time)
-
-            - Go to the current spell entry for this frame
-                + if spell entry says its time to update, then update
-                + else do nothing
-
-            - Get the next spell entry ready for the next time it hits this frame
-
-        + Get the next frame ready for the next update
-
+    This is the new spam merger.  Here is how it works:
+    On each OnUpdate (at 60 FPS this happens 60 times per second):
+        + Go to the current xCT-frame (one frame at a time)
+            - Go through the whole stack of this xCT-frame
+                + if a spell entry says its time to display, then display it
+                + if not, then skip it
+        + Advance our frame index so that we use the next frame next time.
         + Wait for next Update
 
-            As you can see, I only update one frame per OnUpdate AND only
-        one merge entry gets updated for every frame.    Which means, I will
-        do a maximum of one thing per OnUpdate (and a minimum of nothing).
-        I am hoping that the spell merger will be mostly invisible.
+        As you can see, I only update one xCT-Frame per OnUpdate.
 
-
-     -- TODO:    The only thing that I need to figure out is: is the spell
-        merger updating fast enough, or will it feel slugish when there are
-        a lot of items to merge.
-
-            My best guess is that it does not matter :)
+        As of 4.9.0 we're displaying all waiting messages per OnUpdate instead of just one message.
+        I am hoping that the spell merger will (still) be mostly invisible.
 
   ]================================================================]
 
@@ -634,9 +618,8 @@ do
         spamStack[frameName] = {}
     end
 
-    local index = 1 -- keeps track of the frame
-    local frames = {} -- keeps track of the current stack index for that frame
-
+    -- We want to display messages for one frame on each update
+    local currentFrameId = 1
     local fakeArgs = {}
 
     function x.OnSpamUpdate(self, elapsed)
@@ -648,122 +631,112 @@ do
         now = now + elapsed
 
         -- Check to see if we are out of bounds
-        if index > #frameIndex then
-            index = 1
+        if currentFrameId > #frameIndex then
+            currentFrameId = 1
         end
 
-        local frameName = frameIndex[index]
+        local frameName = frameIndex[currentFrameId]
 
-        -- frame doesn't exist in 'frames' (keeps track of the current stack index for that frame)
-        if not frames[frameName] then
-            frames[frameName] = 1
-        end
-
-        local heap, stack, settings, idIndex =
+        local heap, stack, settings =
             spamHeap[frameName], -- the heap contains merge entries
             spamStack[frameName], -- the stack contains lookup values
-            x.db.profile.frames[frameName], -- this frame's settings
-            frames[frameName] -- this frame's last entry index
+            x.db.profile.frames[frameName] -- this frame's settings
 
         -- If the frame is not enabled, then dont even worry about it
         if not settings.enabledFrame and settings.secondaryFrame == 0 then
-            index = index + 1 -- heh, still need to iterate to the next frame :P
+            currentFrameId = currentFrameId + 1 -- heh, still need to iterate to the next frame :P
             return
         end
 
-        -- Check to see if we are out of bounds
-        if idIndex > #stack then
-            idIndex = 1
-        end
+        for _, mergeID in pairs(stack) do
+            -- This has all the information for the message we want to display
+            local item = heap[mergeID]
 
-        -- This item contains a lot of information about what we need to merge
-        local item = heap[stack[idIndex]]
+            if item and item.displayTime <= now and item.mergedCount > 0 then
+                item.displayTime = now
 
-        --if item then x:Print(item.displayTime, " < ", now, "?") end
-        if item and item.displayTime <= now and item.mergedCount > 0 then
-            item.displayTime = now
+                -- total as a string
+                local message
 
-            -- total as a string
-            local message
-
-            -- Abbreviate the merged total
-            if tonumber(item.mergedAmount) then
-                message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
-            else
-                message = tostring(item.mergedAmount)
-            end
-
-            --local format_mergeCount = "%s |cffFFFFFFx%s|r"
-            local strColor = "ffffff"
-
-            -- Add critical Prefix and Postfix
-            if frameName == "outgoing" or frameName == "critical" then
-                if frameName == "critical" then
-                    message = format("%s%s%s", settings.critPrefix, message, settings.critPostfix)
-                end
-                if settings.names[item.destinationController].nameType == 2 then
-                    if item.auto then
-                        fakeArgs.spellName = item.auto
-                        fakeArgs.spellSchool = 1 -- physical
-                    else
-                        fakeArgs.spellName = item.spellName
-                        fakeArgs.spellSchool = item.spellSchool
-                    end
-                    --fakeArgs.fake_sourceController = item.sourceController
-                    fakeArgs.fake_destinationController = item.destinationController
-                    if settings.fontJustify == "RIGHT" then
-                        message = x.formatName(fakeArgs, settings.names) .. " " .. message
-                    else
-                        message = message .. x.formatName(fakeArgs, settings.names)
-                    end
-                end
-
-            -- Show healer name (colored)
-            elseif frameName == "healing" then
-                --format_mergeCount = "%s |cffFFFF00x%s|r"
-                strColor = "ffff00"
-
-                if settings.names[item.sourceController].nameType == 1 then
-                    fakeArgs.sourceName = stack[idIndex]
-                    fakeArgs.sourceGUID = item.sourceGUID
-                    fakeArgs.fake_sourceController = item.sourceController
-                    if settings.fontJustify == "RIGHT" then
-                        message = x.formatName(fakeArgs, settings.names, true) .. " +" .. message
-                    else
-                        message = "+" .. message .. x.formatName(fakeArgs, settings.names, true)
-                    end
+                -- Abbreviate the merged total
+                if tonumber(item.mergedAmount) then
+                    message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
                 else
-                    message = sformat("+%s", message)
+                    message = tostring(item.mergedAmount)
                 end
+
+                --local format_mergeCount = "%s |cffFFFFFFx%s|r"
+                local strColor = "ffffff"
+
+                -- Add critical Prefix and Postfix
+                if frameName == "outgoing" or frameName == "critical" then
+                    if frameName == "critical" then
+                        message = format("%s%s%s", settings.critPrefix, message, settings.critPostfix)
+                    end
+                    if settings.names[item.destinationController].nameType == 2 then
+                        if item.auto then
+                            fakeArgs.spellName = item.auto
+                            fakeArgs.spellSchool = 1 -- physical
+                        else
+                            fakeArgs.spellName = item.spellName
+                            fakeArgs.spellSchool = item.spellSchool
+                        end
+                        --fakeArgs.fake_sourceController = item.sourceController
+                        fakeArgs.fake_destinationController = item.destinationController
+                        if settings.fontJustify == "RIGHT" then
+                            message = x.formatName(fakeArgs, settings.names) .. " " .. message
+                        else
+                            message = message .. x.formatName(fakeArgs, settings.names)
+                        end
+                    end
+
+                -- Show healer name (colored)
+                elseif frameName == "healing" then
+                    --format_mergeCount = "%s |cffFFFF00x%s|r"
+                    strColor = "ffff00"
+
+                    if settings.names[item.sourceController].nameType == 1 then
+                        fakeArgs.sourceName = mergeID
+                        fakeArgs.sourceGUID = item.sourceGUID
+                        fakeArgs.fake_sourceController = item.sourceController
+                        if settings.fontJustify == "RIGHT" then
+                            message = x.formatName(fakeArgs, settings.names, true) .. " +" .. message
+                        else
+                            message = "+" .. message .. x.formatName(fakeArgs, settings.names, true)
+                        end
+                    else
+                        message = sformat("+%s", message)
+                    end
+                end
+
+                -- Add Icons
+                local iconSize = settings.iconsEnabled and settings.iconsSize or -1
+                if frameName == "damage" and mergeID == 6603 and not x:ShowIncomingAutoAttackIcons() then
+                    -- Disable the auto attack icon for the incoming damage frame
+                    iconSize = -1
+                end
+
+                message = x:GetSpellTextureFormatted(
+                    mergeID,
+                    message,
+                    iconSize,
+                    settings.spacerIconsEnabled,
+                    settings.fontJustify,
+                    strColor,
+                    true, -- Merge Override = true
+                    item.mergedCount
+                )
+
+                x:AddMessage(frameName, message, item.color)
+
+                -- Clear all the old amounts, we dont need them anymore
+                item.mergedAmount = 0
+                item.mergedCount = 0
             end
-
-            -- Add Icons
-            local iconSize = settings.iconsEnabled and settings.iconsSize or -1
-            if frameName == "damage" and stack[idIndex] == 6603 and not x:ShowIncomingAutoAttackIcons() then
-                -- Disable the auto attack icon for the incoming damage frame
-                iconSize = -1
-            end
-
-            message = x:GetSpellTextureFormatted(
-                stack[idIndex],
-                message,
-                iconSize,
-                settings.spacerIconsEnabled,
-                settings.fontJustify,
-                strColor,
-                true, -- Merge Override = true
-                item.mergedCount
-            )
-
-            x:AddMessage(frameIndex[index], message, item.color)
-
-            -- Clear all the old amounts, we dont need them anymore
-            item.mergedAmount = 0
-            item.mergedCount = 0
         end
 
-        frames[frameIndex[index]] = idIndex + 1
-        index = index + 1
+        -- Advance to the next frame
+        currentFrameId = currentFrameId + 1
     end
 
     x.merge = CreateFrame("FRAME")
