@@ -702,10 +702,10 @@ addon.options.args["spells"] = {
                     set = set0_1,
                 },
 
-                incomingHealingHeader = {
+                incomingHeader = {
                     type = "header",
                     order = 10,
-                    name = "Incoming Healing",
+                    name = "Incoming Damage / Healing",
                 },
 
                 mergeHealing = {
@@ -715,7 +715,19 @@ addon.options.args["spells"] = {
                     desc = "Merges incoming healing by the name of the person that healed you.",
                     get = get0_1,
                     set = set0_1,
-                    width = "double",
+                },
+
+                mergeIncomingDamageInterval = {
+                    order = 12,
+                    type = "toggle",
+                    name = "Merge-Interval Incoming Damage",
+                    desc = "Merges incoming damage (still separated by spell). Use 0 to disable.",
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
+                    get = get0_1,
+                    set = set0_1,
                 },
 
                 dispellHeader = {
@@ -743,7 +755,7 @@ addon.options.args["spells"] = {
                 mergePetInterval = {
                     order = 35,
                     type = "toggle",
-                    name = "Merge ALL Pet Abilities",
+                    name = "Merge-Interval for ALL Pet Abilities",
                     desc = "Merges all pet abilities together and shows your pet's icon as the source. Use 0 to disable.",
                     type = "range",
                     min = 0,

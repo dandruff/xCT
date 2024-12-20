@@ -1244,6 +1244,7 @@ addon.defaults = {
             mergeEverything = true, -- merge every spell instead of just the ones listed
             mergeEverythingInterval = 0.5, -- which interval should be used if merge everything is enabled?
             mergeHealing = true,
+            mergeIncomingDamageInterval = 1,
             mergeSwings = true,
             mergeRanged = true,
             mergeDispells = true,

@@ -400,15 +400,19 @@ end
 local function MergeIncomingHealing()
     return x.db.profile.spells.mergeHealing
 end
+
+local function MergeIncomingDamageInterval()
+    return x.db.profile.spells.mergeIncomingDamageInterval or 0
+end
+
 local function MergeMeleeSwings()
     return x.db.profile.spells.mergeSwings
 end
-local function MergeRangedAttacks()
-    return x.db.profile.spells.mergeRanged
-end
+
 local function SpamMergerPetAttackInterval()
     return x.db.profile.spells.mergePetInterval
 end
+
 local function MergeCriticalsWithOutgoing()
     return x.db.profile.spells.mergeCriticalsWithOutgoing
 end
@@ -2081,12 +2085,12 @@ local CombatEventHandlers = {
             colorOverride = args.critical and "spellDamageTakenCritical" or "spellDamageTaken"
         end
 
-        local spamMergerInterval = SpamMergerInterval(spellID)
+        local spamMergerInterval = MergeIncomingDamageInterval()
         if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 outputFrame,
                 args.spellId,
-                args.amount,
+                -args.amount,
                 colorOverride,
                 spamMergerInterval,
                 "spellName",
