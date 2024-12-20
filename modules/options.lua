@@ -661,11 +661,6 @@ addon.options.args["spells"] = {
             type = "group",
             order = 11,
             args = {
-                basicOptionsHeader = {
-                    type = "header",
-                    order = 0,
-                    name = "Basic options",
-                },
                 basicOptionsExplanation = {
                     type = "description",
                     order = 1,
@@ -852,13 +847,7 @@ addon.options.args["spells"] = {
             order = 21,
             childGroups = "select",
             args = {
-                title = {
-                    type = "header",
-                    order = 0,
-                    name = "List of mergeable Class Spells",
-                },
-
-                --[[  TODO: Add Check all and uncheck all buttons ]]
+                -- TODO: Add Check all and uncheck all buttons
 
                 mergeListDesc = {
                     type = "description",
@@ -892,11 +881,6 @@ addon.options.args["spells"] = {
             type = "group",
             order = 22,
             args = {
-                title = {
-                    type = "header",
-                    order = 0,
-                    name = "List of mergeable global Spells and Items",
-                },
                 mergeListDesc = {
                     type = "description",
                     order = 1,
@@ -915,11 +899,6 @@ addon.options.args["spells"] = {
             type = "group",
             order = 23,
             args = {
-                title = {
-                    type = "header",
-                    order = 0,
-                    name = "List of mergeable Spells of the various player races",
-                },
                 mergeListDesc = {
                     type = "description",
                     order = 1,
