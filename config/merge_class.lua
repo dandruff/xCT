@@ -245,6 +245,8 @@ do
     spell(148187, 1.0) --  Talent: Rushing Jade Wind
     spell(107270, 1.0) --  Spinning Crane Kick
     spell(100784, 1.0) --  Blackout Kick
+    alias(451250, 450620) -- Hero Talent BrM / WW: Flurry Strikes
+    alias(450617, 450620) -- Hero Talent BrM / WW: Flurry Strikes
 
     spec(268) -- Brewmaster
     spell(124255, 1.0) --  Damage Taken: Stagger
