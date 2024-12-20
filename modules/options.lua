@@ -656,17 +656,21 @@ addon.options.args["spells"] = {
     childGroups = "tab",
     order = 2,
     args = {
+        explanation = {
+            type = "description",
+            order = 1,
+            name = "Normally all damage / heal events of a spell will result in one message each.\n"
+                .. "So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\n"
+                .. "If the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n"
+                .. "|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\n"
+                .. "Use an interval of 0 to disable the specific merge.",
+        },
+
         mergeOptions = {
             name = "Merge Options",
             type = "group",
             order = 11,
             args = {
-                basicOptionsExplanation = {
-                    type = "description",
-                    order = 1,
-                    name = "Normally all damage / heal events of a spell will result in one message each. So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\nIf the spam merger is enabled the damage events of each spell will be merged into one message.\n|cffFF0000Drawback|r: the (merged) message will be delayed!",
-                },
-
                 enableMerger = {
                     order = 2,
                     type = "toggle",
@@ -682,18 +686,23 @@ addon.options.args["spells"] = {
                     get = get0_1,
                     set = set0_1,
                 },
-                mergeEverything = {
-                    order = 4,
-                    type = "toggle",
-                    name = "Merge everything",
-                    desc = "If enabled all spells, items, ... will be spam-merged.\nIf disabled only the spells listed will spam-merged.",
-                    get = get0_1,
-                    set = set0_1,
+
+                outgoingHeader = {
+                    type = "header",
+                    order = 10,
+                    name = "Outgoing Damage / Healing",
                 },
+
+                outgoingExplanation = {
+                    type = "description",
+                    order = 11,
+                    name = "The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs.",
+                },
+
                 mergeEverythingInterval = {
-                    order = 5,
-                    name = "Merge everything Interval (seconds)",
-                    desc = "If 'Merge everything' is enabled, which interval should be used? Longer intervals lead to less spammy messages, but more delay!",
+                    order = 12,
+                    name = "Merge-Interval for other spells",
+                    desc = "The interval (seconds) in which all other spells will be merged. Certain spells have other intervals, see the tabs for them. Use 0 to disable.",
                     type = "range",
                     min = 0.1,
                     max = 5,
@@ -704,14 +713,14 @@ addon.options.args["spells"] = {
 
                 incomingHeader = {
                     type = "header",
-                    order = 10,
+                    order = 20,
                     name = "Incoming Damage / Healing",
                 },
 
                 mergeIncomingHealingInterval = {
-                    order = 11,
+                    order = 21,
                     name = "Merge-Interval Incoming Healing",
-                    desc = "The interval in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
+                    desc = "The interval (seconds) in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
                     type = "range",
                     min = 0,
                     max = 5,
@@ -721,10 +730,9 @@ addon.options.args["spells"] = {
                 },
 
                 mergeIncomingDamageInterval = {
-                    order = 12,
-                    type = "toggle",
+                    order = 22,
                     name = "Merge-Interval Incoming Damage",
-                    desc = "The interval in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
+                    desc = "The interval (seconds) in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
                     type = "range",
                     min = 0,
                     max = 5,
@@ -735,31 +743,32 @@ addon.options.args["spells"] = {
 
                 dispellHeader = {
                     type = "header",
-                    order = 20,
+                    order = 30,
                     name = "Dispells",
                 },
 
-                mergeDispells = {
-                    order = 21,
-                    type = "toggle",
-                    name = "Merge Dispells by Spell Name",
-                    desc = "Merges multiple dispells that you perform together, if the aura name is the same.",
+                mergeDispellInterval = {
+                    order = 31,
+                    name = "Merge-Interval for Dispells",
+                    desc = "The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable.",
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
                     get = get0_1,
                     set = set0_1,
-                    width = "double",
                 },
 
                 petAttacksHeader = {
                     type = "header",
-                    order = 34,
+                    order = 40,
                     name = "Pet Attacks",
                 },
 
                 mergePetInterval = {
-                    order = 35,
-                    type = "toggle",
+                    order = 41,
                     name = "Merge-Interval for ALL Pet Abilities",
-                    desc = "Merges all pet abilities together and shows your pet's icon as the source. Use 0 to disable.",
+                    desc = "The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable.",
                     type = "range",
                     min = 0,
                     max = 5,
@@ -769,9 +778,10 @@ addon.options.args["spells"] = {
                 },
 
                 mergePetColor = {
-                    order = 36,
+                    order = 42,
                     type = "color",
                     name = "Pet Color",
+                    desc = "Which color do you want the merged pet messages to be?",
                     get = getColor0_1,
                     set = setColor0_1,
                 },
@@ -804,18 +814,18 @@ addon.options.args["spells"] = {
 
                 criticalHitsHeader = {
                     type = "header",
-                    order = 40,
+                    order = 50,
                     name = "Critical Hits",
                 },
 
                 criticalHitsExplanation = {
                     type = "description",
-                    order = 41,
+                    order = 51,
                     name = "Please choose one:",
                 },
 
                 mergeDontMergeCriticals = {
-                    order = 42,
+                    order = 52,
                     type = "toggle",
                     name = "Don't Merge Critical Hits Together",
                     desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
@@ -825,7 +835,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeCriticalsWithOutgoing = {
-                    order = 43,
+                    order = 53,
                     type = "toggle",
                     name = "Merge Critical Hits with Outgoing",
                     desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
@@ -835,7 +845,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeCriticalsByThemselves = {
-                    order = 44,
+                    order = 54,
                     type = "toggle",
                     name = "Merge Critical Hits by Themselves",
                     desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
@@ -845,7 +855,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeHideMergedCriticals = {
-                    order = 45,
+                    order = 55,
                     type = "toggle",
                     name = "Hide Merged Criticals",
                     desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
@@ -863,17 +873,6 @@ addon.options.args["spells"] = {
             childGroups = "select",
             args = {
                 -- TODO: Add Check all and uncheck all buttons
-
-                mergeListDesc = {
-                    type = "description",
-                    order = 1,
-                    fontSize = "small",
-                    name = "You can set the merge interval of the following spells.\n"
-                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
-                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
-                            .. "Larger values means less spam but more delay!\n"
-                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
-                },
 
                 ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
                 ["DEMONHUNTER"] = { type = "group", order = 2, name = "|cffA330C9Demon Hunter|r" },
@@ -895,36 +894,14 @@ addon.options.args["spells"] = {
             name = "Global Spells / Items",
             type = "group",
             order = 22,
-            args = {
-                mergeListDesc = {
-                    type = "description",
-                    order = 1,
-                    fontSize = "small",
-                    name = "You can set the merge interval of the following spells.\n"
-                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
-                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
-                            .. "Larger values means less spam but more delay!\n"
-                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
-                },
-            },
+            args = {},
         },
 
         raceList = {
             name = "Racial Spells",
             type = "group",
             order = 23,
-            args = {
-                mergeListDesc = {
-                    type = "description",
-                    order = 1,
-                    fontSize = "small",
-                    name = "You can set the merge interval of the following spells.\n"
-                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
-                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
-                            .. "Larger values means less spam but more delay!\n"
-                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
-                },
-            },
+            args = {},
         },
     },
 }

@@ -429,8 +429,8 @@ local function MergeHideMergedCriticals()
     return x.db.profile.spells.mergeHideMergedCriticals
 end
 
-local function MergeDispells()
-    return x.db.profile.spells.mergeDispells
+local function MergeDispellInterval()
+    return x.db.profile.spells.mergeDispellInterval or 0
 end
 
 local function FilterPlayerPower(value)
@@ -543,9 +543,7 @@ local function SpamMergerInterval(spellId)
             return x.db.profile.spells.merge[spellId].interval
         end
 
-        if x.db.profile.spells.mergeEverything then
-            return x.db.profile.spells.mergeEverythingInterval
-        end
+        return x.db.profile.spells.mergeEverythingInterval
     end
 
     return 0
@@ -2407,10 +2405,9 @@ local CombatEventHandlers = {
             x.db.profile.frames["general"].fontJustify
         )
 
-        if MergeDispells() then
-            -- TODO is this the "0" I sometimes see ?
-            -- TODO option for merge interval
-            x:AddSpamMessage("general", args.extraSpellName, message, color, 0.5)
+        local spamMergerInterval = MergeDispellInterval()
+        if spamMergerInterval > 0 then
+            x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
         else
             x:AddMessage("general", message, color)
         end
