@@ -529,14 +529,14 @@ local function IsHealingFiltered(name)
     return spell
 end
 
-local function MergeSpells()
+local function MergeSpell(spellId)
     if x.db.profile.spells.enableMerger then
         if x.db.profile.spells.mergeEverything then
             return true
         end
 
-        spellID = addon.replaceSpellId[spellID] or spellID
-        local db = x.db.profile.spells.merge[spellID] or addon.defaults.profile.spells.merge[spellID]
+        spellId = addon.replaceSpellId[spellId] or spellId
+        local db = x.db.profile.spells.merge[spellId] or addon.defaults.profile.spells.merge[spellId]
         if db and db.enabled then
             return true
         end
@@ -1647,7 +1647,7 @@ local CombatEventHandlers = {
         end
 
         -- Condensed Critical Merge
-        if MergeSpells() then
+        if MergeSpell(spellID) then
             merged = true
             if critical then
                 if MergeCriticalsByThemselves() then
@@ -1887,7 +1887,7 @@ local CombatEventHandlers = {
                 )
                 return
             end
-        elseif not isSwing and not isAutoShot and MergeSpells() then
+        elseif not isSwing and not isAutoShot and MergeSpell(spellID) then
             merged = true
             if critical then
                 if MergeCriticalsByThemselves() then
@@ -2080,7 +2080,7 @@ local CombatEventHandlers = {
             colorOverride = args.critical and "spellDamageTakenCritical" or "spellDamageTaken"
         end
 
-        if MergeSpells() then
+        if MergeSpell(args.spellId) then
             x:AddSpamMessage(
                 "damage",
                 args.spellId,
