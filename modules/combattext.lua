@@ -34,7 +34,7 @@ end
 
 local xCP = LibStub and LibStub("xCombatParser-1.0", true)
 if not xCP then
-    print("Something went wrong when xCT+ tried to load. Please reinstall and inform the author.")
+    x:Print("Something went wrong during initialization. Please reinstall and inform the author.")
 end
 
 local L_AUTOATTACK = C_Spell.GetSpellName(6603)
@@ -1715,7 +1715,7 @@ local CombatEventHandlers = {
             xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
         else
             if UnitName("player") == "Dandraffbal" then
-                print("xCT Needs Some Help: unhandled _HEAL event", args.event)
+                x:Print("unhandled _HEAL event", args.event)
             end
         end
     end,
@@ -2413,7 +2413,7 @@ local CombatEventHandlers = {
     ["SpellEnergize"] = function(args)
         local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
         if not energy_type then
-            print("xct: unknown SpellEnergize power type: " .. args.powerType)
+            x:Print("unknown SpellEnergize power type: " .. args.powerType)
             return
         end
         if not ShowEnergyGains() then

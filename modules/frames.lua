@@ -436,7 +436,7 @@ function x:AddMessage(framename, message, colorname)
 
     -- Make sure we have a valid frame
     if not frameOptions then
-        print("xct+ frame name not found:", framename)
+        x:Print("Frame name not found:", framename)
         return
     end
 
@@ -454,7 +454,7 @@ function x:AddMessage(framename, message, colorname)
             if color then
                 r, g, b = unpack(color)
             else
-                print("FRAME:", framename, "  xct+ says there is no color named:", colorname)
+                x:Print("FRAME:", framename, "  xct+ says there is no color named:", colorname)
                 error("missing color")
             end
         end
@@ -564,12 +564,12 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep
         if select("#", ...) % 2 ~= 0 then
             error("an even amount of extra args are required to add an entry to merge")
         end
-        --print("extra args pairs:", select("#", ...)/2)
+        --x:Print("extra args pairs:", select("#", ...)/2)
         for i = 1, select("#", ...), 2 do
             if heap[mergeID][select(i, ...)] then
                 error("reserved keyword in entry added to merge: '" .. tostring(select(i, ...)) .. "'")
             end
-            --print(" -->", select(i, ...), "=", select(i+1, ...))
+            --x:Print(" -->", select(i, ...), "=", select(i+1, ...))
             heap[mergeID][select(i, ...)] = select(i + 1, ...)
         end
         table_insert(stack, mergeID)
@@ -670,7 +670,7 @@ do
         -- This item contains a lot of information about what we need to merge
         local item = heap[stack[idIndex]]
 
-        --if item then print(item.displayTime, " < ", now, "?") end
+        --if item then x:Print(item.displayTime, " < ", now, "?") end
         if item and item.displayTime <= now and item.mergedCount > 0 then
             item.displayTime = now
 
@@ -1387,7 +1387,7 @@ StaticPopupDialogs["XCT_PLUS_CONFIGURING"] = {
         x:SaveAllFrames()
         x.EndConfigMode()
         x:ShowConfigTool()
-        print("|cffFF0000x|r|cffFFFF00CT+|r  Frames have been saved. Please fasten your seat belts.")
+        x:Print("Frames have been saved. Please fasten your seat belts.")
     end,
     OnCancel = function()
         x:UpdateFrames()
@@ -1498,7 +1498,7 @@ StaticPopupDialogs["XCT_PLUS_DB_CLEANUP_2"] = {
 
     OnAccept = Quit,
     OnCancel = function()
-        print("Resetting UI")
+        x:Print("Resetting UI")
         x.CleanUpForLegion()
     end,
 
