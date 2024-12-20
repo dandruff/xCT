@@ -367,16 +367,15 @@ local function getSpellDescription(spellId)
 end
 
 -- Spammy Spell Get/Set Functions
-local function SpamSpellGet(info)
-    local id = tonumber(info[#info])
-    local db = x.db.profile.spells.merge[id] or addon.defaults.profile.spells.merge[id]
-    return db.enabled
+local function SpamMergerGetSpellInterval(info)
+    local spellId = tonumber(info[#info])
+    return x.db.profile.spells.merge[spellId].interval or addon.merges[spellId].interval
 end
-local function SpamSpellSet(info, value)
-    local id = tonumber(info[#info])
-    local db = x.db.profile.spells.merge[id] or {}
-    db.enabled = value
-    x.db.profile.spells.merge[id] = db
+local function SpamMergerSetSpellInterval(info, value)
+    local spellId = tonumber(info[#info])
+    local db = x.db.profile.spells.merge[spellId] or {}
+    db.interval = value
+    x.db.profile.spells.merge[spellId] = db
 end
 
 local CLASS_NAMES = {
@@ -579,44 +578,61 @@ function x:UpdateSpamSpells()
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
             desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
-            if entry.interval <= 0.5 then
-                desc = desc .. "\n|cffFF0000Interval|r Instant"
-            else
-                desc = desc
-                    .. "\n|cffFF0000Interval|r Merge every |cffFFFF00"
-                    .. tostring(entry.interval)
-                    .. "|r seconds"
+
+            local firstSecondaryIdFound = true
+            for originalSpellId, replaceSpellId in pairs(addon.replaceSpellId) do
+                if replaceSpellId == spellID then
+                    if firstSecondaryIdFound then
+                        desc = desc .. "\n|cffFF0000Secondary ID(s)|r |cff798BDD" .. originalSpellId
+                        firstSecondaryIdFound = false
+                    else
+                        desc = desc .. ", " .. originalSpellId
+                    end
+                end
             end
+            if not firstSecondaryIdFound then
+                desc = desc .. "|r"
+            end
+            -- TODO replacement spells without explicit merging entries are not displayed here
 
             -- Add the spell to the UI
             if CLASS_NAMES[entry.class] then
                 local index = CLASS_NAMES[entry.class][tonumber(entry.desc) or 0]
                 spells[entry.class].args[tostring(spellID)] = {
                     order = index * 2 + 1,
-                    type = "toggle",
                     name = name,
                     desc = desc,
-                    get = SpamSpellGet,
-                    set = SpamSpellSet,
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
+                    get = SpamMergerGetSpellInterval,
+                    set = SpamMergerSetSpellInterval,
                 }
             elseif entry.desc == "Racial Spell" then
                 racetab[tostring(spellID)] = {
                     order = spamMergerRacialSpellOrders[entry.class],
-                    type = "toggle",
                     name = name,
                     desc = desc,
-                    get = SpamSpellGet,
-                    set = SpamSpellSet,
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
+                    get = SpamMergerGetSpellInterval,
+                    set = SpamMergerSetSpellInterval,
                 }
                 spamMergerRacialSpellOrders[entry.class] = spamMergerRacialSpellOrders[entry.class] + 1
             else
                 global[tostring(spellID)] = {
                     order = spamMergerGlobalSpellOrders[entry.class],
-                    type = "toggle",
                     name = name,
                     desc = desc,
-                    get = SpamSpellGet,
-                    set = SpamSpellSet,
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
+                    get = SpamMergerGetSpellInterval,
+                    set = SpamMergerSetSpellInterval,
                 }
                 spamMergerGlobalSpellOrders[entry.class] = spamMergerGlobalSpellOrders[entry.class] + 1
             end

@@ -529,20 +529,18 @@ local function IsHealingFiltered(name)
     return spell
 end
 
-local function MergeSpell(spellId)
+local function SpamMergerInterval(spellId)
     if x.db.profile.spells.enableMerger then
-        if x.db.profile.spells.mergeEverything then
-            return true
+        if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
+            return x.db.profile.spells.merge[spellId].interval
         end
 
-        spellId = addon.replaceSpellId[spellId] or spellId
-        local db = x.db.profile.spells.merge[spellId] or addon.defaults.profile.spells.merge[spellId]
-        if db and db.enabled then
-            return true
+        if x.db.profile.spells.mergeEverything then
+            return x.db.profile.spells.mergeEverythingInterval
         end
     end
 
-    return false
+    return 0
 end
 
 --[=====================================================[
@@ -1647,7 +1645,8 @@ local CombatEventHandlers = {
         end
 
         -- Condensed Critical Merge
-        if MergeSpell(spellID) then
+        local spamMergerInterval = SpamMergerInterval(spellID)
+        if spamMergerInterval > 0 then
             merged = true
             if critical then
                 if MergeCriticalsByThemselves() then
@@ -1656,7 +1655,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1672,7 +1671,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1687,7 +1686,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1704,7 +1703,7 @@ local CombatEventHandlers = {
                     spellID,
                     amount,
                     outputColor,
-                    nil,
+                    spamMergerInterval,
                     nil,
                     "spellName",
                     spellName,
@@ -1722,9 +1721,7 @@ local CombatEventHandlers = {
         elseif args.event == "SPELL_HEAL" then
             xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
         else
-            if UnitName("player") == "Dandraffbal" then
-                x:Print("unhandled _HEAL event", args.event)
-            end
+            x:Print("Please report: unhandled _HEAL event", args.event)
         end
     end,
 
@@ -1827,6 +1824,7 @@ local CombatEventHandlers = {
 
         local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
+        local spamMergerInterval = SpamMergerInterval(spellID)
         if (isSwing or isAutoShot) and MergeMeleeSwings() then
             merged = true
             if outputFrame == "critical" then
@@ -1836,7 +1834,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6,
+                        6, -- TODO merge interval melee
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1850,7 +1848,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6,
+                        6, -- TODO merge interval melee
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1863,7 +1861,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6,
+                        6, -- TODO merge interval melee
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1878,7 +1876,7 @@ local CombatEventHandlers = {
                     spellID,
                     amount,
                     outputColor,
-                    6,
+                        6, -- TODO merge interval melee
                     nil,
                     "auto",
                     L_AUTOATTACK,
@@ -1887,7 +1885,7 @@ local CombatEventHandlers = {
                 )
                 return
             end
-        elseif not isSwing and not isAutoShot and MergeSpell(spellID) then
+        elseif not isSwing and not isAutoShot and spamMergerInterval > 0 then
             merged = true
             if critical then
                 if MergeCriticalsByThemselves() then
@@ -1896,7 +1894,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1912,7 +1910,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1927,7 +1925,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        nil,
+                        spamMergerInterval,
                         nil,
                         "spellName",
                         spellName,
@@ -1945,7 +1943,7 @@ local CombatEventHandlers = {
                     spellID,
                     amount,
                     outputColor,
-                    nil,
+                    spamMergerInterval,
                     nil,
                     "spellName",
                     spellName,
@@ -2080,13 +2078,14 @@ local CombatEventHandlers = {
             colorOverride = args.critical and "spellDamageTakenCritical" or "spellDamageTaken"
         end
 
-        if MergeSpell(args.spellId) then
+        local spamMergerInterval = SpamMergerInterval(spellID)
+        if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 "damage",
                 args.spellId,
                 args.amount,
                 colorOverride,
-                nil,
+                spamMergerInterval,
                 nil,
                 "spellName",
                 spellName,

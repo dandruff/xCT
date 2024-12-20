@@ -886,7 +886,11 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "You can set the merge interval of the following spells.\n"
+                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
+                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
+                            .. "Larger values means less spam but more delay!\n"
+                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
                 },
 
                 ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
