@@ -47,6 +47,7 @@ do
         _working_race_name = name
     end
 
+    -- Adds a merge for a racial spell
     local function rspell(id, interval)
         addon.merges[tonumber(id) or id] = {
             class = _working_race_name,
