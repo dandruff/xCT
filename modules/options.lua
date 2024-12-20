@@ -940,13 +940,6 @@ addon.options.args["spellFilter"] = {
     type = "group",
     order = 3,
     args = {
-        --[[filterSpacer1 = {
-      type = 'description',
-      order = 1,
-      fontSize = "medium",
-      name = "",
-    },]]
-
         filterValues = {
             name = "Minimal Value Thresholds",
             type = "group",
@@ -956,7 +949,7 @@ addon.options.args["spellFilter"] = {
                 listSpacer0 = {
                     type = "header",
                     order = 0,
-                    name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.):",
+                    name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.)",
                 },
 
                 filterPowerValue = {
@@ -1665,13 +1658,6 @@ addon.options.args["FloatingCombatText"] = {
             order = 1,
             disabled = isCVarsDisabled,
             args = {
-                listSpacer0 = {
-                    type = "description",
-                    order = 0,
-                    name = "|cff798BDDFloating Combat Text Options|r:\n",
-                    fontSize = "large",
-                },
-
                 enableFloatingCombatText = {
                     order = 1,
                     name = "Enable Scrolling Combat Text (Self)",
@@ -1699,10 +1685,9 @@ addon.options.args["FloatingCombatText"] = {
                 },
 
                 headerAppearance = {
-                    type = "description",
+                    type = "header",
                     order = 4,
-                    name = "|cffFFFF00Floating Combat Text Appearance:|r",
-                    fontSize = "medium",
+                    name = "Appearance",
                 },
 
                 floatingCombatTextCombatDamageDirectionalOffset = {
@@ -1731,10 +1716,9 @@ addon.options.args["FloatingCombatText"] = {
 
                 -- Damage
                 headerDamage = {
-                    type = "description",
+                    type = "header",
                     order = 10,
-                    name = "|cffFFFF00Damage:|r",
-                    fontSize = "medium",
+                    name = "Damage",
                 },
 
                 floatingCombatTextCombatDamage = {
@@ -1784,10 +1768,9 @@ addon.options.args["FloatingCombatText"] = {
 
                 -- Healing and Absorbs
                 headerHealingAbsorbs = {
-                    type = "description",
+                    type = "header",
                     order = 20,
-                    name = "\n|cffFFFF00Healing and Absorbs:|r",
-                    fontSize = "medium",
+                    name = "Healing and Absorbs",
                 },
 
                 floatingCombatTextCombatHealing = {
@@ -1840,10 +1823,9 @@ addon.options.args["FloatingCombatText"] = {
 
                 -- Gains
                 headerGains = {
-                    type = "description",
+                    type = "header",
                     order = 30,
-                    name = "\n|cffFFFF00Player Gains:|r",
-                    fontSize = "medium",
+                    name = "Player Gains",
                 },
 
                 floatingCombatTextEnergyGains = {
@@ -1898,10 +1880,9 @@ addon.options.args["FloatingCombatText"] = {
 
                 -- Status Effects
                 headerStatusEffects = {
-                    type = "description",
+                    type = "header",
                     order = 40,
-                    name = "\n|cffFFFF00Status Effects:|r",
-                    fontSize = "medium",
+                    name = "Status Effects",
                 },
 
                 floatingCombatTextDodgeParryMiss = {
@@ -1961,10 +1942,9 @@ addon.options.args["FloatingCombatText"] = {
 
                 -- Player's Status
                 headerPlayerStatus = {
-                    type = "description",
+                    type = "header",
                     order = 50,
-                    name = "\n|cffFFFF00Player Status:|r",
-                    fontSize = "medium",
+                    name = "Player Status",
                 },
 
                 floatingCombatTextCombatState = {
@@ -2004,14 +1984,6 @@ addon.options.args["FloatingCombatText"] = {
             type = "group",
             order = 2,
             args = {
-
-                listSpacer1 = {
-                    type = "description",
-                    order = 3,
-                    name = "|cff798BDDFloating Combat Text|r |cffFF0000Advanced Settings|r:\n",
-                    fontSize = "large",
-                },
-
                 bypassCVARUpdates = {
                     order = 4,
                     type = "toggle",
@@ -2066,10 +2038,9 @@ addon.options.args["Frames"] = {
             args = {
 
                 listSpacer0 = {
-                    type = "description",
+                    type = "header",
                     order = 1,
-                    name = "|cff798BDDWhen Moving the Frames|r:",
-                    fontSize = "large",
+                    name = "When moving the Frames",
                 },
 
                 showGrid = {
@@ -6336,15 +6307,14 @@ addon.options.args["Frames"] = {
                         },
 
                         title1 = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFilter Resources|r:",
-                            fontSize = "large",
+                            name = "Filter Resources",
                         },
                         title2 = {
                             type = "description",
                             order = 11,
-                            name = "Check the energies that you do not wish to be displayed for your character:",
+                            name = "Check the resources that you do not wish to be displayed for your character:",
                             fontSize = "small",
                         },
 
