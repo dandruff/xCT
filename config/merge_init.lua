@@ -33,9 +33,9 @@ do
         -- Create the spell here
         addon.merges[tonumber(id) or id] = {
             class = _working.class or "ITEM",
-            interval = tonumber(interval) or interval or 0.5,
+            interval = tonumber(interval) or interval,
             desc = _working.desc, -- TODO its the spec ID
-            prep = _working.prep or tonumber(interval) or interval or 0.5, -- TODO what is .prep?!
+            prep = _working.prep or tonumber(interval) or interval, -- TODO what is .prep?!
         }
     end
 
@@ -51,9 +51,9 @@ do
     local function rspell(id, interval)
         addon.merges[tonumber(id) or id] = {
             class = _working_race_name,
-            interval = tonumber(interval) or interval or 0.5,
+            interval = tonumber(interval) or interval,
             desc = "Racial Spell",
-            prep = interval or 0.5,
+            prep = tonumber(interval) or interval,
         }
     end
 
@@ -74,9 +74,9 @@ do
     local function item(id, interval, desc)
         addon.merges[id] = {
             class = _working_item_header,
-            interval = tonumber(interval) or interval or 0.5,
+            interval = tonumber(interval) or interval,
             desc = desc,
-            prep = tonumber(interval) or interval or 0.5,
+            prep = tonumber(interval) or interval,
         }
     end
 

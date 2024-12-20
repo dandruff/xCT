@@ -25,41 +25,37 @@ class("DEATHKNIGHT")
 do
     spec(0) -- All Specs
     spell(52212, 2.5) --  Death and Decay
-    spell(268194, 1.0) -- chocking brine
 
     spec(250) -- Blood
-    spell(55078, 3.5) --  Blood Plague
-    spell(196528, 1.5) --  Talent: Bonestorm (DMG)
-    spell(196545, 1.5) --  Talent: Bonestorm (Heal)
-    spell(203166, 2.5) --  PVP Talent: Blight (ID: 203172)
-    alias(49998, 45470) -- Death Strike (DRW)
-    alias(383312, 383313) -- Talent: Abomination Limb
+    spell(55078,  1.0) --  Blood Plague
+    spell(196528, 1.0) --  Talent: Bonestorm (DMG)
+    spell(196545, 1.0) --  Talent: Bonestorm (Heal)
+    alias(49998,  45470)  --  Death Strike (DRW)
+    alias(383312, 383313) --  Talent: Abomination Limb
 
     spec(251) -- Frost
-    spell(196771, 2.5) --  Remorseless Winter
-    spell(55095, 3.5) --  Frost Fever
-    spell(222024, 3.0) --  Obliterate (For Merge)
-    spell(222026, 3.0) --  Frost Strike (For Merge)
-    spell(155166, 2.5) --  Talent: Breath of Sindragosa
-    spell(190780, 1.5) --  Artifact: Sindragosa's Fury
+    spell(196771, 1.0) --  Remorseless Winter
+    spell(55095,  1.0) --  Frost Fever
+    spell(222024, 1.0) --  Obliterate
+    spell(222026, 1.0) --  Frost Strike
+    spell(155166, 1.0) --  Talent: Breath of Sindragosa
+    spell(190780, 1.5) --  Talent: Sindragosa's Fury
     alias(66198, 222024) --  [MH/OH Merger] Obliterate
     alias(66196, 222026) --  [MH/OH Merger] Frost Strike
 
     spec(252) -- Unholy
-    spell(70890, 3.0)  --  Scourge Strike
-    spell(199373, 2.5) --  Army: Claw
-    spell(191587, 2.5) --  Virulent Plague (DoT)
-    spell(286836, 2.5) --  Dark Transformation
-    spell(47541, 1.5)  --  Death Coil
-    spell(218321, 1.5) --  Artifact: Dragged to Helheim
-    spell(156000, 2.5) --  Talent: Defile
-    spell(207267, 2.5) --  Talent Bursting Sores
-    spell(115994, 1.5) --  Talent Unholy Blight
+    spell(199373, 1.0) --  Army: Claw
+    spell(191587, 1.0) --  Virulent Plague (DoT)
+    spell(286836, 1.0) --  Dark Transformation
+    spell(47541,  1.0) --  Death Coil
+    spell(218321, 1.0) --  Artifact: Dragged to Helheim
+    spell(156000, 1.0) --  Talent: Defile
+    spell(115994, 1.0) --  Talent: Unholy Blight
     spell(212423, 1.0) --  Talent: All will serve
     spell(319230, 1.0) --  Talent: Unholy Pact
+    alias(55090,  70890)  --  Merge physical + shadow portion of Scourge Strike
     alias(319238, 319230) --  [Cleave Merger] Unholy Pact
     alias(319236, 319230) --  [Cleave Merger] Unholy Pact
-    alias(55090, 70890)   --  [Cleave Merger] Scourge Strike
     alias(191685, 215969) --  [DD/DoT Merger] Virulent Plague Eruption
     alias(212969, 212739) --  [DD/DoT Merger] Talent: Epidemic
 end
