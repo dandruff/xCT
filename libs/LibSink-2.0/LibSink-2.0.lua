@@ -1,24 +1,10 @@
---[[
-Name: Sink-2.0
-Revision: $Rev: 130 $
-Author(s): Funkydude
-Description: Library that handles chat output.
-Dependencies: LibStub, SharedMedia-3.0 (optional)
-License: CC-BY-NC-SA 3.0
-]]
-
---[[
-Copyright (C) 2008-2015
-For the attribution bit of the license, as long as you distribute the library unmodified,
-no attribution is required.
-If you derive from the library or change it in any way, you are required to contact the author(s).
-]]
+--@curseforge-project-slug: libsink-2-0@
 
 -----------------------------------------------------------------------
 -- Sink-2.0
 
 local SINK20 = "LibSink-2.0"
-local SINK20_MINOR = 90106
+local SINK20_MINOR = 110002
 
 local sink = LibStub:NewLibrary(SINK20, SINK20_MINOR)
 if not sink then return end
@@ -39,8 +25,21 @@ sink.stickyAddons = sink.stickyAddons or {
 -- Upgrade complete
 
 local _G = _G
-local format, gsub, wipe, next, select = string.format, string.gsub, wipe, next, select
+local format, gsub, wipe, next, select = string.format, string.gsub, table.wipe, next, select
 local IsInRaid, IsInGroup, SendChatMessage = IsInRaid, IsInGroup, SendChatMessage
+
+-- Make sure FCT is loaded
+local EnableAddOn = C_AddOns.EnableAddOn or EnableAddOn
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded or IsAddOnLoaded
+local LoadAddOn = C_AddOns.LoadAddOn or LoadAddOn
+EnableAddOn("Blizzard_CombatText")
+local loadFCT = nil
+if not IsAddOnLoaded("Blizzard_CombatText") then
+	loadFCT = function()
+		loadFCT = nil
+		LoadAddOn("Blizzard_CombatText")
+	end
+end
 
 local L = {}
 L.DEFAULT = "Default"
@@ -155,7 +154,7 @@ do
 		L["OUTPUT_DESC"] = "Wohin die Ausgaben dieses Addons geleitet werden sollen."
 		L["ROUTE"] = "Die Ausgaben dieses Addons werden durch %s geleitet."
 		L["SCROLL"] = "Unterabschnitt"
-		L["SCROLL_DESC"] = [=[Stelle den Unterabschnitt ein, in dem die Nachrichten erscheinen sollen. 
+		L["SCROLL_DESC"] = [=[Stelle den Unterabschnitt ein, in dem die Nachrichten erscheinen sollen.
 
 		Dies ist nur für manche Ausgaben verfügbar.]=]
 		L["STICKY"] = "Fixiert"
@@ -372,15 +371,9 @@ end
 
 local function blizzard(addon, text, r, g, b, font, size, outline, sticky, _, icon)
 	if icon then text = "\124T"..icon..":15:15:0:0:64:64:4:60:4:60\124t "..text end
-	if SHOW_COMBAT_TEXT == "1" then
-		local s = sink.storageForAddon[addon] and sink.storageForAddon[addon].sink20Sticky or sticky
-		if not CombatText_AddMessage then
-			UIParentLoadAddOn("Blizzard_CombatText")
-		end
-		CombatText_AddMessage(text, CombatText_StandardScroll, r, g, b, s and "crit" or nil, false)
-	else
-		UIErrorsFrame:AddMessage(text, r, g, b, 1.0)
-	end
+	local s = sink.storageForAddon[addon] and sink.storageForAddon[addon].sink20Sticky or sticky
+	if loadFCT then loadFCT() end
+	CombatText_AddMessage(text, CombatText_StandardScroll, r, g, b, s and "crit" or nil, false)
 end
 
 sink.channelMapping = sink.channelMapping or {
@@ -447,12 +440,12 @@ local function channel(addon, text)
 end
 
 -- |TTexturePath:size1:size2:xoffset:yoffset:dimx:dimy:coordx1:coordx2:coordy1:coordy2:red:green:blue|t
-local function chat(addon, text, r, g, b, _, _, _, _, _, icon)
+local function chat(_, text, r, g, b, _, _, _, _, _, icon)
 	if icon then text = "\124T"..icon..":15:15:0:0:64:64:4:60:4:60\124t"..text end
 	DEFAULT_CHAT_FRAME:AddMessage(text, r, g, b)
 end
 
-local function uierror(addon, text, r, g, b, _, _, _, _, _, icon)
+local function uierror(_, text, r, g, b, _, _, _, _, _, icon)
 	if icon then text = "\124T"..icon..":15:15:0:0:64:64:4:60:4:60\124t "..text end
 	UIErrorsFrame:AddMessage(text, r, g, b, 1.0)
 end
@@ -460,7 +453,7 @@ end
 local rw
 do
 	local white = {r = 1, g = 1, b = 1}
-	function rw(addon, text, r, g, b, _, _, _, _, _, icon)
+	function rw(_, text, r, g, b, _, _, _, _, _, icon)
 		if r or g or b then
 			text = format("\124cff%02x%02x%02x%s\124r", (r or 0) * 255, (g or 0) * 255, (b or 0) * 255, text)
 		end
@@ -489,17 +482,15 @@ local function getPrioritizedSink()
 			return sink.handlers[currentHandler]
 		end
 	end
-	for i, v in next, handlerPriority do
-		local check = customHandlersEnabled[v]
+	for i = 1, #handlerPriority do
+		local handler = handlerPriority[i]
+		local check = customHandlersEnabled[handler]
 		if check and check() then
-			currentHandler = v
-			return sink.handlers[v]
+			currentHandler = handler
+			return sink.handlers[handler]
 		end
 	end
-	if SHOW_COMBAT_TEXT and tostring(SHOW_COMBAT_TEXT) ~= "0" then
-		return blizzard
-	end
-	return chat
+	return blizzard
 end
 
 local function pour(addon, text, r, g, b, ...)
@@ -541,9 +532,6 @@ do
 	local function shouldDisableMSBT()
 		return not _G.MikSBT
 	end
-	local function shouldDisableFCT()
-		return not SHOW_COMBAT_TEXT or tostring(SHOW_COMBAT_TEXT) == "0"
-	end
 
 	local sctFrames = {"Incoming", "Outgoing", "Messages"}
 	local msbtFrames = nil
@@ -552,7 +540,7 @@ do
 		if addon == "MikSBT" then
 			if not msbtFrames then
 				msbtFrames = {}
-				for key, name in MikSBT.IterateScrollAreas() do
+				for _, name in MikSBT.IterateScrollAreas() do
 					msbtFrames[#msbtFrames+1] = name
 				end
 			end
@@ -576,7 +564,7 @@ do
 		Default = {L.DEFAULT, L.DEFAULT_DESC},
 		SCT = {"Scrolling Combat Text (SCT)", nil, shouldDisableSCT},
 		MikSBT = {"MikSBT", nil, shouldDisableMSBT},
-		Blizzard = {L.BLIZZARD, nil, shouldDisableFCT},
+		Blizzard = {L.BLIZZARD},
 		RaidWarning = {L.RW},
 		ChatFrame = {L.CHAT},
 		Channel = {L.CHANNEL},
@@ -810,7 +798,7 @@ do
 		end
 		sink.stickyAddons[shortName] = hasSticky and true or nil
 
-		for k, v in next, sinkOptionGenerators do
+		for _, v in next, sinkOptionGenerators do
 			v(shortName, sinks[shortName])
 		end
 	end
