@@ -12,29 +12,8 @@
  [  ©2020. All Rights Reserved.        ]
  [====================================]]
 
--- Dont do anything for Legion
-local build = select(4, GetBuildInfo())
-
 -- Get Addon's name and Blizzard's Addon Stub
 local AddonName, addon = ...
-
-local sgsub, ipairs, pairs, type, string_format, table_insert, table_remove, table_sort, print, tostring, tonumber, select, string_lower, collectgarbage, string_match, string_find =
-    string.gsub,
-    ipairs,
-    pairs,
-    type,
-    string.format,
-    table.insert,
-    table.remove,
-    table.sort,
-    print,
-    tostring,
-    tonumber,
-    select,
-    string.lower,
-    collectgarbage,
-    string.match,
-    string.find
 
 -- compares a tables values
 local function tableCompare(t1, t2)
@@ -137,11 +116,6 @@ function x:OnInitialize()
     x:UpdatePlayer()
 
     -- Delay updating frames until all other addons are loaded!
-    --x:UpdateFrames()
-    if build < 70000 then
-        x:UpdateBlizzardFCT()
-    end
-
     x:UpdateCombatTextEvents(true)
     x:UpdateSpamSpells()
     x:UpdateItemTypes()
@@ -173,10 +147,10 @@ end)
 
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
-    local major, minor, iteration, releaseMsg = string_match(string_lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
+    local major, minor, iteration, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
     major, minor, iteration = tonumber(major) or 0, tonumber(minor) or 0, tonumber(iteration) or 0
     local isAlpha, isBeta =
-        string_find(releaseMsg, "alpha") and true or false, string_find(releaseMsg, "beta") and true or false
+        string.find(releaseMsg, "alpha") and true or false, string.find(releaseMsg, "beta") and true or false
     local t = {}
     t.major = major
     t.minor = minor
@@ -186,7 +160,7 @@ local function VersionToTable(version)
     t.isRelease = not (isAlpha or isBeta)
 
     if not t.isReleased then
-        t.devBuild = tonumber(string_match(releaseMsg, "(%d+)")) or 1
+        t.devBuild = tonumber(string.match(releaseMsg, "(%d+)")) or 1
     end
     return t
 end
@@ -821,7 +795,7 @@ local function setCP_1(info, value)
 end
 
 local function getCP_2(info)
-    local spec, index = string_match(info[#info], "(%d+),(.+)")
+    local spec, index = string.match(info[#info], "(%d+),(.+)")
     local value = x.db.profile.spells.combo[x.player.class][tonumber(spec)][tonumber(index) or index]
     if type(value) == "table" then
         return value.enabled
@@ -830,7 +804,7 @@ local function getCP_2(info)
     end
 end
 local function setCP_2(info, value)
-    local spec, index = string_match(info[#info], "(%d+),(.+)")
+    local spec, index = string.match(info[#info], "(%d+),(.+)")
 
     if value == true then
         for key, entry in pairs(x.db.profile.spells.combo[x.player.class][tonumber(spec)]) do
@@ -1097,7 +1071,7 @@ function x:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listSpells) do
-            local spellID = tonumber(string_match(id, "%d+"))
+            local spellID = tonumber(string.match(id, "%d+"))
             local spellName = C_Spell.GetSpellName(spellID)
             if spellName then
                 updated = true
@@ -1138,14 +1112,14 @@ function x:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listItems) do
-            local spellID = tonumber(string_match(id, "%d+"))
+            local spellID = tonumber(string.match(id, "%d+"))
             local name = C_Item.GetItemNameByID(spellID or id)
             local texture = C_Item.GetItemIconByID(spellID or id)
             name = name or "Unknown Item"
             updated = true
             spells[id] = {
                 order = i,
-                name = string_format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture or x.BLANK_ICON, 16, 16, name),
+                name = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture or x.BLANK_ICON, 16, 16, name),
                 desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
                 type = "toggle",
                 get = getSF,
@@ -1176,7 +1150,7 @@ function x:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listDamage) do
-            local spellID = tonumber(string_match(id, "%d+"))
+            local spellID = tonumber(string.match(id, "%d+"))
             local spellName = C_Spell.GetSpellName(spellID or id)
             if spellName then
                 updated = true
@@ -1216,7 +1190,7 @@ function x:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listHealing) do
-            local spellID = tonumber(string_match(id, "%d+"))
+            local spellID = tonumber(string.match(id, "%d+"))
             local spellName = C_Spell.GetSpellName(spellID or id)
             if spellName then
                 updated = true
@@ -1252,7 +1226,7 @@ function x.AddFilteredSpell(name, category)
         x.db.profile.spellFilter.listDebuffs[name] = true
         x:UpdateAuraSpellFilter("debuffs")
     elseif category == "listSpells" then
-        local spellID = tonumber(string_match(name, "%d+"))
+        local spellID = tonumber(string.match(name, "%d+"))
         if spellID and C_Spell.GetSpellName(spellID) then
             x.db.profile.spellFilter.listSpells[name] = true
             x:UpdateAuraSpellFilter("spells")
@@ -1284,7 +1258,7 @@ function x.RemoveFilteredSpell(name, category)
         x.db.profile.spellFilter.listDebuffs[name] = nil
         x:UpdateAuraSpellFilter("debuffs")
     elseif category == "listSpells" then
-        local spellID = tonumber(string_match(name, "%d+"))
+        local spellID = tonumber(string.match(name, "%d+"))
         if spellID and C_Spell.GetSpellName(spellID) then
             x.db.profile.spellFilter.listSpells[name] = nil
             x:UpdateAuraSpellFilter("spells")
@@ -1324,8 +1298,8 @@ function x.LookupColorByName(name)
 end
 
 local getColorDB = function(info)
-    local enabled = string_match(info[#info], "(.*)_enabled")
-    local color = string_match(info[#info], "(.*)_color")
+    local enabled = string.match(info[#info], "(.*)_enabled")
+    local color = string.match(info[#info], "(.*)_color")
 
     if info[#info - 1] == "fontColors" then
         if enabled then
@@ -1364,8 +1338,8 @@ local getColorDB = function(info)
 end
 
 local setColorDB = function(info, r, g, b)
-    local enabled = string_match(info[#info], "(.*)_enabled")
-    local color = string_match(info[#info], "(.*)_color")
+    local enabled = string.match(info[#info], "(.*)_enabled")
+    local color = string.match(info[#info], "(.*)_color")
     if info[#info - 1] == "fontColors" then
         if enabled then
             x.db.profile.frames[info[#info - 2]].colors[enabled].enabled = r
@@ -1396,7 +1370,7 @@ local setColorDB = function(info, r, g, b)
 end
 
 local funcColorReset = function(info)
-    local color = string_match(info[#info], "(.*)_reset")
+    local color = string.match(info[#info], "(.*)_reset")
     if info[#info - 1] == "fontColors" then
         x.db.profile.frames[info[#info - 2]].colors[color].color =
             x.db.profile.frames[info[#info - 2]].colors[color].default
@@ -1412,7 +1386,7 @@ local funcColorReset = function(info)
 end
 
 local funcColorHidden = function(info)
-    local color = string_match(info[#info], "(.*)_color")
+    local color = string.match(info[#info], "(.*)_color")
     if info[#info - 1] == "fontColors" then
         return not x.db.profile.frames[info[#info - 2]].colors[color].enabled
     elseif info[#info - 2] == "fontColors" then
@@ -1425,7 +1399,7 @@ local funcColorHidden = function(info)
 end
 
 local funcColorResetHidden = function(info)
-    local color = string_match(info[#info], "(.*)_reset")
+    local color = string.match(info[#info], "(.*)_reset")
     if info[#info - 1] == "fontColors" then
         return not x.db.profile.frames[info[#info - 2]].colors[color].enabled
             or tableCompare(
@@ -1533,10 +1507,10 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
         -- Sort the Colors Alphabetical
         local sortedList = {}
         for colorName in pairs(settings.colors) do
-            table_insert(sortedList, colorName)
+            table.insert(sortedList, colorName)
         end
 
-        table_sort(sortedList)
+        table.sort(sortedList)
 
         local currentColorSettings
         for _, currentColorName in ipairs(sortedList) do
@@ -1562,10 +1536,10 @@ function x.GenerateColorOptions()
             -- Sort the Colors Alphabetical
             local sortedList = {}
             for colorName in pairs(settings.colors) do
-                table_insert(sortedList, colorName)
+                table.insert(sortedList, colorName)
             end
 
-            table_sort(sortedList)
+            table.sort(sortedList)
 
             local colorSettings
             -- Do Single Colors First
@@ -1597,7 +1571,7 @@ function x.GenerateSpellSchoolColors()
         sortedList[#sortedList + 1] = tonumber(n)
     end
 
-    table_sort(sortedList)
+    table.sort(sortedList)
 
     local color
     for _, mask in ipairs(sortedList) do
@@ -1680,16 +1654,16 @@ do
             local settings = x.db.profile.frames[location or "general"]
             if settings.iconsEnabled and icon then
                 if settings.fontJustify == "LEFT" then
-                    text = string_format(
+                    text = string.format(
                         "%s %s",
-                        string_format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize),
+                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize),
                         text
                     )
                 else
-                    text = string_format(
+                    text = string.format(
                         "%s%s",
                         text,
-                        string_format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize)
+                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize)
                     )
                 end
             end
@@ -1703,7 +1677,7 @@ do
         function()
             local tmp = {}
             for name in pairs(frames) do
-                table_insert(tmp, name)
+                table.insert(tmp, name)
             end
             return tmp
         end,
@@ -1733,13 +1707,13 @@ local function GetNextTip()
             num = random(1, #tips)
             if not used[num] then
                 used[num] = true
-                table_insert(helpfulList, tips[num])
+                table.insert(helpfulList, tips[num])
             end
         end
     end
 
     local currentItem = helpfulList[1]
-    table_remove(helpfulList, 1)
+    table.remove(helpfulList, 1)
 
     return currentItem
 end
@@ -1820,8 +1794,8 @@ end
 
 -- Process the slash command ('input' contains whatever follows the slash command)
 function x:OpenxCTCommand(input)
-    local lock = string_match(string_lower(input), "lock")
-    local save = string_match(string_lower(input), "save")
+    local lock = string.match(string.lower(input), "lock")
+    local save = string.match(string.lower(input), "save")
     if lock or save then
         if not x.configuring and save then
             return
@@ -1842,7 +1816,7 @@ function x:OpenxCTCommand(input)
         return
     end
 
-    if string_match(string_lower(input), "cancel") then
+    if string.match(string.lower(input), "cancel") then
         if x.configuring then
             x:UpdateFrames()
             x.EndConfigMode()
@@ -1853,20 +1827,20 @@ function x:OpenxCTCommand(input)
         return
     end
 
-    if string_lower(input) == "help" then
+    if string.lower(input) == "help" then
         print("|cffFF0000x|r|cffFFFF00CT+|r  Commands:")
         print("      |cffFF0000/xct lock|r - Locks and unlocks the frame movers.")
         print("      |cffFF0000/xct test|r - Attempts to emulate combat.")
         return
     end
 
-    if string_lower(input) == "test" then
+    if string.lower(input) == "test" then
         x.ToggleTestMode(true)
         return
     end
 
-    if string_match(string_lower(input), "track %w+") then
-        local unit = string_match(string_lower(input), "%s(%w+)")
+    if string.match(string.lower(input), "track %w+") then
+        local unit = string.match(string.lower(input), "%s(%w+)")
 
         local name = UnitName(unit)
 
@@ -1928,7 +1902,7 @@ function x:ShowConfigTool(...)
         x:HideConfigTool()
     end)
     _G["xCT_PlusConfigFrame"] = x.myContainer.frame
-    table_insert(UISpecialFrames, "xCT_PlusConfigFrame")
+    table.insert(UISpecialFrames, "xCT_PlusConfigFrame")
 
     -- Properly dispose of this frame
     x.myContainer:SetCallback("OnClose", myContainer_OnRelease)

@@ -22,3 +22,8 @@ race("|cff8a8dedVoid Elfs|r")
 do
     rspell(259756, 2.5) --  Entropic embrace
 end
+
+race("|cff8a8dedLightforged Draenei|r")
+do
+    rspell(256893, 1.0) -- Light's Judgment
+end
