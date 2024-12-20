@@ -13,9 +13,8 @@
  [====================================]]
 
 local ADDON_NAME, addon = ...
-local x, noop = addon.engine, addon.noop
+local x = addon.engine
 local blankTable = {}
-local sformat = string.format
 
 -- Store Localized Strings
 -- To remove: "Changed Target!"
@@ -589,7 +588,7 @@ local function GetSpellHistory()
         local name = C_Spell.GetSpellName(i)
         local icon = C_Spell.GetSpellTexture(i)
         spellHistory[tostring(i)] =
-            sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
+            string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
     end
 
     return spellHistory
@@ -615,7 +614,7 @@ local function GetItemHistory()
     for i in pairs(x.spellCache.items) do
         local name = C_Item.GetItemNameByID(i)
         local texture = C_Item.GetItemIconByID(i)
-        itemHistory[i] = sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture, 16, 16, name)
+        itemHistory[i] = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture, 16, 16, name)
     end
 
     return itemHistory
@@ -630,7 +629,7 @@ local function GetDamageIncomingHistory()
         local name = C_Spell.GetSpellName(i)
         local icon = C_Spell.GetSpellTexture(i)
         damageHistory[tostring(i)] =
-            sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
+            string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
     end
 
     return damageHistory
@@ -645,7 +644,7 @@ local function GetHealingIncomingHistory()
         local name = C_Spell.GetSpellName(i)
         local icon = C_Spell.GetSpellTexture(i)
         healingHistory[tostring(i)] =
-            sformat("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
+            string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
     end
 
     return healingHistory
@@ -1157,7 +1156,6 @@ addon.options.args["spellFilter"] = {
                     name = "Aura Name",
                     desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter.\n\nYou can add/remove |cff798BDDmultiple|r entries by separating them with a |cffFF8000semicolon|r (e.g. 'Shadowform;Power Word: Fortitude').",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 7,
@@ -1176,7 +1174,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetBuffHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1208,7 +1205,6 @@ addon.options.args["spellFilter"] = {
                     name = "Aura Name",
                     desc = "The full, case-sensitive name of the |cffFF1A1ADebuff|r you want to filter.",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 3,
@@ -1227,7 +1223,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cffFF1A1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetDebuffHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1258,8 +1253,7 @@ addon.options.args["spellFilter"] = {
                     type = "input",
                     name = "Proc Name",
                     desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter.\n\nYou can add/remove |cff798BDDmultiple|r entries by separating them with a |cffFF8000semicolon|r (e.g. 'Shadowform;Power Word: Fortitude').",
-                    set = setProc,
-                    get = noop,
+                    set = setSpell,
                 },
                 checkAdd = {
                     order = 7,
@@ -1278,7 +1272,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff1AFF1AProc|r items that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetProcHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1310,7 +1303,6 @@ addon.options.args["spellFilter"] = {
                     name = "Spell ID",
                     desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 3,
@@ -1321,7 +1313,6 @@ addon.options.args["spellFilter"] = {
                     set = setCheckAdd,
                 },
 
-                -- This is a feature option that I will enable when I get more time D:
                 selectTracked = {
                     order = 4,
                     type = "select",
@@ -1329,7 +1320,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetSpellHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1361,7 +1351,6 @@ addon.options.args["spellFilter"] = {
                     name = "Item ID",
                     desc = "The Item ID of the |cff798BDDItem|r you want to filter.",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 3,
@@ -1372,7 +1361,6 @@ addon.options.args["spellFilter"] = {
                     set = setCheckAdd,
                 },
 
-                -- This is a feature option that I will enable when I get more time D:
                 selectTracked = {
                     order = 4,
                     type = "select",
@@ -1380,7 +1368,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetItemHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1412,7 +1399,6 @@ addon.options.args["spellFilter"] = {
                     name = "Spell ID",
                     desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 3,
@@ -1423,7 +1409,6 @@ addon.options.args["spellFilter"] = {
                     set = setCheckAdd,
                 },
 
-                -- This is a feature option that I will enable when I get more time D:
                 selectTracked = {
                     order = 4,
                     type = "select",
@@ -1431,7 +1416,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetDamageIncomingHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },
@@ -1463,7 +1447,6 @@ addon.options.args["spellFilter"] = {
                     name = "Spell ID",
                     desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
                     set = setSpell,
-                    get = noop,
                 },
                 checkAdd = {
                     order = 3,
@@ -1482,7 +1465,6 @@ addon.options.args["spellFilter"] = {
                     desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                     disabled = IsTrackSpellsDisabled,
                     values = GetHealingIncomingHistory,
-                    get = noop,
                     set = setSpell,
                 },
             },

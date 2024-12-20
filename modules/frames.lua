@@ -1442,7 +1442,6 @@ StaticPopupDialogs["XCT_PLUS_HIDE_IN_COMBAT"] = {
 
     button1 = CONTINUE,
     button2 = REVERT,
-    OnAccept = x.noop,
     OnCancel = function()
         x.db.profile.hideConfig = true
         x:RefreshConfig()
@@ -1476,7 +1475,6 @@ StaticPopupDialogs["XCT_PLUS_FORCE_CVAR_UPDATE"] = {
 
     button1 = "Later",
     button2 = "Reload UI Now",
-    OnAccept = x.noop,
     OnCancel = ReloadUI,
 
     -- Taint work around
