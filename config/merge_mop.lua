@@ -20,26 +20,26 @@ local ADDON_NAME, addon = ...
 -- header switches the header for the next set of items
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header " 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDLegendary Cloaks|r"
+header(" 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDLegendary Cloaks|r")
 do
-  item '147891' '3.5' "Legendary Cloak for Melee"
-  item '148008' '3.5' "Legendary Cloak for Casters"
-  item '148009' '5.0' "Legendary Cloak for Healers"
-  item '149276' '3.5' "Legendary Cloak for Hunters"
+    item(147891, 3.5, "Legendary Cloak for Melee")
+    item(148008, 3.5, "Legendary Cloak for Casters")
+    item(148009, 5.0, "Legendary Cloak for Healers")
+    item(149276, 3.5, "Legendary Cloak for Hunters")
 end
 
-header " 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDTrinkets|r"
+header(" 5.x |cffF1A864Mists of Pandaria|r™ |cff798BDDTrinkets|r")
 do
-  -- Trinket: Kardris' Toxic Totem
-  item '146061' '5' "Physical Damage (Melee)"
-  item '146063' '5' "Holy Damage"
-  item '146064' '5' "Arcane Damage (Balance Druids)"
-  item '146065' '5' "Shadow Damage (Priests, Warlocks)"
-  item '146067' '5' "Fire, Frost Damage (Mages)"
-  item '146069' '5' "Physical Damage (Hunters)"
-  item '146071' '5' "Nature Damage (Elemental Shamans)"
-  item '146070' '5' "Arcane Damage (Mages)"
-  item '146075' '5' "Nature Damage (Windwalker Monks)"
-  item '146177' '5' "Holy Healing (Priest, Paladin)"
-  item '146178' '5' "Nature Healing (Druid, Monk)"
+    -- Trinket: Kardris' Toxic Totem
+    item(146061, 5, "Physical Damage (Melee)")
+    item(146063, 5, "Holy Damage")
+    item(146064, 5, "Arcane Damage (Balance Druids)")
+    item(146065, 5, "Shadow Damage (Priests, Warlocks)")
+    item(146067, 5, "Fire, Frost Damage (Mages)")
+    item(146069, 5, "Physical Damage (Hunters)")
+    item(146071, 5, "Nature Damage (Elemental Shamans)")
+    item(146070, 5, "Arcane Damage (Mages)")
+    item(146075, 5, "Nature Damage (Windwalker Monks)")
+    item(146177, 5, "Holy Healing (Priest, Paladin)")
+    item(146178, 5, "Nature Healing (Druid, Monk)")
 end
