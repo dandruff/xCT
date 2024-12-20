@@ -542,10 +542,9 @@ function x:UpdateSpamSpells()
 
         -- Create the Category Header
         global[category] = {
-            type = "description",
+            type = "header",
             order = currentIndex,
-            name = "\n" .. category,
-            fontSize = "large",
+            name = category,
         }
         spamMergerGlobalSpellOrders[category] = currentIndex + 1
     end
@@ -556,10 +555,9 @@ function x:UpdateSpamSpells()
 
         -- Create the Category Header
         racetab[rcategory] = {
-            type = "description",
+            type = "header",
             order = rcurrentIndex,
-            name = "\n" .. rcategory,
-            fontSize = "large",
+            name = rcategory,
         }
         spamMergerRacialSpellOrders[rcategory] = rcurrentIndex + 1
     end
