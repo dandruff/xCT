@@ -18,9 +18,13 @@ local ADDON_NAME, addon = ...
 -- 'alias' takes the original spell id and a replacement spell id
 -- item takes a item id, the merge interval in seconds, and a helpful description of the item
 -- header switches the header for the next set of items
-local _, _, _, alias, item, header = unpack(addon.merge_helpers)
+local spell, _, _, alias, item, header = unpack(addon.merge_helpers)
 
 header("|cffA32C12Other|r |cff798BDDSpells|r")
 do
     item(143924, 3.5, "Item Leech")
+
+    -- not technically an item but thats not important right now
+    item(6603, 5, "Auto Attack")
+    item(75, 5, "Auto Shot")
 end

@@ -710,7 +710,7 @@ addon.options.args["spells"] = {
                 incomingHealingHeader = {
                     type = "header",
                     order = 10,
-                    name = "Merge Incoming Healing",
+                    name = "Incoming Healing",
                 },
 
                 mergeHealing = {
@@ -726,7 +726,7 @@ addon.options.args["spells"] = {
                 dispellHeader = {
                     type = "header",
                     order = 20,
-                    name = "Merge Multiple Dispells",
+                    name = "Dispells",
                 },
 
                 mergeDispells = {
@@ -739,41 +739,21 @@ addon.options.args["spells"] = {
                     width = "double",
                 },
 
-                autoAttacksHeader = {
-                    type = "header",
-                    order = 30,
-                    name = "Merge Auto-Attacks",
-                },
-
-                mergeSwings = {
-                    order = 31,
-                    type = "toggle",
-                    name = "Merge Melee Swings",
-                    desc = "|cffFF0000ID|r 6603 |cff798BDD(Player Melee)|r\n|cffFF0000ID|r 0 |cff798BDD(Pet Melee)|r",
-                    get = get0_1,
-                    set = set0_1,
-                },
-
-                mergeRanged = {
-                    order = 32,
-                    type = "toggle",
-                    name = "Merge Ranged Attacks",
-                    desc = "|cffFF0000ID|r 75",
-                    get = get0_1,
-                    set = set0_1,
-                },
-
                 petAttacksHeader = {
                     type = "header",
                     order = 34,
-                    name = "Merge Pet Attacks",
+                    name = "Pet Attacks",
                 },
 
-                mergePet = {
+                mergePetInterval = {
                     order = 35,
                     type = "toggle",
-                    name = "Merge Pet Abilities",
-                    desc = "Merges all pet abilities together and shows your pet's icon as the source.",
+                    name = "Merge ALL Pet Abilities",
+                    desc = "Merges all pet abilities together and shows your pet's icon as the source. Use 0 to disable.",
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
                     get = get0_1,
                     set = set0_1,
                 },
@@ -815,7 +795,7 @@ addon.options.args["spells"] = {
                 criticalHitsHeader = {
                     type = "header",
                     order = 40,
-                    name = "Merge Critical Hits",
+                    name = "Critical Hits",
                 },
 
                 criticalHitsExplanation = {
@@ -925,7 +905,11 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "You can set the merge interval of the following spells.\n"
+                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
+                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
+                            .. "Larger values means less spam but more delay!\n"
+                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
                 },
             },
         },
@@ -946,7 +930,11 @@ addon.options.args["spells"] = {
                     type = "description",
                     order = 1,
                     fontSize = "small",
-                    name = "Unless 'merge everything' is enabled (see |cffFFFF00Merge Options|r) these are the spells that will get merged.\nUncheck a spell if you do not want it merged. Contact me to add new spells. See |cffFFFF00Credits|r for contact info.\n\n",
+                    name = "You can set the merge interval of the following spells.\n"
+                            .. "A value of 0 means, that each event is displayed instantly without merging.\n"
+                            .. "A value of 3 means, that after the first event xCT will gather all following events for 3 seconds and display only message for them.\n"
+                            .. "Larger values means less spam but more delay!\n"
+                            .. "If spell is not listed here and 'Merge everything' is disabled, it wont get merged.",
                 },
             },
         },

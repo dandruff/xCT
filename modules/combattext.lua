@@ -406,8 +406,8 @@ end
 local function MergeRangedAttacks()
     return x.db.profile.spells.mergeRanged
 end
-local function MergePetAttacks()
-    return x.db.profile.spells.mergePet
+local function SpamMergerPetAttackInterval()
+    return x.db.profile.spells.mergePetInterval
 end
 local function MergeCriticalsWithOutgoing()
     return x.db.profile.spells.mergeCriticalsWithOutgoing
@@ -1730,7 +1730,10 @@ local CombatEventHandlers = {
         local spellName, spellSchool = args.spellName, args.spellSchool
         local critical, spellID, amount, merged = args.critical, args.spellId, args.amount
         local isEnvironmental, isSwing, isAutoShot, isDoT =
-            args.prefix == "ENVIRONMENTAL", args.prefix == "SWING", spellID == 75, args.prefix == "SPELL_PERIODIC"
+            args.prefix == "ENVIRONMENTAL",
+            args.prefix == "SWING",
+            spellID == 75,
+            args.prefix == "SPELL_PERIODIC"
         local outputFrame, outputColorType = "outgoing"
 
         -- Keep track of spells that go by (Don't track Swings or Environmental damage)
@@ -1766,17 +1769,20 @@ local CombatEventHandlers = {
             if not ShowPetDamage() then
                 return
             end
+
             if isSwing and not ShowPetAutoAttack_Outgoing() then
                 return
             end
-            if MergePetAttacks() then
+
+            local spamMergerInterval = SpamMergerPetAttackInterval()
+            if spamMergerInterval > 0 then
                 local icon = x.GetPetTexture() or ""
                 x:AddSpamMessage(
                     outputFrame,
-                    icon,
+                    icon, -- use the pet icon as spell ID so that EVERYTHING from it will be merged together
                     amount,
                     x.db.profile.spells.mergePetColor,
-                    6,
+                    spamMergerInterval,
                     nil,
                     "auto",
                     spellID == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
@@ -1834,7 +1840,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6, -- TODO merge interval melee
+                        spamMergerInterval,
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1848,7 +1854,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6, -- TODO merge interval melee
+                        spamMergerInterval,
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1861,7 +1867,7 @@ local CombatEventHandlers = {
                         spellID,
                         amount,
                         outputColor,
-                        6, -- TODO merge interval melee
+                        spamMergerInterval,
                         nil,
                         "auto",
                         L_AUTOATTACK,
@@ -1876,7 +1882,7 @@ local CombatEventHandlers = {
                     spellID,
                     amount,
                     outputColor,
-                        6, -- TODO merge interval melee
+                    spamMergerInterval,
                     nil,
                     "auto",
                     L_AUTOATTACK,
@@ -2204,7 +2210,7 @@ local CombatEventHandlers = {
                 args.sourceName or "Unknown Source Name",
                 amount,
                 "healingTaken",
-                5,
+                5, -- TODO option for heal inc interval
                 nil,
                 "sourceGUID",
                 args.sourceGUID,
@@ -2393,6 +2399,8 @@ local CombatEventHandlers = {
         )
 
         if MergeDispells() then
+            -- TODO is this the "0" I sometimes see ?
+            -- TODO option for merge interval
             x:AddSpamMessage("general", args.extraSpellName, message, color, 0.5)
         else
             x:AddMessage("general", message, color)
