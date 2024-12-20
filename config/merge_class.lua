@@ -24,36 +24,35 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 class("DEATHKNIGHT")
 do
     spec(0) -- All Specs
-    spell(52212, 1.0) --  Death and Decay
+    spell(52212, 3.0) --  Death and Decay
 
     spec(250) -- Blood
-    spell(55078,  1.0) --  Blood Plague
+    spell(55078,  3.0) --  Blood Plague
     spell(196528, 1.0) --  Talent: Bonestorm (DMG)
     spell(196545, 1.0) --  Talent: Bonestorm (Heal)
     alias(49998,  45470)  --  Death Strike (DRW)
     alias(383312, 383313) --  Talent: Abomination Limb
 
     spec(251) -- Frost
-    spell(196771, 1.0) --  Remorseless Winter
-    spell(55095,  1.0) --  Frost Fever
+    spell(196771, 3.0) --  Remorseless Winter
+    spell(55095,  3.0) --  Frost Fever
     spell(222024, 1.0) --  Obliterate
     spell(222026, 1.0) --  Frost Strike
     spell(155166, 1.0) --  Talent: Breath of Sindragosa
-    spell(190780, 1.0) --  Talent: Sindragosa's Fury
+    spell(190780, 1.5) --  Talent: Sindragosa's Fury
     alias(66198, 222024) --  [MH/OH Merger] Obliterate
     alias(66196, 222026) --  [MH/OH Merger] Frost Strike
 
     spec(252) -- Unholy
     spell(199373, 1.0) --  Army: Claw
-    spell(191587, 1.0) --  Virulent Plague (DoT)
+    spell(191587, 3.0) --  Virulent Plague (DoT)
     spell(286836, 1.0) --  Dark Transformation
     spell(47541,  1.0) --  Death Coil
-    spell(218321, 1.0) --  Artifact: Dragged to Helheim
-    spell(156000, 1.0) --  Talent: Defile
+    spell(156000, 3.0) --  Talent: Defile
     spell(115994, 1.0) --  Talent: Unholy Blight
     spell(212423, 1.0) --  Talent: All will serve
     spell(319230, 1.0) --  Talent: Unholy Pact
-    alias(55090,  70890)  --  Merge physical + shadow portion of Scourge Strike
+    alias(55090,  70890)  --  Scourge Strike: Merge physical + shadow portion
     alias(319238, 319230) --  [Cleave Merger] Unholy Pact
     alias(319236, 319230) --  [Cleave Merger] Unholy Pact
     alias(191685, 215969) --  [DD/DoT Merger] Virulent Plague Eruption
@@ -238,8 +237,8 @@ end
 class("MONK")
 do
     spec(0) -- All Specs
-    spell(130654, 1.0) --  Chi Burst (Healing)
-    spell(148135, 1.0) --  Chi Burst (Damage)
+    spell(130654, 1.0) --  Talent: Chi Burst (Healing)
+    spell(148135, 1.0) --  Talent: Chi Burst (Damage)
     spell(196608, 1.0) --  Talent: Eye of the Tiger
     spell(132467, 1.0) --  Talent: Chi Wave (Damage)
     spell(132463, 1.0) --  Talent: Chi Wave (Healing)
@@ -250,24 +249,24 @@ do
     spec(268) -- Brewmaster
     spell(124255, 1.0) --  Damage Taken: Stagger
     spell(216521, 1.0) --  Celestial Fortune
-    spell(123725, 1.0) --  Breath of Fire (DoT)
-    spell(227681, 1.0) --  Artifact: Dragonfire Brew
+    spell(123725, 3.0) --  Breath of Fire (DoT)
+    spell(387621, 1.0) --  Talent: Dragonfire Brew
 
     spec(269) -- Windwalker
-    spell(124280, 1.0) --  Touch of Karma
+    spell(124280, 3.0) --  Touch of Karma
     spell(117418, 1.0) --  Fists of Fury
     alias(205414, 222029) --  [MH/OH Merger] Artifact: Strike of the Windlord
 
     spec(270) -- Mistweaver
-    spell(115175, 1.0) --  Soothing Mist
-    spell(124682, 1.0) --  Eneloping Mist
-    spell(191840, 1.0) --  Essence Font
-    spell(119611, 1.0) --  Renewing Mists
+    spell(115175, 3.0) --  Soothing Mist
+    spell(124682, 3.0) --  Enveloping Mist
+    spell(191840, 3.0) --  Essence Font
+    spell(119611, 3.0) --  Renewing Mists
     spell(124081, 1.0) --  Talent: Zen Pulse
-    spell(162530, 1.0) --  Talent: Refreshing Jade Wind
-    spell(198756, 2.0) --  Talent: Invoke Chi'Ji
-    spell(199668, 1.0) --  Artifact: Blessing of Yu'lon
-    spell(199656, 1.0) --  Artifact: Celestial Breath
+    spell(162530, 3.0) --  Talent: Refreshing Jade Wind
+    spell(198756, 2.5) --  Talent: Invoke Chi'Ji
+    spell(199668, 2.0) --  Artifact: Blessing of Yu'lon
+    spell(199656, 2.0) --  Artifact: Celestial Breath
     alias(344006, 191840) -- Essence Font (Faeline Stomp)
     alias(198533, 115175) --  [Statue Merger] Talent: Jade Serpent Statue
     alias(228649, 100784) --  [Passive Merger] Teachings of the Monastery
