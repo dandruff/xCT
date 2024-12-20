@@ -251,8 +251,9 @@ do
     spec(268) -- Brewmaster
     spell(124255, 1.0) --  Damage Taken: Stagger
     spell(216521, 1.0) --  Celestial Fortune
-    spell(123725, 3.0) --  Breath of Fire (DoT)
     spell(387621, 1.0) --  Talent: Dragonfire Brew
+    alias(123725, 115181) --  Talent: Breath of Fire (DoT)
+    alias(388867, 325153) --  Talent: Exploding Keg
 
     spec(269) -- Windwalker
     spell(122470, 3.0) --  Touch of Karma
