@@ -509,7 +509,6 @@ ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
 end)
 
 local spamHeap, spamStack, now = {}, {}, 0
-local spam_format = "%s%s x%s"
 
 -- =====================================================
 -- AddOn:AddSpamMessage(

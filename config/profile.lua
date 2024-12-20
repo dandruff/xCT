@@ -1260,6 +1260,7 @@ addon.defaults = {
         spells = {
             enableMerger = true, -- enable/disable spam merger
             enableMergerDebug = false, -- Shows spell IDs for debugging merged spells
+            mergeEverything = true, -- merge every spell instead of just the ones listed
             mergeHealing = true,
             mergeSwings = true,
             mergeRanged = true,

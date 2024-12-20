@@ -530,11 +530,19 @@ local function IsHealingFiltered(name)
 end
 
 local function MergeSpells()
-    return x.db.profile.spells.enableMerger
-end
+    if x.db.profile.spells.enableMerger then
+        if x.db.profile.spells.mergeEverything then
+            return true
+        end
 
-local function UseStandardSpellColors()
-    return not x.db.profile.frames["outgoing"].standardSpellColor
+        spellID = addon.replaceSpellId[spellID] or spellID
+        local db = x.db.profile.spells.merge[spellID] or addon.defaults.profile.spells.merge[spellID]
+        if db and db.enabled then
+            return true
+        end
+    end
+
+    return false
 end
 
 --[=====================================================[
