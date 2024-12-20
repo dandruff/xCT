@@ -1479,6 +1479,8 @@ end
 
 -- Add LibSink Support ... if some other addon has loaded it and there would be using it!
 function x:EnableLibSinkSupport()
+    -- Were wrapping this in pcall() because getting the lib can fail.
+    -- This way no error will be logged and all will be happy.
     pcall(
         function()
             local frames, color, LibSink = {}, {}, LibStub("LibSink-2.0")
