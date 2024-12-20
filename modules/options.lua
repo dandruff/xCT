@@ -656,60 +656,66 @@ addon.options.args["spells"] = {
     childGroups = "tab",
     order = 2,
     args = {
-
         mergeOptions = {
             name = "Merge Options",
             type = "group",
             order = 11,
             args = {
-                enableMerger = {
+                basicOptionsHeader = {
+                    type = "header",
+                    order = 0,
+                    name = "Basic options",
+                },
+                basicOptionsExplanation = {
+                    type = "description",
                     order = 1,
+                    name = "Normally all damage / heal events of a spell will result in one message each. So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\nIf the spam merger is enabled the damage events of each spell will be merged into one message.\n|cffFF0000Drawback|r: the (merged) message will be delayed!",
+                },
+
+                enableMerger = {
+                    order = 2,
                     type = "toggle",
-                    name = "Enable Merger",
-                    desc = "If disabled all damage / heal events of a spell will result in one message each. So AE spells like Rain of Fire or Spinning Crane Kick will spam messages into the frames.\nIf enabled damage events of the spell ID will be merged into one message.\nDrawback: the (merged) message will be delayed!",
+                    name = "Enable Spam Merger",
                     get = get0_1,
                     set = set0_1,
                 },
                 enableMergerDebug = {
-                    order = 2,
+                    order = 3,
                     type = "toggle",
-                    width = "double",
                     name = "Enable Debugging",
+                    desc = "Adds the spell ID to each message.",
                     get = get0_1,
                     set = set0_1,
                 },
                 mergeEverything = {
-                    order = 3,
+                    order = 4,
                     type = "toggle",
-                    width = "double",
                     name = "Merge every spell / item / ... ?",
                     desc = "If enabled all spells, items, ... will be spam-merged.\nIf disabled only the spells listed will spam-merged.",
                     get = get0_1,
                     set = set0_1,
                 },
 
-                listSpacer1 = {
-                    type = "description",
+                incomingHealingHeader = {
+                    type = "header",
                     order = 10,
-                    name = "\n|cff798BDDMerge Incoming Healing|r:",
-                    fontSize = "large",
+                    name = "Merge Incoming Healing",
                 },
 
                 mergeHealing = {
                     order = 11,
                     type = "toggle",
-                    name = "Merge Healing by Name",
+                    name = "Merge Incoming Healing",
                     desc = "Merges incoming healing by the name of the person that healed you.",
                     get = get0_1,
                     set = set0_1,
                     width = "double",
                 },
 
-                listSpacer2 = {
-                    type = "description",
+                dispellHeader = {
+                    type = "header",
                     order = 20,
-                    name = "\n|cff798BDDMerge Multiple Dispells|r:",
-                    fontSize = "large",
+                    name = "Merge Multiple Dispells",
                 },
 
                 mergeDispells = {
@@ -722,11 +728,10 @@ addon.options.args["spells"] = {
                     width = "double",
                 },
 
-                listSpacer3 = {
-                    type = "description",
+                autoAttacksHeader = {
+                    type = "header",
                     order = 30,
-                    name = "\n|cff798BDDMerge Auto-Attacks|r:",
-                    fontSize = "large",
+                    name = "Merge Auto-Attacks",
                 },
 
                 mergeSwings = {
@@ -747,11 +752,10 @@ addon.options.args["spells"] = {
                     set = set0_1,
                 },
 
-                listSpacer4 = {
-                    type = "description",
+                petAttacksHeader = {
+                    type = "header",
                     order = 34,
-                    name = "\n|cff798BDDMerge Pet Attacks|r:",
-                    fontSize = "large",
+                    name = "Merge Pet Attacks",
                 },
 
                 mergePet = {
@@ -797,15 +801,20 @@ addon.options.args["spells"] = {
         },
         ]]
 
-                listSpacer5 = {
-                    type = "description",
+                criticalHitsHeader = {
+                    type = "header",
                     order = 40,
-                    name = "\n|cff798BDDMerge Critical Hits|r (Choose one):",
-                    fontSize = "large",
+                    name = "Merge Critical Hits",
+                },
+
+                criticalHitsExplanation = {
+                    type = "description",
+                    order = 41,
+                    name = "Please choose one:",
                 },
 
                 mergeDontMergeCriticals = {
-                    order = 41,
+                    order = 42,
                     type = "toggle",
                     name = "Don't Merge Critical Hits Together",
                     desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
@@ -815,7 +824,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeCriticalsWithOutgoing = {
-                    order = 42,
+                    order = 43,
                     type = "toggle",
                     name = "Merge Critical Hits with Outgoing",
                     desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
@@ -825,7 +834,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeCriticalsByThemselves = {
-                    order = 43,
+                    order = 44,
                     type = "toggle",
                     name = "Merge Critical Hits by Themselves",
                     desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
@@ -835,7 +844,7 @@ addon.options.args["spells"] = {
                 },
 
                 mergeHideMergedCriticals = {
-                    order = 44,
+                    order = 45,
                     type = "toggle",
                     name = "Hide Merged Criticals",
                     desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
