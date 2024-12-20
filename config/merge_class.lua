@@ -81,7 +81,7 @@ do
     alias(258883, 199552) --  [MH/OH Merger] Blade Dance
     alias(210155, 210153) --  [MH/OH Merger] Death Sweep
     alias(201789, 201628) --  [MH/OH Merger] Fury of the Illidari
-    -- spell '258922' '258921' --  [DD/DOT Merger]Immolation Aura
+    -- alias(258922, 258921) --  [DD/DOT Merger]Immolation Aura
 
     spec(581) -- Vengeance
     spell(204157, 1.5) --  Throw Glaive (Vengeance)
@@ -89,15 +89,15 @@ do
     spell(204598, 2.5) --  Sigil of Flame
     spell(203794, 1.5) --  Consume Soul
     spell(207771, 2.5) --  Talent: Burning Alive
-    --spell '227255' '1.5' --  Talent: Fel Devastation
+    --spell(227255, 1.5) --  Talent: Fel Devastation
     spell(218677, 1.5) --  Talent: Spirit Bomb (Frailty Heal)
     spell(213011, 2.5) --  Artifact: Charred Warblades
     spell(207407, 1.5) --  Artifact: Soul Carver (DoT)
     spell(212105, 1.5) --  spell fel devastation
     alias(178741, 187727) --  [DD/DoT Merger] Immolation Aura
-    -- alias '208038' '222030' --  [DD/DoT Merger] Soul Cleave
-    -- alias '214743' '207407' --  [DD/DoT Merger] Soul Cleave
-    -- alias '228478' '228477' --  [DD/DoT Merger] Soul Cleave
+    -- alias(208038, 222030) --  [DD/DoT Merger] Soul Cleave
+    -- alias(214743, 207407) --  [DD/DoT Merger] Soul Cleave
+    -- alias(228478, 228477) --  [DD/DoT Merger] Soul Cleave
     alias(212106, 227255) --  [MH/OH Merger] Fel Devastation
     alias(212105, 227255) --  [MH/OH Merger] Fel Devastation
     alias(212084, 227255) --  Reported From Curse: Should be Fel Devastation
@@ -148,7 +148,7 @@ do
     spell(200389, 3.5) --  Talent: Cultivation
     spell(364686, 5.0) --  Tier[id=188849]: Renewing Bloom (every 1s)
     alias(189800, 48438) --  [HoT/Artifact Merger] Nature's Essence
-    alias(155777, 774) --  [HoT/HoT Merger] Talent: Germination
+    alias(155777, 774)   --  [HoT/HoT Merger] Talent: Germination
     alias(207386, 81269) --  [Heal/HoT Merger] Talent: Spring Blossom
 end
 
