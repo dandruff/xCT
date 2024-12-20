@@ -853,11 +853,9 @@ addon.options.args["spells"] = {
             childGroups = "select",
             args = {
                 title = {
-                    type = "description",
+                    type = "header",
                     order = 0,
                     name = "List of mergeable Class Spells",
-                    fontSize = "large",
-                    width = "double",
                 },
 
                 --[[  TODO: Add Check all and uncheck all buttons ]]
@@ -895,11 +893,9 @@ addon.options.args["spells"] = {
             order = 22,
             args = {
                 title = {
-                    type = "description",
+                    type = "header",
                     order = 0,
                     name = "List of mergeable global Spells and Items",
-                    fontSize = "large",
-                    width = "double",
                 },
                 mergeListDesc = {
                     type = "description",
@@ -920,11 +916,9 @@ addon.options.args["spells"] = {
             order = 23,
             args = {
                 title = {
-                    type = "description",
+                    type = "header",
                     order = 0,
                     name = "List of mergeable Spells of the various player races",
-                    fontSize = "large",
-                    width = "double",
                 },
                 mergeListDesc = {
                     type = "description",
@@ -960,10 +954,9 @@ addon.options.args["spellFilter"] = {
             guiInline = true,
             args = {
                 listSpacer0 = {
-                    type = "description",
+                    type = "header",
                     order = 0,
-                    name = "|cff798BDDIncoming Player Power Threshold|r: (Mana, Rage, Energy, etc.)",
-                    fontSize = "large",
+                    name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.):",
                 },
 
                 filterPowerValue = {
@@ -976,10 +969,9 @@ addon.options.args["spellFilter"] = {
                 },
 
                 listSpacer1 = {
-                    type = "description",
+                    type = "header",
                     order = 10,
-                    name = "\n|cff798BDDOutgoing Damage and Healing Threshold|r:",
-                    fontSize = "large",
+                    name = "Outgoing Damage and Healing Threshold",
                 },
 
                 filterOutgoingDamageValue = {
@@ -1050,10 +1042,9 @@ addon.options.args["spellFilter"] = {
                 },
 
                 listSpacer2 = {
-                    type = "description",
+                    type = "header",
                     order = 20,
-                    name = "\n|cff798BDDIncoming Damage and Healing Threshold|r:",
-                    fontSize = "large",
+                    name = "Incoming Damage and Healing Threshold",
                 },
 
                 filterIncomingDamageValue = {
@@ -2375,11 +2366,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -2444,10 +2434,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -2478,10 +2467,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 20,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 21,
@@ -2535,10 +2523,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -2596,10 +2583,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -2653,11 +2639,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -2698,17 +2683,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -2745,10 +2722,9 @@ addon.options.args["Frames"] = {
                     type = "group",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         showInterrupts = {
                             order = 1,
@@ -2839,11 +2815,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -2908,10 +2883,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -2942,10 +2916,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 30,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 31,
@@ -2999,10 +2972,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -3060,10 +3032,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -3117,11 +3088,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -3153,6 +3123,21 @@ addon.options.args["Frames"] = {
                             set = set2,
                             disabled = isFrameIconSpacerDisabled,
                         },
+
+                        headerAdditionalSettings = {
+                            type = "header",
+                            order = 10,
+                            name = "Additional Settings",
+                        },
+                        iconsEnabledAutoAttack = {
+                            order = 11,
+                            type = "toggle",
+                            name = "Auto Attack",
+                            desc = "Show icons from Auto Attacks.",
+                            get = get2,
+                            set = set2,
+                            disabled = isFrameItemDisabled,
+                        },
                     },
                 },
 
@@ -3162,17 +3147,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -3679,11 +3656,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -3748,10 +3724,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -3782,10 +3757,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 30,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 31,
@@ -3839,10 +3813,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -3900,10 +3873,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -3957,11 +3929,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -4002,17 +3973,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -4280,10 +4243,9 @@ addon.options.args["Frames"] = {
                     name = "Misc",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         enableAutoAttack_Critical = {
                             order = 1,
@@ -4368,11 +4330,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -4437,10 +4398,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -4471,10 +4431,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 20,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 21,
@@ -4528,10 +4487,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -4589,10 +4547,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -4646,11 +4603,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -4683,11 +4639,10 @@ addon.options.args["Frames"] = {
                             disabled = isFrameIconSpacerDisabled,
                         },
 
-                        iconAdditionalSettings = {
-                            type = "description",
+                        headerAdditionalSettings = {
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDAdditional Settings|r:",
-                            fontSize = "large",
+                            name = "Additional Settings",
                         },
                         iconsEnabledAutoAttack = {
                             order = 11,
@@ -4707,17 +4662,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -5106,10 +5053,9 @@ addon.options.args["Frames"] = {
                     type = "group",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         showDodgeParryMiss = {
                             order = 1,
@@ -5169,11 +5115,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -5238,10 +5183,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -5272,10 +5216,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 20,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 21,
@@ -5329,10 +5272,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -5390,10 +5332,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -5447,11 +5388,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -5492,17 +5432,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -5770,10 +5702,9 @@ addon.options.args["Frames"] = {
                     type = "group",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         enableOverHeal = {
                             order = 4,
@@ -5839,11 +5770,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -5912,10 +5842,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -5960,10 +5889,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -6018,17 +5946,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -6073,11 +5993,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -6142,10 +6061,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -6176,10 +6094,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 20,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 21,
@@ -6233,10 +6150,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -6294,10 +6210,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -6352,17 +6267,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -6399,10 +6306,9 @@ addon.options.args["Frames"] = {
                     type = "group",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         showEnergyGains = {
                             order = 1,
@@ -6583,11 +6489,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -6644,10 +6549,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -6678,10 +6582,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 20,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 21,
@@ -6735,10 +6638,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -6796,10 +6698,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -6853,11 +6754,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -6898,17 +6798,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -6953,11 +6845,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Frame",
                     args = {
-                        frameSettings = {
-                            type = "description",
+                        headerFrameSettings = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFrame Settings|r:",
-                            fontSize = "large",
+                            name = "Frame Settings",
                         },
                         enabledFrame = {
                             order = 1,
@@ -7014,10 +6905,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameScrolling = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDScrollable Frame Settings|r:",
-                            fontSize = "large",
+                            name = "Scrollable Frame Settings",
                         },
                         enableScrollable = {
                             order = 11,
@@ -7048,10 +6938,9 @@ addon.options.args["Frames"] = {
                         },
 
                         frameFading = {
-                            type = "description",
+                            type = "header",
                             order = 30,
-                            name = "\n|cff798BDDFading Text Settings|r:",
-                            fontSize = "large",
+                            name = "Fading Text Settings",
                         },
                         enableCustomFade = {
                             order = 31,
@@ -7105,10 +6994,9 @@ addon.options.args["Frames"] = {
                     name = "Font",
                     args = {
                         fontSettings = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDFont Settings|r:",
-                            fontSize = "large",
+                            name = "Font Settings",
                         },
                         font = {
                             type = "select",
@@ -7166,10 +7054,9 @@ addon.options.args["Frames"] = {
                         },
 
                         fontShadowSettings = {
-                            type = "description",
+                            type = "header",
                             order = 10,
-                            name = "\n|cff798BDDFont Shadow Settings|r:",
-                            fontSize = "large",
+                            name = "Font Shadow Settings",
                         },
 
                         enableFontShadow = {
@@ -7223,11 +7110,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Icons",
                     args = {
-                        iconSizeSettings = {
-                            type = "description",
+                        headerIconSettings = {
+                            type = "header",
                             order = 1,
-                            name = "|cff798BDDIcon Settings|r:",
-                            fontSize = "large",
+                            name = "Icon Settings",
                         },
                         iconsEnabled = {
                             order = 2,
@@ -7268,17 +7154,9 @@ addon.options.args["Frames"] = {
                     name = "Colors",
                     args = {
                         customColors_label = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDCustom Colors|r:",
-                            fontSize = "large",
-                        },
-
-                        customColors_OverrideDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Override All Frame Color Settings|r:",
-                            fontSize = "small",
+                            name = "Custom Colors",
                         },
 
                         customColor = {
@@ -7315,10 +7193,9 @@ addon.options.args["Frames"] = {
                     name = "Misc",
                     args = {
                         specialTweaks = {
-                            type = "description",
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDMiscellaneous Settings|r:",
-                            fontSize = "large",
+                            name = "Miscellaneous Settings",
                         },
                         showMoney = {
                             order = 1,

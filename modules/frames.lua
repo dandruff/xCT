@@ -711,7 +711,7 @@ do
 
                 -- Add Icons
                 local iconSize = settings.iconsEnabled and settings.iconsSize or -1
-                if frameName == "damage" and mergeID == 6603 and not x:ShowIncomingAutoAttackIcons() then
+                if mergeID == 6603 and not x:ShowAutoAttackIcons(frameName) then
                     -- Disable the auto attack icon for the incoming damage frame
                     iconSize = -1
                 end

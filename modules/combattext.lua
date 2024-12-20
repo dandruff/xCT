@@ -737,8 +737,8 @@ function x.OnCombatTextEvent(self, event, ...)
     end
 end
 
-function x:ShowIncomingAutoAttackIcons()
-    return x.db.profile.frames["damage"].iconsEnabledAutoAttack
+function x:ShowAutoAttackIcons(frameName)
+    return x.db.profile.frames[frameName] and x.db.profile.frames[frameName].iconsEnabledAutoAttack or false
 end
 
 --[=====================================================[
@@ -1991,22 +1991,32 @@ local CombatEventHandlers = {
         -- Add names
         message = message .. x.formatName(args, settings.names)
 
-        -- Add Icons
-        message = x:GetSpellTextureFormatted(
-            spellID,
-            message,
-            x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-            x.db.profile.frames[outputFrame].spacerIconsEnabled,
-            x.db.profile.frames[outputFrame].fontJustify
-        )
+        -- Add Icons (Hide Auto Attack icons)
+        if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
+            message = x:GetSpellTextureFormatted(
+                args.spellId,
+                message,
+                x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+                x.db.profile.frames[outputFrame].spacerIconsEnabled,
+                x.db.profile.frames[outputFrame].fontJustify
+            )
+        else
+            message = x:GetSpellTextureFormatted(
+                nil,
+                message,
+                x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+                x.db.profile.frames[outputFrame].spacerIconsEnabled,
+                x.db.profile.frames[outputFrame].fontJustify
+            )
+        end
 
         x:AddMessage(outputFrame, message, outputColor)
     end,
 
     ["DamageIncoming"] = function(args)
         local message
-        local settings = x.db.profile.frames["damage"]
-        local spellName, spellSchool = args.spellName, args.spellSchool
+        local spellName, spellSchool, outputFrame = args.spellName, args.spellSchool, "damage"
+        local settings = x.db.profile.frames[outputFrame]
 
         -- Keep track of spells that go by
         if args.spellId and TrackSpells() then
@@ -2046,10 +2056,10 @@ local CombatEventHandlers = {
                     color = hexNameColor(x.LookupColorByName(color))
                     message = sformat(
                         format_resist,
-                        x:Abbreviate(args.amount, "damage"),
+                        x:Abbreviate(args.amount, outputFrame),
                         color,
                         resistType,
-                        x:Abbreviate(resistedAmount, "damage")
+                        x:Abbreviate(resistedAmount, outputFrame)
                     )
                 else
                     -- It was a full resist
@@ -2068,12 +2078,12 @@ local CombatEventHandlers = {
             if args.critical then
                 message = sformat(
                     format_crit,
-                    x.db.profile.frames["damage"].critPrefix,
-                    x:Abbreviate(-args.amount, "damage"),
-                    x.db.profile.frames["damage"].critPostfix
+                    x.db.profile.frames[outputFrame].critPrefix,
+                    x:Abbreviate(-args.amount, outputFrame),
+                    x.db.profile.frames[outputFrame].critPostfix
                 )
             else
-                message = x:Abbreviate(-args.amount, "damage")
+                message = x:Abbreviate(-args.amount, outputFrame)
             end
         end
 
@@ -2087,7 +2097,7 @@ local CombatEventHandlers = {
         local spamMergerInterval = SpamMergerInterval(spellID)
         if spamMergerInterval > 0 then
             x:AddSpamMessage(
-                "damage",
+                outputFrame,
                 args.spellId,
                 args.amount,
                 colorOverride,
@@ -2107,26 +2117,26 @@ local CombatEventHandlers = {
         message = message .. x.formatName(args, settings.names, true)
 
         -- Add Icons (Hide Auto Attack icons)
-        if args.prefix ~= "SWING" or x:ShowIncomingAutoAttackIcons() then
+        if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
             message = x:GetSpellTextureFormatted(
                 args.spellId,
                 message,
-                x.db.profile.frames["damage"].iconsEnabled and x.db.profile.frames["damage"].iconsSize or -1,
-                x.db.profile.frames["damage"].spacerIconsEnabled,
-                x.db.profile.frames["damage"].fontJustify
+                x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+                x.db.profile.frames[outputFrame].spacerIconsEnabled,
+                x.db.profile.frames[outputFrame].fontJustify
             )
         else
             message = x:GetSpellTextureFormatted(
                 nil,
                 message,
-                x.db.profile.frames["damage"].iconsEnabled and x.db.profile.frames["damage"].iconsSize or -1,
-                x.db.profile.frames["damage"].spacerIconsEnabled,
-                x.db.profile.frames["damage"].fontJustify
+                x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
+                x.db.profile.frames[outputFrame].spacerIconsEnabled,
+                x.db.profile.frames[outputFrame].fontJustify
             )
         end
 
         -- Output message
-        x:AddMessage("damage", message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
+        x:AddMessage(outputFrame, message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
     end,
 
     ["ShieldIncoming"] = function(args)

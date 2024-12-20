@@ -534,6 +534,7 @@ addon.defaults = {
                 -- icons
                 ["iconsEnabled"] = true,
                 ["iconsSize"] = 16,
+                ["iconsEnabledAutoAttack"] = true,
                 ["spacerIconsEnabled"] = true,
 
                 -- scrollable
