@@ -708,11 +708,14 @@ addon.options.args["spells"] = {
                     name = "Incoming Damage / Healing",
                 },
 
-                mergeHealing = {
+                mergeIncomingHealingInterval = {
                     order = 11,
-                    type = "toggle",
-                    name = "Merge Incoming Healing",
-                    desc = "Merges incoming healing by the name of the person that healed you.",
+                    name = "Merge-Interval Incoming Healing",
+                    desc = "The interval in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
+                    type = "range",
+                    min = 0,
+                    max = 5,
+                    step = 0.1,
                     get = get0_1,
                     set = set0_1,
                 },
@@ -721,7 +724,7 @@ addon.options.args["spells"] = {
                     order = 12,
                     type = "toggle",
                     name = "Merge-Interval Incoming Damage",
-                    desc = "Merges incoming damage (still separated by spell). Use 0 to disable.",
+                    desc = "The interval in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
                     type = "range",
                     min = 0,
                     max = 5,

@@ -397,11 +397,11 @@ local function ClearWhenLeavingCombat()
     return x.db.profile.frameSettings.clearLeavingCombat
 end
 
-local function MergeIncomingHealing()
-    return x.db.profile.spells.mergeHealing
+local function SpamMergerIncomingHealingInterval()
+    return x.db.profile.spells.mergeIncomingHealingInterval or 0
 end
 
-local function MergeIncomingDamageInterval()
+local function SpamMergerIncomingDamageInterval()
     return x.db.profile.spells.mergeIncomingDamageInterval or 0
 end
 
@@ -416,15 +416,19 @@ end
 local function MergeCriticalsWithOutgoing()
     return x.db.profile.spells.mergeCriticalsWithOutgoing
 end
+
 local function MergeCriticalsByThemselves()
     return x.db.profile.spells.mergeCriticalsByThemselves
 end
+
 local function MergeDontMergeCriticals()
     return x.db.profile.spells.mergeDontMergeCriticals
 end
+
 local function MergeHideMergedCriticals()
     return x.db.profile.spells.mergeHideMergedCriticals
 end
+
 local function MergeDispells()
     return x.db.profile.spells.mergeDispells
 end
@@ -1098,11 +1102,16 @@ x.events = {
         x:CombatStateChanged()
         if ClearWhenLeavingCombat() then
             -- only clear frames with icons
+            x:Clear("general")
             x:Clear("outgoing")
             x:Clear("critical")
-            x:Clear("loot")
+            x:Clear("damage")
+            x:Clear("healing")
             x:Clear("power")
+            x:Clear("procs")
+            x:Clear("loot")
         end
+
         if ShowCombatState() then
             x:AddMessage("general", sformat(format_fade, LEAVING_COMBAT), "combatLeaving")
         end
@@ -2085,7 +2094,7 @@ local CombatEventHandlers = {
             colorOverride = args.critical and "spellDamageTakenCritical" or "spellDamageTaken"
         end
 
-        local spamMergerInterval = MergeIncomingDamageInterval()
+        local spamMergerInterval = SpamMergerIncomingDamageInterval()
         if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 outputFrame,
@@ -2204,13 +2213,14 @@ local CombatEventHandlers = {
         -- format_gain = "+%s"
         local message = sformat(format_gain, x:Abbreviate(amount, "healing"))
 
-        if MergeIncomingHealing() then
+        local spamMergerInterval = SpamMergerIncomingHealingInterval()
+        if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 "healing",
                 args.sourceName or "Unknown Source Name",
                 amount,
                 "healingTaken",
-                5, -- TODO option for heal inc interval
+                spamMergerInterval,
                 "sourceGUID",
                 args.sourceGUID,
                 "sourceController",
