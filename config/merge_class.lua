@@ -12,13 +12,8 @@
  [  ©2020. All Rights Reserved.        ]
  [====================================]]
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 
--- New way of doing merge spells
--- 'class' switches spells to that class
--- 'spec' switches spells to that specialization id
--- 'spell' takes a spell id and a merge interval in seconds
--- 'alias' takes the original spell id and a replacement spell id
 local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class("DEATHKNIGHT")

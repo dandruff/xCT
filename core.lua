@@ -513,18 +513,27 @@ function x:UpdateSpamSpells()
     local spamMergerGlobalSpellCategories = {}
     local spamMergerRacialSpellCategories = {}
     for _, entry in pairs(addon.merges) do
-        if not CLASS_NAMES[entry.class] then
+        if not CLASS_NAMES[entry.category] then
             if entry.desc == "Racial Spell" then
-                table.insert(spamMergerRacialSpellCategories, entry.class)
+                table.insert(
+                    spamMergerRacialSpellCategories,
+                    {category = entry.category, order = entry.categoryOrder}
+                )
             else
-                table.insert(spamMergerGlobalSpellCategories, entry.class)
+                table.insert(
+                    spamMergerGlobalSpellCategories,
+                    {category = entry.category, order = entry.categoryOrder}
+                )
             end
         end
     end
 
     -- Show Categories in alphabetical order
-    table.sort(spamMergerGlobalSpellCategories)
-    table.sort(spamMergerRacialSpellCategories)
+    local function sortTableByOrder(a, b)
+        return a.order < b.order
+    end
+    table.sort(spamMergerGlobalSpellCategories, sortTableByOrder)
+    table.sort(spamMergerRacialSpellCategories, sortTableByOrder)
 
     -- Assume less than 1000 entries per category ;)
     local spamMergerGlobalSpellOrders = {}
@@ -532,12 +541,12 @@ function x:UpdateSpamSpells()
         local currentIndex = i * 1000
 
         -- Create the Category Header
-        global[category] = {
+        global[category.category] = {
             type = "header",
             order = currentIndex,
-            name = category,
+            name = category.category,
         }
-        spamMergerGlobalSpellOrders[category] = currentIndex + 1
+        spamMergerGlobalSpellOrders[category.category] = currentIndex + 1
     end
 
     local spamMergerRacialSpellOrders = {}
@@ -545,12 +554,12 @@ function x:UpdateSpamSpells()
         local rcurrentIndex = i * 1000
 
         -- Create the Category Header
-        racetab[rcategory] = {
+        racetab[rcategory.category] = {
             type = "header",
             order = rcurrentIndex,
-            name = rcategory,
+            name = rcategory.category,
         }
-        spamMergerRacialSpellOrders[rcategory] = rcurrentIndex + 1
+        spamMergerRacialSpellOrders[rcategory.category] = rcurrentIndex + 1
     end
 
     ------------------------------------------------------
@@ -563,7 +572,7 @@ function x:UpdateSpamSpells()
             -- Create a useful description for the spell
             local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
             local desc = ""
-            if entry.desc and not CLASS_NAMES[entry.class] then
+            if entry.desc and not CLASS_NAMES[entry.category] then
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
             desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
@@ -585,9 +594,9 @@ function x:UpdateSpamSpells()
             -- TODO replacement spells without explicit merging entries are not displayed here
 
             -- Add the spell to the UI
-            if CLASS_NAMES[entry.class] then
-                local index = CLASS_NAMES[entry.class][tonumber(entry.desc) or 0]
-                spells[entry.class].args[tostring(spellID)] = {
+            if CLASS_NAMES[entry.category] then
+                local index = CLASS_NAMES[entry.category][tonumber(entry.desc) or 0]
+                spells[entry.category].args[tostring(spellID)] = {
                     order = index * 2 + 1,
                     name = name,
                     desc = desc,
@@ -600,7 +609,7 @@ function x:UpdateSpamSpells()
                 }
             elseif entry.desc == "Racial Spell" then
                 racetab[tostring(spellID)] = {
-                    order = spamMergerRacialSpellOrders[entry.class],
+                    order = spamMergerRacialSpellOrders[entry.category],
                     name = name,
                     desc = desc,
                     type = "range",
@@ -610,10 +619,10 @@ function x:UpdateSpamSpells()
                     get = SpamMergerGetSpellInterval,
                     set = SpamMergerSetSpellInterval,
                 }
-                spamMergerRacialSpellOrders[entry.class] = spamMergerRacialSpellOrders[entry.class] + 1
+                spamMergerRacialSpellOrders[entry.category] = spamMergerRacialSpellOrders[entry.category] + 1
             else
                 global[tostring(spellID)] = {
-                    order = spamMergerGlobalSpellOrders[entry.class],
+                    order = spamMergerGlobalSpellOrders[entry.category],
                     name = name,
                     desc = desc,
                     type = "range",
@@ -623,7 +632,7 @@ function x:UpdateSpamSpells()
                     get = SpamMergerGetSpellInterval,
                     set = SpamMergerSetSpellInterval,
                 }
-                spamMergerGlobalSpellOrders[entry.class] = spamMergerGlobalSpellOrders[entry.class] + 1
+                spamMergerGlobalSpellOrders[entry.category] = spamMergerGlobalSpellOrders[entry.category] + 1
             end
         end
     end

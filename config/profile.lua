@@ -27,31 +27,11 @@ do -- blizzard hiding globals?
     SCHOOL_MASK_ARCANE = 0x40
 end
 
--- =====================================================
--- CreateMergeSpellEntry(
---    default,       [bool] - This specs current activated spell (only one per spec)
---    spellID,        [int] - the spell id to watch for
---    watchUnit,   [string] - look for the spell id on this unit
---  )
---    Creates a merge settings entry for a spell.
--- =====================================================
-local function CreateComboSpellEntry(default, spellID, watchUnit)
-    return {
-        enabled = default,
-        id = spellID,
-        unit = watchUnit or "player",
-    }
-end
-
--- Upvalue
-local tostring = tostring
-
 -- Add Merge Spell to the DB before it gets used by the profile
 function addon.GenerateDefaultSpamSpells()
     local default = addon.defaults.profile.spells.merge
-    for id, item in pairs(addon.merges) do
-        default[id] = item
-        default[id].enabled = true
+    for spellId, item in pairs(addon.merges) do
+        default[spellId] = { interval = item.interval }
     end
 end
 
