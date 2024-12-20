@@ -1,0 +1,5 @@
+ignore:
+  - .github
+  - .gitignore
+  - .stylua.toml
+  - pkgmeta.yaml
