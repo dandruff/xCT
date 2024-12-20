@@ -12,31 +12,20 @@
  [  ©2020. All Rights Reserved.        ]
  [====================================]]
 
-local build = select(4, GetBuildInfo())
-
 -- this file handles updating the frame settings and anything that changes the UI frames themselves
 local ADDON_NAME, addon = ...
 
 local LSM = LibStub("LibSharedMedia-3.0")
 
 -- Setup up values
-local ssub, sformat, sgsub, pairs, tonumber, tostring, math, unpack, print, type, mfloor, random, table_insert, format, _G, select =
+local ssub, sformat, sgsub, mfloor, random, table_insert, format =
     string.sub,
     string.format,
     string.gsub,
-    pairs,
-    tonumber,
-    tostring,
-    math,
-    unpack,
-    print,
-    type,
     math.floor,
     math.random,
     table.insert,
     string.format,
-    _G,
-    select
 
 -- Start the Random Machine!
 random(time())
@@ -139,13 +128,6 @@ end
 --    be updated.
 -- =====================================================
 function x:UpdateFrames(specificFrame)
-    -- Update Head Numbers and FCT Font Settings
-    if build < 70000 then
-        if not specificFrame then
-            x:UpdateBlizzardFCT()
-        end
-    end
-
     -- Update the frames
     for framename, settings in pairs(x.db.profile.frames) do
         if specificFrame and specificFrame == framename or not specificFrame then
@@ -542,7 +524,7 @@ local spam_format = "%s%s x%s"
 -- =====================================================
 function x:AddSpamMessage(framename, mergeID, message, colorname, interval, prep, ...)
     -- Check for a Secondary Spell ID
-    mergeID = addon.merge2h[mergeID] or mergeID
+    mergeID = addon.replaceSpellId[mergeID] or mergeID
 
     -- how often to update
     interval = interval or (db and db.interval) or 0.5

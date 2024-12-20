@@ -18,29 +18,16 @@ local ADDON_NAME, addon = ...
 local x = addon.engine
 
 -- up values
-local _, _G, sformat, mfloor, mabs, ssub, smatch, sgsub, s_upper, s_lower, string, tinsert, tremove, ipairs, pairs, print, tostring, tonumber, select, unpack =
-    nil,
-    _G,
+local sformat, mfloor, mabs, smatch, sgsub, tinsert, tremove =
     string.format,
     math.floor,
     math.abs,
-    string.sub,
     string.match,
     string.gsub,
-    string.upper,
-    string.lower,
-    string,
     table.insert,
-    table.remove,
-    ipairs,
-    pairs,
-    print,
-    tostring,
-    tonumber,
-    select,
-    unpack
+    table.remove
 
---UTF8 Functions
+-- UTF8 Functions
 local utf8 = {
     len = string.utf8len,
     sub = string.utf8sub,
@@ -790,7 +777,7 @@ function x:GetSpellTextureFormatted(
         elseif type(spellID) == "string" then
             icon = spellID
         else
-            icon = spellID and C_Spell.GetSpellTexture(addon.merge2h[spellID] or spellID) or x.BLANK_ICON
+            icon = spellID and C_Spell.GetSpellTexture(addon.replaceSpellId[spellID] or spellID) or x.BLANK_ICON
         end
     end
 

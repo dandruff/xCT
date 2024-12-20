@@ -15,7 +15,7 @@
 local ADDON_NAME, addon = ...
 
 addon.merges = {}
-addon.merge2h = {}
+addon.replaceSpellId = {}
 
 do
     local _working = {}
@@ -60,7 +60,7 @@ do
     -- If spell with id "spellId" is found, use the "replacementSpellId" instead
     -- e. g. for merges
     local function alias(spellId, replacementSpellId)
-        addon.merge2h[tonumber(spellId)] = tonumber(replacementSpellId)
+        addon.replaceSpellId[tonumber(spellId)] = tonumber(replacementSpellId)
     end
 
     -- item helper

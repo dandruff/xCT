@@ -12,16 +12,10 @@
  [  ©2020. All Rights Reserved.        ]
  [====================================]]
 
-local build = select(4, GetBuildInfo())
-
 local ADDON_NAME, addon = ...
-local LSM = LibStub("LibSharedMedia-3.0")
 local x, noop = addon.engine, addon.noop
-local blankTable, unpack, select = {}, unpack, select
-local string_gsub, string_match, sformat, pairs = string.gsub, string.match, string.format, pairs
-
--- New Icon "!"
-local NEW = x.new
+local blankTable = {}
+local sformat = string.format
 
 -- Store Localized Strings
 -- To remove: "Changed Target!"
@@ -372,10 +366,10 @@ local function setColor0_1(info, r, g, b)
     x.db.profile[info[#info - 2]][info[#info]] = { r, g, b }
 end
 local function getTextIn0(info)
-    return string_gsub(x.db.profile[info[#info - 1]][info[#info]], "|", "||")
+    return string.gsub(x.db.profile[info[#info - 1]][info[#info]], "|", "||")
 end
 local function setTextIn0(info, value)
-    x.db.profile[info[#info - 1]][info[#info]] = string_gsub(value, "||", "|")
+    x.db.profile[info[#info - 1]][info[#info]] = string.gsub(value, "||", "|")
     x.cvar_update()
 end
 local function get1(info)
@@ -417,10 +411,10 @@ local function setColor2_alpha(info, r, g, b, a)
     x.db.profile.frames[info[#info - 2]][info[#info]] = { r, g, b, a }
 end
 local function getTextIn2(info)
-    return string_gsub(x.db.profile.frames[info[#info - 2]][info[#info]], "|", "||")
+    return string.gsub(x.db.profile.frames[info[#info - 2]][info[#info]], "|", "||")
 end
 local function setTextIn2(info, value)
-    x.db.profile.frames[info[#info - 2]][info[#info]] = string_gsub(value, "||", "|")
+    x.db.profile.frames[info[#info - 2]][info[#info]] = string.gsub(value, "||", "|")
 end
 local function getNumber2(info)
     return tostring(x.db.profile[info[#info - 2]][info[#info]])
@@ -445,10 +439,10 @@ local function setNameFormatColor(info, r, g, b)
     x.db.profile.frames[info[#info - 3]].names[info[#info - 1]][info[#info]] = { r, g, b }
 end
 local function getNameFormatText(info)
-    return string_gsub(x.db.profile.frames[info[#info - 2]].names[info[#info]], "|", "||")
+    return string.gsub(x.db.profile.frames[info[#info - 2]].names[info[#info]], "|", "||")
 end
 local function setNameFormatText(info, value)
-    x.db.profile.frames[info[#info - 2]].names[info[#info]] = string_gsub(value, "||", "|")
+    x.db.profile.frames[info[#info - 2]].names[info[#info]] = string.gsub(value, "||", "|")
 end
 
 local function outgoingSpellColorsHidden(info)
