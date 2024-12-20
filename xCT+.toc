@@ -4,7 +4,7 @@
 ## Author: Dandruff-Stormreaver US
 ## Version: 4.9.0-alpha3
 ## RequiredDeps: Blizzard_CombatText
-## OptionalDeps: xCT, ElvUI
+## OptionalDeps: xCT, ElvUI, LibSink-2.0
 ## SavedVariables: xCTSavedDB
 ## X-Curse-Project-ID: 35541
 
