@@ -24,7 +24,7 @@ local spell, class, spec, alias = unpack(addon.merge_helpers)
 class("DEATHKNIGHT")
 do
     spec(0) -- All Specs
-    spell(52212, 2.5) --  Death and Decay
+    spell(52212, 1.0) --  Death and Decay
 
     spec(250) -- Blood
     spell(55078,  1.0) --  Blood Plague
@@ -39,7 +39,7 @@ do
     spell(222024, 1.0) --  Obliterate
     spell(222026, 1.0) --  Frost Strike
     spell(155166, 1.0) --  Talent: Breath of Sindragosa
-    spell(190780, 1.5) --  Talent: Sindragosa's Fury
+    spell(190780, 1.0) --  Talent: Sindragosa's Fury
     alias(66198, 222024) --  [MH/OH Merger] Obliterate
     alias(66196, 222026) --  [MH/OH Merger] Frost Strike
 
@@ -238,39 +238,37 @@ end
 class("MONK")
 do
     spec(0) -- All Specs
-    spell(130654, 1.5) --  Chi Burst (Healing)
-    spell(148135, 1.5) --  Chi Burst (Damage)
-    spell(196608, 2.5) --  Talent: Eye of the Tiger
-    spell(132467, 1.5) --  Talent: Chi Wave (Damage)
-    spell(132463, 2.5) --  Talent: Chi Wave (Healing)
-    spell(148187, 1.5) --  Talent: Rushing Jade Wind
-    spell(107270, 1.5) --  Spinning Crane Kick
+    spell(130654, 1.0) --  Chi Burst (Healing)
+    spell(148135, 1.0) --  Chi Burst (Damage)
+    spell(196608, 1.0) --  Talent: Eye of the Tiger
+    spell(132467, 1.0) --  Talent: Chi Wave (Damage)
+    spell(132463, 1.0) --  Talent: Chi Wave (Healing)
+    spell(148187, 1.0) --  Talent: Rushing Jade Wind
+    spell(107270, 1.0) --  Spinning Crane Kick
     spell(100784, 1.0) --  Blackout Kick
 
     spec(268) -- Brewmaster
-    spell(124255, 1.5) --  DmgTkn: Stagger
+    spell(124255, 1.0) --  Damage Taken: Stagger
     spell(216521, 1.0) --  Celestial Fortune
-    spell(123725, 2.5) --  Breath of Fire (DoT)
-    spell(227681, 1.5) --  Artifact: Dragonfire Brew
-    alias(178173, 124507) --  [Greater Merger] Artifact: Overflow (double check)
+    spell(123725, 1.0) --  Breath of Fire (DoT)
+    spell(227681, 1.0) --  Artifact: Dragonfire Brew
 
     spec(269) -- Windwalker
-    spell(124280, 2.0) --  Touch of Karma
-    spell(117418, 2.0) --  Fists of Fury
+    spell(124280, 1.0) --  Touch of Karma
+    spell(117418, 1.0) --  Fists of Fury
     alias(205414, 222029) --  [MH/OH Merger] Artifact: Strike of the Windlord
-    alias(196061, 117418) --  [DMG Merger] Artifact: Crosswinds
 
     spec(270) -- Mistweaver
-    spell(115175, 1.5) --  Soothing Mist
-    spell(124682, 1.5) --  Eneloping Mist
-    spell(191840, 1.5) --  Essence Font
+    spell(115175, 1.0) --  Soothing Mist
+    spell(124682, 1.0) --  Eneloping Mist
+    spell(191840, 1.0) --  Essence Font
+    spell(119611, 1.0) --  Renewing Mists
+    spell(124081, 1.0) --  Talent: Zen Pulse
+    spell(162530, 1.0) --  Talent: Refreshing Jade Wind
+    spell(198756, 2.0) --  Talent: Invoke Chi'Ji
+    spell(199668, 1.0) --  Artifact: Blessing of Yu'lon
+    spell(199656, 1.0) --  Artifact: Celestial Breath
     alias(344006, 191840) -- Essence Font (Faeline Stomp)
-    spell(119611, 2.0) --  Renewing Mists
-    spell(124081, 1.5) --  Talent: Zen Pulse
-    spell(162530, 1.5) --  Talent: Refreshing Jade Wind
-    spell(198756, 2.5) --  Talent: Invoke Chi'Ji
-    spell(199668, 2.0) --  Artifact: Blessing of Yu'lon
-    spell(199656, 2.0) --  Artifact: Celestial Breath
     alias(198533, 115175) --  [Statue Merger] Talent: Jade Serpent Statue
     alias(228649, 100784) --  [Passive Merger] Teachings of the Monastery
 end
