@@ -1,3 +1,1 @@
-- Show outgoing fully absorbed damage as normal damage
-- Outgoing partially absorbed damage: add absorbed to amout
 - refactor options
