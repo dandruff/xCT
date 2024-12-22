@@ -31,7 +31,7 @@ end
 -- Creating an Config
 addon.options = {
     -- Add a place for the user to grab
-    name = "                                                      " .. "Version: " .. (C_AddOns.GetAddOnMetadata(
+    name = "                                                      Version: " .. (C_AddOns.GetAddOnMetadata(
         "xCT+",
         "Version"
     ) or "Unknown") .. "                                                      ",
@@ -60,13 +60,6 @@ addon.options = {
             name = "On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options.",
             width = "double",
         },
-
-        --[[xCT_Header = {
-      order = 10,
-      type = "header",
-      name = "Version: "..(GetAddOnMetadata("xCT+", "Version") or "Unknown"),
-      width = "full",
-    },]]
 
         space1 = {
             order = 10,
@@ -3358,17 +3351,10 @@ addon.options.args["Frames"] = {
                     type = "group",
                     name = "Misc",
                     args = {
-                        specialTweaks = {
-                            type = "description",
+                        specialTweaksPlayer = {
+                            type = "header",
                             order = 0,
-                            name = "|cff798BDDDamage Settings|r:",
-                            fontSize = "large",
-                        },
-                        specialTweaks_PlayerDesc = {
-                            type = "description",
-                            order = 1,
-                            name = "\n|cffFFFF00Player Settings|r:",
-                            fontSize = "small",
+                            name = "Player Damage Settings",
                         },
                         enableOutDmg = {
                             order = 10,
@@ -3395,11 +3381,10 @@ addon.options.args["Frames"] = {
                             set = set2,
                         },
 
-                        specialTweaks_PetVehicleDesc = {
-                            type = "description",
+                        specialTweaksPet = {
+                            type = "header",
                             order = 20,
-                            name = "\n|cffFFFF00Pet and Vehicle Settings|r:",
-                            fontSize = "small",
+                            name = "Pet and Vehicle Damage Settings",
                         },
 
                         enablePetDmg = {
@@ -3439,10 +3424,9 @@ addon.options.args["Frames"] = {
                         },
 
                         healingSettings = {
-                            type = "description",
+                            type = "header",
                             order = 30,
-                            name = "\n|cff798BDDHealing Settings|r:",
-                            fontSize = "large",
+                            name = "Healing Settings",
                         },
                         enableOutHeal = {
                             order = 31,
@@ -3536,10 +3520,9 @@ addon.options.args["Frames"] = {
                         },
 
                         missTypeSettings = {
-                            type = "description",
+                            type = "header",
                             order = 50,
-                            name = "\n|cff798BDDMiss Type Settings|r:",
-                            fontSize = "large",
+                            name = "Miss Type Settings",
                         },
                         enableImmunes = {
                             order = 51,
@@ -3560,8 +3543,8 @@ addon.options.args["Frames"] = {
                         enableAbsorbs = {
                             order = 53,
                             type = "toggle",
-                            name = "Show Absorbs",
-                            desc = "Display 'Absorb' when your target absorbs all damage.",
+                            name = "Show Absorbs as damage",
+                            desc = "Display fully absorbed damage events as regular damage.",
                             get = get2,
                             set = set2,
                         },

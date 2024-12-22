@@ -2336,10 +2336,8 @@ local CombatEventHandlers = {
             end
         end
 
+        -- Absorbs are handled in the x.CombatLogEvent() function
         -- Check for filtered immunes
-        if args.missType == "ABSORB" and not ShowOutgoingAbsorbedDamaged() then
-            return
-        end
         if args.missType == "IMMUNE" and not ShowImmunes() then
             return
         end
@@ -2553,7 +2551,16 @@ function x.CombatLogEvent(args)
         elseif args.suffix == "_DAMAGE" then
             CombatEventHandlers.DamageOutgoing(args)
         elseif args.suffix == "_MISSED" then
-            CombatEventHandlers.OutgoingMiss(args)
+            if args.missType == "ABSORB" then
+                if ShowOutgoingAbsorbedDamaged() then
+                    -- This was fully absorbed, but we would like to display it... use the DamageOutgoing EventHandler
+                    -- TODO What about fully absorbed heals?
+                    args.amount = args.amountMissed
+                    CombatEventHandlers.DamageOutgoing(args)
+                end
+            else
+                CombatEventHandlers.OutgoingMiss(args)
+            end
         elseif args.event == "PARTY_KILL" then
             CombatEventHandlers.KilledUnit(args)
         elseif args.event == "SPELL_INTERRUPT" then
