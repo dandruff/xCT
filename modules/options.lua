@@ -1993,48 +1993,15 @@ addon.options.args["Frames"] = {
     type = "group",
     order = 0,
     args = {
-
         frameSettings = {
+            order = 1,
             name = "Frame Settings ",
             type = "group",
-            order = 1,
             guiInline = true,
             args = {
-
-                listSpacer0 = {
-                    type = "header",
-                    order = 1,
-                    name = "When moving the Frames",
-                },
-
-                showGrid = {
-                    order = 2,
-                    type = "toggle",
-                    name = "Show Align Grid",
-                    desc = "Shows a grid after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
-                    get = get0,
-                    set = set0,
-                },
-
-                showPositions = {
-                    order = 3,
-                    type = "toggle",
-                    name = "Show Positions",
-                    desc = "Shows the locations and sizes of your frames after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
-                    get = get0,
-                    set = set0,
-                },
-
-                listSpacer1 = {
-                    type = "description",
-                    order = 10,
-                    name = "\n|cff798BDDWhen Showing the Frames|r:",
-                    fontSize = "large",
-                },
-
                 frameStrata = {
+                    order = 1,
                     type = "select",
-                    order = 11,
                     name = "Frame Strata",
                     desc = "The Z-Layer to place the |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames onto. If you find that another addon is in front of |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames, try increasing the Frame Strata.",
                     values = {
@@ -2051,20 +2018,34 @@ addon.options.args["Frames"] = {
                     get = get0,
                     set = set0_update,
                 },
-
-                listSpacer2 = {
-                    type = "description",
-                    order = 20,
-                    name = "\n|cff798BDDWhen Leaving Combat|r:",
-                    fontSize = "large",
-                },
-
                 clearLeavingCombat = {
-                    order = 21,
+                    order = 2,
                     type = "toggle",
-                    name = "Clear Frames",
+                    name = "Clear Frames when leaving combat",
                     desc = "Enable this option if you have problems with 'floating' icons.",
                     width = "full",
+                    get = get0,
+                    set = set0,
+                },
+
+                whenMovingFrames = {
+                    order = 10,
+                    type = "header",
+                    name = "When moving the Frames",
+                },
+                showGrid = {
+                    order = 11,
+                    type = "toggle",
+                    name = "Show Align Grid",
+                    desc = "Shows a grid after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
+                    get = get0,
+                    set = set0,
+                },
+                showPositions = {
+                    order = 12,
+                    type = "toggle",
+                    name = "Show Positions",
+                    desc = "Shows the locations and sizes of your frames after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
                     get = get0,
                     set = set0,
                 },
@@ -2083,72 +2064,64 @@ addon.options.args["Frames"] = {
             order = 3,
             guiInline = true,
             args = {
-                listSpacer0 = {
-                    type = "description",
+                formatNumberHeader = {
                     order = 0,
-                    name = "|cff798BDDFormat Numbers in the Frames|r (Choose one):",
-                    fontSize = "large",
+                    type = "header",
+                    name = "Format Numbers in the Frames (Choose one)",
+                },
+                abbreviateExplanation = {
+                    order = 1,
+                    type = "description",
+                    name = "|cffFFFF00PLEASE NOTE|r |cffAAAAAAFormat settings need to be independently enabled on each frame through its respective settings page.|r\n",
+                    fontSize = "small",
                 },
                 formatAbbreviate = {
+                    order = 2,
                     type = "toggle",
-                    order = 1,
                     name = "Abbreviate Numbers",
                     set = setFormating,
                     get = getDBSpells,
                 },
                 formatGroups = {
+                    order = 3,
                     type = "toggle",
-                    order = 2,
                     name = "Decimal Marks",
                     desc = "Groups decimals and separates them by commas; this allows for better responsiveness when reading numbers.\n\n|cffFF0000EXAMPLE|r |cff798BDD12,890|r",
                     set = setFormating,
                     get = getDBSpells,
                 },
-
-                abbDesc = {
-                    type = "description",
-                    order = 9,
-                    name = "\n\n|cffFFFF00PLEASE NOTE|r |cffAAAAAAFormat settings need to be independently enabled on each frame through its respective settings page.|r",
-                    fontSize = "small",
-                },
-
-                listSpacer1 = {
-                    type = "description",
-                    order = 10,
-                    name = "\n|cff798BDDAdditional Abbreviation Settings|r:",
-                    fontSize = "large",
-                },
-                thousandSymbol = {
-                    order = 11,
-                    type = "input",
-                    name = "Thousand",
-                    desc = "Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r",
-                    get = getTextIn0,
-                    set = setTextIn0,
-                },
-                millionSymbol = {
-                    order = 12,
-                    type = "input",
-                    name = "Million",
-                    desc = "Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r",
-                    get = getTextIn0,
-                    set = setTextIn0,
-                },
-                billionSymbol = {
-                    order = 14,
-                    type = "input",
-                    name = "Billion",
-                    desc = "Symbol for: |cffFF0000Billions|r |cff798BDD(10e+9)|r",
-                    get = getTextIn0,
-                    set = setTextIn0,
-                },
                 decimalPoint = {
-                    order = 15,
+                    order = 4,
                     type = "toggle",
                     name = "Single Decimal Precision",
                     desc = "Shows a single digit of precision when abbreviating the value (e.g. will show |cff798BDD5.9K|r instead of |cff798BDD6K|r).",
                     get = get0,
                     set = set0,
+                },
+
+                thousandSymbol = {
+                    order = 5,
+                    type = "input",
+                    name = "Thousand Symbol",
+                    desc = "Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r",
+                    get = getTextIn0,
+                    set = setTextIn0,
+                },
+                millionSymbol = {
+                    order = 6,
+                    type = "input",
+                    name = "Million Symbol",
+                    desc = "Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r",
+                    get = getTextIn0,
+                    set = setTextIn0,
+                },
+                billionSymbol = {
+                    order = 7,
+                    type = "input",
+                    name = "Billion Symbol",
+                    desc = "Symbol for: |cffFF0000Billions|r |cff798BDD(10e+9)|r",
+                    get = getTextIn0,
+                    set = setTextIn0,
                 },
             },
         },
@@ -2166,15 +2139,14 @@ addon.options.args["Frames"] = {
             name = "Global Frame Settings |cffFFFFFF(Experimental)|r",
             args = {
                 miscDesc = {
+                    order = 51,
                     type = "description",
-                    order = 0,
                     name = "The following settings are marked as experimental. They should all work, but they might not be very useful. Expect chanrges or updates to these in the near future.\n\nClick |cffFFFF00Set All|r to apply setting to all |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames.\n",
                 },
-
                 font = {
+                    order = 52,
                     type = "select",
                     dialogControl = "LSM30_Font",
-                    order = 1,
                     name = "Font",
                     desc = "Set the font of the frame.",
                     values = AceGUIWidgetLSMlists.font,
@@ -2185,10 +2157,9 @@ addon.options.args["Frames"] = {
                         miscFont = value
                     end,
                 },
-
                 applyFont = {
+                    order = 53,
                     type = "execute",
-                    order = 2,
                     name = "Set All",
                     width = "half",
                     func = function()
@@ -2202,14 +2173,14 @@ addon.options.args["Frames"] = {
                 },
 
                 spacer1 = {
+                    order = 54,
                     type = "description",
-                    order = 3,
                     name = "",
                 },
 
                 fontOutline = {
+                    order = 55,
                     type = "select",
-                    order = 4,
                     name = "Font Outline",
                     desc = "Set the font outline.",
                     values = {
@@ -2230,8 +2201,8 @@ addon.options.args["Frames"] = {
                 },
 
                 applyFontOutline = {
+                    order = 56,
                     type = "execute",
-                    order = 5,
                     name = "Set All",
                     width = "half",
                     func = function()
@@ -2245,14 +2216,14 @@ addon.options.args["Frames"] = {
                 },
 
                 spacer2 = {
+                    order = 57,
                     type = "description",
-                    order = 6,
                     name = "",
                 },
 
                 customFade = {
+                    order = 58,
                     type = "toggle",
-                    order = 7,
                     name = "Use Custom Fade",
                     desc = "Allows you to customize the fade time of each frame.",
                     get = function(info)
@@ -2264,8 +2235,8 @@ addon.options.args["Frames"] = {
                 },
 
                 applyCustomFade = {
+                    order = 59,
                     type = "execute",
-                    order = 8,
                     name = "Set All",
                     width = "half",
                     func = function()
@@ -2280,12 +2251,6 @@ addon.options.args["Frames"] = {
                     end,
                 },
             },
-        },
-
-        spacer3 = {
-            type = "description",
-            name = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
-            order = 6,
         },
 
         --[[ XCT+ The Frames: ]]
