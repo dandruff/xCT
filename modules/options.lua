@@ -12,7 +12,7 @@
  [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 local x = addon.engine
 local blankTable = {}
 
@@ -3463,8 +3463,8 @@ addon.options.args["Frames"] = {
                         enableOutAbsorbs = {
                             order = 33,
                             type = "toggle",
-                            name = "Show Outgoing Absorbs",
-                            desc = "Show absorbs that you apply.",
+                            name = "Show outgoing Heal-Absorbs",
+                            desc = "Show absorbs that you put on a friendly target.",
                             get = get2,
                             set = set2,
                         },

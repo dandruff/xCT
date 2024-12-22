@@ -12,7 +12,7 @@
  [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 
 -- Shorten my handle
 local x = addon.engine
@@ -236,7 +236,7 @@ end
 local function ShowHealing()
     return x.db.profile.frames["outgoing"].enableOutHeal
 end
-local function ShowAbsorbs()
+local function ShowOutgoingHealAbsorbs()
     return x.db.profile.frames["outgoing"].enableOutAbsorbs
 end
 local function ShowPetDamage()
@@ -275,7 +275,7 @@ end -- outgoing immunes
 local function ShowMisses()
     return x.db.profile.frames["outgoing"].enableMisses
 end -- outgoing misses
-local function ShowAbsorbs()
+local function ShowOutgoingAbsorbedDamaged()
     return x.db.profile.frames["outgoing"].enableAbsorbs
 end -- outgoing absorbs
 local function ShowPartialMisses()
@@ -1577,7 +1577,7 @@ local CombatEventHandlers = {
             x.spellCache.spells[args.spellId] = true
         end
 
-        if not ShowAbsorbs() then
+        if not ShowOutgoingHealAbsorbs() then
             return
         end
 
@@ -2337,7 +2337,7 @@ local CombatEventHandlers = {
         end
 
         -- Check for filtered immunes
-        if args.missType == "ABSORB" and not ShowAbsorbs() then
+        if args.missType == "ABSORB" and not ShowOutgoingAbsorbedDamaged() then
             return
         end
         if args.missType == "IMMUNE" and not ShowImmunes() then

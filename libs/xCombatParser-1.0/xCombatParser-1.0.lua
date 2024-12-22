@@ -178,7 +178,7 @@ end
 -- Handle the Events
 do
     -- Upvalues (Only values that will be used more than once)
-    local select, sub, tostring, playerGUID = select, string.sub, tostring
+    local sub, playerGUID = string.sub
 
     -- Recycle or create out event frame
     private.frame = oldLib and oldLib.private.frame or CreateFrame("frame")

@@ -12,7 +12,7 @@
  [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 
 local mfloor = math.floor
 

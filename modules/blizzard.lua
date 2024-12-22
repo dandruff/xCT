@@ -14,7 +14,7 @@
 
 -- TODO: Fix this up
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 local x = addon.engine
 
 -- Intercept Messages Sent by other Add-Ons that use CombatText_AddMessage
