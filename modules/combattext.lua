@@ -1766,6 +1766,11 @@ local CombatEventHandlers = {
             end
         end
 
+        if ShowOutgoingAbsorbedDamaged() then
+            -- Its a partial absorb, add it to the amount
+            amount = amount + (args.absorbed or 0)
+        end
+
         -- Filter Ougoing Damage Spell or Amount
         if IsSpellFiltered(spellID) or FilterOutgoingDamage(amount) then
             return

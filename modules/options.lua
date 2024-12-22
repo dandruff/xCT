@@ -3345,6 +3345,14 @@ addon.options.args["Frames"] = {
                             get = get2,
                             set = set2,
                         },
+                        enableAbsorbs = {
+                            order = 13,
+                            type = "toggle",
+                            name = "Show Absorbs as damage",
+                            desc = "Display partially or fully absorbed damage as regular damage.",
+                            get = get2,
+                            set = set2,
+                        },
 
                         specialTweaksPet = {
                             type = "header",
@@ -3502,14 +3510,6 @@ addon.options.args["Frames"] = {
                             type = "toggle",
                             name = "Show Miss Types",
                             desc = "Display 'Miss', 'Dodge', 'Parry' when you miss your target.",
-                            get = get2,
-                            set = set2,
-                        },
-                        enableAbsorbs = {
-                            order = 53,
-                            type = "toggle",
-                            name = "Show Absorbs as damage",
-                            desc = "Display fully absorbed damage events as regular damage.",
                             get = get2,
                             set = set2,
                         },
