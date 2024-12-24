@@ -15,6 +15,12 @@
 -- Get Addon's name and Blizzard's Addon Stub
 local AddonName, addon = ...
 
+-- This allows us to create our config dialog
+local AceGUI = LibStub("AceGUI-3.0")
+local AC = LibStub("AceConfig-3.0")
+local ACD = LibStub("AceConfigDialog-3.0")
+local ACR = LibStub("AceConfigRegistry-3.0")
+
 -- compares a tables values
 local function tableCompare(t1, t2)
     local equal = true
@@ -83,6 +89,9 @@ function x:OnInitialize()
         return
     end
 
+    -- Initialize the options
+    x:InitOptionsTable()
+
     -- Check for new installs
     self.existingProfile = CheckExistingProfile()
 
@@ -127,6 +136,20 @@ function x:OnInitialize()
     x:RegisterChatCommand("xct", "OpenxCTCommand")
 
     x:EnableLibSinkSupport()
+
+    -- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
+    AddonCompartmentFrame:RegisterAddon({
+        text = AddonName,
+        registerForAnyClick = true,
+        notCheckable = true,
+        func = function()
+            x.ToggleConfigTool()
+        end,
+    })
+
+    -- Register the Options
+    ACD:SetDefaultSize(AddonName, 803, 560)
+    AC:RegisterOptionsTable(AddonName, addon.optionsTable)
 
     -- Everything got Initialized, show Startup Text
     if self.db.profile.showStartupText then
@@ -675,6 +698,7 @@ function x:UpdateComboPointOptions(force)
     if x.LOADED_COMBO_POINTS_OPTIONS and not force then
         return
     end
+
     local myClass, offset = x.player.class, 2
 
     local comboSpells = {
@@ -1571,26 +1595,6 @@ end
 -- Unused for now
 function x:OnEnable() end
 function x:OnDisable() end
-
--- This allows us to create our config dialog
-local AceGUI = LibStub("AceGUI-3.0")
-local AC = LibStub("AceConfig-3.0")
-local ACD = LibStub("AceConfigDialog-3.0")
-local ACR = LibStub("AceConfigRegistry-3.0")
-
--- Register the Options
-ACD:SetDefaultSize(AddonName, 803, 560)
-AC:RegisterOptionsTable(AddonName, addon.optionsTable)
-
--- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
-AddonCompartmentFrame:RegisterAddon({
-    text = AddonName,
-    registerForAnyClick = true,
-    notCheckable = true,
-    func = function(btn, arg1, arg2, checked, mouseButton)
-        x.ToggleConfigTool()
-    end,
-})
 
 -- Close Config when entering combat
 local lastConfigState, shownWarning = false, false

@@ -171,178 +171,17 @@ function x:UpdateCombatTextEvents(enable)
     end
 end
 
+-- TODO woanders hin ?
+local function FormatOutgoingOverhealing(amount)
+    return x:Options_Outgoing_OverhealingPrefix()
+        .. amount
+        .. x:Options_Outgoing_OverhealingPostfix()
+end
+
 --[=====================================================[
  Fast Boolean Lookups
 --]=====================================================]
-local function ShowMissTypes()
-    return x.db.profile.frames.damage.showDodgeParryMiss
-end
-local function ShowResistances()
-    return x.db.profile.frames.damage.showDamageReduction
-end
-local function ShowHonor()
-    return x.db.profile.frames.damage.showHonorGains
-end
-local function ShowFaction()
-    return x.db.profile.frames.general.showRepChanges
-end
-local function ShowReactives()
-    return x.db.profile.frames.procs.enabledFrame
-end
-local function ShowLowResources()
-    return x.db.profile.frames.general.showLowManaHealth
-end
-local function ShowCombatState()
-    return x.db.profile.frames.general.showCombatState
-end
-local function ShowFriendlyNames()
-    return x.db.profile.frames["healing"].showFriendlyHealers
-end
-local function ShowColoredFriendlyNames()
-    return x.db.profile.frames["healing"].enableClassNames
-end
-local function ShowHealingRealmNames()
-    return x.db.profile.frames["healing"].enableRealmNames
-end
-local function ShowOnlyMyHeals()
-    return x.db.profile.frames.healing.showOnlyMyHeals
-end
-local function ShowOnlyMyPetsHeals()
-    return x.db.profile.frames.healing.showOnlyPetHeals
-end
-local function ShowDamage()
-    return x.db.profile.frames["outgoing"].enableOutDmg
-end
-local function ShowHealing()
-    return x.db.profile.frames["outgoing"].enableOutHeal
-end
-local function ShowOutgoingHealAbsorbs()
-    return x.db.profile.frames["outgoing"].enableOutAbsorbs
-end
-local function ShowPetDamage()
-    return x.db.profile.frames["outgoing"].enablePetDmg
-end
-local function ShowVehicleDamage()
-    return x.db.profile.frames["outgoing"].enableVehicleDmg
-end
-local function ShowKillCommand()
-    return x.db.profile.frames["outgoing"].enableKillCommand
-end
 
--- Better auto-attack terminology
-local function ShowAutoAttack_Outgoing()
-    return x.db.profile.frames["outgoing"].enableAutoAttack_Outgoing
-end
-local function ShowAutoAttack_Critical()
-    return x.db.profile.frames["critical"].enableAutoAttack_Critical
-end
-local function PrefixAutoAttack_Critical()
-    return x.db.profile.frames["critical"].prefixAutoAttack_Critical
-end
-local function ShowPetAutoAttack_Outgoing()
-    return x.db.profile.frames["outgoing"].enablePetAutoAttack_Outgoing
-end
-
-local function ShowDots()
-    return x.db.profile.frames["outgoing"].enableDotDmg
-end
-local function ShowHots()
-    return x.db.profile.frames["outgoing"].enableHots
-end
-local function ShowImmunes()
-    return x.db.profile.frames["outgoing"].enableImmunes
-end -- outgoing immunes
-local function ShowMisses()
-    return x.db.profile.frames["outgoing"].enableMisses
-end -- outgoing misses
-local function ShowOutgoingAbsorbedDamaged()
-    return x.db.profile.frames["outgoing"].enableAbsorbs
-end -- outgoing absorbs
-local function ShowPartialMisses()
-    return x.db.profile.frames["outgoing"].enablePartialMisses
-end
-local function ShowPetCrits()
-    return x.db.profile.frames["critical"].petCrits
-end
-local function ShowLootItems()
-    return x.db.profile.frames["loot"].showItems
-end
-local function ShowLootItemTypes()
-    return x.db.profile.frames["loot"].showItemTypes
-end
-local function ShowLootMoney()
-    return x.db.profile.frames["loot"].showMoney
-end
-local function ShowLootCurrency()
-    return x.db.profile.frames["loot"].showCurrency
-end
-local function ShowTotalItems()
-    return x.db.profile.frames["loot"].showItemTotal
-end
-local function ShowLootCrafted()
-    return x.db.profile.frames["loot"].showCrafted
-end
-local function ShowLootQuest()
-    return x.db.profile.frames["loot"].showQuest
-end
-local function ShowLootPurchased()
-    return x.db.profile.frames["loot"].showPurchased
-end
-local function ShowColorBlindMoney()
-    return x.db.profile.frames["loot"].colorBlindMoney
-end
-local function GetLootQuality()
-    return x.db.profile.frames["loot"].filterItemQuality
-end
-local function ShowLootIcons()
-    return x.db.profile.frames["loot"].iconsEnabled
-end
-local function GetLootIconSize()
-    return x.db.profile.frames["loot"].iconsSize
-end
-local function ShowInterrupts()
-    return x.db.profile.frames["general"].showInterrupts
-end
-local function ShowDispells()
-    return x.db.profile.frames["general"].showDispells
-end
-local function ShowPartyKill()
-    return x.db.profile.frames["general"].showPartyKills
-end
-local function ShowBuffs()
-    return x.db.profile.frames["general"].showBuffs
-end
-local function ShowDebuffs()
-    return x.db.profile.frames["general"].showDebuffs
-end
-local function ShowOverHealing()
-    return x.db.profile.frames["healing"].enableOverHeal
-end
-local function HideAbsorbedHealing()
-    return x.db.profile.frames["healing"].hideAbsorbedHeals
-end
-local function ShowEnergyGains()
-    return x.db.profile.frames["power"].showEnergyGains
-end
-local function ShowEnergyTypes()
-    return x.db.profile.frames["power"].showEnergyType
-end
-
--- These settings are for the overhealing that the player does
-local function ShowOutgoingOverHealing()
-    return x.db.profile.frames["outgoing"].enableOverhealing
-end
-local function IsOutgoingOverHealingFormatted()
-    return x.db.profile.frames["outgoing"].enableOverhealingFormat
-end
-local function IsOverhealingSubtracted()
-    return x.db.profile.frames["outgoing"].enableOverhealingSubtraction
-end
-local function FormatOutgoingOverhealing(amount)
-    return x.db.profile.frames["outgoing"].overhealingPrefix
-        .. amount
-        .. x.db.profile.frames["outgoing"].overhealingPostfix
-end
 
 -- TODO: Add Combo Point Support
 local function ShowRogueComboPoints()
@@ -369,10 +208,6 @@ end -- return x.db.profile.spells.combo["WARLOCK"][2][DEMONIC_FURY] and x.player
 local function ShowWarlockBurningEmbers()
     return false
 end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.player.class == "WARLOCK" and x.player.spec == 3 end
-
-local function ClearWhenLeavingCombat()
-    return x.db.profile.frameSettings.clearLeavingCombat
-end
 
 local function SpamMergerIncomingHealingInterval()
     return x.db.profile.spells.mergeIncomingHealingInterval or 0
@@ -582,16 +417,16 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
         outputColor = "healingOutCritical"
         message = sformat(
             format_crit,
-            x.db.profile.frames["critical"].critPrefix,
+            x.db.profile.frames.critical.critPrefix,
             x:Abbreviate(amount, "critical"),
-            x.db.profile.frames["critical"].critPostfix
+            x.db.profile.frames.critical.critPostfix
         )
     else
         message = x:Abbreviate(amount, outputFrame)
     end
 
     -- Show and Format Overhealing values
-    if overhealing > 0 and IsOutgoingOverHealingFormatted() then
+    if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
         message = message .. FormatOutgoingOverhealing(overhealing)
     end
@@ -618,16 +453,16 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing
     if critical then
         message = sformat(
             format_crit,
-            x.db.profile.frames["critical"].critPrefix,
+            x.db.profile.frames.critical.critPrefix,
             x:Abbreviate(amount, "critical"),
-            x.db.profile.frames["critical"].critPostfix
+            x.db.profile.frames.critical.critPostfix
         )
     else
         message = x:Abbreviate(amount, outputFrame)
     end
 
     -- Show and Format Overhealing values
-    if overhealing > 0 and IsOutgoingOverHealingFormatted() then
+    if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
         message = message .. FormatOutgoingOverhealing(overhealing)
     end
@@ -692,7 +527,7 @@ function x.OnCombatTextEvent(self, event, ...)
     --local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
 
     if sourceGUID == x.player.guid or
-        ( sourceGUID == UnitGUID("pet") and ShowPetDamage() ) or
+        ( sourceGUID == UnitGUID("pet") and x:Options_Outgoing_ShowPetDamage() ) or
         sourceFlags == COMBATLOG_FILTER_MY_VEHICLE
     then
       if x.outgoing_events[eventType] then
@@ -987,7 +822,7 @@ x.combat_events = {
     end,
 
     ["SPELL_CAST"] = function(spellName)
-        if ShowReactives() then
+        if x:Options_Procs_ShowProcs() then
             x:AddMessage("procs", spellName, "spellReactive")
         end
     end,
@@ -998,7 +833,7 @@ x.combat_events = {
     ["HONOR_GAINED"] = function() -- UNTESTED
         local amount = GetCurrentCombatTextEventInfo()
         local num = mfloor(tonumber(amount) or 0)
-        if num > 0 and ShowHonor() then
+        if num > 0 and x:Options_General_ShowHonor() then
             x:AddMessage("general", sformat(format_honor, HONOR, x:Abbreviate(amount, "general")), "honorGains")
         end
     end,
@@ -1006,13 +841,17 @@ x.combat_events = {
     ["FACTION"] = function() -- TESTED
         local faction, amount = GetCurrentCombatTextEventInfo()
         local num = mfloor(tonumber(amount) or 0)
-        if num > 0 and ShowFaction() then
+        if not x:Options_General_ShowReputationChanges() then
+            return
+        end
+
+        if num > 0 then
             x:AddMessage(
                 "general",
                 sformat(format_faction_add, faction, x:Abbreviate(amount, "general")),
                 "reputationGain"
             )
-        elseif num < 0 and ShowFaction() then
+        elseif num < 0 then
             x:AddMessage(
                 "general",
                 sformat(format_faction_sub, faction, x:Abbreviate(amount, "general")),
@@ -1028,7 +867,7 @@ x.combat_events = {
 x.events = {
     ["UNIT_HEALTH"] = function()
         if
-            ShowLowResources()
+            x:Options_General_ShowLowManaAndHealth()
             and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= COMBAT_TEXT_LOW_HEALTH_THRESHOLD
         then
             if not x.lowHealth then
@@ -1046,7 +885,7 @@ x.events = {
 
         if
             select(2, UnitPowerType(x.player.unit)) == "MANA"
-            and ShowLowResources()
+            and x:Options_General_ShowLowManaAndHealth()
             and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= COMBAT_TEXT_LOW_MANA_THRESHOLD
         then
             if not x.lowMana then
@@ -1059,7 +898,7 @@ x.events = {
     end,
 
     ["RUNE_POWER_UPDATE"] = function(runeIndex)
-        if not ShowEnergyGains() then
+        if not x:Options_Power_ShowGains() then
             return
         end
 
@@ -1104,7 +943,7 @@ x.events = {
     ["PLAYER_REGEN_ENABLED"] = function()
         x.inCombat = false
         x:CombatStateChanged()
-        if ClearWhenLeavingCombat() then
+        if x:Options_Global_ClearWhenLeavingCombat() then
             -- only clear frames with icons
             x:Clear("general")
             x:Clear("outgoing")
@@ -1116,14 +955,14 @@ x.events = {
             x:Clear("loot")
         end
 
-        if ShowCombatState() then
+        if x:Options_General_ShowCombatState() then
             x:AddMessage("general", sformat(format_fade, LEAVING_COMBAT), "combatLeaving")
         end
     end,
     ["PLAYER_REGEN_DISABLED"] = function()
         x.inCombat = true
         x:CombatStateChanged()
-        if ShowCombatState() then
+        if x:Options_General_ShowCombatState() then
             x:AddMessage("general", sformat(format_gain, ENTERING_COMBAT), "combatEntering")
         end
     end,
@@ -1228,28 +1067,36 @@ x.events = {
             -- Only let self looted items go through the "Always Show" filter
             if
                 (listed and looted)
-                or (ShowLootItems() and looted and itemQuality >= GetLootQuality())
-                or (itemType == "Quest" and ShowLootQuest() and looted)
-                or (crafted and ShowLootCrafted())
-                or (pushed and ShowLootPurchased())
+                or (x:Options_Loot_ShowItems() and looted and itemQuality >= x:Options_Loot_ItemQualityFilter())
+                or (itemType == "Quest" and x:Options_Loot_ShowQuestItems() and looted)
+                or (crafted and x:Options_Loot_ShowCraftedItems())
+                or (pushed and x:Options_Loot_ShowPurchasedItems())
             then
                 local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
                 -- "%s%s: %s [%s]%s %%s"
+
+                local icon = ""
+                if x:Options_Loot_ShowIcons() then
+                    icon = sformat(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+                end
+
+                local itemQualityText = ""
+                if x:Options_Loot_ShowColorBlindMoney() then
+                    -- Item Quality (Color Blind)
+                    itemQualityText = sformat(format_lewtz_blind, _G[sformat(format_quality, itemQuality)])
+                end
+
                 local message = sformat(
                     format_lewtz,
-                    ShowLootItemTypes() and itemType or "Item", -- Item Type
-                    ShowColorBlindMoney() -- Item Quality (Color Blind)
-                            and sformat(format_lewtz_blind, _G[sformat(format_quality, itemQuality)])
-                        or "",
-                    ShowLootIcons() -- Icon
-                            and sformat(format_loot_icon, itemTexture, GetLootIconSize(), GetLootIconSize())
-                        or "",
+                    x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
+                    itemQualityText,
+                    icon,
                     itemName, -- Item Name
                     sformat(format_lewtz_amount, amount) -- Amount Looted
                 )
 
                 -- Purchased/quest items seem to get to your bags faster than looted items
-                if ShowTotalItems() then
+                if x:Options_Loot_ShowItemTotals() then
                     -- This frame was created to make sure I always display the correct number of an item in your bag
                     if not x.lootUpdater then
                         x.lootUpdater = CreateFrame("FRAME")
@@ -1283,7 +1130,7 @@ x.events = {
         end
     end,
     ["CHAT_MSG_CURRENCY"] = function(msg)
-        if not ShowLootCurrency() then
+        if not x:Options_Loot_ShowCurency() then
             return
         end
         -- get currency from chat
@@ -1298,12 +1145,17 @@ x.events = {
         local currencyInfo = C_CurrencyInfo.GetCurrencyInfoFromLink(currencyLink)
         local name, amountOwned, texturePath = currencyInfo.name, currencyInfo.quantity, currencyInfo.iconFileID
 
+        local icon = ""
+        if x:Options_Loot_ShowIcons() then
+            icon = sformat(format_loot_icon, texturePath, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+        end
+
         -- format curency
         -- "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
         local message = sformat(
             format_currency,
             _G.CURRENCY,
-            ShowLootIcons() and sformat(format_loot_icon, texturePath, GetLootIconSize(), GetLootIconSize()) or "",
+            icon,
             name,
             amountGained,
             amountOwned
@@ -1313,7 +1165,7 @@ x.events = {
         x:AddMessage("loot", message, { 1, 1, 1 })
     end,
     ["CHAT_MSG_MONEY"] = function(msg)
-        if not ShowLootMoney() then
+        if not x:Options_Loot_ShowMoney() then
             return
         end
         local g, s, c =
@@ -1324,7 +1176,7 @@ x.events = {
 
         -- TODO: Add a minimum amount of money
 
-        if ShowColorBlindMoney() then
+        if x:Options_Loot_ShowColorBlindMoney() then
             o = o .. (g and g .. " G " or "") .. (s and s .. " S " or "") .. (c and c .. " C " or "")
         else
             o = o .. C_CurrencyInfo.GetCoinTextureString(money) .. " "
@@ -1559,7 +1411,7 @@ local CombatEventHandlers = {
             x.spellCache.spells[args.spellId] = true
         end
 
-        if not ShowOutgoingHealAbsorbs() then
+        if not x:Options_Outgoing_ShowOutgoingHealAbsorbs() then
             return
         end
 
@@ -1574,9 +1426,9 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames["outgoing"].iconsEnabled and x.db.profile.frames["outgoing"].iconsSize or -1,
-            x.db.profile.frames["outgoing"].spacerIconsEnabled,
-            x.db.profile.frames["outgoing"].fontJustify
+            x.db.profile.frames.outgoing.iconsEnabled and x.db.profile.frames.outgoing.iconsSize or -1,
+            x.db.profile.frames.outgoing.spacerIconsEnabled,
+            x.db.profile.frames.outgoing.fontJustify
         )
 
         -- Add names
@@ -1595,12 +1447,12 @@ local CombatEventHandlers = {
             x.spellCache.spells[spellID] = true
         end
 
-        if not ShowHealing() then
+        if not x:Options_Outgoing_ShowHealing() then
             return
         end
 
         -- Check to see if this is a HoT
-        if isHoT and not ShowHots() then
+        if isHoT and not x:Options_Outgoing_ShowHots() then
             return
         end
 
@@ -1610,8 +1462,8 @@ local CombatEventHandlers = {
         end
 
         -- Filter Overhealing
-        if ShowOverHealing() then
-            if IsOverhealingSubtracted() then
+        if x:Options_IncomingHealing_ShowOverHealing() then
+            if x:Options_Outgoing_SubtractOverhealing() then
                 amount = amount - overhealing
             end
         else
@@ -1730,25 +1582,25 @@ local CombatEventHandlers = {
             x.spellCache.spells[spellID] = true
         end
 
-        if not ShowDamage() then
+        if not x:Options_Outgoing_ShowDamage() then
             return
         end
 
         -- Check to see if this is a HoT
-        if isDoT and not ShowDots() then
+        if isDoT and not x:Options_Outgoing_ShowDots() then
             return
         end
 
         if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() then
-            if critical and not ShowAutoAttack_Outgoing() then
+            if critical and not x:Options_Outgoing_ShowAutoAttack() then
                 return
             end
-            if not critical and not ShowAutoAttack_Critical() then
+            if not critical and not x:Options_Critical_ShowAutoAttack() then
                 return
             end
         end
 
-        if ShowOutgoingAbsorbedDamaged() then
+        if x:Options_Outgoing_ShowAbsorbedDamageAsNormalDamage() then
             -- Its a partial absorb, add it to the amount
             amount = amount + (args.absorbed or 0)
         end
@@ -1759,12 +1611,12 @@ local CombatEventHandlers = {
         end
 
         -- Check to see if my pet is doing things
-        if args:IsSourceMyPet() and (not ShowKillCommand() or spellID ~= 34026) then
-            if not ShowPetDamage() then
+        if args:IsSourceMyPet() and (not x:Options_Outgoing_ShowKillCommandAsPlayerDamage() or spellID ~= 34026) then
+            if not x:Options_Outgoing_ShowPetDamage() then
                 return
             end
 
-            if isSwing and not ShowPetAutoAttack_Outgoing() then
+            if isSwing and not x:Options_Outgoing_ShowPetAutoAttack() then
                 return
             end
 
@@ -1784,7 +1636,7 @@ local CombatEventHandlers = {
                 )
                 return
             end
-            if not ShowPetCrits() then
+            if not x:Options_Critical_ShowPetCrits() then
                 critical = nil -- stupid spam fix for hunter pets
             end
             if isSwing then
@@ -1793,13 +1645,13 @@ local CombatEventHandlers = {
         end
 
         if args:IsSourceMyVehicle() then
-            if not ShowVehicleDamage() then
+            if not x:Options_Outgoing_ShowVehicleDamage() then
                 return
             end
-            if isSwing and not ShowPetAutoAttack_Outgoing() then
+            if isSwing and not x:Options_Outgoing_ShowPetAutoAttack() then
                 return
             end -- for BM's second pet, Hati
-            if not ShowPetCrits() then
+            if not x:Options_Critical_ShowPetCrits() then
                 critical = nil -- stupid spam fix for hunter pets
             end
             if isSwing then
@@ -1809,7 +1661,7 @@ local CombatEventHandlers = {
 
         -- Check for Critical Swings
         if critical then
-            if (isSwing or isAutoShot) and ShowAutoAttack_Critical() then
+            if (isSwing or isAutoShot) and x:Options_Critical_ShowAutoAttack() then
                 outputFrame = "critical"
             elseif not isSwing and not isAutoShot then
                 outputFrame = "critical"
@@ -1947,14 +1799,14 @@ local CombatEventHandlers = {
             end
         end
 
-        if critical and (not (isSwing or isAutoShot) or ShowAutoAttack_Critical()) then
+        if critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
             settings = x.db.profile.frames["critical"]
-            if not (isSwing or isAutoShot) or PrefixAutoAttack_Critical() then
+            if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
                 message = sformat(
                     format_crit,
-                    x.db.profile.frames["critical"].critPrefix,
+                    x.db.profile.frames.critical.critPrefix,
                     x:Abbreviate(amount, "critical"),
-                    x.db.profile.frames["critical"].critPostfix
+                    x.db.profile.frames.critical.critPostfix
                 )
             else
                 message = x:Abbreviate(amount, "critical")
@@ -1965,7 +1817,7 @@ local CombatEventHandlers = {
         end
 
         -- Add the Partial Miss Types
-        if ShowPartialMisses() then
+        if x:Options_Outgoing_ShowPartialMisses() then
             local hasPartialMiss, formattedMessage =
                 GetPartialMiss(args, settings, critical and "critical" or "outgoing")
             if hasPartialMiss then
@@ -2013,7 +1865,7 @@ local CombatEventHandlers = {
         end
 
         -- Check for resists
-        if ShowResistances() then
+        if x:Options_IncomingDamage_ShowResistances() then
             if
                 FilterIncomingDamage(args.amount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0))
             then
@@ -2148,9 +2000,9 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames["healing"].iconsEnabled and x.db.profile.frames["healing"].iconsSize or -1,
-            x.db.profile.frames["healing"].spacerIconsEnabled,
-            x.db.profile.frames["healing"].fontJustify
+            x.db.profile.frames.healing.iconsEnabled and x.db.profile.frames.healing.iconsSize or -1,
+            x.db.profile.frames.healing.spacerIconsEnabled,
+            x.db.profile.frames.healing.fontJustify
         )
 
         -- Add names
@@ -2173,12 +2025,12 @@ local CombatEventHandlers = {
         end
 
         -- Adjust the amount if the user doesnt want over healing
-        if not ShowOverHealing() then
+        if not x:Options_IncomingHealing_ShowOverHealing() then
             amount = amount - args.overhealing
         end
 
         -- Don't show healing that gets absorbed by a debuff or mechanic
-        if HideAbsorbedHealing() then
+        if x:Options_IncomingHealing_HideAbsorbedHealing() then
             amount = amount - args.absorbed
         end
 
@@ -2187,8 +2039,8 @@ local CombatEventHandlers = {
             return
         end
 
-        if ShowOnlyMyHeals() and not args.isPlayer then
-            if ShowOnlyMyPetsHeals() and args:IsSourceMyPet() then
+        if x:Options_IncomingHealing_ShowOnlyMyHeals() and not args.isPlayer then
+            if x:Options_IncomingHealing_ShowOnlyMyPetsHeals() and args:IsSourceMyPet() then
                 -- If its the pet, then continue
             else
                 return
@@ -2219,9 +2071,9 @@ local CombatEventHandlers = {
             message = x:GetSpellTextureFormatted(
                 args.spellId,
                 message,
-                x.db.profile.frames["healing"].iconsEnabled and x.db.profile.frames["healing"].iconsSize or -1,
-                x.db.profile.frames["healing"].spacerIconsEnabled,
-                x.db.profile.frames["healing"].fontJustify
+                x.db.profile.frames.healing.iconsEnabled and x.db.profile.frames.healing.iconsSize or -1,
+                x.db.profile.frames.healing.spacerIconsEnabled,
+                x.db.profile.frames.healing.fontJustify
             )
 
             x:AddMessage("healing", message, color)
@@ -2240,12 +2092,12 @@ local CombatEventHandlers = {
 
         if isBuff then
             -- Stop if we're not showing buffs _or_ the spell's name is filtered
-            if not ShowBuffs() or IsBuffFiltered(args.spellName) then
+            if not x:Options_General_ShowBuffGainsAndFades() or IsBuffFiltered(args.spellName) then
                 return
             end
         else -- Aura is debuff
             -- Stop if we're not showing debuffs _or_ the spell's name is filtered
-            if not ShowDebuffs() or IsDebuffFiltered(args.spellName) then
+            if not x:Options_General_ShowDebuffGainsAndFades() or IsDebuffFiltered(args.spellName) then
                 return
             end
         end
@@ -2264,16 +2116,16 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames["general"].iconsEnabled and x.db.profile.frames["general"].iconsSize or -1,
-            x.db.profile.frames["general"].spacerIconsEnabled,
-            x.db.profile.frames["general"].fontJustify
+            x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
+            x.db.profile.frames.general.spacerIconsEnabled,
+            x.db.profile.frames.general.fontJustify
         )
 
         x:AddMessage("general", message, color)
     end,
 
     ["KilledUnit"] = function(args)
-        if not ShowPartyKill() then
+        if not x:Options_General_ShowPartyKill() then
             return
         end
 
@@ -2289,7 +2141,7 @@ local CombatEventHandlers = {
     end,
 
     ["InterruptedUnit"] = function(args)
-        if not ShowInterrupts() then
+        if not x:Options_General_ShowInterrupts() then
             return
         end
 
@@ -2300,9 +2152,9 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.extraSpellId,
             message,
-            x.db.profile.frames["general"].iconsEnabled and x.db.profile.frames["general"].iconsSize or -1,
-            x.db.profile.frames["general"].spacerIconsEnabled,
-            x.db.profile.frames["general"].fontJustify
+            x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
+            x.db.profile.frames.general.spacerIconsEnabled,
+            x.db.profile.frames.general.fontJustify
         )
 
         x:AddMessage("general", message, "interrupts")
@@ -2313,7 +2165,7 @@ local CombatEventHandlers = {
 
         -- If this is a melee swing, it could also be our pets
         if args.prefix == "SWING" then
-            if not ShowAutoAttack_Outgoing() then
+            if not x:Options_Outgoing_ShowAutoAttack() then
                 return
             end
             if args:IsSourceMyPet() then
@@ -2325,10 +2177,10 @@ local CombatEventHandlers = {
 
         -- Absorbs are handled in the x.CombatLogEvent() function
         -- Check for filtered immunes
-        if args.missType == "IMMUNE" and not ShowImmunes() then
+        if args.missType == "IMMUNE" and not x:Options_Outgoing_ShowImmunes() then
             return
         end
-        if args.missType ~= "IMMUNE" and not ShowMisses() then
+        if args.missType ~= "IMMUNE" and not x:Options_Outgoing_ShowMisses() then
             return
         end
 
@@ -2341,16 +2193,16 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             spellId,
             message,
-            x.db.profile.frames["outgoing"].iconsEnabled and x.db.profile.frames["outgoing"].iconsSize or -1,
-            x.db.profile.frames["outgoing"].spacerIconsEnabled,
-            x.db.profile.frames["outgoing"].fontJustify
+            x.db.profile.frames.outgoing.iconsEnabled and x.db.profile.frames.outgoing.iconsSize or -1,
+            x.db.profile.frames.outgoing.spacerIconsEnabled,
+            x.db.profile.frames.outgoing.fontJustify
         )
 
         x:AddMessage("outgoing", message, "misstypesOut")
     end,
 
     ["IncomingMiss"] = function(args)
-        if not ShowMissTypes() then
+        if not x:Options_IncomingDamage_ShowMissTypes() then
             return
         end
 
@@ -2374,7 +2226,7 @@ local CombatEventHandlers = {
     end,
 
     ["SpellDispel"] = function(args)
-        if not ShowDispells() then
+        if not x:Options_General_ShowDispells() then
             return
         end
 
@@ -2385,9 +2237,9 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.extraSpellId,
             message,
-            x.db.profile.frames["general"].iconsEnabled and x.db.profile.frames["general"].iconsSize or -1,
-            x.db.profile.frames["general"].spacerIconsEnabled,
-            x.db.profile.frames["general"].fontJustify
+            x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
+            x.db.profile.frames.general.spacerIconsEnabled,
+            x.db.profile.frames.general.fontJustify
         )
 
         local spamMergerInterval = MergeDispellInterval()
@@ -2399,25 +2251,26 @@ local CombatEventHandlers = {
     end,
 
     ["SpellStolen"] = function(args)
-        if not ShowDispells() then
+        if not x:Options_General_ShowDispells() then
             return
         end
+
         local message = sformat(format_dispell, XCT_STOLE, args.extraSpellName)
 
         -- Add Icons
         message = x:GetSpellTextureFormatted(
             args.extraSpellId,
             message,
-            x.db.profile.frames["general"].iconsEnabled and x.db.profile.frames["general"].iconsSize or -1,
-            x.db.profile.frames["general"].spacerIconsEnabled,
-            x.db.profile.frames["general"].fontJustify
+            x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
+            x.db.profile.frames.general.spacerIconsEnabled,
+            x.db.profile.frames.general.fontJustify
         )
 
         x:AddMessage("general", message, "dispellStolen")
     end,
 
     ["SpellEnergize"] = function(args)
-        if not ShowEnergyGains() then
+        if not x:Options_Power_ShowGains() then
             return
         end
 
@@ -2445,7 +2298,7 @@ local CombatEventHandlers = {
         else
             x:AddMessage(
                 "power",
-                sformat(format_energy, message, ShowEnergyTypes() and _G[energy_type] or ""),
+                sformat(format_energy, message, x:Options_Power_ShowEnergyTypes() and _G[energy_type] or ""),
                 color
             )
         end
@@ -2533,14 +2386,14 @@ local AbsorbList = {
 
 function x.CombatLogEvent(args)
     -- Is the source someone we care about?
-    if args.isPlayer or args:IsSourceMyVehicle() or ShowPetDamage() and args:IsSourceMyPet() then
+    if args.isPlayer or args:IsSourceMyVehicle() or x:Options_Outgoing_ShowPetDamage() and args:IsSourceMyPet() then
         if args.suffix == "_HEAL" then
             CombatEventHandlers.HealingOutgoing(args)
         elseif args.suffix == "_DAMAGE" then
             CombatEventHandlers.DamageOutgoing(args)
         elseif args.suffix == "_MISSED" then
             if args.missType == "ABSORB" then
-                if ShowOutgoingAbsorbedDamaged() then
+                if x:Options_Outgoing_ShowAbsorbedDamageAsNormalDamage() then
                     -- This was fully absorbed, but we would like to display it... use the DamageOutgoing EventHandler
                     -- TODO What about fully absorbed heals?
                     args.amount = args.amountMissed
@@ -2573,7 +2426,7 @@ function x.CombatLogEvent(args)
         elseif args.suffix == "_MISSED" then
             CombatEventHandlers.IncomingMiss(args)
         elseif args.event == "SPELL_DISPEL" then
-            if ShowDispells() then
+            if x:Options_General_ShowDispells() then
                 local message = args.sourceName .. " dispelled:"
 
                 if GetLocale() == "koKR" then
@@ -2583,9 +2436,9 @@ function x.CombatLogEvent(args)
                 message = x:GetSpellTextureFormatted(
                     args.extraSpellId,
                     message,
-                    x.db.profile.frames["general"].iconsEnabled and x.db.profile.frames["general"].iconsSize or -1,
-                    x.db.profile.frames["general"].spacerIconsEnabled,
-                    x.db.profile.frames["general"].fontJustify
+                    x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
+                    x.db.profile.frames.general.spacerIconsEnabled,
+                    x.db.profile.frames.general.fontJustify
                 )
 
                 x:AddMessage("general", message, "dispellDebuffs")
