@@ -1592,9 +1592,6 @@ AddonCompartmentFrame:RegisterAddon({
     end,
 })
 
---AC:RegisterOptionsTable(AddonName.."Blizzard", x.blizzardOptions)
---ACD:AddToBlizOptions(AddonName.."Blizzard", "|cffFF0000x|rCT+")
-
 -- Close Config when entering combat
 local lastConfigState, shownWarning = false, false
 function x:CombatStateChanged()
