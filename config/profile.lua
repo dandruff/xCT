@@ -27,17 +27,8 @@ do -- blizzard hiding globals?
     SCHOOL_MASK_ARCANE = 0x40
 end
 
--- Add Merge Spell to the DB before it gets used by the profile
-function addon.GenerateDefaultSpamSpells()
-    local default = addon.defaults.profile.spells.merge
-    for spellId, item in pairs(addon.merges) do
-        default[spellId] = { interval = item.interval }
-    end
-end
-
 addon.defaults = {
     profile = {
-        showStartupText = true,
         hideConfig = true,
         bypassCVars = false,
 

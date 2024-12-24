@@ -52,11 +52,10 @@ local function RefreshConfig()
     x:CompatibilityLogic(true)
 
     x:UpdateFrames()
-    x:UpdateSpamSpells()
 
     -- Will this fix the profile issue?
-    x.GenerateSpellSchoolColors()
-    x.GenerateColorOptions()
+    x:GenerateSpellSchoolColors()
+    x:GenerateColorOptions()
 
     -- Update combat text engine CVars
     x:UpdateCVar(true)
@@ -69,7 +68,6 @@ local function ProfileReset()
     x:CompatibilityLogic(false)
 
     x:UpdateFrames()
-    x:UpdateSpamSpells()
 
     collectgarbage()
 end
@@ -90,18 +88,15 @@ function x:OnInitialize()
     end
 
     -- Initialize the options
-    x:InitOptionsTable()
+    self:InitOptionsTable()
 
     -- Check for new installs
     self.existingProfile = CheckExistingProfile()
 
-    -- Generate Dynamic Merge Entries
-    addon.GenerateDefaultSpamSpells()
-
     -- Clean Up Colors in the DB
-    addon.LoadDefaultColors()
+    self:LoadDefaultColors()
 
-    -- Load the Data Base
+    -- Load the Database
     self.db = LibStub("AceDB-3.0"):New("xCTSavedDB", addon.defaults)
 
     -- Add the profile options to my dialog config
@@ -120,29 +115,28 @@ function x:OnInitialize()
     end
 
     -- A cache of infos about the player
-    x.player = {
+    self.player = {
         unit = "player",
         guid = UnitGUID("player"),
         class = select(2, UnitClass("player")),
         name = UnitName("player"),
         spec = -1,
     }
-    x:UpdatePlayer()
+    self:UpdatePlayer()
 
     -- Delay updating frames until all other addons are loaded!
-    x:UpdateCombatTextEvents(true)
-    x:UpdateSpamSpells()
-    x:UpdateAuraSpellFilter()
-    x.GenerateColorOptions()
-    x.GenerateSpellSchoolColors()
+    self:UpdateCombatTextEvents(true)
+    self:UpdateAuraSpellFilter()
+    self:GenerateColorOptions()
+    self:GenerateSpellSchoolColors()
 
     -- Update combat text engine CVars
-    x:UpdateCVar()
+    self:UpdateCVar()
 
     -- Register Slash Commands
-    x:RegisterChatCommand("xct", "OpenxCTCommand")
+    self:RegisterChatCommand("xct", "OpenxCTCommand")
 
-    x:EnableLibSinkSupport()
+    self:EnableLibSinkSupport()
 
     -- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
     AddonCompartmentFrame:RegisterAddon({
@@ -150,7 +144,7 @@ function x:OnInitialize()
         registerForAnyClick = true,
         notCheckable = true,
         func = function()
-            x.ToggleConfigTool()
+            x:ToggleConfigTool()
         end,
     })
 
@@ -168,11 +162,6 @@ function x:OnInitialize()
         damage = {},
         healing = {},
     }
-
-    -- Everything got Initialized, show Startup Text
-    if self.db.profile.showStartupText then
-        print("Loaded |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r. To configure, type: |cffFF0000/xct|r")
-    end
 end
 
 -- Need to create a handle to update frames when every other addon is done.
@@ -394,282 +383,6 @@ function x:CleanUpForLegion()
     local key = xCTSavedDB.profileKeys[UnitName("player") .. " - " .. GetRealmName()]
     xCTSavedDB.profiles[key] = {}
     ReloadUI()
-end
-
--- Spammy Spell Get/Set Functions
-local function SpamMergerGetSpellInterval(info)
-    local spellId = tonumber(info[#info])
-    return x.db.profile.spells.merge[spellId].interval or addon.merges[spellId].interval or 0
-end
-
-local function SpamMergerSetSpellInterval(info, value)
-    local spellId = tonumber(info[#info])
-    local db = x.db.profile.spells.merge[spellId] or {}
-    db.interval = value
-    x.db.profile.spells.merge[spellId] = db
-end
-
-local CLASS_NAMES = {
-    ["DEATHKNIGHT"] = {
-        [0] = 0, -- All Specs
-        [250] = 1, -- Blood
-        [251] = 2, -- Frost
-        [252] = 3, -- Unholy
-    },
-    ["DEMONHUNTER"] = {
-        [0] = 0, -- All Specs
-        [577] = 1, -- Havoc
-        [581] = 2, -- Vengeance
-    },
-    ["DRUID"] = {
-        [0] = 0, -- All Specs
-        [102] = 1, -- Balance
-        [103] = 2, -- Feral
-        [104] = 3, -- Guardian
-        [105] = 4, -- Restoration
-    },
-    ["EVOKER"] = {
-        [0] = 0, -- All Specs
-        [1467] = 1, -- Devastation
-        [1468] = 2, -- Preservation
-        [1473] = 3, -- Augmentation
-    },
-    ["HUNTER"] = {
-        [0] = 0, -- All Specs
-        [253] = 1, -- Beast Mastery
-        [254] = 2, -- Marksmanship
-        [255] = 3, -- Survival
-    },
-    ["MAGE"] = {
-        [0] = 0, -- All Specs
-        [62] = 1, -- Arcane
-        [63] = 2, -- Fire
-        [64] = 3, -- Frost
-    },
-    ["MONK"] = {
-        [0] = 0, -- All Specs
-        [268] = 1, -- Brewmaster
-        [269] = 2, -- Windwalker
-        [270] = 3, -- Mistweaver
-    },
-    ["PALADIN"] = {
-        [0] = 0, -- All Specs
-        [65] = 1, -- Holy
-        [66] = 2, -- Protection
-        [70] = 3, -- Retribution
-    },
-    ["PRIEST"] = {
-        [0] = 0, -- All Specs
-        [256] = 1, -- Discipline
-        [257] = 2, -- Holy
-        [258] = 3, -- Shadow
-    },
-    ["ROGUE"] = {
-        [0] = 0, -- All Specs
-        [259] = 1, -- Assassination
-        [260] = 2, -- Combat
-        [261] = 3, -- Subtlety
-    },
-    ["SHAMAN"] = {
-        [0] = 0, -- All Specs
-        [262] = 1, -- Elemental
-        [263] = 2, -- Enhancement
-        [264] = 3, -- Restoration
-    },
-    ["WARLOCK"] = {
-        [0] = 0, -- All Specs
-        [265] = 1, -- Affliction
-        [266] = 2, -- Demonology
-        [267] = 3, -- Destruction
-    },
-    ["WARRIOR"] = {
-        [0] = 0, -- All Specs
-        [71] = 1, -- Arms
-        [72] = 2, -- Fury
-        [73] = 3, -- Protection
-    },
-}
-
-local function cleanColors(colorTable)
-    for _, color in pairs(colorTable) do
-        if color.colors then
-            cleanColors(color.colors)
-        else
-            color.color = { color.default[1], color.default[2], color.default[3] }
-        end
-    end
-end
-
-function addon.LoadDefaultColors()
-    for _, settings in pairs(addon.defaults.profile.frames) do
-        if settings.colors then
-            cleanColors(settings.colors)
-        end
-    end
-    cleanColors(addon.defaults.profile.SpellColors)
-end
-
--- Gets spammy spells from the database and creates options
-function x:UpdateSpamSpells()
-    --[[ Update our saved DB
-  for id, item in pairs(addon.merges) do
-    if not self.db.profile.spells.merge[id] then
-        self.db.profile.spells.merge[id] = { interval = item.interval }
-    else
-        -- update merge setting in case they are outdated
-        self.db.profile.spells.merge[id].interval = item.interval
-        self.db.profile.spells.merge[id].desc = item.desc
-        self.db.profile.spells.merge[id].class = item.class
-    end
-  end]]
-
-    local spells = addon.optionsTable.args.spells.args.classList.args
-    local global = addon.optionsTable.args.spells.args.globalList.args
-    local racetab = addon.optionsTable.args.spells.args.raceList.args
-
-    for class, specs in pairs(CLASS_NAMES) do
-        spells[class].args = {}
-        for spec, index in pairs(specs) do
-            local name, _ = "All Specializations"
-            if index ~= 0 then
-                _, name = GetSpecializationInfoByID(spec)
-            end
-
-            spells[class].args["specHeader" .. index] = {
-                type = "header",
-                order = index * 2,
-                name = name,
-            }
-        end
-    end
-
-    -- Create a list of the categories (to be sorted)
-    local spamMergerGlobalSpellCategories = {}
-    local spamMergerRacialSpellCategories = {}
-    for _, entry in pairs(addon.merges) do
-        if not CLASS_NAMES[entry.category] then
-            if entry.desc == "Racial Spell" then
-                table.insert(
-                    spamMergerRacialSpellCategories,
-                    {category = entry.category, order = entry.categoryOrder}
-                )
-            else
-                table.insert(
-                    spamMergerGlobalSpellCategories,
-                    {category = entry.category, order = entry.categoryOrder}
-                )
-            end
-        end
-    end
-
-    -- Show Categories in insert order
-    local function sortTableByOrder(a, b)
-        return a.order < b.order
-    end
-    table.sort(spamMergerGlobalSpellCategories, sortTableByOrder)
-    table.sort(spamMergerRacialSpellCategories, sortTableByOrder)
-
-    -- Assume less than 1000 entries per category ;)
-    local spamMergerGlobalSpellOrders = {}
-    for i, category in pairs(spamMergerGlobalSpellCategories) do
-        local currentIndex = i * 1000
-
-        -- Create the Category Header
-        global[category.category] = {
-            type = "header",
-            order = currentIndex,
-            name = category.category,
-        }
-        spamMergerGlobalSpellOrders[category.category] = currentIndex + 1
-    end
-
-    local spamMergerRacialSpellOrders = {}
-    for i, rcategory in pairs(spamMergerRacialSpellCategories) do
-        local rcurrentIndex = i * 1000
-
-        -- Create the Category Header
-        racetab[rcategory.category] = {
-            type = "header",
-            order = rcurrentIndex,
-            name = rcategory.category,
-        }
-        spamMergerRacialSpellOrders[rcategory.category] = rcurrentIndex + 1
-    end
-
-    ------------------------------------------------------
-
-    -- Update the UI
-    for spellID, entry in pairs(addon.merges) do
-        local name = C_Spell.GetSpellName(spellID)
-        if name then
-            --TODO better code when i understand more the code
-            -- Create a useful description for the spell
-            local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
-            local desc = ""
-            if entry.desc and not CLASS_NAMES[entry.category] then
-                desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
-            end
-            desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
-
-            local firstSecondaryIdFound = true
-            for originalSpellId, replaceSpellId in pairs(addon.replaceSpellId) do
-                if replaceSpellId == spellID then
-                    if firstSecondaryIdFound then
-                        desc = desc .. "\n|cffFF0000Secondary ID(s)|r |cff798BDD" .. originalSpellId
-                        firstSecondaryIdFound = false
-                    else
-                        desc = desc .. ", " .. originalSpellId
-                    end
-                end
-            end
-            if not firstSecondaryIdFound then
-                desc = desc .. "|r"
-            end
-            -- TODO replacement spells without explicit merging entries are not displayed here
-
-            -- Add the spell to the UI
-            if CLASS_NAMES[entry.category] then
-                local index = CLASS_NAMES[entry.category][tonumber(entry.desc) or 0]
-                spells[entry.category].args[tostring(spellID)] = {
-                    order = index * 2 + 1,
-                    name = name,
-                    desc = desc,
-                    type = "range",
-                    min = 0,
-                    max = 5,
-                    step = 0.1,
-                    get = SpamMergerGetSpellInterval,
-                    set = SpamMergerSetSpellInterval,
-                }
-            elseif entry.desc == "Racial Spell" then
-                racetab[tostring(spellID)] = {
-                    order = spamMergerRacialSpellOrders[entry.category],
-                    name = name,
-                    desc = desc,
-                    type = "range",
-                    min = 0,
-                    max = 5,
-                    step = 0.1,
-                    get = SpamMergerGetSpellInterval,
-                    set = SpamMergerSetSpellInterval,
-                }
-                spamMergerRacialSpellOrders[entry.category] = spamMergerRacialSpellOrders[entry.category] + 1
-            else
-                global[tostring(spellID)] = {
-                    order = spamMergerGlobalSpellOrders[entry.category],
-                    name = name,
-                    desc = desc,
-                    type = "range",
-                    min = 0,
-                    max = 5,
-                    step = 0.1,
-                    get = SpamMergerGetSpellInterval,
-                    set = SpamMergerSetSpellInterval,
-                }
-                spamMergerGlobalSpellOrders[entry.category] = spamMergerGlobalSpellOrders[entry.category] + 1
-            end
-        end
-    end
 end
 
 local function getCP_1(info)
@@ -1413,7 +1126,7 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
 end
 
 -- Generate Colors for each Frame
-function x.GenerateColorOptions()
+function x:GenerateColorOptions()
     for name, settings in pairs(x.db.profile.frames) do
         local options = addon.optionsTable.args.Frames.args[name]
         if settings.colors then
@@ -1447,7 +1160,7 @@ function x.GenerateColorOptions()
     end
 end
 
-function x.GenerateSpellSchoolColors()
+function x:GenerateSpellSchoolColors()
     local options = addon.optionsTable.args.SpellSchools.args
     local settings = x.db.profile.SpellColors
     local index = 10
