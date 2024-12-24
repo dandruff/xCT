@@ -416,6 +416,7 @@ end
 local function FilterPlayerPower(value)
     return x.db.profile.spellFilter.filterPowerValue > value
 end
+
 local function FilterOutgoingDamage(value, critical)
     if critical and x.db.profile.spellFilter.filterOutgoingDamageCritEnabled then
         return x.db.profile.spellFilter.filterOutgoingDamageCritValue > value
@@ -448,10 +449,11 @@ local function TrackSpells()
     return x.db.profile.spellFilter.trackSpells
 end
 
-local function IsResourceDisabled(resource, amount)
+local function IsResourceDisabled(resource)
     if x.db.profile.frames["power"]["disableResource_" .. resource] ~= nil then
         return x.db.profile.frames["power"]["disableResource_" .. resource]
     end
+
     return true
 end
 
@@ -1040,6 +1042,7 @@ x.events = {
             x.lowHealth = false
         end
     end,
+
     ["UNIT_POWER_UPDATE"] = function(unit, powerType)
         -- Update for Class Combo Points
         UpdateUnitPower(unit, powerType)
@@ -1057,7 +1060,16 @@ x.events = {
             x.lowMana = false
         end
     end,
+
     ["RUNE_POWER_UPDATE"] = function(runeIndex)
+        if not ShowEnergyGains() then
+            return
+        end
+
+        if IsResourceDisabled("RUNES") then
+            return
+        end
+
         if not x.DeathKnightRunes then
             x.DeathKnightRunes = {}
         end
@@ -1068,10 +1080,9 @@ x.events = {
             if not runeReady then
                 x.DeathKnightRunes[runeIndex] = true
             end
-            return
         end
 
-        -- A Rune came off cooldown!
+        -- A Rune may have come off cooldown!
         -- IDK why but runeIndex is really really big (> 32k or even negative)
         local runeCount = 0
         for otherRuneIndex, wasOnCd in pairs(x.DeathKnightRunes) do
@@ -1092,6 +1103,7 @@ x.events = {
             )
         end
     end,
+
     ["PLAYER_REGEN_ENABLED"] = function()
         x.inCombat = false
         x:CombatStateChanged()
@@ -2422,7 +2434,7 @@ local CombatEventHandlers = {
             return
         end
 
-        if IsResourceDisabled(energy_type, args.amount) then
+        if IsResourceDisabled(energy_type) then
             return
         end
 
