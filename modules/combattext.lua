@@ -17,7 +17,7 @@ local _, addon = ...
 -- Shorten my handle
 local x = addon.engine
 
--- Set up values
+-- Set upvalues
 local sformat, mfloor, mabs, smatch, sgsub, tinsert, tremove =
     string.format,
     math.floor,
@@ -52,23 +52,6 @@ x.spellCache = {
     damage = {},
     healing = {},
 }
-
---[=====================================================[
- A Simple Managed Table Pool
---]=====================================================]
-local tpool = {}
-local function tnew()
-    if #tpool > 0 then
-        local t = tpool[1]
-        tremove(tpool, 1)
-        return t
-    else
-        return {}
-    end
-end
-local function tdel(t)
-    tinsert(tpool, t)
-end
 
 --[=====================================================[
  Power Type Definitions

@@ -422,9 +422,9 @@ end
 
 -- =====================================================
 -- AddOn:AddMessage(
---        framename,    [string] - the framename
+--        framename,  [string] - the framename
 --        message,    [string] - the pre-formatted message to be sent
---        colorname,    [string or table] - the name of the color OR a
+--        colorname,  [string or table] - the name of the color OR a
 --                                        table containing the color
 --                                        e.g. colorname={1,2,3} --r=1,b=2,g=3
 --    )
@@ -435,8 +435,8 @@ function x:AddMessage(framename, message, colorname)
     local frameOptions = x.db.profile.frames[framename]
 
     -- Make sure we have a valid frame
-    if not frameOptions then
-        x:Print("Frame name not found:", framename)
+    if not frameOptions or not frame then
+        x:Print("Frame not found:", framename)
         return
     end
 
@@ -444,34 +444,32 @@ function x:AddMessage(framename, message, colorname)
     local secondFrame = x.frames[secondFrameName]
     local secondFrameOptions = x.db.profile.frames[secondFrameName]
 
-    if frame then
-        -- Load the color
-        local r, g, b = 1, 1, 1
-        if type(colorname) == "table" then
-            r, g, b = unpack(colorname)
+    -- Load the color
+    local r, g, b = 1, 1, 1
+    if type(colorname) == "table" then
+        r, g, b = unpack(colorname)
+    else
+        local color = x.LookupColorByName(colorname)
+        if color then
+            r, g, b = unpack(color)
         else
-            local color = x.LookupColorByName(colorname)
-            if color then
-                r, g, b = unpack(color)
-            else
-                x:Print("FRAME:", framename, "  there is no color named:", colorname)
-                error("missing color")
-            end
+            x:Print("FRAME:", framename, "  there is no color named:", colorname)
+            error("missing color")
         end
+    end
 
-        -- make sure the frame is enabled
-        if frameOptions.enabledFrame then
-            -- check for forced color
-            if frameOptions.customColor then
-                r, g, b = unpack(frameOptions.fontColor or { 1, 1, 1 })
-            end
-            frame:AddMessage(message, r, g, b)
-        elseif secondFrame and secondFrameOptions.enabledFrame then
-            if secondFrameOptions.customColor then -- check for forced color
-                r, g, b = unpack(secondFrameOptions.fontColor or { 1, 1, 1 })
-            end
-            secondFrame:AddMessage(message, r, g, b)
+    -- make sure the frame is enabled
+    if frameOptions.enabledFrame then
+        -- check for forced color
+        if frameOptions.customColor then
+            r, g, b = unpack(frameOptions.fontColor or { 1, 1, 1 })
         end
+        frame:AddMessage(message, r, g, b)
+    elseif secondFrame and secondFrameOptions.enabledFrame then
+        if secondFrameOptions.customColor then -- check for forced color
+            r, g, b = unpack(secondFrameOptions.fontColor or { 1, 1, 1 })
+        end
+        secondFrame:AddMessage(message, r, g, b)
     end
 end
 
