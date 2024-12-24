@@ -1972,7 +1972,6 @@ local CombatEventHandlers = {
 
         local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
         if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-            -- TODO message ist kein amount ... ?!
             x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
         else
             x:AddMessage("general", message, color)
