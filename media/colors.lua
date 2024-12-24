@@ -12,14 +12,14 @@
  [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
-local ADDON_NAME, addon = ...
+local _, addon = ...
 
 -- Shorten my handle
 local x = addon.engine
 
 x.runecolors = {
-	[1] = {1, 0, 0},      -- Blood
-	[2] = {0, 0.5, 0},    -- Unholy
-	[3] = {0, 1, 1},      -- Frost
-	[4] = {0.8, 0.1, 1},  -- Death
+    [1] = { 1, 0, 0 }, -- Blood
+    [2] = { 0, 0.5, 0 }, -- Unholy
+    [3] = { 0, 1, 1 }, -- Frost
+    [4] = { 0.8, 0.1, 1 }, -- Death
 }

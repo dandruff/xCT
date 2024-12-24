@@ -144,20 +144,17 @@ function x:UpdateCombatTextEvents(enable)
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
         f:RegisterEvent("UNIT_PET")
         f:RegisterEvent("PLAYER_TARGET_CHANGED")
-        f:RegisterEvent("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW")
-
-        -- if runes
-        f:RegisterEvent("RUNE_POWER_UPDATE")
 
         -- if loot
         f:RegisterEvent("CHAT_MSG_LOOT")
         f:RegisterEvent("CHAT_MSG_CURRENCY")
         f:RegisterEvent("CHAT_MSG_MONEY")
 
-        -- damage and healing
-        --f:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
+        -- Class combo points / runes / ...
+        if x.player.class == 'DEATHKNIGHT' then
+            f:RegisterEvent("RUNE_POWER_UPDATE")
+        end
 
-        -- Class combo points
         f:RegisterEvent("UNIT_AURA")
         f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
         --f:RegisterEvent("UNIT_COMBO_POINTS")
@@ -550,7 +547,6 @@ local format_pet = sformat("|cff798BDD[%s]:|r %%s (%%s)", sgsub(BATTLE_PET_CAGE_
 
 local format_fade = "-%s"
 local format_gain = "+%s"
-local format_gain_rune = "%s +%s %s"
 local format_resist = "-%s |c%s(%s %s)|r"
 local format_energy = "+%s %s"
 local format_honor = sgsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
@@ -1068,15 +1064,55 @@ x.events = {
             x.lowMana = false
         end
     end,
-    ["RUNE_POWER_UPDATE"] = function(slot)
-        if slot < 0 then
+    ["RUNE_POWER_UPDATE"] = function(runeIndex)
+        if not x.DeathKnightRunes then
+            x.DeathKnightRunes = {}
+        end
+
+        if runeIndex >= 1 and runeIndex <= 6 then
+            -- A Rune has gone on cooldown
+            local _, _, runeReady = GetRuneCooldown(runeIndex)
+            if not runeReady then
+                x.DeathKnightRunes[runeIndex] = true
+            end
             return
         end
-        if GetRuneCooldown(slot) ~= 0 then
-            return
+
+        -- A Rune came off cooldown!
+        -- IDK why but runeIndex is really really big (> 32k or even negative)
+        local runeCount = 0
+        for otherRuneIndex, wasOnCd in pairs(x.DeathKnightRunes) do
+            if wasOnCd then
+                local _, _, runeReady = GetRuneCooldown(otherRuneIndex)
+                if runeReady then
+                    runeCount = runeCount + 1
+                    x.DeathKnightRunes[otherRuneIndex] = false
+                end
+            end
         end
-        local message = sformat(format_gain_rune, x.runeIcons[4], COMBAT_TEXT_RUNE_DEATH, x.runeIcons[4])
-        x:AddSpamMessage("power", RUNES, message, x.runecolors[4], 1)
+
+        if runeCount > 1 then
+            x:AddMessage(
+                "power",
+                sformat(
+                    "%s +%d Runes %s",
+                    x.runeIcons[4],
+                    runeCount,
+                    x.runeIcons[4]
+                ),
+                x.runecolors[4]
+            )
+        elseif runeCount > 0 then
+            x:AddMessage(
+                "power",
+                sformat(
+                    "%s +Rune %s",
+                    x.runeIcons[4],
+                    x.runeIcons[4]
+                ),
+                x.runecolors[4]
+            )
+        end
     end,
     ["PLAYER_REGEN_ENABLED"] = function()
         x.inCombat = false
@@ -1314,13 +1350,6 @@ x.events = {
 
         x:AddMessage("loot", o, { 1, 1, 0 }) -- yellow
     end,
-
-    ["SPELL_ACTIVATION_OVERLAY_GLOW_SHOW"] = function(spellID)
-        if spellID == 32379 then -- Shadow Word: Death
-            local name = C_Spell.GetSpellName(spellID)
-            --x:AddMessage("procs", name, "spellProc")
-        end
-    end,
 }
 
 -- =====================================================
@@ -1352,24 +1381,7 @@ local function formatNameHelper(name, enableColor, color, enableCustomColor, cus
 end
 
 -- Format Handlers for name
-local CLASS_LOOKUP = {
-    [1] = "DEATHKNIGHT",
-    [2] = "DEMONHUNTER",
-    [4] = "DRUID",
-    [8] = "EVOKER",
-    [16] = "HUNTER",
-    [32] = "MAGE",
-    [64] = "MONK",
-    [128] = "PALADIN",
-    [256] = "PRIEST",
-    [512] = "ROGUE",
-    [1024] = "SHAMAN",
-    [2048] = "WARLOCK",
-    [4096] = "WARRIOR",
-}
-
-local formatNameTypes
-formatNameTypes = {
+local formatNameTypes = {
     function(args, settings, isSource) -- [1] = Source/Destination Name
         local guid, name, color =
             isSource and args.sourceGUID or args.destGUID, isSource and args.sourceName or args.destName
