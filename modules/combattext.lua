@@ -202,78 +202,6 @@ local function ShowWarlockBurningEmbers()
     return false
 end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.player.class == "WARLOCK" and x.player.spec == 3 end
 
-local function IsResourceDisabled(resource)
-    if x.db.profile.frames["power"]["disableResource_" .. resource] ~= nil then
-        return x.db.profile.frames["power"]["disableResource_" .. resource]
-    end
-
-    return true
-end
-
-local function IsSpellFiltered(spellID)
-    local spell = x.db.profile.spellFilter.listSpells[tostring(spellID)]
-    if x.db.profile.spellFilter.whitelistSpells then
-        return not spell
-    end
-    return spell
-end
-local function IsBuffFiltered(name)
-    local spell = x.db.profile.spellFilter.listBuffs[name]
-    if x.db.profile.spellFilter.whitelistBuffs then
-        return not spell
-    end
-    return spell
-end
-local function IsDebuffFiltered(name)
-    local spell = x.db.profile.spellFilter.listDebuffs[name]
-    if x.db.profile.spellFilter.whitelistDebuffs then
-        return not spell
-    end
-    return spell
-end
-local function IsProcFiltered(name)
-    local spell = x.db.profile.spellFilter.listProcs[name]
-    if x.db.profile.spellFilter.whitelistProcs then
-        return not spell
-    end
-    return spell
-end
-local function IsItemFiltered(name)
-    local spell = x.db.profile.spellFilter.listItems[tostring(name)]
-    if x.db.profile.spellFilter.whitelistItems then
-        return not spell
-    end
-    return spell
-end
-
-local function IsDamageFiltered(name)
-    local spell = x.db.profile.spellFilter.listDamage[tostring(name)]
-    if x.db.profile.spellFilter.whitelistDamage then
-        return not spell
-    end
-    return spell
-end
-
-local function IsHealingFiltered(name)
-    local spell = x.db.profile.spellFilter.listHealing[tostring(name)]
-    if x.db.profile.spellFilter.whitelistHealing then
-        return not spell
-    end
-    return spell
-end
-
-local function SpamMergerInterval(spellId)
-    if x.db.profile.spells.enableMerger then
-        if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
-            return x.db.profile.spells.merge[spellId].interval
-        end
-
-        return x.db.profile.spells.mergeEverythingInterval
-    end
-
-    return 0
-end
-
 --[=====================================================[
  String Formatters
 --]=====================================================]
@@ -711,11 +639,13 @@ x.combat_events = {
     ["SPELL_ACTIVE"] = function(spellName)
         if not spellName then
             return
-        end -- trying to fix table index is nil error
+        end
+
         if x:Options_Filter_TrackSpells() then
             x.spellCache.procs[spellName] = true
         end
-        if IsProcFiltered(spellName) then
+
+        if x:Options_Filter_HideProc(spellName) then
             return
         end
 
@@ -820,7 +750,7 @@ x.events = {
             return
         end
 
-        if IsResourceDisabled("RUNES") then
+        if x:Options_Power_ShowResource("RUNES") then
             return
         end
 
@@ -935,7 +865,7 @@ x.events = {
         end
 
         -- Decode item string: (linkQuality for pets only)
-        local linkType, linkID, _, linkQuality = strsplit(":", itemString)
+        local linkType, linkID = strsplit(":", itemString)
 
         -- TODO: Clean up this debug scratch stuff
         --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
@@ -950,7 +880,7 @@ x.events = {
             x.spellCache.items[linkID] = true
         end
 
-        if IsItemFiltered(linkID) then
+        if x:Options_Filter_HideItem(linkID) then
             return
         end
 
@@ -1336,7 +1266,7 @@ local CombatEventHandlers = {
         -- Filter Outgoing Healing Spell or Amount
         -- TODO can shields crit?
         -- TODO no spam merger?
-        if IsSpellFiltered(args.spellId) or x:Options_Filter_OutgoingHealing_HideEvent(args.amount) then
+        if x:Options_Filter_HideSpell(args.spellId) or x:Options_Filter_OutgoingHealing_HideEvent(args.amount) then
             return
         end
 
@@ -1377,7 +1307,7 @@ local CombatEventHandlers = {
         end
 
         -- Filter Outgoing Healing Spell
-        if IsSpellFiltered(spellID) then
+        if x:Options_Filter_HideSpell(spellID) then
             return
         end
 
@@ -1410,7 +1340,7 @@ local CombatEventHandlers = {
         end
 
         -- Condensed Critical Merge
-        local spamMergerInterval = SpamMergerInterval(spellID)
+        local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
         if spamMergerInterval > 0 then
             merged = true
             if critical then
@@ -1517,7 +1447,7 @@ local CombatEventHandlers = {
         end
 
         -- Filter Outgoing Damage Spell
-        if IsSpellFiltered(spellID) then
+        if x:Options_Filter_HideSpell(spellID) then
             return
         end
 
@@ -1600,7 +1530,7 @@ local CombatEventHandlers = {
 
         local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
-        local spamMergerInterval = SpamMergerInterval(spellID)
+        local spamMergerInterval = X:Options_SpamMerger_SpellInterval(spellID)
         if (isSwing or isAutoShot) and spamMergerInterval > 0 then
             merged = true
             if outputFrame == "critical" then
@@ -1791,7 +1721,7 @@ local CombatEventHandlers = {
             x.spellCache.damage[args.spellId] = true
         end
 
-        if IsDamageFiltered(args.spellId or false) then
+        if args.spellId and x:Options_Filter_HideIncomingDamage(args.spellId) then
             return
         end
 
@@ -1919,7 +1849,7 @@ local CombatEventHandlers = {
             x.spellCache.healing[args.spellId] = true
         end
 
-        if IsHealingFiltered(args.spellId) then
+        if x:Options_Filter_HideIncomingHealing(args.spellId) then
             return
         end
 
@@ -1949,7 +1879,7 @@ local CombatEventHandlers = {
             x.spellCache.healing[args.spellId] = true
         end
 
-        if IsHealingFiltered(args.spellId) then
+        if x:Options_Filter_HideIncomingHealing(args.spellId) then
             return
         end
 
@@ -2025,12 +1955,13 @@ local CombatEventHandlers = {
 
         if isBuff then
             -- Stop if we're not showing buffs _or_ the spell's name is filtered
-            if not x:Options_General_ShowBuffGainsAndFades() or IsBuffFiltered(args.spellName) then
+            if not x:Options_General_ShowBuffGainsAndFades() or x:Options_Filter_HideBuff(args.spellName) then
                 return
             end
-        else -- Aura is debuff
+        else
+            -- Aura is a debuff
             -- Stop if we're not showing debuffs _or_ the spell's name is filtered
-            if not x:Options_General_ShowDebuffGainsAndFades() or IsDebuffFiltered(args.spellName) then
+            if not x:Options_General_ShowDebuffGainsAndFades() or x:Options_Filter_HideDebuff(args.spellName) then
                 return
             end
         end
@@ -2118,7 +2049,7 @@ local CombatEventHandlers = {
         end
 
         -- Check if spell is filtered
-        if IsSpellFiltered(spellId) then
+        if x:Options_Filter_HideSpell(spellId) then
             return
         end
 
@@ -2140,7 +2071,7 @@ local CombatEventHandlers = {
         end
 
         -- Check if incoming spell is filtered
-        if IsDamageFiltered(args.spellId) then
+        if x:Options_Filter_HideIncomingDamage(args.spellId) then
             return
         end
 
@@ -2217,7 +2148,7 @@ local CombatEventHandlers = {
             return
         end
 
-        if IsResourceDisabled(energy_type) then
+        if x:Options_Power_ShowResource(energy_type) then
             return
         end
 

@@ -194,6 +194,14 @@ function x:Options_Power_ShowEnergyTypes()
     return x.db.profile.frames.power.showEnergyType
 end
 
+function x:Options_Power_ShowResource(resource)
+    if x.db.profile.frames.power["disableResource_" .. resource] ~= nil then
+        return x.db.profile.frames.power["disableResource_" .. resource]
+    end
+
+    return true
+end
+
 
 -- Frame Special Effects (Procs)
 function x:Options_Procs_ShowProcs()
@@ -292,8 +300,20 @@ function x:Options_SpamMerger_DispellInterval()
     return x.db.profile.spells.mergeDispellInterval or 0
 end
 
+function x:Options_SpamMerger_SpellInterval(spellId)
+    if x.db.profile.spells.enableMerger then
+        if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
+            return x.db.profile.spells.merge[spellId].interval
+        end
 
--- Filters
+        return x.db.profile.spells.mergeEverythingInterval
+    end
+
+    return 0
+end
+
+
+-- Spell Filter
 function x:Options_Filter_PlayerPowerMinimumThreshold()
     return tostring(x.db.profile.spellFilter.filterPowerValue)
 end
@@ -380,4 +400,60 @@ end
 
 function x:Options_Filter_TrackSpells()
     return x.db.profile.spellFilter.trackSpells
+end
+
+function x:Options_Filter_HideBuff(name)
+    local hidden = x.db.profile.spellFilter.listBuffs[name]
+    if x.db.profile.spellFilter.whitelistBuffs then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideDebuff(name)
+    local hidden = x.db.profile.spellFilter.listDebuffs[name]
+    if x.db.profile.spellFilter.whitelistDebuffs then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideProc(name)
+    local hidden = x.db.profile.spellFilter.listProcs[name]
+    if x.db.profile.spellFilter.whitelistProcs then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideItem(name)
+    local hidden = x.db.profile.spellFilter.listItems[name]
+    if x.db.profile.spellFilter.whitelistItems then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideSpell(spellId)
+    local hidden = x.db.profile.spellFilter.listSpells[tostring(spellId)]
+    if x.db.profile.spellFilter.whitelistSpells then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideIncomingDamage(spellId)
+    local hidden = x.db.profile.spellFilter.listDamage[tostring(spellId)]
+    if x.db.profile.spellFilter.whitelistDamage then
+        return not hidden
+    end
+    return hidden
+end
+
+function x:Options_Filter_HideIncomingHealing(spellId)
+    local hidden = x.db.profile.spellFilter.listHealing[tostring(spellId)]
+    if x.db.profile.spellFilter.whitelistHealing then
+        return not hidden
+    end
+    return hidden
 end

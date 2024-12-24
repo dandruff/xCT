@@ -1223,7 +1223,7 @@ function x:InitOptionsTable()
             },
 
             listSpells = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r",
+                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Damage and Healing|r",
                 type = "group",
                 order = 50,
                 guiInline = false,
