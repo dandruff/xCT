@@ -18,7 +18,7 @@ local ADDON_NAME, addon = ...
 local LSM = LibStub("LibSharedMedia-3.0")
 
 -- Setup up values
-local ssub, sformat, sgsub, mfloor, random, table_insert, format =
+local ssub, sformat, sgsub, mfloor, random, tinsert, format =
     string.sub,
     string.format,
     string.gsub,
@@ -569,7 +569,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
             heap[mergeID][select(i, ...)] = select(i + 1, ...)
         end
         -- Insert into the stack - thats our queue for the display!
-        table_insert(stack, mergeID)
+        tinsert(stack, mergeID)
     end
 end
 
@@ -647,83 +647,107 @@ do
             if item and item.displayTime <= now and item.mergedCount > 0 then
                 item.displayTime = now
 
-                -- total as a string
-                local message
-
-                -- Abbreviate the merged total
-                if tonumber(item.mergedAmount) then
-                    message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
-                else
-                    message = tostring(item.mergedAmount)
-                end
-
-                --local format_mergeCount = "%s |cffFFFFFFx%s|r"
-                local strColor = "ffffff"
-
-                -- Add critical Prefix and Postfix
-                if frameName == "outgoing" or frameName == "critical" then
-                    if frameName == "critical" then
-                        message = format("%s%s%s", settings.critPrefix, message, settings.critPostfix)
+                if frameName == "outgoing" then
+                    -- Outgoing damage and healing (!)
+                    -- TODO separate heal + damage
+                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
+                        -- not enough to display
+                        item.mergedAmount = 0
+                        item.mergedCount = 0
                     end
-                    if settings.names[item.destinationController].nameType == 2 then
-                        if item.auto then
-                            fakeArgs.spellName = item.auto
-                            fakeArgs.spellSchool = 1 -- physical
-                        else
-                            fakeArgs.spellName = item.spellName
-                            fakeArgs.spellSchool = item.spellSchool
-                        end
-                        --fakeArgs.fake_sourceController = item.sourceController
-                        fakeArgs.fake_destinationController = item.destinationController
-                        if settings.fontJustify == "RIGHT" then
-                            message = x.formatName(fakeArgs, settings.names) .. " " .. message
-                        else
-                            message = message .. x.formatName(fakeArgs, settings.names)
-                        end
+                elseif frameName == "critical" then
+                    -- Outgoing damage and healing crits
+                    -- TODO separate heal + damage
+                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
+                        -- not enough to display
+                        item.mergedAmount = 0
+                        item.mergedCount = 0
                     end
-
-                -- Show healer name (colored)
                 elseif frameName == "healing" then
-                    --format_mergeCount = "%s |cffFFFF00x%s|r"
-                    strColor = "ffff00"
-
-                    if settings.names[item.sourceController].nameType == 1 then
-                        fakeArgs.sourceName = mergeID
-                        fakeArgs.sourceGUID = item.sourceGUID
-                        fakeArgs.fake_sourceController = item.sourceController
-                        if settings.fontJustify == "RIGHT" then
-                            message = x.formatName(fakeArgs, settings.names, true) .. " +" .. message
-                        else
-                            message = "+" .. message .. x.formatName(fakeArgs, settings.names, true)
-                        end
-                    else
-                        message = sformat("+%s", message)
+                    -- Incoming healing
+                    if x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, true) then
+                        -- not enough to display
+                        item.mergedAmount = 0
+                        item.mergedCount = 0
+                    end
+                elseif frameName == "damage" then
+                    -- Incoming damage
+                    if x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, true) then
+                        -- not enough to display
+                        item.mergedAmount = 0
+                        item.mergedCount = 0
                     end
                 end
 
-                -- Add Icons
-                local iconSize = settings.iconsEnabled and settings.iconsSize or -1
-                if mergeID == 6603 and not x:ShowAutoAttackIcons(frameName) then
-                    -- Disable the auto attack icon for the incoming damage frame
-                    iconSize = -1
+                if item.mergedAmount > 0 then
+                    -- total as a string
+                    local message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
+                    local strColor = "ffffff"
+
+                    -- Add critical Prefix and Postfix
+                    if frameName == "outgoing" or frameName == "critical" then
+                        if frameName == "critical" then
+                            message = format("%s%s%s", settings.critPrefix, message, settings.critPostfix)
+                        end
+                        if settings.names[item.destinationController].nameType == 2 then
+                            if item.auto then
+                                fakeArgs.spellName = item.auto
+                                fakeArgs.spellSchool = 1 -- physical
+                            else
+                                fakeArgs.spellName = item.spellName
+                                fakeArgs.spellSchool = item.spellSchool
+                            end
+                            --fakeArgs.fake_sourceController = item.sourceController
+                            fakeArgs.fake_destinationController = item.destinationController
+                            if settings.fontJustify == "RIGHT" then
+                                message = x.formatName(fakeArgs, settings.names) .. " " .. message
+                            else
+                                message = message .. x.formatName(fakeArgs, settings.names)
+                            end
+                        end
+
+                    -- Show healer name (colored)
+                    elseif frameName == "healing" then
+                        strColor = "ffff00"
+
+                        if settings.names[item.sourceController].nameType == 1 then
+                            fakeArgs.sourceName = mergeID
+                            fakeArgs.sourceGUID = item.sourceGUID
+                            fakeArgs.fake_sourceController = item.sourceController
+                            if settings.fontJustify == "RIGHT" then
+                                message = x.formatName(fakeArgs, settings.names, true) .. " +" .. message
+                            else
+                                message = "+" .. message .. x.formatName(fakeArgs, settings.names, true)
+                            end
+                        else
+                            message = sformat("+%s", message)
+                        end
+                    end
+
+                    -- Add Icons
+                    local iconSize = settings.iconsEnabled and settings.iconsSize or -1
+                    if mergeID == 6603 and not x:ShowAutoAttackIcons(frameName) then
+                        -- Disable the auto attack icon for the incoming damage frame
+                        iconSize = -1
+                    end
+
+                    message = x:GetSpellTextureFormatted(
+                        mergeID,
+                        message,
+                        iconSize,
+                        settings.spacerIconsEnabled,
+                        settings.fontJustify,
+                        strColor,
+                        true, -- Merge Override = true
+                        item.mergedCount
+                    )
+
+                    x:AddMessage(frameName, message, item.color)
+
+                    -- Clear all the old amounts, we dont need them anymore
+                    item.mergedAmount = 0
+                    item.mergedCount = 0
                 end
-
-                message = x:GetSpellTextureFormatted(
-                    mergeID,
-                    message,
-                    iconSize,
-                    settings.spacerIconsEnabled,
-                    settings.fontJustify,
-                    strColor,
-                    true, -- Merge Override = true
-                    item.mergedCount
-                )
-
-                x:AddMessage(frameName, message, item.color)
-
-                -- Clear all the old amounts, we dont need them anymore
-                item.mergedAmount = 0
-                item.mergedCount = 0
             end
         end
 

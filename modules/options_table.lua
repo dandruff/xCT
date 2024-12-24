@@ -721,7 +721,7 @@ function x:InitOptionsTable()
                         min = 0,
                         max = 5,
                         step = 0.1,
-                        get = get0_1,
+                        get = "Options_SpamMerger_IncomingHealingInterval",
                         set = set0_1,
                     },
 
@@ -733,7 +733,7 @@ function x:InitOptionsTable()
                         min = 0,
                         max = 5,
                         step = 0.1,
-                        get = get0_1,
+                        get = "Options_SpamMerger_IncomingDamageInterval",
                         set = set0_1,
                     },
 
@@ -751,7 +751,7 @@ function x:InitOptionsTable()
                         min = 0,
                         max = 5,
                         step = 0.1,
-                        get = get0_1,
+                        get = "Options_SpamMerger_DispellInterval",
                         set = set0_1,
                     },
 
@@ -769,7 +769,7 @@ function x:InitOptionsTable()
                         min = 0,
                         max = 5,
                         step = 0.1,
-                        get = get0_1,
+                        get = "Options_SpamMerger_PetAttackInterval",
                         set = set0_1,
                     },
 
@@ -825,7 +825,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Don't Merge Critical Hits Together",
                         desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
-                        get = get0_1,
+                        get = "Options_SpamMerger_DontMergeCriticals",
                         set = setSpecialCriticalOptions,
                         width = "full",
                     },
@@ -835,7 +835,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Merge Critical Hits with Outgoing",
                         desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
-                        get = get0_1,
+                        get = "Options_SpamMerger_MergeCriticalsWithOutgoing",
                         set = setSpecialCriticalOptions,
                         width = "full",
                     },
@@ -845,7 +845,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Merge Critical Hits by Themselves",
                         desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
-                        get = get0_1,
+                        get = "Options_SpamMerger_MergeCriticalsByThemselves",
                         set = setSpecialCriticalOptions,
                         width = "full",
                     },
@@ -855,7 +855,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Hide Merged Criticals",
                         desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
-                        get = get0_1,
+                        get = "Options_SpamMerger_HideMergedCriticals",
                         set = setSpecialCriticalOptions,
                         width = "full",
                     },
@@ -913,182 +913,164 @@ function x:InitOptionsTable()
                 order = 10,
                 guiInline = true,
                 args = {
-                    listSpacer0 = {
-                        type = "header",
+                    headerPlayerPower = {
                         order = 0,
+                        type = "header",
                         name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.)",
                     },
-
                     filterPowerValue = {
                         order = 1,
                         type = "input",
-                        name = "Incoming Power",
+                        name = "Minimum Threshold",
                         desc = "The minimal amount of player's power required in order for it to be displayed.",
+                        get = "Options_Filter_PlayerPowerMinimumThreshold",
                         set = setNumber2,
-                        get = getNumber2,
                     },
 
-                    listSpacer1 = {
-                        type = "header",
+                    headerOutgoingDamage = {
                         order = 10,
-                        name = "Outgoing Damage and Healing Threshold",
+                        type = "header",
+                        name = "Outgoing Damage",
                     },
-
                     filterOutgoingDamageValue = {
                         order = 11,
                         type = "input",
-                        name = "Outgoing Damage",
+                        name = "Minimum Threshold",
                         desc = "The minimal amount of damage required in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold",
                         set = setNumber2,
-                        get = getNumber2,
                     },
-
                     filterOutgoingDamageCritEnabled = {
-                        order = 13,
-                        type = "toggle",
-                        name = "Use Custom Criticals",
-                        desc = "Enable a different threshold for outgoing damage criticals.",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    filterOutgoingDamageCritValue = {
                         order = 12,
-                        type = "input",
-                        name = "Outgoing Damage (Critical)",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
-                        set = setNumber2,
-                        get = getNumber2,
-                        hidden = function(info)
-                            return not x.db.profile.spellFilter.filterOutgoingDamageCritEnabled
-                        end,
-                    },
-
-                    listSpacer_DamageHealingOutgoing = {
-                        type = "description",
-                        order = 14,
-                        name = "",
-                        fontSize = "small",
-                    },
-
-                    filterOutgoingHealingValue = {
-                        order = 15,
-                        type = "input",
-                        name = "Outgoing Healing",
-                        desc = "The minimal amount of healing required in order for it to be displayed.",
-                        set = setNumber2,
-                        get = getNumber2,
-                    },
-
-                    filterOutgoingHealingCritEnabled = {
-                        order = 17,
                         type = "toggle",
-                        name = "Use Custom Criticals",
-                        desc = "Enable a different threshold for outgoing healing criticals.",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for outgoing damage criticals.",
+                        get = "Options_Filter_OutgoingDamage_Critical_UseOwnThreshold",
                         set = set0_1,
-                        get = get0_1,
                     },
-
-                    filterOutgoingHealingCritValue = {
-                        order = 16,
+                    filterOutgoingDamageCritValue = {
+                        order = 13,
                         type = "input",
-                        name = "Outgoing Healing (Critical)",
-                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingDamage_Critical_MinimumThreshold",
                         set = setNumber2,
-                        get = getNumber2,
                         hidden = function(info)
-                            return not x.db.profile.spellFilter.filterOutgoingHealingCritEnabled
+                            return not x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold()
                         end,
                     },
 
-                    listSpacer2 = {
-                        type = "header",
+                    headerOutgoingHealing = {
                         order = 20,
-                        name = "Incoming Damage and Healing Threshold",
+                        type = "header",
+                        name = "Outgoing Healing",
                     },
-
-                    filterIncomingDamageValue = {
+                    filterOutgoingHealingValue = {
                         order = 21,
                         type = "input",
-                        name = "Incoming Damage",
-                        desc = "The minimal amount of damage required in order for it to be displayed.",
-                        set = setNumber2,
-                        get = getNumber2,
-                    },
-
-                    filterIncomingDamageCritEnabled = {
-                        order = 23,
-                        type = "toggle",
-                        name = "Use Custom Criticals",
-                        desc = "Enable a different threshold for incoming damage criticals.",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    filterIncomingDamageCritValue = {
-                        order = 22,
-                        type = "input",
-                        name = "Incoming Damage (Critical)",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
-                        set = setNumber2,
-                        get = getNumber2,
-                        hidden = function(info)
-                            return not x.db.profile.spellFilter.filterIncomingDamageCritEnabled
-                        end,
-                    },
-
-                    listSpacer_DamageHealingIncoming = {
-                        type = "description",
-                        order = 24,
-                        name = "",
-                        fontSize = "small",
-                    },
-
-                    filterIncomingHealingValue = {
-                        order = 25,
-                        type = "input",
-                        name = "Incoming Healing",
+                        name = "Minimum Threshold",
                         desc = "The minimal amount of healing required in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold",
                         set = setNumber2,
-                        get = getNumber2,
                     },
-
-                    filterIncomingHealingCritEnabled = {
-                        order = 27,
+                    filterOutgoingHealingCritEnabled = {
+                        order = 22,
                         type = "toggle",
-                        name = "Use Custom Criticals",
-                        desc = "Enable a different threshold for incoming healing criticals.",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for outgoing healing criticals.",
+                        get = "Options_Filter_OutgoingHealing_Critical_UseOwnThreshold",
                         set = set0_1,
-                        get = get0_1,
                     },
-
-                    filterIncomingHealingCritValue = {
-                        order = 26,
+                    filterOutgoingHealingCritValue = {
+                        order = 23,
                         type = "input",
-                        name = "Incoming Healing (Critical)",
+                        name = "Minimum Threshold for Crits",
                         desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingHealing_Critical_MinimumThreshold",
                         set = setNumber2,
-                        get = getNumber2,
                         hidden = function(info)
-                            return not x.db.profile.spellFilter.filterIncomingHealingCritEnabled
+                            return not x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold()
                         end,
                     },
-                },
-            },
 
-            spellFilter = {
-                name = "Track Spell History",
-                type = "group",
-                order = 21,
-                guiInline = true,
-                args = {
-                    trackSpells = {
-                        order = 1,
+                    headerIncomingDamage = {
+                        order = 30,
+                        type = "header",
+                        name = "Incoming Damage",
+                    },
+                    filterIncomingDamageValue = {
+                        order = 31,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of damage required in order for it to be displayed.",
+                        get = "Options_Filter_IncomingDamage_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterIncomingDamageCritEnabled = {
+                        order = 32,
                         type = "toggle",
-                        name = "Enable History",
-                        desc = "Track all the spells that you've seen. This will make filtering them out easier.",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for incoming damage criticals.",
+                        get = "Options_Filter_IncomingDamage_Critical_UseOwnThreshold",
                         set = set0_1,
-                        get = get0_1,
+                    },
+                    filterIncomingDamageCritValue = {
+                        order = 33,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_IncomingDamage_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function(info)
+                            return not x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerIncomingHealing = {
+                        order = 40,
+                        type = "header",
+                        name = "Incoming Healing",
+                    },
+                    filterIncomingHealingValue = {
+                        order = 41,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of healing required in order for it to be displayed.",
+                        get = "Options_Filter_IncomingHealing_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterIncomingHealingCritEnabled = {
+                        order = 42,
+                        type = "toggle",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for incoming healing criticals.",
+                        get = "Options_Filter_IncomingHealing_Critical_UseOwnThreshold",
+                        set = set0_1,
+                    },
+                    filterIncomingHealingCritValue = {
+                        order = 43,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_IncomingHealing_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function(info)
+                            return not x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerSpellTracker = {
+                        order = 50,
+                        type = "header",
+                        name = "Spell History",
+                    },
+                    trackSpells = {
+                        order = 51,
+                        type = "toggle",
+                        name = "Track all Spells",
+                        desc = "Track all the spells that you've seen. This will make filtering them out easier.",
+                        get = "Options_Filter_TrackSpells",
+                        set = set0_1,
                     },
                 },
             },

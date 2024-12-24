@@ -171,13 +171,6 @@ function x:UpdateCombatTextEvents(enable)
     end
 end
 
--- TODO woanders hin ?
-local function FormatOutgoingOverhealing(amount)
-    return x:Options_Outgoing_OverhealingPrefix()
-        .. amount
-        .. x:Options_Outgoing_OverhealingPostfix()
-end
-
 --[=====================================================[
  Fast Boolean Lookups
 --]=====================================================]
@@ -209,78 +202,6 @@ local function ShowWarlockBurningEmbers()
     return false
 end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.player.class == "WARLOCK" and x.player.spec == 3 end
 
-local function SpamMergerIncomingHealingInterval()
-    return x.db.profile.spells.mergeIncomingHealingInterval or 0
-end
-
-local function SpamMergerIncomingDamageInterval()
-    return x.db.profile.spells.mergeIncomingDamageInterval or 0
-end
-
-local function MergeMeleeSwings()
-    return x.db.profile.spells.mergeSwings
-end
-
-local function SpamMergerPetAttackInterval()
-    return x.db.profile.spells.mergePetInterval
-end
-
-local function MergeCriticalsWithOutgoing()
-    return x.db.profile.spells.mergeCriticalsWithOutgoing
-end
-
-local function MergeCriticalsByThemselves()
-    return x.db.profile.spells.mergeCriticalsByThemselves
-end
-
-local function MergeDontMergeCriticals()
-    return x.db.profile.spells.mergeDontMergeCriticals
-end
-
-local function MergeHideMergedCriticals()
-    return x.db.profile.spells.mergeHideMergedCriticals
-end
-
-local function MergeDispellInterval()
-    return x.db.profile.spells.mergeDispellInterval or 0
-end
-
-local function FilterPlayerPower(value)
-    return x.db.profile.spellFilter.filterPowerValue > value
-end
-
-local function FilterOutgoingDamage(value, critical)
-    if critical and x.db.profile.spellFilter.filterOutgoingDamageCritEnabled then
-        return x.db.profile.spellFilter.filterOutgoingDamageCritValue > value
-    else
-        return x.db.profile.spellFilter.filterOutgoingDamageValue > value
-    end
-end
-local function FilterOutgoingHealing(value, critical)
-    if critical and x.db.profile.spellFilter.filterOutgoingHealingCritEnabled then
-        return x.db.profile.spellFilter.filterOutgoingHealingCritValue > value
-    else
-        return x.db.profile.spellFilter.filterOutgoingHealingValue > value
-    end
-end
-local function FilterIncomingDamage(value, critical)
-    if critical and x.db.profile.spellFilter.filterIncomingDamageCritEnabled then
-        return x.db.profile.spellFilter.filterIncomingDamageCritValue > value
-    else
-        return x.db.profile.spellFilter.filterIncomingDamageValue > value
-    end
-end
-local function FilterIncomingHealing(value, critical)
-    if critical and x.db.profile.spellFilter.filterIncomingHealingCritEnabled then
-        return x.db.profile.spellFilter.filterIncomingHealingCritValue > value
-    else
-        return x.db.profile.spellFilter.filterIncomingHealingValue > value
-    end
-end
-local function TrackSpells()
-    return x.db.profile.spellFilter.trackSpells
-end
-
 local function IsResourceDisabled(resource)
     if x.db.profile.frames["power"]["disableResource_" .. resource] ~= nil then
         return x.db.profile.frames["power"]["disableResource_" .. resource]
@@ -289,9 +210,6 @@ local function IsResourceDisabled(resource)
     return true
 end
 
-local function IsBearForm()
-    return GetShapeshiftForm() == 1 and x.player.class == "DRUID"
-end
 local function IsSpellFiltered(spellID)
     local spell = x.db.profile.spellFilter.listSpells[tostring(spellID)]
     if x.db.profile.spellFilter.whitelistSpells then
@@ -428,7 +346,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
     -- Show and Format Overhealing values
     if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
-        message = message .. FormatOutgoingOverhealing(overhealing)
+        message = message .. x:Options_Outgoing_FormatOverhealing(overhealing)
     end
 
     -- Add names
@@ -464,7 +382,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing
     -- Show and Format Overhealing values
     if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
-        message = message .. FormatOutgoingOverhealing(overhealing)
+        message = message .. x:Options_Outgoing_FormatOverhealing(overhealing)
     end
 
     -- Add names
@@ -794,7 +712,7 @@ x.combat_events = {
         if not spellName then
             return
         end -- trying to fix table index is nil error
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.procs[spellName] = true
         end
         if IsProcFiltered(spellName) then
@@ -1028,7 +946,7 @@ x.events = {
         -- local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
         -- "|cffffffff|Hitem:119299::::::::100:252::::::|h[드레노어 기계공학의 비밀]|h|r을 만들었습니다."
 
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.items[linkID] = true
         end
 
@@ -1407,7 +1325,7 @@ local CombatEventHandlers = {
         end
 
         -- Keep track of spells that go by
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.spells[args.spellId] = true
         end
 
@@ -1415,8 +1333,10 @@ local CombatEventHandlers = {
             return
         end
 
-        -- Filter Ougoing Healing Spell or Amount
-        if IsSpellFiltered(args.spellId) or FilterOutgoingHealing(args.amount) then
+        -- Filter Outgoing Healing Spell or Amount
+        -- TODO can shields crit?
+        -- TODO no spam merger?
+        if IsSpellFiltered(args.spellId) or x:Options_Filter_OutgoingHealing_HideEvent(args.amount) then
             return
         end
 
@@ -1443,7 +1363,7 @@ local CombatEventHandlers = {
             args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
 
         -- Keep track of spells that go by
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.spells[spellID] = true
         end
 
@@ -1456,8 +1376,8 @@ local CombatEventHandlers = {
             return
         end
 
-        -- Filter Ougoing Healing Spell or Amount
-        if IsSpellFiltered(spellID) or FilterOutgoingHealing(amount) then
+        -- Filter Outgoing Healing Spell
+        if IsSpellFiltered(spellID) then
             return
         end
 
@@ -1494,7 +1414,7 @@ local CombatEventHandlers = {
         if spamMergerInterval > 0 then
             merged = true
             if critical then
-                if MergeCriticalsByThemselves() then
+                if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
                         outputFrame,
                         spellID,
@@ -1509,7 +1429,7 @@ local CombatEventHandlers = {
                         args:GetDestinationController()
                     )
                     return
-                elseif MergeCriticalsWithOutgoing() then
+                elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1523,7 +1443,7 @@ local CombatEventHandlers = {
                         "destinationController",
                         args:GetDestinationController()
                     )
-                elseif MergeHideMergedCriticals() then
+                elseif x:Options_SpamMerger_HideMergedCriticals() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1557,6 +1477,11 @@ local CombatEventHandlers = {
             end
         end
 
+        if x:Options_Filter_OutgoingHealing_HideEvent(amount, critical) then
+            return
+        end
+
+        -- TODO whats this?
         if args.event == "SPELL_PERIODIC_HEAL" then
             xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
         elseif args.event == "SPELL_HEAL" then
@@ -1578,7 +1503,7 @@ local CombatEventHandlers = {
         local outputFrame, outputColorType = "outgoing"
 
         -- Keep track of spells that go by (Don't track Swings or Environmental damage)
-        if not isEnvironmental and not isSwing and TrackSpells() then
+        if not isEnvironmental and not isSwing and x:Options_Filter_TrackSpells() then
             x.spellCache.spells[spellID] = true
         end
 
@@ -1588,6 +1513,11 @@ local CombatEventHandlers = {
 
         -- Check to see if this is a HoT
         if isDoT and not x:Options_Outgoing_ShowDots() then
+            return
+        end
+
+        -- Filter Outgoing Damage Spell
+        if IsSpellFiltered(spellID) then
             return
         end
 
@@ -1605,11 +1535,6 @@ local CombatEventHandlers = {
             amount = amount + (args.absorbed or 0)
         end
 
-        -- Filter Ougoing Damage Spell or Amount
-        if IsSpellFiltered(spellID) or FilterOutgoingDamage(amount) then
-            return
-        end
-
         -- Check to see if my pet is doing things
         if args:IsSourceMyPet() and (not x:Options_Outgoing_ShowKillCommandAsPlayerDamage() or spellID ~= 34026) then
             if not x:Options_Outgoing_ShowPetDamage() then
@@ -1620,7 +1545,7 @@ local CombatEventHandlers = {
                 return
             end
 
-            local spamMergerInterval = SpamMergerPetAttackInterval()
+            local spamMergerInterval = x:Options_SpamMerger_PetAttackInterval()
             if spamMergerInterval > 0 then
                 local icon = x.GetPetTexture() or ""
                 x:AddSpamMessage(
@@ -1676,10 +1601,10 @@ local CombatEventHandlers = {
         local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
         local spamMergerInterval = SpamMergerInterval(spellID)
-        if (isSwing or isAutoShot) and MergeMeleeSwings() then
+        if (isSwing or isAutoShot) and spamMergerInterval > 0 then
             merged = true
             if outputFrame == "critical" then
-                if MergeCriticalsByThemselves() then
+                if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
                         outputFrame,
                         spellID,
@@ -1692,7 +1617,7 @@ local CombatEventHandlers = {
                         args:GetDestinationController()
                     )
                     return
-                elseif MergeCriticalsWithOutgoing() then
+                elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1704,7 +1629,7 @@ local CombatEventHandlers = {
                         "destinationController",
                         args:GetDestinationController()
                     )
-                elseif MergeHideMergedCriticals() then
+                elseif x:Options_SpamMerger_HideMergedCriticals() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1735,7 +1660,7 @@ local CombatEventHandlers = {
         elseif not isSwing and not isAutoShot and spamMergerInterval > 0 then
             merged = true
             if critical then
-                if MergeCriticalsByThemselves() then
+                if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
                         outputFrame,
                         spellID,
@@ -1750,7 +1675,7 @@ local CombatEventHandlers = {
                         args:GetDestinationController()
                     )
                     return
-                elseif MergeCriticalsWithOutgoing() then
+                elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1764,7 +1689,7 @@ local CombatEventHandlers = {
                         "destinationController",
                         args:GetDestinationController()
                     )
-                elseif MergeHideMergedCriticals() then
+                elseif x:Options_SpamMerger_HideMergedCriticals() then
                     x:AddSpamMessage(
                         "outgoing",
                         spellID,
@@ -1799,6 +1724,12 @@ local CombatEventHandlers = {
             end
         end
 
+        if x:Options_Filter_OutgoingDamage_HideEvent(amount, critical) then
+            -- Amount is not high enough
+            return
+        end
+
+        local settings
         if critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
             settings = x.db.profile.frames["critical"]
             if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
@@ -1856,7 +1787,7 @@ local CombatEventHandlers = {
         local settings = x.db.profile.frames[outputFrame]
 
         -- Keep track of spells that go by
-        if args.spellId and TrackSpells() then
+        if args.spellId and x:Options_Filter_TrackSpells() then
             x.spellCache.damage[args.spellId] = true
         end
 
@@ -1864,13 +1795,11 @@ local CombatEventHandlers = {
             return
         end
 
+        local totalAmount = args.amount
+
         -- Check for resists
         if x:Options_IncomingDamage_ShowResistances() then
-            if
-                FilterIncomingDamage(args.amount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0))
-            then
-                return
-            end
+            totalAmount = totalAmount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)
 
             local resistedAmount, resistType, color
 
@@ -1903,10 +1832,6 @@ local CombatEventHandlers = {
                     message = resistType -- TODO: Add an option to still see how much was reisted on a full resist
                 end
             end
-        else
-            if FilterIncomingDamage(args.amount) then
-                return
-            end
         end
 
         -- If this is not a resist, then lets format it as normal
@@ -1931,7 +1856,7 @@ local CombatEventHandlers = {
             colorOverride = args.critical and "spellDamageTakenCritical" or "spellDamageTaken"
         end
 
-        local spamMergerInterval = SpamMergerIncomingDamageInterval()
+        local spamMergerInterval = x:Options_SpamMerger_IncomingDamageInterval()
         if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 outputFrame,
@@ -1946,6 +1871,10 @@ local CombatEventHandlers = {
                 "sourceController",
                 args:GetSourceController()
             )
+            return
+        end
+
+        if x:Options_Filter_IncomingDamage_HideEvent(totalAmount, args.critical) then
             return
         end
 
@@ -1986,7 +1915,7 @@ local CombatEventHandlers = {
             return
         end
 
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.healing[args.spellId] = true
         end
 
@@ -2012,11 +1941,11 @@ local CombatEventHandlers = {
     end,
 
     ["HealingIncoming"] = function(args)
-        local amount, isHoT, spellID = args.amount, args.prefix == "SPELL_PERIODIC", args.spellId
+        local amount, isHoT = args.amount, args.prefix == "SPELL_PERIODIC"
         local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
         local settings = x.db.profile.frames["healing"]
 
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache.healing[args.spellId] = true
         end
 
@@ -2035,7 +1964,7 @@ local CombatEventHandlers = {
         end
 
         -- Filter out small amounts
-        if amount <= 0 or FilterIncomingHealing(amount) then
+        if amount <= 0 then
             return
         end
 
@@ -2050,11 +1979,11 @@ local CombatEventHandlers = {
         -- format_gain = "+%s"
         local message = sformat(format_gain, x:Abbreviate(amount, "healing"))
 
-        local spamMergerInterval = SpamMergerIncomingHealingInterval()
+        local spamMergerInterval = x:Options_SpamMerger_IncomingHealingInterval()
         if spamMergerInterval > 0 then
             x:AddSpamMessage(
                 "healing",
-                args.sourceName or "Unknown Source Name",
+                args.sourceName or "Unknown Source",
                 amount,
                 "healingTaken",
                 spamMergerInterval,
@@ -2064,6 +1993,10 @@ local CombatEventHandlers = {
                 args:GetSourceController()
             )
         else
+            if x:Options_Filter_IncomingHealing_HideEvent(amount, args.critical) then
+                return
+            end
+
             -- Add names
             message = message .. x.formatName(args, settings.names, true)
 
@@ -2086,7 +2019,7 @@ local CombatEventHandlers = {
             args.auraType == "BUFF", args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_APPLIED_DOSE"
 
         -- Track the aura
-        if TrackSpells() then
+        if x:Options_Filter_TrackSpells() then
             x.spellCache[isBuff and "buffs" or "debuffs"][args.spellName] = true
         end
 
@@ -2242,7 +2175,7 @@ local CombatEventHandlers = {
             x.db.profile.frames.general.fontJustify
         )
 
-        local spamMergerInterval = MergeDispellInterval()
+        local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
         if spamMergerInterval > 0 then
             x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
         else
@@ -2274,13 +2207,13 @@ local CombatEventHandlers = {
             return
         end
 
-        if FilterPlayerPower(mabs(tonumber(args.amount))) then
+        if mabs(tonumber(args.amount)) <= tonumber(x:Options_Filter_PlayerPowerMinimumThreshold()) then
             return
         end
 
         local energy_type = x.POWER_LOOKUP[args.powerType]
         if not energy_type then
-            x:Print("unknown SpellEnergize power type: " .. args.powerType)
+            x:Print("Unknown SPELL_ENERGIZE power type: " .. args.powerType)
             return
         end
 

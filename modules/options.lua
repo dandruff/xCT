@@ -132,6 +132,12 @@ function x:Options_Outgoing_OverhealingPostfix()
     return x.db.profile.frames.outgoing.overhealingPostfix
 end
 
+function x:Options_Outgoing_FormatOverhealing(amount)
+    return x:Options_Outgoing_OverhealingPrefix()
+        .. amount
+        .. x:Options_Outgoing_OverhealingPostfix()
+end
+
 function x:Options_Outgoing_SubtractOverhealing()
     return x.db.profile.frames.outgoing.enableOverhealingSubtraction
 end
@@ -194,8 +200,8 @@ function x:Options_Procs_ShowProcs()
     return x.db.profile.frames.procs.enabledFrame
 end
 
--- Frame Loot, Currency & Money
 
+-- Frame Loot, Currency & Money
 function x:Options_Loot_ShowItems()
     return x.db.profile.frames.loot.showItems
 end
@@ -246,4 +252,132 @@ end
 
 function x:Options_Loot_EnableSpacerIcons()
     return x.db.profile.frames.loot.spacerIconsEnabled
+end
+
+
+-- Spam Merger
+function x:Options_SpamMerger_IncomingHealingInterval()
+    return x.db.profile.spells.mergeIncomingHealingInterval or 0
+end
+
+function x:Options_SpamMerger_IncomingDamageInterval()
+    return x.db.profile.spells.mergeIncomingDamageInterval or 0
+end
+
+function x:Options_SpamMerger_MergeMeleeSwings()
+    return x.db.profile.spells.mergeSwings
+end
+
+function x:Options_SpamMerger_PetAttackInterval()
+    return x.db.profile.spells.mergePetInterval
+end
+
+function x:Options_SpamMerger_MergeCriticalsWithOutgoing()
+    return x.db.profile.spells.mergeCriticalsWithOutgoing
+end
+
+function x:Options_SpamMerger_MergeCriticalsByThemselves()
+    return x.db.profile.spells.mergeCriticalsByThemselves
+end
+
+function x:Options_SpamMerger_DontMergeCriticals()
+    return x.db.profile.spells.mergeDontMergeCriticals
+end
+
+function x:Options_SpamMerger_HideMergedCriticals()
+    return x.db.profile.spells.mergeHideMergedCriticals
+end
+
+function x:Options_SpamMerger_DispellInterval()
+    return x.db.profile.spells.mergeDispellInterval or 0
+end
+
+
+-- Filters
+function x:Options_Filter_PlayerPowerMinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterPowerValue)
+end
+
+function x:Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterOutgoingDamageValue)
+end
+
+function x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold()
+    return x.db.profile.spellFilter.filterOutgoingDamageCritEnabled
+end
+
+function x:Options_Filter_OutgoingDamage_Critical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterOutgoingDamageCritValue)
+end
+
+function x:Options_Filter_OutgoingDamage_HideEvent(value, critical)
+    if critical and x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold() then
+        return tonumber(x:Options_Filter_OutgoingDamage_Critical_MinimumThreshold()) > value
+    end
+
+    return tonumber(x:Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold()) > value
+end
+
+function x:Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterOutgoingHealingValue)
+end
+
+function x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold()
+    return x.db.profile.spellFilter.filterOutgoingHealingCritEnabled
+end
+
+function x:Options_Filter_OutgoingHealing_Critical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterOutgoingHealingCritValue)
+end
+
+function x:Options_Filter_OutgoingHealing_HideEvent(value, critical)
+    if critical and x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold() then
+        return tonumber(x:Options_Filter_OutgoingHealing_Critical_MinimumThreshold()) > value
+    end
+
+    return tonumber(x:Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold()) > value
+end
+
+function x:Options_Filter_IncomingDamage_Noncritical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterIncomingDamageValue)
+end
+
+function x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold()
+    return x.db.profile.spellFilter.filterIncomingDamageCritEnabled
+end
+
+function x:Options_Filter_IncomingDamage_Critical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterIncomingDamageCritValue)
+end
+
+function x:Options_Filter_IncomingDamage_HideEvent(value, critical)
+    if critical and x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold() then
+        return tonumber(x:Options_Filter_IncomingDamage_Critical_MinimumThreshold()) > value
+    end
+
+    return tonumber(x:Options_Filter_IncomingDamage_Noncritical_MinimumThreshold()) > value
+end
+
+function x:Options_Filter_IncomingHealing_Noncritical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterIncomingHealingValue)
+end
+
+function x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold()
+    return x.db.profile.spellFilter.filterIncomingHealingCritEnabled
+end
+
+function x:Options_Filter_IncomingHealing_Critical_MinimumThreshold()
+    return tostring(x.db.profile.spellFilter.filterIncomingHealingCritValue)
+end
+
+function x:Options_Filter_IncomingHealing_HideEvent(value, critical)
+    if critical and x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold() then
+        return tonumber(x:Options_Filter_IncomingHealing_Critical_MinimumThreshold()) > value
+    end
+
+    return tonumber(x:Options_Filter_IncomingHealing_Noncritical_MinimumThreshold()) > value
+end
+
+function x:Options_Filter_TrackSpells()
+    return x.db.profile.spellFilter.trackSpells
 end
