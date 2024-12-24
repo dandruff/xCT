@@ -1091,26 +1091,11 @@ x.events = {
             end
         end
 
-        if runeCount > 1 then
+        if runeCount > 0 then
             x:AddMessage(
                 "power",
-                sformat(
-                    "%s +%d Runes %s",
-                    x.runeIcons[4],
-                    runeCount,
-                    x.runeIcons[4]
-                ),
-                x.runecolors[4]
-            )
-        elseif runeCount > 0 then
-            x:AddMessage(
-                "power",
-                sformat(
-                    "%s +Rune %s",
-                    x.runeIcons[4],
-                    x.runeIcons[4]
-                ),
-                x.runecolors[4]
+                sformat(format_energy, runeCount, _G["RUNES"] or ""),
+                x.LookupColorByName("color_RUNES") or { 1, 1, 1 }
             )
         end
     end,
@@ -2430,37 +2415,38 @@ local CombatEventHandlers = {
     end,
 
     ["SpellEnergize"] = function(args)
-        local amount, energy_type = args.amount, x.POWER_LOOKUP[args.powerType]
+        if not ShowEnergyGains() then
+            return
+        end
+
+        if FilterPlayerPower(mabs(tonumber(args.amount))) then
+            return
+        end
+
+        local energy_type = x.POWER_LOOKUP[args.powerType]
         if not energy_type then
             x:Print("unknown SpellEnergize power type: " .. args.powerType)
             return
         end
-        if not ShowEnergyGains() then
-            return
-        end
-        if FilterPlayerPower(mabs(tonumber(amount))) then
-            return
-        end
-        if IsResourceDisabled(energy_type, amount) then
+
+        if IsResourceDisabled(energy_type, args.amount) then
             return
         end
 
-        local color, message = nil, x:Abbreviate(amount, "power")
-        if energy_type == "ECLIPSE" then
-            if amount > 0 then
-                color = x.LookupColorByName("color_ECLIPSE_positive")
-            elseif amount < 0 then
-                color = x.LookupColorByName("color_ECLIPSE_negative")
-            end
+        local message = x:Abbreviate(args.amount, "power")
+        local color = x.LookupColorByName("color_" .. energy_type) or { 1, 1, 1 }
+
+        if energy_type == "RUNES" then
+            -- Something procced and a DK rune has gone off cooldown
+            -- Use the corresponding function for it, but we dont know which rune came off CD
+            x.events["RUNE_POWER_UPDATE"](0)
         else
-            color = x.LookupColorByName("color_" .. energy_type)
+            x:AddMessage(
+                "power",
+                sformat(format_energy, message, ShowEnergyTypes() and _G[energy_type] or ""),
+                color
+            )
         end
-
-        -- Default Color will be white
-        if not color then
-            color = { 1, 1, 1 }
-        end
-        x:AddMessage("power", sformat(format_energy, message, ShowEnergyTypes() and _G[energy_type] or ""), color)
     end,
 }
 
