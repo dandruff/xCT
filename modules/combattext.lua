@@ -449,13 +449,6 @@ local function TrackSpells()
 end
 
 local function IsResourceDisabled(resource, amount)
-    if resource == "ECLIPSE" then
-        if amount > 0 then
-            return x.db.profile.frames["power"].disableResource_ECLIPSE_positive
-        elseif amount < 0 then
-            return x.db.profile.frames["power"].disableResource_ECLIPSE_negative
-        end
-    end
     if x.db.profile.frames["power"]["disableResource_" .. resource] ~= nil then
         return x.db.profile.frames["power"]["disableResource_" .. resource]
     end
