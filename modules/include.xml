@@ -4,4 +4,5 @@
     <Script file="combattext.lua"/>
     <Script file="options.lua"/>
     <Script file="grid.lua"/>
+    <Script file="core.lua"/>
 </Ui>

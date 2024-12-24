@@ -9,4 +9,3 @@
 ## X-Curse-Project-ID: 35541
 
 include.xml
-core.lua
