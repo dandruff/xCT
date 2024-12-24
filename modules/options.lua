@@ -260,16 +260,24 @@ end
 
 
 -- Spam Merger
+function x:Options_SpamMerger_EnableSpamMerger()
+    return x.db.profile.spells.enableMerger
+end
+
+function x:Options_SpamMerger_EnableDebug()
+    return x.db.profile.spells.enableMergerDebug
+end
+
+function x:Options_SpamMerger_FallbackInterval()
+    return x.db.profile.spells.mergeEverythingInterval
+end
+
 function x:Options_SpamMerger_IncomingHealingInterval()
     return x.db.profile.spells.mergeIncomingHealingInterval or 0
 end
 
 function x:Options_SpamMerger_IncomingDamageInterval()
     return x.db.profile.spells.mergeIncomingDamageInterval or 0
-end
-
-function x:Options_SpamMerger_MergeMeleeSwings()
-    return x.db.profile.spells.mergeSwings
 end
 
 function x:Options_SpamMerger_PetAttackInterval()
@@ -297,15 +305,11 @@ function x:Options_SpamMerger_DispellInterval()
 end
 
 function x:Options_SpamMerger_SpellInterval(spellId)
-    if x.db.profile.spells.enableMerger then
-        if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
-            return x.db.profile.spells.merge[spellId].interval
-        end
-
-        return x.db.profile.spells.mergeEverythingInterval
+    if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
+        return x.db.profile.spells.merge[spellId].interval
     end
 
-    return 0
+    return x:Options_SpamMerger_FallbackInterval()
 end
 
 

@@ -158,9 +158,7 @@ function x:OnInitialize()
     ACD:SetDefaultSize(AddonName, 803, 560)
     AC:RegisterOptionsTable(AddonName, addon.optionsTable)
 
-    --[=====================================================[
-     Holds cached spells, buffs, and debuffs
-    --]=====================================================]
+    -- Holds cached spells, buffs, and debuffs
     x.spellCache = {
         buffs = {},
         debuffs = {},

@@ -1156,10 +1156,10 @@ function x.TestMoreUpdate(self, elapsed)
                     .. x.db.profile.frames.critical.critPostfix
                 local merged, multistriked = false, 0
                 if
-                    x.db.profile.spells.enableMerger
+                    x:Options_SpamMerger_EnableSpamMerger()
                     and (random(3) % 3 == 0)
                     and (
-                        x.db.profile.spells.mergeCriticalsWithOutgoing or x.db.profile.spells.mergeCriticalsByThemselves
+                        x:Options_SpamMerger_MergeCriticalsWithOutgoing() or x:Options_SpamMerger_MergeCriticalsByThemselves()
                     )
                 then
                     multistriked = random(17) + 1

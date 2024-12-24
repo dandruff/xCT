@@ -408,7 +408,7 @@ function x:GetSpellTextureFormatted(
         end
     end
 
-    if x.db.profile.spells.enableMergerDebug then
+    if x:Options_SpamMerger_EnableDebug() then
         message = message .. " |cffFFFFFF[|cffFF0000ID:|r|cffFFFF00" .. (spellID or "No ID") .. "|r]|r"
     end
 
@@ -1242,7 +1242,7 @@ local CombatEventHandlers = {
 
         -- Condensed Critical Merge
         local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
-        if spamMergerInterval > 0 then
+        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
             merged = true
             if critical then
                 if x:Options_SpamMerger_MergeCriticalsByThemselves() then
@@ -1377,7 +1377,7 @@ local CombatEventHandlers = {
             end
 
             local spamMergerInterval = x:Options_SpamMerger_PetAttackInterval()
-            if spamMergerInterval > 0 then
+            if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
                 local icon = x:GetPetTexture() or ""
                 x:AddSpamMessage(
                     outputFrame,
@@ -1392,9 +1392,11 @@ local CombatEventHandlers = {
                 )
                 return
             end
+
             if not x:Options_Critical_ShowPetCrits() then
                 critical = nil -- stupid spam fix for hunter pets
             end
+
             if isSwing then
                 spellID = 0 -- this will get fixed later
             end
@@ -1432,7 +1434,7 @@ local CombatEventHandlers = {
         local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
         local spamMergerInterval = X:Options_SpamMerger_SpellInterval(spellID)
-        if (isSwing or isAutoShot) and spamMergerInterval > 0 then
+        if (isSwing or isAutoShot) and x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
             merged = true
             if outputFrame == "critical" then
                 if x:Options_SpamMerger_MergeCriticalsByThemselves() then
@@ -1688,7 +1690,7 @@ local CombatEventHandlers = {
         end
 
         local spamMergerInterval = x:Options_SpamMerger_IncomingDamageInterval()
-        if spamMergerInterval > 0 then
+        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
             x:AddSpamMessage(
                 outputFrame,
                 args.spellId,
@@ -1775,7 +1777,7 @@ local CombatEventHandlers = {
         local message = sformat(format_gain, x:Abbreviate(amount, "healing"))
 
         local spamMergerInterval = x:Options_SpamMerger_IncomingHealingInterval()
-        if spamMergerInterval > 0 then
+        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
             x:AddSpamMessage(
                 "healing",
                 args.sourceName or "Unknown Source",
@@ -1972,7 +1974,8 @@ local CombatEventHandlers = {
         )
 
         local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
-        if spamMergerInterval > 0 then
+        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
+            -- TODO message ist kein amount ... ?!
             x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
         else
             x:AddMessage("general", message, color)

@@ -75,10 +75,10 @@ function x:InitOptionsTable()
                 order = 11,
                 type = "toggle",
                 name = "Startup Message",
-                get = function(info)
+                get = function()
                     return x.db.profile.showStartupText
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     x.db.profile.showStartupText = value
                 end,
             },
@@ -87,10 +87,10 @@ function x:InitOptionsTable()
                 type = "toggle",
                 name = "Hide Config in Combat",
                 desc = "This option helps prevent UI taints by closing the config when you enter combat.\n\n|cffFF8000Highly Recommended Enabled|r",
-                get = function(info)
+                get = function()
                     return x.db.profile.hideConfig
                 end,
-                set = function(info, value)
+                set = function(_, value)
                     x.db.profile.hideConfig = value
                     if not value then
                         StaticPopup_Show("XCT_PLUS_HIDE_IN_COMBAT")
@@ -671,7 +671,7 @@ function x:InitOptionsTable()
                         order = 2,
                         type = "toggle",
                         name = "Enable Spam Merger",
-                        get = get0_1,
+                        get = "Options_SpamMerger_EnableSpamMerger",
                         set = set0_1,
                     },
                     enableMergerDebug = {
@@ -679,7 +679,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Enable Debugging",
                         desc = "Adds the spell ID to each message.",
-                        get = get0_1,
+                        get = "Options_SpamMerger_EnableDebug",
                         set = set0_1,
                     },
 
@@ -703,7 +703,7 @@ function x:InitOptionsTable()
                         min = 0.1,
                         max = 5,
                         step = 0.1,
-                        get = get0_1,
+                        get = "Options_SpamMerger_FallbackInterval",
                         set = set0_1,
                     },
 
