@@ -941,7 +941,7 @@ function x.StartConfigMode()
     end
 end
 
-function x.EndConfigMode()
+function x:EndConfigMode()
     x.configuring = false
     if x.AlignGrid then
         x.AlignGrid:Hide()
@@ -1329,7 +1329,7 @@ function x.ToggleTestMode(hidePopup)
         return
     else
         if x.testing then
-            x.EndTestMode()
+            x:EndTestMode()
         else
             x.testing = true
 
@@ -1354,7 +1354,7 @@ function x.ToggleTestMode(hidePopup)
     end
 end
 
-function x.EndTestMode()
+function x:EndTestMode()
     x.testing = false
 
     -- Stop the Test more
@@ -1383,13 +1383,13 @@ StaticPopupDialogs["XCT_PLUS_CONFIGURING"] = {
     button2 = CANCEL,
     OnAccept = function()
         x:SaveAllFrames()
-        x.EndConfigMode()
+        x:EndConfigMode()
         x:ShowConfigTool()
         x:Print("Frames have been saved. Please fasten your seat belts.")
     end,
     OnCancel = function()
         x:UpdateFrames()
-        x.EndConfigMode()
+        x:EndConfigMode()
         x:ShowConfigTool()
     end,
     hideOnEscape = false,
@@ -1405,7 +1405,7 @@ StaticPopupDialogs["XCT_PLUS_TESTMODE"] = {
 
     button1 = "Stop",
     OnAccept = function()
-        x.EndTestMode()
+        x:EndTestMode()
         x:ShowConfigTool()
     end,
     hideOnEscape = true,
@@ -1495,7 +1495,7 @@ StaticPopupDialogs["XCT_PLUS_DB_CLEANUP_2"] = {
     OnAccept = Quit,
     OnCancel = function()
         x:Print("Resetting UI")
-        x.CleanUpForLegion()
+        x:CleanUpForLegion()
     end,
 
     -- Taint work around

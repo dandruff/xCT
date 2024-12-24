@@ -86,6 +86,6 @@ addon.PET_ICONS = {
 }
 
 -- GetPetIcon returns a textureID (a number), when it used to return a texture path
-function x.GetPetTexture()
+function x:GetPetTexture()
     return "Interface\\Icons\\" .. (addon.PET_ICONS[GetPetIcon()] or addon.DEFAULT_PET_ICON)
 end

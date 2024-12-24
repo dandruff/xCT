@@ -3402,14 +3402,6 @@ function x:InitOptionsTable()
                                 get = "Options_Outgoing_ShowHots",
                                 set = set2,
                             },
-                            enableOutAbsorbs = {
-                                order = 33,
-                                type = "toggle",
-                                name = "Show outgoing Heal-Absorbs",
-                                desc = "Show absorbs that you put on a friendly target.",
-                                get = "Options_Outgoing_ShowOutgoingHealAbsorbs",
-                                set = set2,
-                            },
                             enableOverhealing = {
                                 order = 34,
                                 type = "toggle",

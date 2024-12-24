@@ -67,10 +67,6 @@ function x:Options_Outgoing_ShowHealing()
     return x.db.profile.frames.outgoing.enableOutHeal
 end
 
-function x:Options_Outgoing_ShowOutgoingHealAbsorbs()
-    return x.db.profile.frames.outgoing.enableOutAbsorbs
-end
-
 function x:Options_Outgoing_ShowPetDamage()
     return x.db.profile.frames.outgoing.enablePetDmg
 end

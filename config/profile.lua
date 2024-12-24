@@ -434,7 +434,6 @@ addon.defaults = {
                 colors = {
                     ["melee"] = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
                     ["misstypesOut"] = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
-                    ["shieldOut"] = { enabled = false, desc = "Absorbs", default = { 0.60, 0.65, 1.00 } },
 
                     ["healing"] = {
                         enabled = false,
@@ -881,7 +880,6 @@ addon.defaults = {
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
                 colors = {
-                    ["shieldTaken"] = { enabled = false, desc = "Shields", default = { 0.60, 0.65, 1.00 } },
                     ["healingTaken"] = { enabled = false, desc = "Healing", default = { 0.10, 0.75, 0.10 } },
                     ["healingTakenCritical"] = {
                         enabled = false,

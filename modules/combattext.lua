@@ -18,11 +18,10 @@ local _, addon = ...
 local x = addon.engine
 
 -- Set upvalues
-local sformat, mfloor, mabs, smatch, sgsub, tinsert, tremove =
+local sformat, mfloor, mabs, sgsub, tinsert, tremove =
     string.format,
     math.floor,
     math.abs,
-    string.match,
     string.gsub,
     table.insert,
     table.remove
@@ -32,26 +31,9 @@ local function utf8_fc_upper(source)
     return string.utf8upper(string.utf8sub(source, 1, 1)) .. string.utf8sub(source, 2)
 end
 
-local xCP = LibStub and LibStub("xCombatParser-1.0", true)
-if not xCP then
-    x:Print("Something went wrong during initialization. Please reinstall and inform the author.")
-end
-
+local xCP = LibStub("xCombatParser-1.0", true)
 local L_AUTOATTACK = C_Spell.GetSpellName(6603)
 local L_KILLCOMMAND = C_Spell.GetSpellName(34026)
-
---[=====================================================[
- Holds cached spells, buffs, and debuffs
---]=====================================================]
-x.spellCache = {
-    buffs = {},
-    debuffs = {},
-    spells = {},
-    procs = {},
-    items = {},
-    damage = {},
-    healing = {},
-}
 
 --[=====================================================[
  Power Type Definitions
@@ -80,51 +62,32 @@ x.POWER_LOOKUP = {
 }
 
 --[=====================================================[
- Holds player info; use AddOn:UpdatePlayer()
---]=====================================================]
-x.player = {
-    unit = "player",
-    guid = nil, -- dont get the guid until we load
-    class = "unknown",
-    name = "unknown",
-    spec = -1,
-}
-
---[=====================================================[
  AddOn:UpdatePlayer()
     Updates important information about the player we
   need in order to correctly show combat text events.
 --]=====================================================]
 function x:UpdatePlayer()
     -- Set the Player's Current Playing Unit
-    if x.player.unit == "custom" then
-        --CombatTextSetActiveUnit(x.player.customUnit)
+    if UnitHasVehicleUI("player") then
+        x.player.unit = "vehicle"
     else
-        if UnitHasVehicleUI("player") then
-            x.player.unit = "vehicle"
-        else
-            x.player.unit = "player"
-        end
-        CombatTextSetActiveUnit(x.player.unit)
+        x.player.unit = "player"
     end
+    CombatTextSetActiveUnit(x.player.unit)
 
     -- Set Player's Information
-    x.player.name = UnitName("player")
-    x.player.class = select(2, UnitClass("player"))
-    x.player.guid = UnitGUID("player")
-
     local activeTalentGroup = GetActiveSpecGroup(false, false)
     x.player.spec = GetSpecialization(false, false, activeTalentGroup)
 end
 
 --[=====================================================[
  AddOn:UpdateCombatTextEvents(
-    enable,     [BOOL] - True tp enable the events, false to disable them
+    enable,     [BOOL] - Enable the events?
   )
     Registers or updates the combat text event frame
 --]=====================================================]
 function x:UpdateCombatTextEvents(enable)
-    local f = nil
+    local f
     if x.combatEvents then
         x.combatEvents:UnregisterAllEvents()
         f = x.combatEvents
@@ -348,16 +311,6 @@ else
 end
 
 --[=====================================================[
- Flag value for special pets and vehicles
---]=====================================================]
-local COMBATLOG_FILTER_MY_VEHICLE = bit.bor(
-    COMBATLOG_OBJECT_AFFILIATION_MINE,
-    COMBATLOG_OBJECT_REACTION_FRIENDLY,
-    COMBATLOG_OBJECT_CONTROL_PLAYER,
-    COMBATLOG_OBJECT_TYPE_GUARDIAN
-)
-
---[=====================================================[
  AddOn:OnCombatTextEvent(
     event,     [string] - Name of the event
     ...,       [multiple] - args from the combat event
@@ -367,22 +320,6 @@ local COMBATLOG_FILTER_MY_VEHICLE = bit.bor(
   to go.
 --]=====================================================]
 function x.OnCombatTextEvent(self, event, ...)
-    --[====[
-    if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-    local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = CombatLogGetCurrentEventInfo()
-    --local timestamp, eventType, hideCaster, sourceGUID, sourceName, sourceFlags, srcFlags2, destGUID, destName, destFlags, destFlags2 = select(1, ...)
-
-    if sourceGUID == x.player.guid or
-        ( sourceGUID == UnitGUID("pet") and x:Options_Outgoing_ShowPetDamage() ) or
-        sourceFlags == COMBATLOG_FILTER_MY_VEHICLE
-    then
-      if x.outgoing_events[eventType] then
-        x.outgoing_events[eventType](...)
-      end
-    end
-  else
-    ]====]
-
     if event == "COMBAT_TEXT_UPDATE" then
         local subevent, arg2, arg3 = ...
         if x.combat_events[subevent] then
@@ -807,6 +744,7 @@ x.events = {
             x:AddMessage("general", sformat(format_fade, LEAVING_COMBAT), "combatLeaving")
         end
     end,
+
     ["PLAYER_REGEN_DISABLED"] = function()
         x.inCombat = true
         x:CombatStateChanged()
@@ -814,6 +752,7 @@ x.events = {
             x:AddMessage("general", sformat(format_gain, ENTERING_COMBAT), "combatEntering")
         end
     end,
+
     ["UNIT_COMBO_POINTS"] = function()
         UpdateComboPoints()
     end,
@@ -821,6 +760,7 @@ x.events = {
     ["PLAYER_TARGET_CHANGED"] = function()
         UpdateComboPoints()
     end,
+
     ["UNIT_AURA"] = function(unit)
         UpdateAuraTracking(unit)
     end,
@@ -830,11 +770,13 @@ x.events = {
             x:UpdatePlayer()
         end
     end,
+
     ["UNIT_EXITING_VEHICLE"] = function(unit)
         if unit == "player" then
             x:UpdatePlayer()
         end
     end,
+
     ["PLAYER_ENTERING_WORLD"] = function()
         x:UpdatePlayer()
         --x:UpdateComboPointOptions()
@@ -977,10 +919,12 @@ x.events = {
             end
         end
     end,
+
     ["CHAT_MSG_CURRENCY"] = function(msg)
         if not x:Options_Loot_ShowCurency() then
             return
         end
+
         -- get currency from chat
         local currencyLink, amountGained = msg:match(format_currency_multiple)
         if not currencyLink then
@@ -1012,6 +956,7 @@ x.events = {
         -- Add the message
         x:AddMessage("loot", message, { 1, 1, 1 })
     end,
+
     ["CHAT_MSG_MONEY"] = function(msg)
         if not x:Options_Loot_ShowMoney() then
             return
@@ -1074,14 +1019,14 @@ local formatNameTypes = {
             isSource and args.sourceGUID or args.destGUID, isSource and args.sourceName or args.destName
 
         if settings.removeRealmName then
-            name = smatch(name, format_remove_realm) or name
+            name = string.match(name, format_remove_realm) or name
         end
 
         if settings.enableNameColor and not settings.enableCustomNameColor then
             if args.prefix == "ENVIRONMENTAL" then
                 color = x.spellColors[args.school or args.spellSchool or 1]
             else
-                if smatch(guid, "^Player") then
+                if string.match(guid, "^Player") then
                     local _, class = GetPlayerInfoByGUID(guid)
                     color = RAID_CLASS_COLORS[class or 0]
                 end
@@ -1243,50 +1188,6 @@ end
 --               The New Combat Handlers
 -- =====================================================
 local CombatEventHandlers = {
-    ["ShieldOutgoing"] = function(args)
-        local buffIndex = x.findBuffIndex(args.destName, args.spellName)
-        if not buffIndex then
-            return
-        end
-        local settings, value =
-            x.db.profile.frames["outgoing"], select(16, C_UnitAuras.GetBuffDataByIndex(args.destName, buffIndex))
-        if not value or value <= 0 then
-            return
-        end
-
-        -- Keep track of spells that go by
-        if x:Options_Filter_TrackSpells() then
-            x.spellCache.spells[args.spellId] = true
-        end
-
-        if not x:Options_Outgoing_ShowOutgoingHealAbsorbs() then
-            return
-        end
-
-        -- Filter Outgoing Healing Spell or Amount
-        -- TODO can shields crit?
-        -- TODO no spam merger?
-        if x:Options_Filter_HideSpell(args.spellId) or x:Options_Filter_OutgoingHealing_HideEvent(args.amount) then
-            return
-        end
-
-        -- Create the message
-        local message = x:Abbreviate(value, "outgoing")
-
-        message = x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            x.db.profile.frames.outgoing.iconsEnabled and x.db.profile.frames.outgoing.iconsSize or -1,
-            x.db.profile.frames.outgoing.spacerIconsEnabled,
-            x.db.profile.frames.outgoing.fontJustify
-        )
-
-        -- Add names
-        message = message .. x.formatName(args, settings.names, true)
-
-        x:AddMessage("outgoing", message, "shieldOut")
-    end,
-
     ["HealingOutgoing"] = function(args)
         local spellName, spellSchool = args.spellName, args.spellSchool
         local spellID, isHoT, amount, overhealing, merged =
@@ -1477,7 +1378,7 @@ local CombatEventHandlers = {
 
             local spamMergerInterval = x:Options_SpamMerger_PetAttackInterval()
             if spamMergerInterval > 0 then
-                local icon = x.GetPetTexture() or ""
+                local icon = x:GetPetTexture() or ""
                 x:AddSpamMessage(
                     outputFrame,
                     icon, -- use the pet icon as spell ID so that EVERYTHING from it will be merged together
@@ -1834,42 +1735,6 @@ local CombatEventHandlers = {
         x:AddMessage(outputFrame, message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
     end,
 
-    ["ShieldIncoming"] = function(args)
-        local buffIndex = x.findBuffIndex("player", args.spellName)
-        if not buffIndex then
-            return
-        end
-        local settings, value =
-            x.db.profile.frames["healing"], select(16, C_UnitAuras.GetBuffDataByIndex("player", buffIndex))
-        if not value or value <= 0 then
-            return
-        end
-
-        if x:Options_Filter_TrackSpells() then
-            x.spellCache.healing[args.spellId] = true
-        end
-
-        if x:Options_Filter_HideIncomingHealing(args.spellId) then
-            return
-        end
-
-        -- Create the message
-        local message = sformat(format_gain, x:Abbreviate(value, "healing"))
-
-        message = x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            x.db.profile.frames.healing.iconsEnabled and x.db.profile.frames.healing.iconsSize or -1,
-            x.db.profile.frames.healing.spacerIconsEnabled,
-            x.db.profile.frames.healing.fontJustify
-        )
-
-        -- Add names
-        message = message .. x.formatName(args, settings.names, true)
-
-        x:AddMessage("healing", message, "shieldTaken")
-    end,
-
     ["HealingIncoming"] = function(args)
         local amount, isHoT = args.amount, args.prefix == "SPELL_PERIODIC"
         local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
@@ -2177,77 +2042,6 @@ local BuffsOrDebuffs = {
     --["_AURA_REFRESH"] = true, -- I dont know how we should support this
 }
 
--- List from: http://www.tukui.org/addons/index.php?act=view&id=236
-local AbsorbList = {
-    -- All
-    [187805] = true, -- Etheralus (WoD Legendary Ring)
-    [173260] = true, -- Shield Tronic (Like a health potion from WoD)
-    [64413] = true, -- Val'anyr, Hammer of Ancient Kings (WotLK Legendary Mace)
-    [82626] = true, -- Grounded Plasma Shield (Engineer's Belt Enchant)
-    [207472] = true, -- Prydaz, Xavaric's Magnum Opus (Legendary Neck)
-
-    -- Coming Soon (Delicious Cake!) Trinket
-    --[231290] = true, -- TODO: Figure out which one is correct
-    [225723] = true, -- Both are Delicious Cake! from item:140793
-
-    -- Coming Soon (Royal Dagger Haft, item:140791)
-    -- Sooooo I dont think this one is going to be trackable... we will see when i can get some logs!
-    --[225720] = true, -- TODO: Figure out which is the real one
-    --[229457] = true, -- Sands of Time (From the Royal Dagger Haft tinket) (Its probably this one)
-    --[229333] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
-    --[225124] = true, -- Sands of Time (From the Royal Dagger Haft tinket)
-
-    -- Coming Soon -- Animated Exoskeleton (Trinket, Item: 140789)
-    [225033] = true, -- Living Carapace (Needs to be verified)
-
-    -- Coming Soon -- Infernal Contract (Trinket, Item: 140807)
-    [225140] = true, -- Infernal Contract (Needs to be verified)
-
-    -- Legion Trinkets
-    [221878] = true, -- Buff: Spirit Fragment        - Trinket[138222]: Vial of Nightmare Fog
-    [215248] = true, -- Buff: Shroud of the Naglfar  - Trinket[133645]: Naglfar Fare
-    [214366] = true, -- Buff: Crystalline Body       - Trinket[137338]: Shard of Rokmora
-    [214423] = true, -- Buff: Stance of the Mountain - Trinket[137344]: Talisman of the Cragshaper
-    [214971] = true, -- Buff: Gaseous Bubble         - Trinket[137369]: Giant Ornamental Pearl
-    [222479] = true, -- Buff: Shadowy Reflection     - Trinket[138225]: Phantasmal Echo
-
-    -- Death Knight
-    [48707] = true, -- Anti-Magic Shield
-    [77535] = true, -- Blood Shield
-    [116888] = true, -- Purgatory
-    [219809] = true, -- Tombstone
-
-    -- Demon Hunter
-    [227225] = true, -- Soul Barrier
-
-    -- Mage
-    [11426] = true, -- Ice Barrier
-
-    -- Monk
-    [116849] = true, -- Life Cocoon
-
-    -- Paladin
-    [203538] = true, -- Greater Blessing of Kings
-    [185676] = true, -- Protection Paladin T18 - 2 piece
-    [184662] = true, -- Shield of Vengeance
-
-    --Priest
-    [152118] = true, -- Clarity of Will
-    [17] = true, -- Power Word: Shield
-
-    -- Shaman
-    [145378] = true, -- Shaman T16 - 2 piece
-    [114893] = true, -- Stone Bulwark
-
-    -- Warlock
-    [108416] = true, -- Dark Pact
-    [108366] = true, -- Soul Leech
-
-    -- Warrior
-    [190456] = true, -- Ignore Pain
-    [112048] = true, -- Shield Barrier
-}
-
 function x.CombatLogEvent(args)
     -- Is the source someone we care about?
     if args.isPlayer or args:IsSourceMyVehicle() or x:Options_Outgoing_ShowPetDamage() and args:IsSourceMyPet() then
@@ -2274,8 +2068,6 @@ function x.CombatLogEvent(args)
             CombatEventHandlers.SpellDispel(args)
         elseif args.event == "SPELL_STOLEN" then
             CombatEventHandlers.SpellStolen(args)
-        elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
-            CombatEventHandlers.ShieldOutgoing(args)
         elseif args.suffix == "_ENERGIZE" then
             CombatEventHandlers.SpellEnergize(args)
         end
@@ -2307,8 +2099,6 @@ function x.CombatLogEvent(args)
 
                 x:AddMessage("general", message, "dispellDebuffs")
             end
-        elseif (args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_REFRESH") and AbsorbList[args.spellId] then
-            CombatEventHandlers.ShieldIncoming(args)
         end
     end
 
@@ -2316,16 +2106,4 @@ function x.CombatLogEvent(args)
     if args.atPlayer and BuffsOrDebuffs[args.suffix] then
         CombatEventHandlers.AuraIncoming(args)
     end
-end
-
-function x.findBuffIndex(unitName, spellName)
-    for i = 1, 40 do
-        -- TODO: Keep if we want to change this to find SpellID index
-        -- buffName, _, _, _, _, _, _, _, _ , spellId = C_UnitAuras.GetBuffDataByIndex(unitName, i)
-
-        if C_UnitAuras.GetBuffDataByIndex(unitName, i) == spellName then
-            return i
-        end
-    end
-    return false
 end

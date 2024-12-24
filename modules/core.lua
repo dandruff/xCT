@@ -119,7 +119,14 @@ function x:OnInitialize()
         return
     end
 
-    -- Perform xCT+ Update
+    -- A cache of infos about the player
+    x.player = {
+        unit = "player",
+        guid = UnitGUID("player"),
+        class = select(2, UnitClass("player")),
+        name = UnitName("player"),
+        spec = -1,
+    }
     x:UpdatePlayer()
 
     -- Delay updating frames until all other addons are loaded!
@@ -150,6 +157,19 @@ function x:OnInitialize()
     -- Register the Options
     ACD:SetDefaultSize(AddonName, 803, 560)
     AC:RegisterOptionsTable(AddonName, addon.optionsTable)
+
+    --[=====================================================[
+     Holds cached spells, buffs, and debuffs
+    --]=====================================================]
+    x.spellCache = {
+        buffs = {},
+        debuffs = {},
+        spells = {},
+        procs = {},
+        items = {},
+        damage = {},
+        healing = {},
+    }
 
     -- Everything got Initialized, show Startup Text
     if self.db.profile.showStartupText then
@@ -372,7 +392,7 @@ function x:CompatibilityLogic(existing)
     return true
 end
 
-function x.CleanUpForLegion()
+function x:CleanUpForLegion()
     local key = xCTSavedDB.profileKeys[UnitName("player") .. " - " .. GetRealmName()]
     xCTSavedDB.profiles[key] = {}
     ReloadUI()
@@ -1645,66 +1665,51 @@ end
 
 -- Process the slash command ('input' contains whatever follows the slash command)
 function x:OpenxCTCommand(input)
-    local lock = string.match(string.lower(input), "lock")
-    local save = string.match(string.lower(input), "save")
+    input = string.lower(input)
+
+    local lock = input == "lock"
+    local save = input == "save"
     if lock or save then
         if not x.configuring and save then
             return
-        elseif x.configuring then
+        end
+
+        if x.configuring then
             x:SaveAllFrames()
-            x.EndConfigMode()
-            print("|cffFF0000x|r|cffFFFF00CT+|r  Frames have been saved. Please fasten your seat belts.")
+            x:EndConfigMode()
+            x:Print("Frames have been saved. Please fasten your seat belts.")
             StaticPopup_Hide("XCT_PLUS_CONFIGURING")
         else
             x.ToggleConfigMode()
 
-            print("|cffFF0000x|r|cffFFFF00CT+|r  You are now free to move about the cabin.")
-            print("      |cffFF0000/xct lock|r      - Saves your frames.")
-            print("      |cffFF0000/xct cancel|r  - Cancels all your recent frame movements.")
+            x:Print("You are now free to move about the cabin.")
+            x:Print("/xct lock   - Saves the current frame positions.")
+            x:Print("/xct cancel - Resets the frame positions.")
         end
 
         -- return before you can do anything else
         return
     end
 
-    if string.match(string.lower(input), "cancel") then
+    if input == "cancel" then
         if x.configuring then
             x:UpdateFrames()
-            x.EndConfigMode()
-            print("|cffFF0000x|r|cffFFFF00CT+|r  canceled frame move.")
-        else
-            print("|cffFF0000x|r|cffFFFF00CT+|r  There is nothing to cancel.")
+            x:EndConfigMode()
+            x:Print("Reset the frame positions.")
         end
+
         return
     end
 
-    if string.lower(input) == "help" then
-        print("|cffFF0000x|r|cffFFFF00CT+|r  Commands:")
-        print("      |cffFF0000/xct lock|r - Locks and unlocks the frame movers.")
-        print("      |cffFF0000/xct test|r - Attempts to emulate combat.")
+    if input == "help" then
+        x:Print("Slash Commands:")
+        x:Print("/xct lock - Locks and unlocks the frame movers.")
+        x:Print("/xct test - Attempts to emulate combat.")
         return
     end
 
-    if string.lower(input) == "test" then
+    if input == "test" then
         x.ToggleTestMode(true)
-        return
-    end
-
-    if string.match(string.lower(input), "track %w+") then
-        local unit = string.match(string.lower(input), "%s(%w+)")
-
-        local name = UnitName(unit)
-
-        if not name then
-            x.player.unit = ""
-        else
-            x.player.unit = "custom"
-            CombatTextSetActiveUnit(unit)
-        end
-
-        x:UpdatePlayer()
-        print("|cffFF0000x|r|cffFFFF00CT+|r Tracking Unit:", name or "default")
-
         return
     end
 
@@ -1732,6 +1737,7 @@ function x:ShowConfigTool(...)
     if x.isConfigToolOpen then
         return
     end
+
     if x.inCombat and x.db.profile.hideConfig then
         if not shownWarning then
             print("|cffFF0000x|r|cffFFFF00CT+|r will open the |cff798BDDConfiguration Tool|r after combat.")
@@ -1808,20 +1814,4 @@ function x:HideConfigTool(wait)
 
     -- MORE!
     GameTooltip:Hide()
-end
-
--- Register Slash Commands
-x:RegisterChatCommand("track", "TrackxCTCommand")
-function x:TrackxCTCommand(input)
-    local name = UnitName("target")
-
-    if not name then
-        x.player.unit = ""
-    else
-        x.player.unit = "custom"
-        CombatTextSetActiveUnit("target")
-    end
-
-    x:UpdatePlayer()
-    print("|cffFF0000x|r|cffFFFF00CT+|r Tracking Unit:", name or "default")
 end
