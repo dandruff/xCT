@@ -324,9 +324,6 @@ end
 local function ShowEnergyGains()
     return x.db.profile.frames["power"].showEnergyGains
 end
-local function ShowPeriodicEnergyGains()
-    return x.db.profile.frames["power"].showPeriodicEnergyGains
-end
 local function ShowEnergyTypes()
     return x.db.profile.frames["power"].showEnergyType
 end

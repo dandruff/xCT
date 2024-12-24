@@ -6203,16 +6203,8 @@ addon.options.args["Frames"] = {
                         showEnergyGains = {
                             order = 1,
                             type = "toggle",
-                            name = "Show Energy Gains",
-                            desc = "Show instant energy gains.",
-                            get = get2,
-                            set = set2,
-                        },
-                        showPeriodicEnergyGains = {
-                            order = 2,
-                            type = "toggle",
-                            name = "Show Periodic Energy Gains",
-                            desc = "Show energy gained over time.",
+                            name = "Show Gains",
+                            desc = "Show instant gains of class resources (e. g. energy, runic power, ...).",
                             get = get2,
                             set = set2,
                         },

@@ -1108,7 +1108,6 @@ addon.defaults = {
 
                 -- special tweaks
                 ["showEnergyGains"] = true,
-                ["showPeriodicEnergyGains"] = true,
                 ["showEnergyType"] = true,
 
                 -- Generated from "Blizzard Add-On's/Constants.lua"
