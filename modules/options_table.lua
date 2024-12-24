@@ -18,19 +18,6 @@ local x = addon.engine
 function x:InitOptionsTable()
     local blankTable = {}
 
-    -- Store Localized Strings
-    -- To remove: "Changed Target!"
-    local XCT_CT_DEC_0, XCT_CT_DEC_1, XCT_CT_DEC_2 =
-        COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2
-    local XCT_CT_INC_1, XCT_CT_INC_3 = COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3
-
-    local PLAYER_NAME = UnitName("player")
-    local _, PLAYER_CLASS = UnitClass("player")
-
-    if PLAYER_CLASS then
-        PLAYER_NAME = ("|c%s%s|r"):format(RAID_CLASS_COLORS[PLAYER_CLASS].colorStr, PLAYER_NAME)
-    end
-
     -- Create the options table for AceConfig
     addon.optionsTable = {
         -- Add a place for the user to grab
@@ -141,7 +128,7 @@ function x:InitOptionsTable()
             hiddenObjectShhhhhh = {
                 order = 9001,
                 type = "description",
-                name = function(info)
+                name = function()
                     x:OnAddonConfigRefreshed()
                     return ""
                 end,
@@ -149,210 +136,25 @@ function x:InitOptionsTable()
         },
     }
 
-    -- A fast C-Var Update routine
-    local function isCVarsDisabled()
-        return x.db.profile.bypassCVars
-    end
-
-    x.cvar_update = function(force)
-        -- Floating Combat Text: Threat Changes
-        if not x.db.profile.blizzardFCT.CombatThreatChanges then
-            COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2 = "", "", ""
-            COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3 = "", ""
-        elseif COMBAT_THREAT_DECREASE_0 == "" then
-            -- only overwrite Blizzard constants if they were previously changed
-            COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2 =
-                XCT_CT_DEC_0, XCT_CT_DEC_1, XCT_CT_DEC_2
-            COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3 = XCT_CT_INC_1, XCT_CT_INC_3
-        end
-
-        if isCVarsDisabled() then
-            if force then
-                StaticPopup_Show("XCT_PLUS_FORCE_CVAR_UPDATE")
-            else
-                return
-            end
-        end
-
-        if x.db.profile.blizzardFCT.enableFloatingCombatText then
-            SetCVar("enableFloatingCombatText", 1)
-        else
-            SetCVar("enableFloatingCombatText", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextAllSpellMechanics then
-            SetCVar("floatingCombatTextAllSpellMechanics", 1)
-        else
-            SetCVar("floatingCombatTextAllSpellMechanics", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextAuras then
-            SetCVar("floatingCombatTextAuras", 1)
-        else
-            SetCVar("floatingCombatTextAuras", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatDamage then
-            SetCVar("floatingCombatTextCombatDamage", 1)
-        else
-            SetCVar("floatingCombatTextCombatDamage", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatDamageAllAutos then
-            SetCVar("floatingCombatTextCombatDamageAllAutos", 1)
-        else
-            SetCVar("floatingCombatTextCombatDamageAllAutos", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatHealing then
-            SetCVar("floatingCombatTextCombatHealing", 1)
-        else
-            SetCVar("floatingCombatTextCombatHealing", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatHealingAbsorbSelf then
-            SetCVar("floatingCombatTextCombatHealingAbsorbSelf", 1)
-        else
-            SetCVar("floatingCombatTextCombatHealingAbsorbSelf", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatHealingAbsorbTarget then
-            SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 1)
-        else
-            SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatLogPeriodicSpells then
-            SetCVar("floatingCombatTextCombatLogPeriodicSpells", 1)
-        else
-            SetCVar("floatingCombatTextCombatLogPeriodicSpells", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextCombatState then
-            SetCVar("floatingCombatTextCombatState", 1)
-        else
-            SetCVar("floatingCombatTextCombatState", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextComboPoints then
-            SetCVar("floatingCombatTextComboPoints", 1)
-        else
-            SetCVar("floatingCombatTextComboPoints", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextDamageReduction then
-            SetCVar("floatingCombatTextDamageReduction", 1)
-        else
-            SetCVar("floatingCombatTextDamageReduction", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextDodgeParryMiss then
-            SetCVar("floatingCombatTextDodgeParryMiss", 1)
-        else
-            SetCVar("floatingCombatTextDodgeParryMiss", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextEnergyGains then
-            SetCVar("floatingCombatTextEnergyGains", 1)
-        else
-            SetCVar("floatingCombatTextEnergyGains", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextFloatMode then
-            SetCVar("floatingCombatTextFloatMode", 1)
-        else
-            SetCVar("floatingCombatTextFloatMode", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextFriendlyHealers then
-            SetCVar("floatingCombatTextFriendlyHealers", 1)
-        else
-            SetCVar("floatingCombatTextFriendlyHealers", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextHonorGains then
-            SetCVar("floatingCombatTextHonorGains", 1)
-        else
-            SetCVar("floatingCombatTextHonorGains", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextLowManaHealth then
-            SetCVar("floatingCombatTextLowManaHealth", 1)
-        else
-            SetCVar("floatingCombatTextLowManaHealth", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextPeriodicEnergyGains then
-            SetCVar("floatingCombatTextPeriodicEnergyGains", 1)
-        else
-            SetCVar("floatingCombatTextPeriodicEnergyGains", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextPetMeleeDamage then
-            SetCVar("floatingCombatTextPetMeleeDamage", 1)
-        else
-            SetCVar("floatingCombatTextPetMeleeDamage", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextPetSpellDamage then
-            SetCVar("floatingCombatTextPetSpellDamage", 1)
-        else
-            SetCVar("floatingCombatTextPetSpellDamage", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextReactives then
-            SetCVar("floatingCombatTextReactives", 1)
-        else
-            SetCVar("floatingCombatTextReactives", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextRepChanges then
-            SetCVar("floatingCombatTextRepChanges", 1)
-        else
-            SetCVar("floatingCombatTextRepChanges", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextSpellMechanics then
-            SetCVar("floatingCombatTextSpellMechanics", 1)
-        else
-            SetCVar("floatingCombatTextSpellMechanics", 0)
-        end
-
-        if x.db.profile.blizzardFCT.floatingCombatTextSpellMechanicsOther then
-            SetCVar("floatingCombatTextSpellMechanicsOther", 1)
-        else
-            SetCVar("floatingCombatTextSpellMechanicsOther", 0)
-        end
-
-        SetCVar(
-            "floatingCombatTextCombatDamageDirectionalOffset",
-            x.db.profile.blizzardFCT.floatingCombatTextCombatDamageDirectionalOffset
-        )
-        SetCVar(
-            "floatingCombatTextCombatDamageDirectionalScale",
-            x.db.profile.blizzardFCT.floatingCombatTextCombatDamageDirectionalScale
-        )
-    end
-
     -- Generic Get/Set methods
     local function get0(info)
         return x.db.profile[info[#info - 1]][info[#info]]
     end
     local function set0(info, value)
         x.db.profile[info[#info - 1]][info[#info]] = value
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function set0_update(info, value)
         x.db.profile[info[#info - 1]][info[#info]] = value
         x:UpdateFrames()
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function get0_1(info)
         return x.db.profile[info[#info - 2]][info[#info]]
     end
     local function set0_1(info, value)
         x.db.profile[info[#info - 2]][info[#info]] = value
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function getColor0_1(info)
         return unpack(x.db.profile[info[#info - 2]][info[#info]] or blankTable)
@@ -365,36 +167,33 @@ function x:InitOptionsTable()
     end
     local function setTextIn0(info, value)
         x.db.profile[info[#info - 1]][info[#info]] = string.gsub(value, "||", "|")
-        x.cvar_update()
-    end
-    local function get1(info)
-        return x.db.profile.frames[info[#info - 1]][info[#info]]
+        x:UpdateCVar()
     end
     local function set1(info, value)
         x.db.profile.frames[info[#info - 1]][info[#info]] = value
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function set1_update(info, value)
         set1(info, value)
         x:UpdateFrames(info[#info - 1])
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function get2(info)
         return x.db.profile.frames[info[#info - 2]][info[#info]]
     end
     local function set2(info, value)
         x.db.profile.frames[info[#info - 2]][info[#info]] = value
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function set2_update(info, value)
         set2(info, value)
         x:UpdateFrames(info[#info - 2])
-        x.cvar_update()
+        x:UpdateCVar()
     end
     local function set2_update_force(info, value)
         set2(info, value)
         x:UpdateFrames(info[#info - 2])
-        x.cvar_update(true)
+        x:UpdateCVar(true)
     end
     local function getColor2(info)
         return unpack(x.db.profile.frames[info[#info - 2]][info[#info]] or blankTable)
@@ -410,9 +209,6 @@ function x:InitOptionsTable()
     end
     local function setTextIn2(info, value)
         x.db.profile.frames[info[#info - 2]][info[#info]] = string.gsub(value, "||", "|")
-    end
-    local function getNumber2(info)
-        return tostring(x.db.profile[info[#info - 2]][info[#info]])
     end
     local function setNumber2(info, value)
         if tonumber(value) then
@@ -955,7 +751,7 @@ function x:InitOptionsTable()
                         desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
                         get = "Options_Filter_OutgoingDamage_Critical_MinimumThreshold",
                         set = setNumber2,
-                        hidden = function(info)
+                        hidden = function()
                             return not x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold()
                         end,
                     },
@@ -988,7 +784,7 @@ function x:InitOptionsTable()
                         desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
                         get = "Options_Filter_OutgoingHealing_Critical_MinimumThreshold",
                         set = setNumber2,
-                        hidden = function(info)
+                        hidden = function()
                             return not x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold()
                         end,
                     },
@@ -1021,7 +817,7 @@ function x:InitOptionsTable()
                         desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
                         get = "Options_Filter_IncomingDamage_Critical_MinimumThreshold",
                         set = setNumber2,
-                        hidden = function(info)
+                        hidden = function()
                             return not x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold()
                         end,
                     },
@@ -1054,7 +850,7 @@ function x:InitOptionsTable()
                         desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
                         get = "Options_Filter_IncomingHealing_Critical_MinimumThreshold",
                         set = setNumber2,
-                        hidden = function(info)
+                        hidden = function()
                             return not x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold()
                         end,
                     },
@@ -1605,7 +1401,7 @@ function x:InitOptionsTable()
                 name = "General",
                 type = "group",
                 order = 1,
-                disabled = isCVarsDisabled,
+                disabled = "CVar_BypassCVars",
                 args = {
                     enableFloatingCombatText = {
                         order = 1,
@@ -1939,10 +1735,10 @@ function x:InitOptionsTable()
                         name = "Bypass CVar Updates (requires |cffFF0000/reload|r)",
                         desc = "Allows you to bypass xCT+'s CVar engine. This option might help if you have FCT enabled, but it disappears after awhile. Once you set your FCT options, enable this.\n\n|cffFF0000Changing this requires a UI Reload!|r",
                         width = "double",
-                        get = function(info)
+                        get = function()
                             return x.db.profile.bypassCVars
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             x.db.profile.bypassCVars = value
                         end,
                     },
@@ -2135,10 +1931,10 @@ function x:InitOptionsTable()
                         name = "Font",
                         desc = "Set the font of the frame.",
                         values = AceGUIWidgetLSMlists.font,
-                        get = function(info)
+                        get = function()
                             return miscFont
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             miscFont = value
                         end,
                     },
@@ -2149,7 +1945,7 @@ function x:InitOptionsTable()
                         width = "half",
                         func = function()
                             if miscFont then
-                                for framename, settings in pairs(x.db.profile.frames) do
+                                for _, settings in pairs(x.db.profile.frames) do
                                     settings.font = miscFont
                                 end
                                 x:UpdateFrames()
@@ -2177,10 +1973,10 @@ function x:InitOptionsTable()
                             ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
                             ["5THICKOUTLINE"] = "THICKOUTLINE",
                         },
-                        get = function(info)
+                        get = function()
                             return miscFontOutline
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             miscFontOutline = value
                         end,
                     },
@@ -2192,7 +1988,7 @@ function x:InitOptionsTable()
                         width = "half",
                         func = function()
                             if miscFontOutline then
-                                for framename, settings in pairs(x.db.profile.frames) do
+                                for _, settings in pairs(x.db.profile.frames) do
                                     settings.fontOutline = miscFontOutline
                                 end
                                 x:UpdateFrames()
@@ -2211,10 +2007,10 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Use Custom Fade",
                         desc = "Allows you to customize the fade time of each frame.",
-                        get = function(info)
+                        get = function()
                             return miscEnableCustomFade
                         end,
-                        set = function(info, value)
+                        set = function(_, value)
                             miscEnableCustomFade = value
                         end,
                     },
@@ -2226,7 +2022,7 @@ function x:InitOptionsTable()
                         width = "half",
                         func = function()
                             if miscEnableCustomFade ~= nil then
-                                for framename, settings in pairs(x.db.profile.frames) do
+                                for _, settings in pairs(x.db.profile.frames) do
                                     if settings.enableCustomFade ~= nil then
                                         settings.enableCustomFade = miscEnableCustomFade
                                     end
@@ -3418,7 +3214,7 @@ function x:InitOptionsTable()
                                 desc = "Subtract the overhealed amount from the Total Amount",
                                 get = "Options_Outgoing_SubtractOverhealing",
                                 set = set2,
-                                disabled = function(info)
+                                disabled = function()
                                     return not x.db.profile.frames.outgoing.enabledFrame
                                         or not x.db.profile.frames.outgoing.enableOverhealing
                                 end,
@@ -3437,7 +3233,7 @@ function x:InitOptionsTable()
                                 desc = "Splits overhealing into its own section. Example: +43,000 (O: 12,000)",
                                 get = "Options_Outgoing_FormatOverhealing",
                                 set = set2,
-                                disabled = function(info)
+                                disabled = function()
                                     return not x.db.profile.frames.outgoing.enabledFrame
                                         or not x.db.profile.frames.outgoing.enableOverhealing
                                 end,
@@ -3449,7 +3245,7 @@ function x:InitOptionsTable()
                                 desc = "Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
                                 get = "Options_Outgoing_OverhealingPrefix",
                                 set = setTextIn2,
-                                disabled = function(info)
+                                disabled = function()
                                     return not x.db.profile.frames.outgoing.enabledFrame
                                         or not x.db.profile.frames.outgoing.enableOverhealing
                                         or not x.db.profile.frames.outgoing.enableOverhealingFormat
@@ -3462,7 +3258,7 @@ function x:InitOptionsTable()
                                 desc = "Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
                                 get = "Options_Outgoing_OverhealingPostfix",
                                 set = setTextIn2,
-                                disabled = function(info)
+                                disabled = function()
                                     return not x.db.profile.frames.outgoing.enabledFrame
                                         or not x.db.profile.frames.outgoing.enableOverhealing
                                         or not x.db.profile.frames.outgoing.enableOverhealingFormat
@@ -7151,4 +6947,191 @@ function x:InitOptionsTable()
             },
         },
     }
+end
+
+function x:UpdateCVar(force)
+    -- Store Localized Strings
+    -- To remove: "Changed Target!"
+    local XCT_CT_DEC_0, XCT_CT_DEC_1, XCT_CT_DEC_2 =
+        COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2
+    local XCT_CT_INC_1, XCT_CT_INC_3 = COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3
+
+
+    -- Floating Combat Text: Threat Changes
+    if not x.db.profile.blizzardFCT.CombatThreatChanges then
+        COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2 = "", "", ""
+        COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3 = "", ""
+    elseif COMBAT_THREAT_DECREASE_0 == "" then
+        -- only overwrite Blizzard constants if they were previously changed
+        COMBAT_THREAT_DECREASE_0, COMBAT_THREAT_DECREASE_1, COMBAT_THREAT_DECREASE_2 =
+            XCT_CT_DEC_0, XCT_CT_DEC_1, XCT_CT_DEC_2
+        COMBAT_THREAT_INCREASE_1, COMBAT_THREAT_INCREASE_3 = XCT_CT_INC_1, XCT_CT_INC_3
+    end
+
+    if x:CVar_BypassCVars() then
+        if force then
+            StaticPopup_Show("XCT_PLUS_FORCE_CVAR_UPDATE")
+        else
+            return
+        end
+    end
+
+    if x.db.profile.blizzardFCT.enableFloatingCombatText then
+        SetCVar("enableFloatingCombatText", 1)
+    else
+        SetCVar("enableFloatingCombatText", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextAllSpellMechanics then
+        SetCVar("floatingCombatTextAllSpellMechanics", 1)
+    else
+        SetCVar("floatingCombatTextAllSpellMechanics", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextAuras then
+        SetCVar("floatingCombatTextAuras", 1)
+    else
+        SetCVar("floatingCombatTextAuras", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatDamage then
+        SetCVar("floatingCombatTextCombatDamage", 1)
+    else
+        SetCVar("floatingCombatTextCombatDamage", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatDamageAllAutos then
+        SetCVar("floatingCombatTextCombatDamageAllAutos", 1)
+    else
+        SetCVar("floatingCombatTextCombatDamageAllAutos", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatHealing then
+        SetCVar("floatingCombatTextCombatHealing", 1)
+    else
+        SetCVar("floatingCombatTextCombatHealing", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatHealingAbsorbSelf then
+        SetCVar("floatingCombatTextCombatHealingAbsorbSelf", 1)
+    else
+        SetCVar("floatingCombatTextCombatHealingAbsorbSelf", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatHealingAbsorbTarget then
+        SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 1)
+    else
+        SetCVar("floatingCombatTextCombatHealingAbsorbTarget", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatLogPeriodicSpells then
+        SetCVar("floatingCombatTextCombatLogPeriodicSpells", 1)
+    else
+        SetCVar("floatingCombatTextCombatLogPeriodicSpells", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextCombatState then
+        SetCVar("floatingCombatTextCombatState", 1)
+    else
+        SetCVar("floatingCombatTextCombatState", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextComboPoints then
+        SetCVar("floatingCombatTextComboPoints", 1)
+    else
+        SetCVar("floatingCombatTextComboPoints", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextDamageReduction then
+        SetCVar("floatingCombatTextDamageReduction", 1)
+    else
+        SetCVar("floatingCombatTextDamageReduction", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextDodgeParryMiss then
+        SetCVar("floatingCombatTextDodgeParryMiss", 1)
+    else
+        SetCVar("floatingCombatTextDodgeParryMiss", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextEnergyGains then
+        SetCVar("floatingCombatTextEnergyGains", 1)
+    else
+        SetCVar("floatingCombatTextEnergyGains", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextFloatMode then
+        SetCVar("floatingCombatTextFloatMode", 1)
+    else
+        SetCVar("floatingCombatTextFloatMode", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextFriendlyHealers then
+        SetCVar("floatingCombatTextFriendlyHealers", 1)
+    else
+        SetCVar("floatingCombatTextFriendlyHealers", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextHonorGains then
+        SetCVar("floatingCombatTextHonorGains", 1)
+    else
+        SetCVar("floatingCombatTextHonorGains", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextLowManaHealth then
+        SetCVar("floatingCombatTextLowManaHealth", 1)
+    else
+        SetCVar("floatingCombatTextLowManaHealth", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextPeriodicEnergyGains then
+        SetCVar("floatingCombatTextPeriodicEnergyGains", 1)
+    else
+        SetCVar("floatingCombatTextPeriodicEnergyGains", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextPetMeleeDamage then
+        SetCVar("floatingCombatTextPetMeleeDamage", 1)
+    else
+        SetCVar("floatingCombatTextPetMeleeDamage", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextPetSpellDamage then
+        SetCVar("floatingCombatTextPetSpellDamage", 1)
+    else
+        SetCVar("floatingCombatTextPetSpellDamage", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextReactives then
+        SetCVar("floatingCombatTextReactives", 1)
+    else
+        SetCVar("floatingCombatTextReactives", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextRepChanges then
+        SetCVar("floatingCombatTextRepChanges", 1)
+    else
+        SetCVar("floatingCombatTextRepChanges", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextSpellMechanics then
+        SetCVar("floatingCombatTextSpellMechanics", 1)
+    else
+        SetCVar("floatingCombatTextSpellMechanics", 0)
+    end
+
+    if x.db.profile.blizzardFCT.floatingCombatTextSpellMechanicsOther then
+        SetCVar("floatingCombatTextSpellMechanicsOther", 1)
+    else
+        SetCVar("floatingCombatTextSpellMechanicsOther", 0)
+    end
+
+    SetCVar(
+        "floatingCombatTextCombatDamageDirectionalOffset",
+        x.db.profile.blizzardFCT.floatingCombatTextCombatDamageDirectionalOffset
+    )
+    SetCVar(
+        "floatingCombatTextCombatDamageDirectionalScale",
+        x.db.profile.blizzardFCT.floatingCombatTextCombatDamageDirectionalScale
+    )
 end

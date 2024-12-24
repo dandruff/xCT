@@ -59,7 +59,7 @@ local function RefreshConfig()
     x.GenerateColorOptions()
 
     -- Update combat text engine CVars
-    x.cvar_update(true)
+    x:UpdateCVar(true)
 
     collectgarbage()
 end
@@ -137,7 +137,7 @@ function x:OnInitialize()
     x.GenerateSpellSchoolColors()
 
     -- Update combat text engine CVars
-    x.cvar_update()
+    x:UpdateCVar()
 
     -- Register Slash Commands
     x:RegisterChatCommand("xct", "OpenxCTCommand")
@@ -181,7 +181,7 @@ frameUpdate:RegisterEvent("PLAYER_ENTERING_WORLD")
 frameUpdate:SetScript("OnEvent", function(self)
     self:UnregisterEvent("PLAYER_ENTERING_WORLD")
     x:UpdateFrames()
-    x.cvar_update()
+    x:UpdateCVar()
     --x.UpdateBlizzardOptions()
 end)
 

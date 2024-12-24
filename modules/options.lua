@@ -457,3 +457,9 @@ function x:Options_Filter_HideIncomingHealing(spellId)
     end
     return hidden
 end
+
+
+-- Other options
+function x:CVar_BypassCVars()
+    return x.db.profile.bypassCVars
+end
