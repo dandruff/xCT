@@ -535,8 +535,11 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
 
         if tonumber(message) then
             heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
-            heap[mergeID].mergedCount = heap[mergeID].mergedCount + 1
+        else
+            heap[mergeID].message = message
         end
+
+        heap[mergeID].mergedCount = heap[mergeID].mergedCount + 1
 
         if heap[mergeID].displayTime <= now then
             heap[mergeID].displayTime = now + interval
@@ -550,12 +553,18 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
             update = interval,
 
             -- merged entries
-            mergedAmount = tonumber(message) or 0,
+            mergedAmount = 0,
             mergedCount = 1,
 
             -- color
             color = colorname,
         }
+
+        if tonumber(message) then
+            heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
+        else
+            heap[mergeID].message = message
+        end
 
         if select("#", ...) % 2 ~= 0 then
             error("an even amount of extra args are required to add an entry to merge")
@@ -679,9 +688,15 @@ do
                     end
                 end
 
-                if item.mergedAmount > 0 then
+                if item.mergedCount > 0 then
                     -- total as a string
-                    local message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
+                    local message
+                    if tonumber(item.mergedAmount) and tonumber(item.mergedAmount) > 0 then
+                        message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
+                    else
+                        message = item.message
+                    end
+
                     local strColor = "ffffff"
 
                     -- Add critical Prefix and Postfix
@@ -746,6 +761,7 @@ do
 
                     -- Clear all the old amounts, we dont need them anymore
                     item.mergedAmount = 0
+                    item.message = ""
                     item.mergedCount = 0
                 end
             end

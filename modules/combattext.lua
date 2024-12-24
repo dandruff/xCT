@@ -218,7 +218,7 @@ local format_currency = "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
 --]=====================================================]
 local xCTFormat = {}
 
-function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
     local outputColor, message = "healingOut"
 
     -- Format Criticals and also abbreviate values
@@ -255,7 +255,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
     x:AddMessage(outputFrame, message, outputColor)
 end
 
-function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
     local outputColor, message = "healingOutPeriodic"
 
     -- Format Criticals and also abbreviate values
@@ -1190,7 +1190,7 @@ end
 local CombatEventHandlers = {
     ["HealingOutgoing"] = function(args)
         local spellName, spellSchool = args.spellName, args.spellSchool
-        local spellID, isHoT, amount, overhealing, merged =
+        local spellID, isHoT, amount, overhealing =
             args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
 
         -- Keep track of spells that go by
@@ -1242,8 +1242,7 @@ local CombatEventHandlers = {
 
         -- Condensed Critical Merge
         local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
-        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
-            merged = true
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
             if critical then
                 if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
@@ -1314,9 +1313,9 @@ local CombatEventHandlers = {
 
         -- TODO whats this?
         if args.event == "SPELL_PERIODIC_HEAL" then
-            xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+            xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
         elseif args.event == "SPELL_HEAL" then
-            xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, merged, args, settings)
+            xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
         else
             x:Print("Please report: unhandled _HEAL event", args.event)
         end
@@ -1325,7 +1324,7 @@ local CombatEventHandlers = {
     ["DamageOutgoing"] = function(args)
         local message
         local spellName, spellSchool = args.spellName, args.spellSchool
-        local critical, spellID, amount, merged = args.critical, args.spellId, args.amount
+        local critical, spellID, amount = args.critical, args.spellId, args.amount
         local isEnvironmental, isSwing, isAutoShot, isDoT =
             args.prefix == "ENVIRONMENTAL",
             args.prefix == "SWING",
@@ -1377,7 +1376,7 @@ local CombatEventHandlers = {
             end
 
             local spamMergerInterval = x:Options_SpamMerger_PetAttackInterval()
-            if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
+            if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
                 local icon = x:GetPetTexture() or ""
                 x:AddSpamMessage(
                     outputFrame,
@@ -1433,9 +1432,8 @@ local CombatEventHandlers = {
 
         local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
 
-        local spamMergerInterval = X:Options_SpamMerger_SpellInterval(spellID)
-        if (isSwing or isAutoShot) and x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
-            merged = true
+        local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
+        if (isSwing or isAutoShot) and x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
             if outputFrame == "critical" then
                 if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
@@ -1491,7 +1489,6 @@ local CombatEventHandlers = {
                 return
             end
         elseif not isSwing and not isAutoShot and spamMergerInterval > 0 then
-            merged = true
             if critical then
                 if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                     x:AddSpamMessage(
@@ -1690,7 +1687,7 @@ local CombatEventHandlers = {
         end
 
         local spamMergerInterval = x:Options_SpamMerger_IncomingDamageInterval()
-        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
             x:AddSpamMessage(
                 outputFrame,
                 args.spellId,
@@ -1777,7 +1774,7 @@ local CombatEventHandlers = {
         local message = sformat(format_gain, x:Abbreviate(amount, "healing"))
 
         local spamMergerInterval = x:Options_SpamMerger_IncomingHealingInterval()
-        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
             x:AddSpamMessage(
                 "healing",
                 args.sourceName or "Unknown Source",
@@ -1974,7 +1971,7 @@ local CombatEventHandlers = {
         )
 
         local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
-        if x:Options_SpamMerger_Enable() and spamMergerInterval > 0 then
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
             -- TODO message ist kein amount ... ?!
             x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
         else
