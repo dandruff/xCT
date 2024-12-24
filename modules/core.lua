@@ -96,7 +96,7 @@ function x:OnInitialize()
     self.db = LibStub("AceDB-3.0"):New("xCTSavedDB", addon.defaults)
 
     -- Add the profile options to my dialog config
-    addon.options.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
+    addon.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 
     -- Had to pass the explicit method into here, not sure why
     self.db.RegisterCallback(self, "OnProfileChanged", RefreshConfig)
@@ -482,9 +482,9 @@ function x:UpdateSpamSpells()
     end
   end]]
 
-    local spells = addon.options.args.spells.args.classList.args
-    local global = addon.options.args.spells.args.globalList.args
-    local racetab = addon.options.args.spells.args.raceList.args
+    local spells = addon.optionsTable.args.spells.args.classList.args
+    local global = addon.optionsTable.args.spells.args.globalList.args
+    local racetab = addon.optionsTable.args.spells.args.raceList.args
 
     for class, specs in pairs(CLASS_NAMES) do
         spells[class].args = {}
@@ -762,7 +762,7 @@ function x:UpdateComboPointOptions(force)
         end
     end
 
-    addon.options.args["Frames"].args["class"].args["tracker"] = comboSpells
+    addon.optionsTable.args["Frames"].args["class"].args["tracker"] = comboSpells
 
     x.LOADED_COMBO_POINTS_OPTIONS = true
 
@@ -800,7 +800,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     if not specific or specific == "buffs" then
         -- Redo all the list
-        addon.options.args.spellFilter.args.listBuffs.args.list = {
+        addon.optionsTable.args.spellFilter.args.listBuffs.args.list = {
             name = "Filtered Buffs |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -808,7 +808,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local buffs = addon.options.args.spellFilter.args.listBuffs.args.list.args
+        local buffs = addon.optionsTable.args.spellFilter.args.listBuffs.args.list.args
         local updated = false
 
         -- Update buffs
@@ -835,7 +835,7 @@ function x:UpdateAuraSpellFilter(specific)
     -- Update debuffs
     if not specific or specific == "debuffs" then
         i = 10
-        addon.options.args.spellFilter.args.listDebuffs.args.list = {
+        addon.optionsTable.args.spellFilter.args.listDebuffs.args.list = {
             name = "Filtered Debuffs |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -843,7 +843,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local debuffs = addon.options.args.spellFilter.args.listDebuffs.args.list.args
+        local debuffs = addon.optionsTable.args.spellFilter.args.listDebuffs.args.list.args
         local updated = false
 
         for name in pairs(x.db.profile.spellFilter.listDebuffs) do
@@ -869,7 +869,7 @@ function x:UpdateAuraSpellFilter(specific)
     -- Update procs
     if not specific or specific == "procs" then
         i = 10
-        addon.options.args.spellFilter.args.listProcs.args.list = {
+        addon.optionsTable.args.spellFilter.args.listProcs.args.list = {
             name = "Filtered Procs |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -877,7 +877,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local procs = addon.options.args.spellFilter.args.listProcs.args.list.args
+        local procs = addon.optionsTable.args.spellFilter.args.listProcs.args.list.args
         local updated = false
 
         for name in pairs(x.db.profile.spellFilter.listProcs) do
@@ -903,7 +903,7 @@ function x:UpdateAuraSpellFilter(specific)
     -- Update spells
     if not specific or specific == "spells" then
         i = 10
-        addon.options.args.spellFilter.args.listSpells.args.list = {
+        addon.optionsTable.args.spellFilter.args.listSpells.args.list = {
             name = "Filtered Spells |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -911,7 +911,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local spells = addon.options.args.spellFilter.args.listSpells.args.list.args
+        local spells = addon.optionsTable.args.spellFilter.args.listSpells.args.list.args
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listSpells) do
@@ -944,7 +944,7 @@ function x:UpdateAuraSpellFilter(specific)
     -- Update spells
     if not specific or specific == "items" then
         i = 10
-        addon.options.args.spellFilter.args.listItems.args.list = {
+        addon.optionsTable.args.spellFilter.args.listItems.args.list = {
             name = "Filtered Items |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -952,7 +952,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local spells = addon.options.args.spellFilter.args.listItems.args.list.args
+        local spells = addon.optionsTable.args.spellFilter.args.listItems.args.list.args
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listItems) do
@@ -982,7 +982,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     if not specific or specific == "damage" then
         i = 10
-        addon.options.args.spellFilter.args.listDamage.args.list = {
+        addon.optionsTable.args.spellFilter.args.listDamage.args.list = {
             name = "Filtered Incoming Damage |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -990,7 +990,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local spells = addon.options.args.spellFilter.args.listDamage.args.list.args
+        local spells = addon.optionsTable.args.spellFilter.args.listDamage.args.list.args
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listDamage) do
@@ -1022,7 +1022,7 @@ function x:UpdateAuraSpellFilter(specific)
 
     if not specific or specific == "healing" then
         i = 10
-        addon.options.args.spellFilter.args.listHealing.args.list = {
+        addon.optionsTable.args.spellFilter.args.listHealing.args.list = {
             name = "Filtered Incoming Healing |cff798BDD(Uncheck to Disable)|r",
             type = "group",
             guiInline = true,
@@ -1030,7 +1030,7 @@ function x:UpdateAuraSpellFilter(specific)
             args = {},
         }
 
-        local spells = addon.options.args.spellFilter.args.listHealing.args.list.args
+        local spells = addon.optionsTable.args.spellFilter.args.listHealing.args.list.args
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listHealing) do
@@ -1373,7 +1373,7 @@ end
 -- Generate Colors for each Frame
 function x.GenerateColorOptions()
     for name, settings in pairs(x.db.profile.frames) do
-        local options = addon.options.args.Frames.args[name]
+        local options = addon.optionsTable.args.Frames.args[name]
         if settings.colors then
             local index = 10
 
@@ -1406,7 +1406,7 @@ function x.GenerateColorOptions()
 end
 
 function x.GenerateSpellSchoolColors()
-    local options = addon.options.args.SpellSchools.args
+    local options = addon.optionsTable.args.SpellSchools.args
     local settings = x.db.profile.SpellColors
     local index = 10
 
@@ -1580,7 +1580,7 @@ local ACR = LibStub("AceConfigRegistry-3.0")
 
 -- Register the Options
 ACD:SetDefaultSize(AddonName, 803, 560)
-AC:RegisterOptionsTable(AddonName, addon.options)
+AC:RegisterOptionsTable(AddonName, addon.optionsTable)
 
 -- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
 AddonCompartmentFrame:RegisterAddon({
@@ -1634,7 +1634,7 @@ local helpfulLastUpdate = GetTime()
 function x:OnAddonConfigRefreshed()
     if GetTime() - helpfulLastUpdate > 15 then
         helpfulLastUpdate = GetTime()
-        addon.options.args.helpfulTip.name = GetNextTip()
+        addon.optionsTable.args.helpfulTip.name = GetNextTip()
         x:RefreshConfig()
     end
 end

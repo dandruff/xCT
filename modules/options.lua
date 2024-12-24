@@ -28,8 +28,8 @@ if PLAYER_CLASS then
     PLAYER_NAME = ("|c%s%s|r"):format(RAID_CLASS_COLORS[PLAYER_CLASS].colorStr, PLAYER_NAME)
 end
 
--- Creating an Config
-addon.options = {
+-- Create the options table for AceConfig
+addon.optionsTable = {
     -- Add a place for the user to grab
     name = "                                                      Version: " .. (C_AddOns.GetAddOnMetadata(
         "xCT+",
@@ -643,7 +643,7 @@ local function GetHealingIncomingHistory()
     return healingHistory
 end
 
-addon.options.args["spells"] = {
+addon.optionsTable.args["spells"] = {
     name = "Spam Merger",
     type = "group",
     childGroups = "tab",
@@ -899,7 +899,7 @@ addon.options.args["spells"] = {
     },
 }
 
-addon.options.args["spellFilter"] = {
+addon.optionsTable.args["spellFilter"] = {
     name = "Filters",
     type = "group",
     order = 3,
@@ -1432,7 +1432,7 @@ addon.options.args["spellFilter"] = {
     },
 }
 
-addon.options.args["Credits"] = {
+addon.optionsTable.args["Credits"] = {
     name = "Credits",
     type = "group",
     order = 6,
@@ -1604,7 +1604,7 @@ addon.options.args["Credits"] = {
     },
 }
 
-addon.options.args["FloatingCombatText"] = {
+addon.optionsTable.args["FloatingCombatText"] = {
     name = "Floating Combat Text",
     type = "group",
     order = 1,
@@ -1974,7 +1974,7 @@ addon.options.args["FloatingCombatText"] = {
     },
 }
 
-addon.options.args["SpellSchools"] = {
+addon.optionsTable.args["SpellSchools"] = {
     name = "Spell School Colors",
     type = "group",
     order = 5,
@@ -1988,7 +1988,7 @@ addon.options.args["SpellSchools"] = {
     },
 }
 
-addon.options.args["Frames"] = {
+addon.optionsTable.args["Frames"] = {
     name = "Frames",
     type = "group",
     order = 0,
