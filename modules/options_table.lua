@@ -3270,7 +3270,7 @@ function x:InitOptionsTable()
                             enableMisses = {
                                 order = 52,
                                 type = "toggle",
-                                name = "Show Miss Types",
+                                name = "Show Misses, Dodges, Parries",
                                 desc = "Display 'Miss', 'Dodge', 'Parry' when you miss your target.",
                                 get = "Options_Outgoing_ShowMisses",
                                 set = set2,
@@ -3278,7 +3278,7 @@ function x:InitOptionsTable()
                             enablePartialMisses = {
                                 order = 54,
                                 type = "toggle",
-                                name = "Show Miss Types (Partials)",
+                                name = "Show partial Misses, Dodges, Parries",
                                 desc = "Show when your target takes only a percentage of your damage because it was partially absorbed, resisted, or blocked.\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells.",
                                 get = "Options_Outgoing_ShowPartialMisses",
                                 set = set2,
@@ -3925,10 +3925,9 @@ function x:InitOptionsTable()
                             },
 
                             criticalAppearance = {
-                                type = "description",
+                                type = "header",
                                 order = 10,
-                                name = "\n|cff798BDDCritical Appearance|r:",
-                                fontSize = "large",
+                                name = "Critical Appearance",
                             },
                             critPrefix = {
                                 order = 11,
@@ -4712,7 +4711,7 @@ function x:InitOptionsTable()
                             showDodgeParryMiss = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Show Miss Types",
+                                name = "Show Misses, Dodges, Parries",
                                 desc = "Displays Dodge, Parry, or Miss when you miss incoming damage.",
                                 get = "Options_IncomingDamage_ShowMissTypes",
                                 set = set2,
@@ -4727,10 +4726,9 @@ function x:InitOptionsTable()
                             },
 
                             criticalAppearance = {
-                                type = "description",
+                                type = "header",
                                 order = 10,
-                                name = "\n|cff798BDDCritical Appearance|r:",
-                                fontSize = "large",
+                                name = "Critical Appearance",
                             },
                             critPrefix = {
                                 order = 11,

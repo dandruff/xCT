@@ -1,1 +1,3 @@
 - refactor options
+- merge misses (parry, ...)
+- add frame "outgoing heal" as an  alias (?) so we can split outgoing heals and dmg in the merger
