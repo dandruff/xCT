@@ -304,6 +304,14 @@ function x:Options_SpamMerger_DispellInterval()
     return x.db.profile.spells.mergeDispellInterval or 0
 end
 
+function x:Options_SpamMerger_IncomingMissesInterval()
+    return x.db.profile.spells.mergeIncomingMissesInterval or 0
+end
+
+function x:Options_SpamMerger_OutgoingDamageMissesInterval()
+    return x.db.profile.spells.mergeOutgoingDamageMissesInterval or 0
+end
+
 function x:Options_SpamMerger_SpellInterval(spellId)
     if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
         return x.db.profile.spells.merge[spellId].interval

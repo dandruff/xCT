@@ -1889,13 +1889,14 @@ local CombatEventHandlers = {
     end,
 
     ["OutgoingMiss"] = function(args)
-        local message, spellId = _G["COMBAT_TEXT_" .. args.missType], args.spellId
+        local spellId = args.spellId
 
         -- If this is a melee swing, it could also be our pets
         if args.prefix == "SWING" then
             if not x:Options_Outgoing_ShowAutoAttack() then
                 return
             end
+
             if args:IsSourceMyPet() then
                 spellId = PET_ATTACK_TEXTURE
             else
@@ -1908,12 +1909,27 @@ local CombatEventHandlers = {
         if args.missType == "IMMUNE" and not x:Options_Outgoing_ShowImmunes() then
             return
         end
+
         if args.missType ~= "IMMUNE" and not x:Options_Outgoing_ShowMisses() then
             return
         end
 
         -- Check if spell is filtered
         if x:Options_Filter_HideSpell(spellId) then
+            return
+        end
+
+        local message = _G["COMBAT_TEXT_" .. args.missType]
+
+        local spamMergerInterval = x:Options_SpamMerger_OutgoingDamageMissesInterval()
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
+            x:AddSpamMessage(
+                "outgoing",
+                message,
+                0,
+                "misstypesOut",
+                spamMergerInterval
+            )
             return
         end
 
@@ -1940,6 +1956,19 @@ local CombatEventHandlers = {
         end
 
         local message = _G["COMBAT_TEXT_" .. args.missType]
+        local color = missTypeColorLookup[args.missType] or "misstypesOut"
+
+        local spamMergerInterval = x:Options_SpamMerger_IncomingMissesInterval()
+        if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
+            x:AddSpamMessage(
+                "damage",
+                message,
+                0,
+                color,
+                spamMergerInterval
+            )
+            return
+        end
 
         -- Add Icons
         message = x:GetSpellTextureFormatted(
@@ -1950,7 +1979,7 @@ local CombatEventHandlers = {
             x.db.profile.frames["damage"].fontJustify
         )
 
-        x:AddMessage("damage", message, missTypeColorLookup[args.missType] or "misstypesOut")
+        x:AddMessage("damage", message, color)
     end,
 
     ["SpellDispel"] = function(args)

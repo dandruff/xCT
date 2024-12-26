@@ -480,6 +480,18 @@ function x:InitOptionsTable()
                         name = "The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs.",
                     },
 
+                    mergeOutgoingDamageMissesInterval = {
+                        order = 23,
+                        name = "Merge-Interval Incoming Misses",
+                        desc = "The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_OutgoingDamageMissesInterval",
+                        set = set0_1,
+                    },
+
                     mergeEverythingInterval = {
                         order = 12,
                         name = "Merge-Interval for other spells",
@@ -519,6 +531,18 @@ function x:InitOptionsTable()
                         max = 5,
                         step = 0.1,
                         get = "Options_SpamMerger_IncomingDamageInterval",
+                        set = set0_1,
+                    },
+
+                    mergeIncomingMissesInterval = {
+                        order = 23,
+                        name = "Merge-Interval Incoming Misses",
+                        desc = "The interval (seconds) in which incoming full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_IncomingMissesInterval",
                         set = set0_1,
                     },
 
