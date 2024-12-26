@@ -392,6 +392,7 @@ addon.defaults = {
                 ["showCombatState"] = true,
                 ["showRepChanges"] = true,
                 ["showHonorGains"] = true,
+                ["showProfessionSkillups"] = true,
             },
 
             outgoing = {

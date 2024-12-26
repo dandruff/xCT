@@ -72,15 +72,15 @@ local function ProfileReset()
     collectgarbage()
 end
 
-local function CheckExistingProfile()
-    local key = UnitName("player") .. " - " .. GetRealmName()
+function x:CheckExistingProfile()
+    local key = self.player.name .. " - " .. GetRealmName()
     return xCTSavedDB
         and xCTSavedDB.profileKeys
         and xCTSavedDB.profileKeys[key]
         and xCTSavedDB.profiles[xCTSavedDB.profileKeys[key]]
 end
 
--- Handle Addon Initialized
+-- Gets called directly after the addon is fully loaded.
 function x:OnInitialize()
     if xCT or ct and ct.myname and ct.myclass then
         print("|cffFF0000WARNING:|r xCT+ cannot load. Please disable xCT in order to use xCT+.")
@@ -89,9 +89,6 @@ function x:OnInitialize()
 
     -- Initialize the options
     self:InitOptionsTable()
-
-    -- Check for new installs
-    self.existingProfile = CheckExistingProfile()
 
     -- Clean Up Colors in the DB
     self:LoadDefaultColors()
@@ -102,17 +99,24 @@ function x:OnInitialize()
     -- Add the profile options to my dialog config
     addon.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 
+    -- Holds cached spells, buffs, and debuffs
+    x.spellCache = {
+        buffs = {},
+        debuffs = {},
+        spells = {},
+        procs = {},
+        items = {},
+        damage = {},
+        healing = {},
+    }
+end
+
+-- Gets called during the PLAYER_LOGIN event, when most of the data provided by the game is already present.
+function x:OnEnable()
     -- Had to pass the explicit method into here, not sure why
     self.db.RegisterCallback(self, "OnProfileChanged", RefreshConfig)
     self.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
     self.db.RegisterCallback(self, "OnProfileReset", ProfileReset)
-
-    -- Clean up the Profile
-    local success = x:CompatibilityLogic(self.existingProfile)
-    if not success then
-        x:UpdateCombatTextEvents(false)
-        return
-    end
 
     -- A cache of infos about the player
     self.player = {
@@ -123,6 +127,13 @@ function x:OnInitialize()
         spec = -1,
     }
     self:UpdatePlayer()
+
+    -- Clean up the Profile
+    local success = x:CompatibilityLogic(x:CheckExistingProfile())
+    if not success then
+        x:UpdateCombatTextEvents(false)
+        return
+    end
 
     -- Delay updating frames until all other addons are loaded!
     self:UpdateCombatTextEvents(true)
@@ -151,17 +162,11 @@ function x:OnInitialize()
     -- Register the Options
     ACD:SetDefaultSize(AddonName, 803, 560)
     AC:RegisterOptionsTable(AddonName, addon.optionsTable)
+end
 
-    -- Holds cached spells, buffs, and debuffs
-    x.spellCache = {
-        buffs = {},
-        debuffs = {},
-        spells = {},
-        procs = {},
-        items = {},
-        damage = {},
-        healing = {},
-    }
+-- Gets only called when your addon is manually being disabled.
+function x:OnDisable()
+
 end
 
 -- Need to create a handle to update frames when every other addon is done.
@@ -885,7 +890,7 @@ end
 local colorNameDB = {}
 
 -- Returns the color and if it was enabled
-function x.LookupColorByName(name)
+function x:LookupColorByName(name)
     if colorNameDB[name] then
         if colorNameDB[name].enabled then
             return colorNameDB[name].color or colorNameDB[name].default, true
@@ -1219,7 +1224,7 @@ do
     function x.GetSpellSchoolColor(spellSchool, override)
         -- See if the override name is enabled
         if override then
-            local newColor, enabled = x.LookupColorByName(override)
+            local newColor, enabled = x:LookupColorByName(override)
             if enabled then
                 return newColor
             end
@@ -1322,10 +1327,6 @@ local function GetNextTip()
 
     return currentItem
 end
-
--- Unused for now
-function x:OnEnable() end
-function x:OnDisable() end
 
 -- Close Config when entering combat
 local lastConfigState, shownWarning = false, false

@@ -426,7 +426,7 @@ end
 --        message,    [string] - the pre-formatted message to be sent
 --        colorname,  [string or table] - the name of the color OR a
 --                                        table containing the color
---                                        e.g. colorname={1,2,3} --r=1,b=2,g=3
+--                                        e.g. colorname={1,2,3} --r=1,g=2,b=3
 --    )
 --        Sends a message to the framename specified.
 -- =====================================================
@@ -447,11 +447,12 @@ function x:AddMessage(framename, message, colorname)
     -- Load the color
     local r, g, b = 1, 1, 1
     if type(colorname) == "table" then
-        r, g, b = unpack(colorname)
+        -- unpack({0, 0, 1}) leads to OOM... idk why?!
+        r, g, b = colorname[1], colorname[2], colorname[3]
     else
-        local color = x.LookupColorByName(colorname)
+        local color = x:LookupColorByName(colorname)
         if color then
-            r, g, b = unpack(color)
+            r, g, b = color[1], color[2], color[3]
         else
             x:Print("FRAME:", framename, "  there is no color named:", colorname)
             error("missing color")
@@ -466,7 +467,8 @@ function x:AddMessage(framename, message, colorname)
         end
         frame:AddMessage(message, r, g, b)
     elseif secondFrame and secondFrameOptions.enabledFrame then
-        if secondFrameOptions.customColor then -- check for forced color
+        -- check for forced color
+        if secondFrameOptions.customColor then
             r, g, b = unpack(secondFrameOptions.fontColor or { 1, 1, 1 })
         end
         secondFrame:AddMessage(message, r, g, b)
@@ -478,13 +480,13 @@ end
 local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME")
 ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
     local now, alpha, scale = GetTime()
-    for name, frame in pairs(x.frames) do
+    for _, frame in pairs(x.frames) do
         alpha = frame.settings.alpha / 100
 
         -- Only run on frames that have a custom alpha
         if alpha ~= 1 then
             -- Loop through each fontstring
-            for lineIndex, visibleLine in ipairs(frame.visibleLines) do
+            for _, visibleLine in ipairs(frame.visibleLines) do
                 if visibleLine.messageInfo then -- Check for valid font strings (not released)
                     -- Keep the default fading, we will use their value to scale the custom alpha
                     scale = frame:CalculateLineAlphaValueFromTimestamp(

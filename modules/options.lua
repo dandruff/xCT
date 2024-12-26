@@ -58,6 +58,10 @@ function x:Options_General_ShowDebuffGainsAndFades()
     return x.db.profile.frames.general.showDebuffs
 end
 
+function x:Options_General_ShowProfessionSkillups()
+    return x.db.profile.frames.general.showProfessionSkillups
+end
+
 -- Frame Outgoing
 function x:Options_Outgoing_ShowDamage()
     return x.db.profile.frames.outgoing.enableOutDmg

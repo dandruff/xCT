@@ -107,8 +107,9 @@ function x:UpdateCombatTextEvents(enable)
         f:RegisterEvent("PLAYER_ENTERING_WORLD")
         f:RegisterEvent("UNIT_PET")
         f:RegisterEvent("PLAYER_TARGET_CHANGED")
+        f:RegisterEvent("CHAT_MSG_SKILL")
 
-        -- if loot
+        -- Loot frame
         f:RegisterEvent("CHAT_MSG_LOOT")
         f:RegisterEvent("CHAT_MSG_CURRENCY")
         f:RegisterEvent("CHAT_MSG_MONEY")
@@ -720,7 +721,7 @@ x.events = {
             x:AddMessage(
                 "power",
                 sformat(format_energy, runeCount, _G["RUNES"] or ""),
-                x.LookupColorByName("color_RUNES") or { 1, 1, 1 }
+                x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
             )
         end
     end,
@@ -942,7 +943,7 @@ x.events = {
             icon = sformat(format_loot_icon, texturePath, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
         end
 
-        -- format curency
+        -- format currency
         -- "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
         local message = sformat(
             format_currency,
@@ -953,21 +954,34 @@ x.events = {
             amountOwned
         )
 
-        -- Add the message
         x:AddMessage("loot", message, { 1, 1, 1 })
+    end,
+
+    ["CHAT_MSG_SKILL"] = function(msg)
+        if not x:Options_General_ShowProfessionSkillups() then
+            return
+        end
+
+        local profession, newSkillLevel = msg:match("Your skill in (.+) has increased to (%d+).")
+        if not profession or not newSkillLevel then
+            return
+        end
+
+        x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", {0, 0.44, 0.87})
     end,
 
     ["CHAT_MSG_MONEY"] = function(msg)
         if not x:Options_Loot_ShowMoney() then
             return
         end
+
         local g, s, c =
             tonumber(msg:match(GOLD_AMOUNT:gsub("%%d", "(%%d+)"))),
             tonumber(msg:match(SILVER_AMOUNT:gsub("%%d", "(%%d+)"))),
             tonumber(msg:match(COPPER_AMOUNT:gsub("%%d", "(%%d+)")))
         local money, o = (g and g * 10000 or 0) + (s and s * 100 or 0) + (c or 0), MONEY .. ": "
 
-        -- TODO: Add a minimum amount of money
+        -- TODO: Add a filter for a minimum amount of money
 
         if x:Options_Loot_ShowColorBlindMoney() then
             o = o .. (g and g .. " G " or "") .. (s and s .. " S " or "") .. (c and c .. " C " or "")
@@ -1150,7 +1164,7 @@ local function GetPartialMiss(args, settings, outgoingFrame)
             end
 
             color = hexNameColor(
-                x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType])
+                x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType])
             )
             return true, sformat(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
         end
@@ -1159,21 +1173,21 @@ local function GetPartialMiss(args, settings, outgoingFrame)
         local message, color = ""
         if absorbed > 0 then
             color = hexNameColor(
-                x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed)
+                x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed)
             )
             message = message .. sformat(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
         end
 
         if blocked > 0 then
             color = hexNameColor(
-                x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked)
+                x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked)
             )
             message = message .. sformat(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
         end
 
         if resisted > 0 then
             color = hexNameColor(
-                x.LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted)
+                x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted)
             )
             message = message .. sformat(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
         end
@@ -1649,7 +1663,7 @@ local CombatEventHandlers = {
                 -- Craft the new message (if is partial)
                 if resistedAmount then
                     -- format_resist: "-%s |c%s(%s %s)|r"
-                    color = hexNameColor(x.LookupColorByName(color))
+                    color = hexNameColor(x:LookupColorByName(color))
                     message = sformat(
                         format_resist,
                         x:Abbreviate(args.amount, outputFrame),
@@ -2046,7 +2060,7 @@ local CombatEventHandlers = {
         end
 
         local message = x:Abbreviate(args.amount, "power")
-        local color = x.LookupColorByName("color_" .. energy_type) or { 1, 1, 1 }
+        local color = x:LookupColorByName("color_" .. energy_type) or { 1, 1, 1 }
 
         if energy_type == "RUNES" then
             -- Something procced and a DK rune has gone off cooldown
