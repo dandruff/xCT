@@ -207,7 +207,6 @@ local format_pushed = (LOOT_ITEM_PUSHED_SELF:gsub("%%.*", "")) -- "You receive i
 local format_strcolor_white = "ffffff"
 local format_currency_single = (CURRENCY_GAINED:gsub("%%s", "(.+)")) -- "You receive currency: (.+)."
 local format_currency_multiple = (CURRENCY_GAINED_MULTIPLE:gsub("%%s", "(.+)"):gsub("%%d", "(%%d+)")) -- "You receive currency: (.+) x(%d+)."
-local format_currency = "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
 
 --[=====================================================[
  Message Formatters
@@ -534,8 +533,9 @@ local function LootFrame_OnUpdate(self, elapsed)
         if item.t > 0.5 then
             local totalCount = C_Item.GetItemCount(item.id)
 
+            local message = item.message
             if totalCount > 1 then
-                item.message = item.message .. sformat(
+                message = message .. sformat(
                     " |cffFFFF00(%s)|r",
                     totalCount
                 )
@@ -543,13 +543,14 @@ local function LootFrame_OnUpdate(self, elapsed)
 
             x:AddMessage(
                 "loot",
-                item.message,
+                message,
                 { item.r, item.g, item.b }
             )
             removeItems[i] = true
         end
     end
 
+    -- TODO why do you remove first and then reindex? just reindex and skip the removes!
     for k in pairs(removeItems) do
         tremove(self.items, k)
     end
@@ -746,7 +747,7 @@ x.events = {
         if runeCount > 0 then
             x:AddMessage(
                 "power",
-                sformat(format_energy, runeCount, _G["RUNES"] or ""),
+                sformat(format_energy, runeCount, _G.RUNES),
                 x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
             )
         end
@@ -979,25 +980,44 @@ x.events = {
         end
 
         local currencyInfo = C_CurrencyInfo.GetCurrencyInfoFromLink(currencyLink)
-        local name, amountOwned, texturePath = currencyInfo.name, currencyInfo.quantity, currencyInfo.iconFileID
 
         local icon = ""
         if x:Options_Loot_ShowIcons() then
-            icon = sformat(format_loot_icon, texturePath, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+            icon = sformat(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
         end
 
-        -- format currency
-        -- "%s: %s [%s] |cff798BDDx%s|r |cffFFFF00(%s)|r"
-        local message = sformat(
-            format_currency,
-            _G.CURRENCY,
-            icon,
-            name,
-            amountGained,
-            amountOwned
-        )
+        local message
+        if tonumber(amountGained) > 1 then
+            message = sformat(
+                "%s: |cff798BDD+%s|r %s %s",
+                _G.CURRENCY,
+                amountGained,
+                icon,
+                currencyInfo.name
+            )
+        else
+            message = sformat(
+                "%s: %s %s",
+                _G.CURRENCY,
+                icon,
+                currencyInfo.name
+            )
+        end
 
-        x:AddMessage("loot", message, { 1, 1, 1 })
+        if currencyInfo.quantity > 1 then
+            message = message .. sformat(
+                " |cffFFFF00(%s)|r",
+                currencyInfo.quantity
+            )
+        end
+
+        local qualityColor = ITEM_QUALITY_COLORS[currencyInfo.quality]
+
+        x:AddMessage(
+            "loot",
+            message,
+            { qualityColor.r, qualityColor.g, qualityColor.b, }
+        )
     end,
 
     ["CHAT_MSG_SKILL"] = function(msg)

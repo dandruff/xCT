@@ -1470,7 +1470,8 @@ function x:ShowConfigTool(...)
     x.myContainer.frame:SetScript("OnHide", function(self)
         x:HideConfigTool()
     end)
-    _G["xCT_PlusConfigFrame"] = x.myContainer.frame
+
+    _G.xCT_PlusConfigFrame = x.myContainer.frame
     table.insert(UISpecialFrames, "xCT_PlusConfigFrame")
 
     -- Properly dispose of this frame
