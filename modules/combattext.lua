@@ -187,8 +187,6 @@ local format_gain = "+%s"
 local format_resist = "-%s |c%s(%s %s)|r"
 local format_energy = "+%s %s"
 local format_honor = sgsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
-local format_faction_add = "%s +%s"
-local format_faction_sub = "%s %s"
 local format_crit = "%s%s%s"
 local format_dispell = "%s: %s"
 local format_quality = "ITEM_QUALITY%s_DESC"
@@ -199,9 +197,6 @@ local format_msspell_icon_right = "%s |cff%sx%d|r |T%s:%d:%d:0:0:64:64:5:59:5:59
 local format_msspell_icon_left = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%d|r"
 local format_msspell_no_icon = "%s |cff%sx%d|r"
 local format_loot_icon = "|T%s:%d:%d:0:0:64:64:5:59:5:59|t"
-local format_lewtz = "%s%s: %s [%s]%s%%s"
-local format_lewtz_amount = " |cff798BDDx%s|r"
-local format_lewtz_total = " |cffFFFF00(%s)|r"
 local format_lewtz_blind = "(%s)"
 local format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.*", "")) -- "You create: "
 if GetLocale() == "koKR" then
@@ -539,7 +534,10 @@ local function LootFrame_OnUpdate(self, elapsed)
         if item.t > 0.5 then
             x:AddMessage(
                 "loot",
-                sformat(item.message, sformat(format_lewtz_total, C_Item.GetItemCount(item.id))),
+                item.message .. sformat(
+                    " |cffFFFF00(%s)|r",
+                    C_Item.GetItemCount(item.id)
+                ),
                 { item.r, item.g, item.b }
             )
             removeItems[i] = true
@@ -624,7 +622,7 @@ x.combat_events = {
         end
     end,
 
-    ["FACTION"] = function() -- TESTED
+    ["FACTION"] = function()
         local faction, amount = GetCurrentCombatTextEventInfo()
         local num = mfloor(tonumber(amount) or 0)
         if not x:Options_General_ShowReputationChanges() then
@@ -634,13 +632,23 @@ x.combat_events = {
         if num > 0 then
             x:AddMessage(
                 "general",
-                sformat(format_faction_add, faction, x:Abbreviate(amount, "general")),
+                sformat(
+                    "%s: +%s %s",
+                    _G.REPUTATION,
+                    x:Abbreviate(amount, "general"),
+                    faction
+                ),
                 "reputationGain"
             )
         elseif num < 0 then
             x:AddMessage(
                 "general",
-                sformat(format_faction_sub, faction, x:Abbreviate(amount, "general")),
+                sformat(
+                    "%s: -%s %s",
+                    _G.REPUTATION,
+                    x:Abbreviate(amount, "general"),
+                    faction
+                ),
                 "reputationLoss"
             )
         end
@@ -866,6 +874,7 @@ x.events = {
                 local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
                 -- "%s%s: %s [%s]%s %%s"
 
+                -- TODO when the loot frame is disabled (but a second frame is enabled) you cant check this checkbox. It is used regardless!
                 local icon = ""
                 if x:Options_Loot_ShowIcons() then
                     icon = sformat(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
@@ -878,12 +887,12 @@ x.events = {
                 end
 
                 local message = sformat(
-                    format_lewtz,
+                    "%s%s: +|cff798BDD%s|r %s [%s]",
                     x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
                     itemQualityText,
+                    amount,
                     icon,
-                    itemName, -- Item Name
-                    sformat(format_lewtz_amount, amount) -- Amount Looted
+                    itemName
                 )
 
                 -- Purchased/quest items seem to get to your bags faster than looted items
@@ -895,15 +904,20 @@ x.events = {
                         x.lootUpdater.items = {}
                     end
 
+                    -- TODO: use spam merger?
+
                     -- Enqueue the item to wait 1 second before showing
-                    tinsert(x.lootUpdater.items, {
-                        id = linkID,
-                        message = message,
-                        t = 0,
-                        r = itemQualityColor.r,
-                        g = itemQualityColor.g,
-                        b = itemQualityColor.b,
-                    })
+                    tinsert(
+                        x.lootUpdater.items,
+                        {
+                            id = linkID,
+                            message = message,
+                            t = 0,
+                            r = itemQualityColor.r,
+                            g = itemQualityColor.g,
+                            b = itemQualityColor.b,
+                        }
+                    )
 
                     if not x.lootUpdater.isRunning then
                         x.lootUpdater:SetScript("OnUpdate", LootFrame_OnUpdate)
@@ -913,7 +927,7 @@ x.events = {
                     -- Add the message
                     x:AddMessage(
                         "loot",
-                        sformat(message, ""),
+                        message,
                         { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b }
                     )
                 end
