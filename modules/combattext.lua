@@ -551,7 +551,6 @@ local function LootFrame_OnUpdate(self, elapsed)
     end
 
     for k in pairs(removeItems) do
-        --self.items[k] = nil
         tremove(self.items, k)
     end
 
@@ -600,8 +599,8 @@ x.combat_events = {
         end
 
         -- Add Icons
-        if icon and x.db.profile.frames["procs"].iconsEnabled then
-            if x.db.profile.frames["procs"].fontJustify == "LEFT" then
+        if icon and x.db.profile.frames.procs.iconsEnabled then
+            if x.db.profile.frames.procs.fontJustify == "LEFT" then
                 message = sformat(format_spell_icon, icon, iconSize, iconSize) .. "  " .. message
             else
                 message = message .. sformat(format_spell_icon, icon, iconSize, iconSize)
@@ -621,19 +620,32 @@ x.combat_events = {
 
     -- TODO: Create a merger for faction and honor xp
     ["HONOR_GAINED"] = function() -- UNTESTED
+        if not x:Options_General_ShowHonor() then
+            return
+        end
+
         local amount = GetCurrentCombatTextEventInfo()
         local num = mfloor(tonumber(amount) or 0)
-        if num > 0 and x:Options_General_ShowHonor() then
-            x:AddMessage("general", sformat(format_honor, HONOR, x:Abbreviate(amount, "general")), "honorGains")
+        if num > 0 then
+            x:AddMessage(
+                "general",
+                sformat(
+                    format_honor,
+                    _G.HONOR,
+                    x:Abbreviate(amount, "general")
+                ),
+                "honorGains"
+            )
         end
     end,
 
     ["FACTION"] = function()
-        local faction, amount = GetCurrentCombatTextEventInfo()
-        local num = mfloor(tonumber(amount) or 0)
         if not x:Options_General_ShowReputationChanges() then
             return
         end
+
+        local faction, amount = GetCurrentCombatTextEventInfo()
+        local num = mfloor(tonumber(amount) or 0)
 
         if num > 0 then
             x:AddMessage(
@@ -668,10 +680,10 @@ x.events = {
     ["UNIT_HEALTH"] = function()
         if
             x:Options_General_ShowLowManaAndHealth()
-            and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= COMBAT_TEXT_LOW_HEALTH_THRESHOLD
+            and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_HEALTH_THRESHOLD
         then
             if not x.lowHealth then
-                x:AddMessage("general", HEALTH_LOW, "lowResourcesHealth")
+                x:AddMessage("general", _G.HEALTH_LOW, "lowResourcesHealth")
                 x.lowHealth = true
             end
         else
@@ -686,7 +698,7 @@ x.events = {
         if
             select(2, UnitPowerType(x.player.unit)) == "MANA"
             and x:Options_General_ShowLowManaAndHealth()
-            and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= COMBAT_TEXT_LOW_MANA_THRESHOLD
+            and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_MANA_THRESHOLD
         then
             if not x.lowMana then
                 x:AddMessage("general", MANA_LOW, "lowResourcesMana")
