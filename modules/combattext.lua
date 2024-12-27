@@ -532,12 +532,18 @@ local function LootFrame_OnUpdate(self, elapsed)
 
         -- Time to wait before showing a looted item
         if item.t > 0.5 then
+            local totalCount = C_Item.GetItemCount(item.id)
+
+            if totalCount > 0 then
+                item.message = item.message .. sformat(
+                    " |cffFFFF00(%s)|r",
+                    totalCount
+                )
+            end
+
             x:AddMessage(
                 "loot",
-                item.message .. sformat(
-                    " |cffFFFF00(%s)|r",
-                    C_Item.GetItemCount(item.id)
-                ),
+                item.message,
                 { item.r, item.g, item.b }
             )
             removeItems[i] = true
