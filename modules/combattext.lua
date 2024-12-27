@@ -522,55 +522,24 @@ function x:QuickClassFrameUpdate()
 end
 
 --[=====================================================[
- Looted Item - Latency Update Adaption
+ Delayed message for loot, to get the correct "totals" of the item in your bag
 --]=====================================================]
-local function LootFrame_OnUpdate(self, elapsed)
-    local removeItems = {}
-    for i, item in ipairs(self.items) do
-        item.t = item.t + elapsed
+function x:AddLootMessageDelayed(item)
+    local totalCount = C_Item.GetItemCount(item.id)
 
-        -- Time to wait before showing a looted item
-        if item.t > 0.5 then
-            local totalCount = C_Item.GetItemCount(item.id)
-
-            local message = item.message
-            if totalCount > 1 then
-                message = message .. sformat(
-                    " |cffFFFF00(%s)|r",
-                    totalCount
-                )
-            end
-
-            x:AddMessage(
-                "loot",
-                message,
-                { item.r, item.g, item.b }
-            )
-            removeItems[i] = true
-        end
+    local message = item.message
+    if totalCount > 1 then
+        message = message .. sformat(
+            " |cffFFFF00(%s)|r",
+            totalCount
+        )
     end
 
-    -- TODO why do you remove first and then reindex? just reindex and skip the removes!
-    for k in pairs(removeItems) do
-        tremove(self.items, k)
-    end
-
-    if #removeItems > 1 then
-        local index, newList = 1, {}
-
-        -- Rebalance the Lua list
-        for _, v in pairs(self.items) do
-            newList[index] = v
-            index = index + 1
-        end
-
-        self.items = newList
-    end
-
-    if #self.items < 1 then
-        self:SetScript("OnUpdate", nil)
-        self.isRunning = false
-    end
+    x:AddMessage(
+        "loot",
+        message,
+        { item.r, item.g, item.b }
+    )
 end
 
 --[=====================================================[
@@ -925,34 +894,19 @@ x.events = {
                     )
                 end
 
-                -- Purchased/quest items seem to get to your bags faster than looted items
                 if x:Options_Loot_ShowItemTotals() then
-                    -- This frame was created to make sure I always display the correct number of an item in your bag
-                    if not x.lootUpdater then
-                        x.lootUpdater = CreateFrame("FRAME")
-                        x.lootUpdater.isRunning = false
-                        x.lootUpdater.items = {}
-                    end
-
-                    -- TODO: use spam merger?
-
-                    -- Enqueue the item to wait 1 second before showing
-                    tinsert(
-                        x.lootUpdater.items,
+                    -- We have to delay the message in order to get correct "totals".
+                    x:ScheduleTimer(
+                        "AddLootMessageDelayed",
+                        0.5,
                         {
                             id = linkID,
                             message = message,
-                            t = 0,
                             r = itemQualityColor.r,
                             g = itemQualityColor.g,
                             b = itemQualityColor.b,
                         }
                     )
-
-                    if not x.lootUpdater.isRunning then
-                        x.lootUpdater:SetScript("OnUpdate", LootFrame_OnUpdate)
-                        x.lootUpdater.isRunning = true
-                    end
                 else
                     -- Add the message
                     x:AddMessage(
