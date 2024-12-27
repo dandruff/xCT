@@ -534,7 +534,7 @@ local function LootFrame_OnUpdate(self, elapsed)
         if item.t > 0.5 then
             local totalCount = C_Item.GetItemCount(item.id)
 
-            if totalCount > 0 then
+            if totalCount > 1 then
                 item.message = item.message .. sformat(
                     " |cffFFFF00(%s)|r",
                     totalCount
@@ -768,7 +768,7 @@ x.events = {
         end
 
         if x:Options_General_ShowCombatState() then
-            x:AddMessage("general", sformat(format_fade, LEAVING_COMBAT), "combatLeaving")
+            x:AddMessage("general", _G.LEAVING_COMBAT, "combatLeaving")
         end
     end,
 
@@ -776,7 +776,7 @@ x.events = {
         x.inCombat = true
         x:CombatStateChanged()
         if x:Options_General_ShowCombatState() then
-            x:AddMessage("general", sformat(format_gain, ENTERING_COMBAT), "combatEntering")
+            x:AddMessage("general", _G.ENTERING_COMBAT, "combatEntering")
         end
     end,
 
@@ -904,14 +904,25 @@ x.events = {
                     itemQualityText = sformat(format_lewtz_blind, _G[sformat(format_quality, itemQuality)])
                 end
 
-                local message = sformat(
-                    "%s%s: +|cff798BDD%s|r %s [%s]",
-                    x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
-                    itemQualityText,
-                    amount,
-                    icon,
-                    itemName
-                )
+                local message
+                if amount > 1 then
+                    message = sformat(
+                        "%s%s: |cff798BDD+%s|r %s [%s]",
+                        x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
+                        itemQualityText,
+                        amount,
+                        icon,
+                        itemName
+                    )
+                else
+                    message = sformat(
+                        "%s%s: %s [%s]",
+                        x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
+                        itemQualityText,
+                        icon,
+                        itemName
+                    )
+                end
 
                 -- Purchased/quest items seem to get to your bags faster than looted items
                 if x:Options_Loot_ShowItemTotals() then
