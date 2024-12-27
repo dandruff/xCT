@@ -908,7 +908,7 @@ x.events = {
                         }
                     )
                 else
-                    -- Add the message
+                    -- Display the message directly
                     x:AddMessage(
                         "loot",
                         message,
