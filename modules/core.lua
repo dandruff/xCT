@@ -1237,61 +1237,60 @@ do
     end
 end
 
--- Add LibSink Support ... if some other addon has loaded it and they would be using it!
+-- Possibly add LibSink Support
 function x:EnableLibSinkSupport()
-    -- Were wrapping this in pcall() because getting the lib can fail.
-    -- This way no error will be logged and all will be happy.
-    pcall(
-        function()
-            local frames, color, LibSink = {}, {}, LibStub("LibSink-2.0")
+    local LibSink = LibStub("LibSink-2.0", true)
+    if not LibSink then
+        -- No other addon has loaded LibSink ... so no point for us to register as a Sink.
+        return
+    end
 
-            for name, title in pairs(x.FrameTitles) do
-                if name ~= "class" then
-                    frames[title] = name
+    local frames, color = {}, {}
+
+    for name, title in pairs(x.FrameTitles) do
+        if name ~= "class" then
+            frames[title] = name
+        end
+    end
+
+    -- shortName, name, desc, func, scrollAreaFunc, hasSticky
+    LibSink:RegisterSink(
+        "xCT_Plus",
+        "xCT+",
+        "Created for optimal performance in the toughest fights, this rugged combat text add-on is ready to be put to the test!",
+
+        function(sinkAddon, text, r, g, b, font, size, outline, sticky, location, icon)
+            local settings = x.db.profile.frames[location or "general"]
+            if settings.iconsEnabled and icon then
+                if settings.fontJustify == "LEFT" then
+                    text = string.format(
+                        "%s %s",
+                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize),
+                        text
+                    )
+                else
+                    text = string.format(
+                        "%s%s",
+                        text,
+                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize)
+                    )
                 end
             end
+            color[1] = r
+            color[2] = g
+            color[3] = b
+            x:AddMessage(location or "general", text, color)
+        end,
 
-            -- shortName, name, desc, func, scrollAreaFunc, hasSticky
-            LibSink:RegisterSink(
-                "xCT_Plus",
-                "xCT+",
-                "Created for optimal performance in the toughest fights, this rugged combat text add-on is ready to be put to the test!",
-
-                -- The Sink Function
-                function(sinkAddon, text, r, g, b, font, size, outline, sticky, location, icon)
-                    local settings = x.db.profile.frames[location or "general"]
-                    if settings.iconsEnabled and icon then
-                        if settings.fontJustify == "LEFT" then
-                            text = string.format(
-                                "%s %s",
-                                string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize),
-                                text
-                            )
-                        else
-                            text = string.format(
-                                "%s%s",
-                                text,
-                                string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize)
-                            )
-                        end
-                    end
-                    color[1] = r
-                    color[2] = g
-                    color[3] = b
-                    x:AddMessage(location or "general", text, color)
-                end,
-
-                -- List Active Scrolling Areas
-                function()
-                    local tmp = {}
-                    for name in pairs(frames) do
-                        table.insert(tmp, name)
-                    end
-                    return tmp
-                end,
-                false
-            )
-        end
+        -- List Active Scrolling Areas
+        function()
+            local tmp = {}
+            for name in pairs(frames) do
+                table.insert(tmp, name)
+            end
+            return tmp
+        end,
+        false
     )
 end
 

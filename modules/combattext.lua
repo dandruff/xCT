@@ -17,21 +17,12 @@ local _, addon = ...
 -- Shorten my handle
 local x = addon.engine
 
--- Set upvalues
-local sformat, mfloor, mabs, sgsub, tinsert, tremove =
-    string.format,
-    math.floor,
-    math.abs,
-    string.gsub,
-    table.insert,
-    table.remove
-
 -- returns a string with the first character in upper case
 local function utf8_fc_upper(source)
     return string.utf8upper(string.utf8sub(source, 1, 1)) .. string.utf8sub(source, 2)
 end
 
-local xCP = LibStub("xCombatParser-1.0", true)
+local xCP = LibStub("xCombatParser-1.0")
 local L_AUTOATTACK = C_Spell.GetSpellName(6603)
 local L_KILLCOMMAND = C_Spell.GetSpellName(34026)
 
@@ -169,12 +160,7 @@ end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.play
 --[=====================================================[
  String Formatters
 --]=====================================================]
-local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-local format_getCraftedItemString = ""
-if GetLocale() == "koKR" then
-    format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
-end
-local format_pet = sformat("|cff798BDD[%s]:|r %%s (%%s)", sgsub(BATTLE_PET_CAGE_ITEM_NAME, "%s?%%s", "")) -- [Caged]: Pet Name (Pet Family)
+local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATTLE_PET_CAGE_ITEM_NAME, "%s?%%s", "")) -- [Caged]: Pet Name (Pet Family)
 
 -- TODO: Remove old loot pattern
 --local format_loot = "([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
@@ -186,7 +172,7 @@ local format_fade = "-%s"
 local format_gain = "+%s"
 local format_resist = "-%s |c%s(%s %s)|r"
 local format_energy = "+%s %s"
-local format_honor = sgsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
+local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
 local format_crit = "%s%s%s"
 local format_dispell = "%s: %s"
 local format_quality = "ITEM_QUALITY%s_DESC"
@@ -219,7 +205,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
     -- Format Criticals and also abbreviate values
     if critical then
         outputColor = "healingOutCritical"
-        message = sformat(
+        message = string.format(
             format_crit,
             x.db.profile.frames.critical.critPrefix,
             x:Abbreviate(amount, "critical"),
@@ -255,7 +241,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing
 
     -- Format Criticals and also abbreviate values
     if critical then
-        message = sformat(
+        message = string.format(
             format_crit,
             x.db.profile.frames.critical.critPrefix,
             x:Abbreviate(amount, "critical"),
@@ -376,29 +362,29 @@ function x:GetSpellTextureFormatted(
     if mergeOverride then
         if entries > 1 then
             if not showInvisibleIcon then
-                message = sformat(format_msspell_no_icon, message, strColor, entries)
+                message = string.format(format_msspell_no_icon, message, strColor, entries)
             else
                 if justify == "LEFT" then
-                    message = sformat(format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, entries)
+                    message = string.format(format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, entries)
                 else
-                    message = sformat(format_msspell_icon_right, message, strColor, entries, icon, iconSize, iconSize)
+                    message = string.format(format_msspell_icon_right, message, strColor, entries, icon, iconSize, iconSize)
                 end
             end
         else
             if showInvisibleIcon then
                 if justify == "LEFT" then
-                    message = sformat("%s %s", sformat(format_spell_icon, icon, iconSize, iconSize), message)
+                    message = string.format("%s %s", string.format(format_spell_icon, icon, iconSize, iconSize), message)
                 else
-                    message = sformat("%s%s", message, sformat(format_spell_icon, icon, iconSize, iconSize))
+                    message = string.format("%s%s", message, string.format(format_spell_icon, icon, iconSize, iconSize))
                 end
             end
         end
     else
         if showInvisibleIcon then
             if justify == "LEFT" then
-                message = sformat("%s %s", sformat(format_spell_icon, icon, iconSize, iconSize), message)
+                message = string.format("%s %s", string.format(format_spell_icon, icon, iconSize, iconSize), message)
             else
-                message = sformat("%s%s", message, sformat(format_spell_icon, icon, iconSize, iconSize))
+                message = string.format("%s%s", message, string.format(format_spell_icon, icon, iconSize, iconSize))
             end
         end
     end
@@ -458,7 +444,7 @@ local function UpdateUnitPower(unit, powertype)
                     x:AddMessage("class", "0", "comboPoints")
                 end
             else
-                x:AddMessage("class", mfloor(value), "comboPoints")
+                x:AddMessage("class", math.floor(value), "comboPoints")
             end
         end
     end
@@ -529,7 +515,7 @@ function x:AddLootMessageDelayed(item)
 
     local message = item.message
     if totalCount > 1 then
-        message = message .. sformat(
+        message = message .. string.format(
             " |cffFFFF00(%s)|r",
             totalCount
         )
@@ -571,9 +557,9 @@ x.combat_events = {
         -- Add Icons
         if icon and x.db.profile.frames.procs.iconsEnabled then
             if x.db.profile.frames.procs.fontJustify == "LEFT" then
-                message = sformat(format_spell_icon, icon, iconSize, iconSize) .. "  " .. message
+                message = string.format(format_spell_icon, icon, iconSize, iconSize) .. "  " .. message
             else
-                message = message .. sformat(format_spell_icon, icon, iconSize, iconSize)
+                message = message .. string.format(format_spell_icon, icon, iconSize, iconSize)
             end
         end
 
@@ -595,11 +581,11 @@ x.combat_events = {
         end
 
         local amount = GetCurrentCombatTextEventInfo()
-        local num = mfloor(tonumber(amount) or 0)
+        local num = math.floor(tonumber(amount) or 0)
         if num > 0 then
             x:AddMessage(
                 "general",
-                sformat(
+                string.format(
                     format_honor,
                     _G.HONOR,
                     x:Abbreviate(amount, "general")
@@ -615,12 +601,12 @@ x.combat_events = {
         end
 
         local faction, amount = GetCurrentCombatTextEventInfo()
-        local num = mfloor(tonumber(amount) or 0)
+        local num = math.floor(tonumber(amount) or 0)
 
         if num > 0 then
             x:AddMessage(
                 "general",
-                sformat(
+                string.format(
                     "%s: +%s %s",
                     _G.REPUTATION,
                     x:Abbreviate(amount, "general"),
@@ -631,7 +617,7 @@ x.combat_events = {
         elseif num < 0 then
             x:AddMessage(
                 "general",
-                sformat(
+                string.format(
                     "%s: -%s %s",
                     _G.REPUTATION,
                     x:Abbreviate(amount, "general"),
@@ -716,7 +702,7 @@ x.events = {
         if runeCount > 0 then
             x:AddMessage(
                 "power",
-                sformat(format_energy, runeCount, _G.RUNES),
+                string.format(format_energy, runeCount, _G.RUNES),
                 x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
             )
         end
@@ -793,10 +779,21 @@ x.events = {
 
     ["CHAT_MSG_LOOT"] = function(msg)
         -- Fixing Loot for Legion
-        local preMessage, linkColor, itemString, itemName, amount = string.match(msg, format_getItemString)
+        local preMessage, linkColor, itemString, itemName, amount = string.match(
+            msg,
+            "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
+        )
 
         if not preMessage or preMessage == "" then
-            linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
+            local format_getCraftedItemString = ""
+            if GetLocale() == "koKR" then
+                format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
+            end
+
+            linkColor, itemString, itemName, preMessage = string.match(
+                msg,
+                format_getCraftedItemString
+            )
         end
 
         if not itemString or itemString == "" then
@@ -828,7 +825,7 @@ x.events = {
             -- TODO: Add pet icons!
             local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
             local petTypeName = PET_TYPE_SUFFIX[petType]
-            local message = sformat(format_pet, speciesName, petTypeName)
+            local message = string.format(format_pet, speciesName, petTypeName)
             local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
 
             -- Add the message
@@ -865,18 +862,18 @@ x.events = {
                 -- TODO when the loot frame is disabled (but a second frame is enabled) you cant check this checkbox. It is used regardless!
                 local icon = ""
                 if x:Options_Loot_ShowIcons() then
-                    icon = sformat(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+                    icon = string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
                 end
 
                 local itemQualityText = ""
                 if x:Options_Loot_ShowColorBlindMoney() then
                     -- Item Quality (Color Blind)
-                    itemQualityText = sformat(format_lewtz_blind, _G[sformat(format_quality, itemQuality)])
+                    itemQualityText = string.format(format_lewtz_blind, _G[string.format(format_quality, itemQuality)])
                 end
 
                 local message
                 if amount > 1 then
-                    message = sformat(
+                    message = string.format(
                         "%s%s: |cff798BDD+%s|r %s [%s]",
                         x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
                         itemQualityText,
@@ -885,7 +882,7 @@ x.events = {
                         itemName
                     )
                 else
-                    message = sformat(
+                    message = string.format(
                         "%s%s: %s [%s]",
                         x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
                         itemQualityText,
@@ -937,12 +934,12 @@ x.events = {
 
         local icon = ""
         if x:Options_Loot_ShowIcons() then
-            icon = sformat(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+            icon = string.format(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
         end
 
         local message
         if tonumber(amountGained) > 1 then
-            message = sformat(
+            message = string.format(
                 "%s: |cff798BDD+%s|r %s %s",
                 _G.CURRENCY,
                 amountGained,
@@ -950,7 +947,7 @@ x.events = {
                 currencyInfo.name
             )
         else
-            message = sformat(
+            message = string.format(
                 "%s: %s %s",
                 _G.CURRENCY,
                 icon,
@@ -959,7 +956,7 @@ x.events = {
         end
 
         if currencyInfo.quantity > 1 then
-            message = message .. sformat(
+            message = message .. string.format(
                 " |cffFFFF00(%s)|r",
                 currencyInfo.quantity
             )
@@ -1029,7 +1026,7 @@ local function hexNameColor(t)
     elseif t.colorStr then -- Support Blizzard's raid colors
         return t.colorStr
     end
-    return sformat("ff%2X%2X%2X", mfloor(t[1] * 255 + 0.5), mfloor(t[2] * 255 + 0.5), mfloor(t[3] * 255 + 0.5))
+    return string.format("ff%2X%2X%2X", math.floor(t[1] * 255 + 0.5), math.floor(t[2] * 255 + 0.5), math.floor(t[3] * 255 + 0.5))
 end
 
 -- Checks the options you provide and outputs the correctly formatted name
@@ -1183,7 +1180,7 @@ local function GetPartialMiss(args, settings, outgoingFrame)
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType])
             )
-            return true, sformat(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
+            return true, string.format(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
         end
 
         -- Show All the partial misses that exsist
@@ -1192,21 +1189,21 @@ local function GetPartialMiss(args, settings, outgoingFrame)
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed)
             )
-            message = message .. sformat(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
+            message = message .. string.format(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
         end
 
         if blocked > 0 then
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked)
             )
-            message = message .. sformat(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
+            message = message .. string.format(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
         end
 
         if resisted > 0 then
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted)
             )
-            message = message .. sformat(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
+            message = message .. string.format(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
         end
 
         return true, message
@@ -1594,7 +1591,7 @@ local CombatEventHandlers = {
         if critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
             settings = x.db.profile.frames["critical"]
             if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
-                message = sformat(
+                message = string.format(
                     format_crit,
                     x.db.profile.frames.critical.critPrefix,
                     x:Abbreviate(amount, "critical"),
@@ -1681,7 +1678,7 @@ local CombatEventHandlers = {
                 if resistedAmount then
                     -- format_resist: "-%s |c%s(%s %s)|r"
                     color = hexNameColor(x:LookupColorByName(color))
-                    message = sformat(
+                    message = string.format(
                         format_resist,
                         x:Abbreviate(args.amount, outputFrame),
                         color,
@@ -1699,7 +1696,7 @@ local CombatEventHandlers = {
         if not message then
             -- Format Criticals and also abbreviate values
             if args.critical then
-                message = sformat(
+                message = string.format(
                     format_crit,
                     x.db.profile.frames[outputFrame].critPrefix,
                     x:Abbreviate(-args.amount, outputFrame),
@@ -1802,7 +1799,7 @@ local CombatEventHandlers = {
         end
 
         -- format_gain = "+%s"
-        local message = sformat(format_gain, x:Abbreviate(amount, "healing"))
+        local message = string.format(format_gain, x:Abbreviate(amount, "healing"))
 
         local spamMergerInterval = x:Options_SpamMerger_IncomingHealingInterval()
         if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
@@ -1864,10 +1861,10 @@ local CombatEventHandlers = {
         -- Begin constructing the event message and color
         local color, message
         if isGaining then
-            message = sformat(format_gain, args.spellName)
+            message = string.format(format_gain, args.spellName)
             color = isBuff and "buffsGained" or "debuffsGained"
         else
-            message = sformat(format_fade, args.spellName)
+            message = string.format(format_fade, args.spellName)
             color = isBuff and "buffsFaded" or "debuffsFaded"
         end
 
@@ -1896,7 +1893,7 @@ local CombatEventHandlers = {
             end
         end
 
-        x:AddMessage("general", sformat(format_dispell, XCT_KILLED, args.destName), color)
+        x:AddMessage("general", string.format(format_dispell, XCT_KILLED, args.destName), color)
     end,
 
     ["InterruptedUnit"] = function(args)
@@ -1905,7 +1902,7 @@ local CombatEventHandlers = {
         end
 
         -- Create and format the message
-        local message = sformat(format_dispell, INTERRUPTED, args.extraSpellName)
+        local message = string.format(format_dispell, INTERRUPTED, args.extraSpellName)
 
         -- Add the icon
         message = x:GetSpellTextureFormatted(
@@ -2019,7 +2016,7 @@ local CombatEventHandlers = {
         end
 
         local color = args.auraType == "BUFF" and "dispellBuffs" or "dispellDebuffs"
-        local message = sformat(format_dispell, XCT_DISPELLED, args.extraSpellName)
+        local message = string.format(format_dispell, XCT_DISPELLED, args.extraSpellName)
 
         -- Add Icons
         message = x:GetSpellTextureFormatted(
@@ -2043,7 +2040,7 @@ local CombatEventHandlers = {
             return
         end
 
-        local message = sformat(format_dispell, XCT_STOLE, args.extraSpellName)
+        local message = string.format(format_dispell, XCT_STOLE, args.extraSpellName)
 
         -- Add Icons
         message = x:GetSpellTextureFormatted(
@@ -2062,7 +2059,7 @@ local CombatEventHandlers = {
             return
         end
 
-        if mabs(tonumber(args.amount)) <= tonumber(x:Options_Filter_PlayerPowerMinimumThreshold()) then
+        if math.abs(tonumber(args.amount)) <= tonumber(x:Options_Filter_PlayerPowerMinimumThreshold()) then
             return
         end
 
@@ -2086,7 +2083,7 @@ local CombatEventHandlers = {
         else
             x:AddMessage(
                 "power",
-                sformat(format_energy, message, x:Options_Power_ShowEnergyTypes() and _G[energy_type] or ""),
+                string.format(format_energy, message, x:Options_Power_ShowEnergyTypes() and _G[energy_type] or ""),
                 color
             )
         end
