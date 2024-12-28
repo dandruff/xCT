@@ -473,27 +473,28 @@ class("WARRIOR")
 do
     spec(0) -- All Specs
     spell(156287, 2.5) --  Ravager
+    spell(5308, 1.0)   --  Execute
+    spell(199658, 1.0) --  Whirlwind
+    alias( 44949, 199658) --  Whirlwind
+    alias(199850, 199658) --  Whirlwind
+    alias(199851, 199658) --  Whirlwind
+    alias(199852, 199658) --  Whirlwind
+    alias(163558, 5308)   --  Execute (OH - Fury)
+    alias(280849, 5308)   --  Execute (OH - Fury)
 
     spec(71) -- Arms
     spell(772, 3.5) --  Talent: Rend
     spell(215537, 2.5) --  Talent: Trauma
-    spell(209569, 2.5) --  Artifact: Corrupted Blood of Zakajz
-    spell(209577, 2.5) --  Artifact: Warbreaker
-    spell(199658, 1.5) --  Whirlwind
+    spell(209577, 2.5) --  Talent: Warbreaker
     spell(262115, 3.0) --  Mastery: Deep Wounds (DoT over 6s)
-    alias(199850, 199658) --  [Spell Merger] Whirlwind
 
     spec(72) -- Fury
-    spell(5308, 1.0) --  Execute
-    spell(184367, 2.5) --  Rampage (Red Face Icon)
-    spell(96103, 1.0) --  Raging Blow
-    spell(199667, 1.5) --  Whirlwind
-    spell(113344, 2.5) --  Talent: Bloodbath
-    spell(50622, 2.5) --  Talent: Bladestorm
-    spell(205546, 3.0) --  Artifact: Odyn's Fury (DoT)
-    alias(163558, 5308) --  [MH/OH] Execute OH
+    spell(184367, 2.5)  --  Rampage (Red Face Icon)
+    spell(96103, 1.0)   --  Raging Blow
+    spell(113344, 2.5)  --  Talent: Bloodbath
+    spell(50622, 2.5)   --  Talent: Bladestorm
+    spell(205546, 3.0)  --  Artifact: Odyn's Fury (DoT)
     alias(85384, 96103) --  [MH/OH] Raging Blow
-    alias(44949, 199667) --  [MH/OH] Whirlwind
     alias(95738, 50622) --  [MH/OH] Bladestorm
     alias(205547, 205546) --  Artifact: Odyn's Fury (Hit)
     alias(218617, 184367) --  Rampage (1st Hit)
