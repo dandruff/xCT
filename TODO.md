@@ -1,2 +1,2 @@
 - refactor options
-- add frame "outgoing heal" as an  alias (?) so we can split outgoing heals and dmg in the merger
+- add frame "outgoing heal" as an alias (?) so we can split outgoing heals and dmg in the merger

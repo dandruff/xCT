@@ -859,7 +859,6 @@ x.events = {
                 local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
                 -- "%s%s: %s [%s]%s %%s"
 
-                -- TODO when the loot frame is disabled (but a second frame is enabled) you cant check this checkbox. It is used regardless!
                 local icon = ""
                 if x:Options_Loot_ShowIcons() then
                     icon = string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())

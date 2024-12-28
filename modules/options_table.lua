@@ -225,18 +225,13 @@ function x:InitOptionsTable()
         x.db.profile.frames[info[#info - 2]].names[info[#info]] = string.gsub(value, "||", "|")
     end
 
-    local function outgoingSpellColorsHidden(info)
-        return not x.db.profile.frames["outgoing"].standardSpellColor
-    end
-
-    local function isFrameEnabled(info)
-        return x.db.profile.frames[info[#info - 1]].enabledFrame
-    end
-    local function isFrameDisabled(info)
-        return not x.db.profile.frames[info[#info - 1]].enabledFrame
-    end
     local function isFrameItemDisabled(info)
-        return not x.db.profile.frames[info[#info - 2]].enabledFrame
+        local frameName = info[#info - 2]
+        if x.db.profile.frames[frameName].enabledFrame then
+            return false
+        end
+
+        return x.db.profile.frames[frameName].secondaryFrame == 0
     end
     local function isFrameNotScrollable(info)
         return isFrameItemDisabled(info) or not x.db.profile.frames[info[#info - 2]].enableScrollable
