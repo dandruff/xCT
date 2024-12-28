@@ -353,7 +353,7 @@ function x:Abbreviate(amount, frameName)
 
     if frameName and self.db.profile.frames[frameName] and self.db.profile.frames[frameName].megaDamage then
         if self.db.profile.spells.formatAbbreviate then
-            if GetLocale() == "koKR" then
+            if x.locale == "koKR" then
                 if amount >= 100000000 then
                     if self.db.profile.megaDamage.decimalPoint then
                         message = tostring(mfloor((amount + 5000000) / 10000000) / 10)

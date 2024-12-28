@@ -22,7 +22,8 @@ local function utf8_fc_upper(source)
     return string.utf8upper(string.utf8sub(source, 1, 1)) .. string.utf8sub(source, 2)
 end
 
-local xCP = LibStub("xCombatParser-1.0")
+x.locale = GetLocale()
+
 local L_AUTOATTACK = C_Spell.GetSpellName(6603)
 local L_KILLCOMMAND = C_Spell.GetSpellName(34026)
 
@@ -118,11 +119,11 @@ function x:UpdateCombatTextEvents(enable)
         x.combatEvents = f
         f:SetScript("OnEvent", x.OnCombatTextEvent)
 
-        xCP:RegisterCombat(x.CombatLogEvent)
+        LibStub("xCombatParser-1.0"):RegisterCombat(x.CombatLogEvent)
     else
         -- Disabled Combat Text
         f:SetScript("OnEvent", nil)
-        xCP:UnregisterCombat(x.CombatLogEvent)
+        LibStub("xCombatParser-1.0"):UnregisterCombat(x.CombatLogEvent)
     end
 end
 
@@ -171,7 +172,6 @@ local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATT
 local format_fade = "-%s"
 local format_gain = "+%s"
 local format_resist = "-%s |c%s(%s %s)|r"
-local format_energy = "+%s %s"
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
 local format_crit = "%s%s%s"
 local format_dispell = "%s: %s"
@@ -185,7 +185,7 @@ local format_msspell_no_icon = "%s |cff%sx%d|r"
 local format_loot_icon = "|T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_lewtz_blind = "(%s)"
 local format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.*", "")) -- "You create: "
-if GetLocale() == "koKR" then
+if x.locale == "koKR" then
     format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.+ ", ""))
 end
 local format_looted = (LOOT_ITEM_SELF:gsub("%%.*", "")) -- "You receive loot: "
@@ -281,7 +281,7 @@ local XCT_STOLE
 local XCT_KILLED
 local XCT_DISPELLED
 
-if unsupportedLocales[GetLocale()] then
+if unsupportedLocales[x.locale] then
     XCT_STOLE = ACTION_SPELL_STOLEN
     XCT_KILLED = ACTION_PARTY_KILL
     XCT_DISPELLED = ACTION_SPELL_DISPEL
@@ -702,7 +702,7 @@ x.events = {
         if runeCount > 0 then
             x:AddMessage(
                 "power",
-                string.format(format_energy, runeCount, _G.RUNES),
+                string.format("+%s %s", runeCount, _G.RUNES),
                 x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
             )
         end
@@ -786,7 +786,7 @@ x.events = {
 
         if not preMessage or preMessage == "" then
             local format_getCraftedItemString = ""
-            if GetLocale() == "koKR" then
+            if x.locale == "koKR" then
                 format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
             end
 
@@ -2062,6 +2062,7 @@ local CombatEventHandlers = {
             return
         end
 
+        -- TODO use Enum.PowerType instead?
         local energy_type = x.POWER_LOOKUP[args.powerType]
         if not energy_type then
             x:Print("Unknown SPELL_ENERGIZE power type: " .. args.powerType)
@@ -2082,7 +2083,7 @@ local CombatEventHandlers = {
         else
             x:AddMessage(
                 "power",
-                string.format(format_energy, message, x:Options_Power_ShowEnergyTypes() and _G[energy_type] or ""),
+                string.format("+%s %s", message, x:Options_Power_ShowEnergyTypes() and _G[energy_type] or ""),
                 color
             )
         end
@@ -2140,7 +2141,7 @@ function x.CombatLogEvent(args)
             if x:Options_General_ShowDispells() then
                 local message = args.sourceName .. " dispelled:"
 
-                if GetLocale() == "koKR" then
+                if x.locale == "koKR" then
                     message = args.sourceName .. " 무효화:"
                 end
 
