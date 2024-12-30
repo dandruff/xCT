@@ -426,28 +426,6 @@ addon.defaults = {
                 colors = {
                     ["melee"] = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
                     ["misstypesOut"] = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
-
-                    ["healing"] = {
-                        enabled = false,
-                        desc = "Healing Color Overrides",
-                        colors = {
-                            ["healingOut"] = {
-                                enabled = false,
-                                desc = "Healing",
-                                default = { 0.10, 0.75, 0.10 },
-                            },
-                            ["healingOutCritical"] = {
-                                enabled = false,
-                                desc = "Healing (Critical)",
-                                default = { 0.10, 1.00, 0.10 },
-                            },
-                            ["healingOutPeriodic"] = {
-                                enabled = false,
-                                desc = "Healing (Periodic)",
-                                default = { 0.10, 0.50, 0.10 },
-                            },
-                        },
-                    },
                 },
 
                 -- name formatting
@@ -657,6 +635,152 @@ addon.defaults = {
                 ["enableAutoAttack_Critical"] = true, -- OLD: showSwing
                 ["prefixAutoAttack_Critical"] = true, -- OLD: prefixSwing
                 ["petCrits"] = false,
+            },
+
+            outgoing_healing = {
+                ["enabledFrame"] = false,
+                ["secondaryFrame"] = 2,
+                ["insertText"] = "bottom",
+                ["alpha"] = 100,
+                ["megaDamage"] = true,
+
+                -- position
+                ["X"] = 400,
+                ["Y"] = 0,
+                ["Width"] = 164,
+                ["Height"] = 512,
+
+                -- fonts
+                ["font"] = "Condensed Bold (xCT+)",
+                ["fontSize"] = 18,
+                ["fontOutline"] = "2OUTLINE",
+                ["fontJustify"] = "RIGHT",
+
+                -- font shadow
+                ["enableFontShadow"] = true,
+                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
+                ["fontShadowOffsetX"] = 2,
+                ["fontShadowOffsetY"] = -2,
+
+                -- font colors
+                ["customColor"] = false,
+                ["fontColor"] = { 1.00, 1.00, 1.00 },
+                colors = {
+                    ["healing"] = {
+                        enabled = false,
+                        desc = "Healing Color Overrides",
+                        colors = {
+                            ["healingOut"] = {
+                                enabled = false,
+                                desc = "Healing",
+                                default = { 0.10, 0.75, 0.10 },
+                            },
+                            ["healingOutCritical"] = {
+                                enabled = false,
+                                desc = "Healing (Critical)",
+                                default = { 0.10, 1.00, 0.10 },
+                            },
+                            ["healingOutPeriodic"] = {
+                                enabled = false,
+                                desc = "Healing (Periodic)",
+                                default = { 0.10, 0.50, 0.10 },
+                            },
+                        },
+                    },
+                },
+
+                -- name formatting
+                names = {
+                    -- appearance
+                    ["namePrefix"] = " |cffFFFFFF<|r",
+                    ["namePostfix"] = "|cffFFFFFF>|r",
+
+                    -- events from a player's character
+                    PLAYER = {
+                        -- Name Types:
+                        --   0 = None
+                        --   1 = Source Name
+                        --   2 = Spell Name
+                        --   3 = Both ("Source Name - Spell Name")
+                        --   4 = Both ("Spell Name - Source Name")
+                        ["nameType"] = 0,
+
+                        ["enableNameColor"] = true,
+                        ["removeRealmName"] = true,
+                        ["enableCustomNameColor"] = false,
+                        ["customNameColor"] = { 1, 1, 1 },
+
+                        ["enableSpellColor"] = true,
+                        ["enableCustomSpellColor"] = false,
+                        ["customSpellColor"] = { 1, 1, 1 },
+                    },
+
+                    -- events from a npc
+                    NPC = {
+                        -- Name Types:
+                        --   0 = None
+                        --   1 = Source Name
+                        --   2 = Spell Name
+                        --   3 = Both ("Source Name - Spell Name")
+                        --   4 = Both ("Spell Name - Source Name")
+                        ["nameType"] = 0,
+
+                        ["enableNameColor"] = true, -- Always On (Not in Options)
+                        ["removeRealmName"] = false, -- Always Off (Not in Options)
+                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
+                        ["customNameColor"] = { 0.3, 0, 0.3 },
+
+                        ["enableSpellColor"] = true,
+                        ["enableCustomSpellColor"] = false,
+                        ["customSpellColor"] = { 1, 1, 1 },
+                    },
+
+                    -- events from the envirornment
+                    ENVIRONMENT = {
+                        ["nameType"] = 0,
+                    },
+                },
+
+                -- icons
+                ["iconsEnabled"] = true,
+                ["iconsSize"] = 16,
+                ["iconsEnabledAutoAttack"] = true,
+                ["spacerIconsEnabled"] = true,
+
+                -- scrollable
+                ["enableScrollable"] = false,
+                ["scrollableLines"] = 10,
+                ["scrollableInCombat"] = false,
+
+                -- fading text
+                ["enableCustomFade"] = true,
+                ["enableFade"] = true,
+                ["fadeTime"] = 0.3,
+                ["visibilityTime"] = 5,
+
+                -- special tweaks
+                ["enableAutoAttack_Outgoing"] = true, -- OLD: enableAutoAttack
+                ["enablePetAutoAttack_Outgoing"] = true,
+
+                ["enableOutDmg"] = true,
+                ["enableOutHeal"] = true,
+                ["enableOutAbsorbs"] = true,
+                ["enablePetDmg"] = true,
+                ["enableVehicleDmg"] = true,
+                ["enableDotDmg"] = true,
+                ["enableHots"] = true,
+                ["enableImmunes"] = true,
+                ["enableMisses"] = true,
+                ["enableAbsorbs"] = true,
+                ["enablePartialMisses"] = false,
+                ["showHighestPartialMiss"] = false,
+                ["enableKillCommand"] = false,
+
+                ["enableOverhealing"] = true,
+                ["enableOverhealingFormat"] = false,
+                ["enableOverhealingSubtraction"] = false,
+                ["overhealingPrefix"] = " |cffFFFFFF(O: ",
+                ["overhealingPostfix"] = ")|r",
             },
 
             damage = {

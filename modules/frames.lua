@@ -49,19 +49,21 @@ local frameIndex = {
     [7] = "procs",
     [8] = "loot",
     --[9] = "class",    -- this is not used by redirection
+    [10] = "outgoing_healing"
 }
 
 -- Static Title Lookup
-x.FrameTitles = {
+x.frameTitles = {
     ["general"] = "General",
-    ["outgoing"] = "Outgoing",
-    ["critical"] = "Outgoing (Criticals)",
-    ["damage"] = "Damage (Incoming)",
-    ["healing"] = "Healing (Incoming)",
+    ["outgoing"] = "Outgoing Damage",
+    ["critical"] = "Outgoing Damage (Criticals)",
+    ["damage"] = "Incoming Damage",
+    ["healing"] = "Incoming Healing",
     ["power"] = "Class Power",
     --["class"]        = "Combo",
     ["procs"] = "Special Effects (Procs)",
-    ["loot"] = "Loot & Money"
+    ["loot"] = "Loot & Money",
+    ["outgoing_healing"] = "Outgoing Healing"
 }
 
 local function autoClearFrame_OnUpdate(self, elasped)
@@ -657,34 +659,47 @@ do
                 item.displayTime = now
 
                 if frameName == "outgoing" then
-                    -- Outgoing damage and healing (!)
+                    -- Outgoing damage
                     -- TODO separate heal + damage
                     if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
                         -- not enough to display
-                        item.mergedAmount = 0
                         item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
+                    end
+                elseif frameName == "outgoing_healing" then
+                    -- Outgoing healing
+                    -- TODO separate heal + damage
+                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
+                        -- not enough to display
+                        item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
                     end
                 elseif frameName == "critical" then
                     -- Outgoing damage and healing crits
                     -- TODO separate heal + damage
                     if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
-                        item.mergedAmount = 0
                         item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
                     end
                 elseif frameName == "healing" then
                     -- Incoming healing
                     if x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
-                        item.mergedAmount = 0
                         item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
                     end
                 elseif frameName == "damage" then
                     -- Incoming damage
                     if x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
-                        item.mergedAmount = 0
                         item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
                     end
                 end
 
@@ -759,9 +774,9 @@ do
                     x:AddMessage(frameName, message, item.color)
 
                     -- Clear all the old amounts, we dont need them anymore
+                    item.mergedCount = 0
                     item.mergedAmount = 0
                     item.message = ""
-                    item.mergedCount = 0
                 end
             end
         end

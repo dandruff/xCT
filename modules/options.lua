@@ -21,7 +21,7 @@ function x:Options_Global_ClearWhenLeavingCombat()
 end
 
 
--- Frame General
+-- Frame "General"
 function x:Options_General_ShowHonor()
     return x.db.profile.frames.general.showHonorGains
 end
@@ -62,13 +62,9 @@ function x:Options_General_ShowProfessionSkillups()
     return x.db.profile.frames.general.showProfessionSkillups
 end
 
--- Frame Outgoing
+-- Frame "Outgoing Damage"
 function x:Options_Outgoing_ShowDamage()
     return x.db.profile.frames.outgoing.enableOutDmg
-end
-
-function x:Options_Outgoing_ShowHealing()
-    return x.db.profile.frames.outgoing.enableOutHeal
 end
 
 function x:Options_Outgoing_ShowPetDamage()
@@ -95,10 +91,6 @@ function x:Options_Outgoing_ShowDots()
     return x.db.profile.frames.outgoing.enableDotDmg
 end
 
-function x:Options_Outgoing_ShowHots()
-    return x.db.profile.frames.outgoing.enableHots
-end
-
 function x:Options_Outgoing_ShowImmunes()
     return x.db.profile.frames.outgoing.enableImmunes
 end
@@ -115,35 +107,8 @@ function x:Options_Outgoing_ShowPartialMisses()
     return x.db.profile.frames.outgoing.enablePartialMisses
 end
 
--- TODO currently unused
-function x:Options_Outgoing_ShowOverhealing()
-    return x.db.profile.frames.outgoing.enableOverhealing
-end
 
-function x:Options_Outgoing_FormatOverhealing()
-    return x.db.profile.frames.outgoing.enableOverhealingFormat
-end
-
-function x:Options_Outgoing_OverhealingPrefix()
-    return x.db.profile.frames.outgoing.overhealingPrefix
-end
-
-function x:Options_Outgoing_OverhealingPostfix()
-    return x.db.profile.frames.outgoing.overhealingPostfix
-end
-
-function x:Options_Outgoing_FormatOverhealing(amount)
-    return x:Options_Outgoing_OverhealingPrefix()
-        .. amount
-        .. x:Options_Outgoing_OverhealingPostfix()
-end
-
-function x:Options_Outgoing_SubtractOverhealing()
-    return x.db.profile.frames.outgoing.enableOverhealingSubtraction
-end
-
-
--- Frame Outgoing (Criticals)
+-- Frame "Outgoing Damage (Criticals)"
 function x:Options_Critical_ShowAutoAttack()
     return x.db.profile.frames.outgoing.enableAutoAttack_Critical
 end
@@ -157,7 +122,39 @@ function x:Options_Critical_ShowPetCrits()
 end
 
 
--- Frame Incoming (Damage)
+-- Frame "Outgoing Healing"
+function x:Options_OutgoingHealing_ShowHots()
+    return x.db.profile.frames.outgoing_healing.enableHots
+end
+
+-- TODO currently unused
+function x:Options_OutgoingHealing_ShowOverhealing()
+    return x.db.profile.frames.outgoing_healing.enableOverhealing
+end
+
+function x:Options_OutgoingHealing_FormatOverhealing()
+    return x.db.profile.frames.outgoing_healing.enableOverhealingFormat
+end
+
+function x:Options_OutgoingHealing_OverhealingPrefix()
+    return x.db.profile.frames.outgoing_healing.overhealingPrefix
+end
+
+function x:Options_OutgoingHealing_OverhealingPostfix()
+    return x.db.profile.frames.outgoing_healing.overhealingPostfix
+end
+
+function x:Options_OutgoingHealing_FormatOverhealingAmount(amount)
+    return x:Options_OutgoingHealing_OverhealingPrefix()
+        .. amount
+        .. x:Options_OutgoingHealing_OverhealingPostfix()
+end
+
+function x:Options_OutgoingHealing_SubtractOverhealing()
+    return x.db.profile.frames.outgoing_healing.enableOverhealingSubtraction
+end
+
+-- Frame "Incoming Damage"
 function x:Options_IncomingDamage_ShowMissTypes()
     return x.db.profile.frames.damage.showDodgeParryMiss
 end
@@ -167,7 +164,7 @@ function x:Options_IncomingDamage_ShowResistances()
 end
 
 
--- Frame Incoming (Healing)
+-- Frame "Incoming Healing"
 function x:Options_IncomingHealing_ShowOnlyMyHeals()
     return x.db.profile.frames.healing.showOnlyMyHeals
 end
@@ -185,7 +182,7 @@ function x:Options_IncomingHealing_HideAbsorbedHealing()
 end
 
 
--- Frame Class Power
+-- Frame "Class Power"
 function x:Options_Power_ShowGains()
     return x.db.profile.frames.power.showEnergyGains
 end
@@ -203,13 +200,13 @@ function x:Options_Power_ShowResource(resource)
 end
 
 
--- Frame Special Effects (Procs)
+-- Frame "Special Effects (Procs)"
 function x:Options_Procs_ShowProcs()
     return x.db.profile.frames.procs.enabledFrame
 end
 
 
--- Frame Loot, Currency & Money
+-- Frame "Loot, Currency & Money"
 function x:Options_Loot_ShowItems()
     return x.db.profile.frames.loot.showItems
 end

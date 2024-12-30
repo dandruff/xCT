@@ -2070,13 +2070,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     --[1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -2495,7 +2496,7 @@ function x:InitOptionsTable()
             },
 
             outgoing = {
-                name = "|cffFFFFFFOutgoing|r",
+                name = "|cffFFFFFFOutgoing Damage|r",
                 type = "group",
                 order = 12,
                 childGroups = "tab",
@@ -2527,13 +2528,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    --[2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    --[2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -2823,7 +2825,7 @@ function x:InitOptionsTable()
                             iconsEnabledAutoAttack = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Auto Attack",
+                                name = "Show Auto Attack Icon",
                                 desc = "Show icons from Auto Attacks.",
                                 get = get2,
                                 set = set2,
@@ -3187,94 +3189,6 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
 
-                            healingSettings = {
-                                type = "header",
-                                order = 30,
-                                name = "Healing Settings",
-                            },
-                            enableOutHeal = {
-                                order = 31,
-                                type = "toggle",
-                                name = "Show Outgoing Healing",
-                                desc = "Show healing you do.",
-                                get = "Options_Outgoing_ShowHealing",
-                                set = set2,
-                            },
-                            enableHots = {
-                                order = 32,
-                                type = "toggle",
-                                name = "Show HoTs",
-                                desc = "Show your Heal-Over-Time (HOT) healing. (|cffFF0000Requires:|r Outgoing Healing)",
-                                get = "Options_Outgoing_ShowHots",
-                                set = set2,
-                            },
-                            enableOverhealing = {
-                                order = 34,
-                                type = "toggle",
-                                name = "Show Overhealing",
-                                desc = "Displays overhealing.",
-                                get = "Options_Outgoing_ShowOverhealing",
-                                set = set2,
-                                disabled = isFrameItemDisabled,
-                            },
-                            enableOverhealingSubtraction = {
-                                order = 35,
-                                type = "toggle",
-                                name = "Subtract Overhealing",
-                                desc = "Subtract the overhealed amount from the Total Amount",
-                                get = "Options_Outgoing_SubtractOverhealing",
-                                set = set2,
-                                disabled = function()
-                                    return not x.db.profile.frames.outgoing.enabledFrame
-                                        or not x.db.profile.frames.outgoing.enableOverhealing
-                                end,
-                            },
-
-                            spacer_Healing1 = {
-                                type = "description",
-                                order = 40,
-                                name = "",
-                                fontSize = "small",
-                            },
-                            enableOverhealingFormat = {
-                                order = 41,
-                                type = "toggle",
-                                name = "Format Overhealing",
-                                desc = "Splits overhealing into its own section. Example: +43,000 (O: 12,000)",
-                                get = "Options_Outgoing_FormatOverhealing",
-                                set = set2,
-                                disabled = function()
-                                    return not x.db.profile.frames.outgoing.enabledFrame
-                                        or not x.db.profile.frames.outgoing.enableOverhealing
-                                end,
-                            },
-                            overhealingPrefix = {
-                                order = 45,
-                                type = "input",
-                                name = "Overhealing Prefix",
-                                desc = "Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
-                                get = "Options_Outgoing_OverhealingPrefix",
-                                set = setTextIn2,
-                                disabled = function()
-                                    return not x.db.profile.frames.outgoing.enabledFrame
-                                        or not x.db.profile.frames.outgoing.enableOverhealing
-                                        or not x.db.profile.frames.outgoing.enableOverhealingFormat
-                                end,
-                            },
-                            overhealingPostfix = {
-                                order = 46,
-                                type = "input",
-                                name = "Overhealing Postfix",
-                                desc = "Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
-                                get = "Options_Outgoing_OverhealingPostfix",
-                                set = setTextIn2,
-                                disabled = function()
-                                    return not x.db.profile.frames.outgoing.enabledFrame
-                                        or not x.db.profile.frames.outgoing.enableOverhealing
-                                        or not x.db.profile.frames.outgoing.enableOverhealingFormat
-                                end,
-                            },
-
                             missTypeSettings = {
                                 type = "header",
                                 order = 50,
@@ -3318,7 +3232,7 @@ function x:InitOptionsTable()
             },
 
             critical = {
-                name = "|cffFFFFFFOutgoing|r |cff798BDD(Criticals)|r",
+                name = "|cffFFFFFFOutgoing Damage|r |cff798BDD(Criticals)|r",
                 type = "group",
                 order = 13,
                 childGroups = "tab",
@@ -3350,13 +3264,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    --[3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    --[3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -3990,8 +3905,8 @@ function x:InitOptionsTable()
                 },
             },
 
-            damage = {
-                name = "|cffFFFFFFIncoming|r |cff798BDD(Damage)|r",
+            outgoing_healing = {
+                name = "|cffFFFFFFOutgoing Healing|r",
                 type = "group",
                 order = 14,
                 childGroups = "tab",
@@ -4023,13 +3938,696 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    --[4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    --[10] = "Outgoing Healing"
+                                },
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameItemEnabled,
+                            },
+                            insertText = {
+                                type = "select",
+                                order = 3,
+                                name = "Text Direction",
+                                desc = "Changes the direction that the text travels in the frame.",
+                                values = {
+                                    ["top"] = "Down",
+                                    ["bottom"] = "Up",
+                                },
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            alpha = {
+                                order = 4,
+                                name = "Frame Alpha",
+                                desc = "Sets the alpha of the frame.",
+                                type = "range",
+                                min = 0,
+                                max = 100,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            megaDamage = {
+                                order = 5,
+                                type = "toggle",
+                                name = "Number Formatting",
+                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                get = get2,
+                                set = set2,
+                            },
+
+                            frameScrolling = {
+                                type = "header",
+                                order = 10,
+                                name = "Scrollable Frame Settings",
+                            },
+                            enableScrollable = {
+                                order = 11,
+                                type = "toggle",
+                                name = "Enabled",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            scrollableLines = {
+                                order = 12,
+                                name = "Number of Lines",
+                                type = "range",
+                                min = 10,
+                                max = 60,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameNotScrollable,
+                            },
+                            scrollableInCombat = {
+                                order = 13,
+                                type = "toggle",
+                                name = "Disable in Combat",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+
+                            frameFading = {
+                                type = "header",
+                                order = 30,
+                                name = "Fading Text Settings",
+                            },
+                            enableCustomFade = {
+                                order = 31,
+                                type = "toggle",
+                                name = "Use Custom Fade",
+                                width = "full",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            enableFade = {
+                                order = 32,
+                                type = "toggle",
+                                name = "Enable",
+                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                width = "half",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameUseCustomFade,
+                            },
+                            fadeTime = {
+                                order = 33,
+                                name = "Fade Out Duration",
+                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                type = "range",
+                                min = 0,
+                                max = 2,
+                                step = 0.1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFadingDisabled,
+                            },
+                            visibilityTime = {
+                                order = 34,
+                                name = "Visibility Duration",
+                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                type = "range",
+                                min = 2,
+                                max = 15,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFadingDisabled,
+                            },
+                        },
+                    },
+
+                    fonts = {
+                        order = 20,
+                        type = "group",
+                        name = "Font",
+                        args = {
+                            fontSettings = {
+                                type = "header",
+                                order = 0,
+                                name = "Font Settings",
+                            },
+                            font = {
+                                type = "select",
+                                dialogControl = "LSM30_Font",
+                                order = 1,
+                                name = "Font",
+                                desc = "Set the font of the frame.",
+                                values = AceGUIWidgetLSMlists.font,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontSize = {
+                                order = 2,
+                                name = "Font Size",
+                                desc = "Set the font size of the frame.",
+                                type = "range",
+                                min = 6,
+                                max = 64,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontOutline = {
+                                type = "select",
+                                order = 3,
+                                name = "Font Outline",
+                                desc = "Set the font outline.",
+                                values = {
+                                    ["1NONE"] = "None",
+                                    ["2OUTLINE"] = "OUTLINE",
+                                    -- BUG: Setting font to monochrome AND above size 16 will crash WoW
+                                    -- http://us.battle.net/wow/en/forum/topic/6470967362
+                                    ["3MONOCHROME"] = "MONOCHROME",
+                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
+                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                },
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontJustify = {
+                                type = "select",
+                                order = 4,
+                                name = "Justification",
+                                desc = "Justifies the output to a side.",
+                                values = {
+                                    ["RIGHT"] = "Right",
+                                    ["LEFT"] = "Left",
+                                    ["CENTER"] = "Center",
+                                },
+                                get = get2,
+                                set = set2_update,
+                            },
+
+                            fontShadowSettings = {
+                                type = "header",
+                                order = 10,
+                                name = "Font Shadow Settings",
+                            },
+
+                            enableFontShadow = {
+                                order = 11,
+                                type = "toggle",
+                                name = "Enable Font Shadow",
+                                desc = "Shows a shadow behind the combat text fonts.",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+
+                            fontShadowColor = {
+                                order = 12,
+                                type = "color",
+                                hasAlpha = true,
+                                name = "Font Shadow Color",
+                                get = getColor2,
+                                set = setColor2_alpha,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+
+                            fontShadowOffsetX = {
+                                order = 13,
+                                name = "Horizonal Offset",
+                                type = "range",
+                                min = -10,
+                                max = 10,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+
+                            fontShadowOffsetY = {
+                                order = 14,
+                                name = "Vertical Offset",
+                                type = "range",
+                                min = -10,
+                                max = 10,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+                        },
+                    },
+
+                    icons = {
+                        order = 30,
+                        type = "group",
+                        name = "Icons",
+                        args = {
+                            headerIconSettings = {
+                                type = "header",
+                                order = 1,
+                                name = "Icon Settings",
+                            },
+                            iconsEnabled = {
+                                order = 2,
+                                type = "toggle",
+                                name = "Enable Icons",
+                                desc = "Show icons next to your damage.",
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameItemDisabled,
+                            },
+                            iconsSize = {
+                                order = 3,
+                                name = "Size",
+                                desc = "Set the icon size. (Recommended value: 16)",
+                                type = "range",
+                                min = 6,
+                                max = 22,
+                                step = 1,
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameIconDisabled,
+                            },
+                            spacerIconsEnabled = {
+                                order = 4,
+                                type = "toggle",
+                                name = "Show Invisible Icons",
+                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameIconSpacerDisabled,
+                            },
+                        },
+                    },
+
+                    fontColors = {
+                        order = 40,
+                        type = "group",
+                        name = "Colors",
+                        args = {
+                            customColors_label = {
+                                type = "header",
+                                order = 0,
+                                name = "Custom Colors",
+                            },
+
+                            customColor = {
+                                order = 2,
+                                type = "toggle",
+                                name = "All Text One Color (Override Color Settings)",
+                                width = "double",
+                                desc = "Change all the text in this frame to a specific color.",
+                                get = get2,
+                                set = set2,
+                            },
+
+                            fontColor = {
+                                order = 3,
+                                type = "color",
+                                name = "Color",
+                                get = getColor2,
+                                set = setColor2,
+                                hidden = isFrameCustomColorDisabled,
+                            },
+
+                            customColors_Desc = {
+                                type = "description",
+                                order = 4,
+                                name = "\n|cffFFFF00Other Color Settings|r:",
+                                fontSize = "small",
+                            },
+                        },
+                    },
+
+                    names = {
+                        order = 50,
+                        type = "group",
+                        name = "Names",
+                        childGroups = "select",
+                        get = getNameFormat,
+                        set = setNameFormat,
+                        args = {
+                            namesDescription = {
+                                type = "description",
+                                order = 1,
+                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                fontSize = "small",
+                            },
+
+                            nameAppearance = {
+                                type = "description",
+                                order = 2,
+                                name = "|cff798BDDName Appearance|r:\n\n",
+                                fontSize = "large",
+                                width = "normal",
+                            },
+
+                            namePrefix = {
+                                order = 3,
+                                type = "input",
+                                name = "Prefix",
+                                desc = "Prefix this value to the beginning when displaying the name.",
+                                get = getNameFormatText,
+                                set = setNameFormatText,
+                            },
+
+                            namePostfix = {
+                                order = 4,
+                                type = "input",
+                                name = "Postfix",
+                                desc = "Postfix this value to the end when displaying the name.",
+                                get = getNameFormatText,
+                                set = setNameFormatText,
+                            },
+
+                            PLAYER = {
+                                order = 10,
+                                type = "group",
+                                name = "Events to a Player",
+                                args = {
+                                    playerNames = {
+                                        type = "description",
+                                        order = 1,
+                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableNameColor = {
+                                        order = 2,
+                                        type = "toggle",
+                                        name = "Color Player Name",
+                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                    },
+
+                                    removeRealmName = {
+                                        order = 3,
+                                        type = "toggle",
+                                        name = "Remove Realm Name",
+                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                    },
+
+                                    enableCustomNameColor = {
+                                        order = 4,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customNameColor = {
+                                        order = 5,
+                                        type = "color",
+                                        name = "Color",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                        width = "half",
+                                    },
+
+                                    playerSpellNames = {
+                                        type = "description",
+                                        order = 10,
+                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableSpellColor = {
+                                        order = 11,
+                                        type = "toggle",
+                                        name = "Color Spell Name",
+                                        desc = "The spell name will be colored according to it's spell school.",
+                                    },
+
+                                    playerNames_Spacer1 = {
+                                        type = "description",
+                                        order = 12,
+                                        name = "",
+                                        width = "normal",
+                                    },
+
+                                    enableCustomSpellColor = {
+                                        order = 13,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customSpellColor = {
+                                        order = 14,
+                                        type = "color",
+                                        name = "Color",
+                                        width = "half",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                        width = "half",
+                                    },
+
+                                    playerNames_Spacer2 = {
+                                        type = "description",
+                                        order = 20,
+                                        name = "",
+                                    },
+
+                                    nameType = {
+                                        type = "select",
+                                        order = 30,
+                                        name = "Display Player Name",
+                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player",
+                                        width = "double",
+                                        style = "radio",
+                                        values = {
+                                            [0] = "None",
+                                            [1] = "Player Name",
+                                            [2] = "Spell Name",
+                                            [3] = "Both (Player Name - Spell Name)",
+                                            [4] = "Both (Spell Name - Player Name)",
+                                        },
+                                    },
+                                },
+                            },
+
+                            NPC = {
+                                order = 20,
+                                type = "group",
+                                name = "Events to a NPC",
+                                args = {
+                                    npcNames = {
+                                        type = "description",
+                                        order = 1,
+                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    customNameColor = {
+                                        order = 2,
+                                        type = "color",
+                                        name = "NPC Name's Color",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                    },
+
+                                    npcSpellNames = {
+                                        type = "description",
+                                        order = 10,
+                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableSpellColor = {
+                                        order = 11,
+                                        type = "toggle",
+                                        name = "Color Spell Name",
+                                        desc = "The spell name will be colored according to it's spell school.",
+                                    },
+
+                                    npcNames_Spacer1 = {
+                                        type = "description",
+                                        order = 12,
+                                        name = "",
+                                        width = "normal",
+                                    },
+
+                                    enableCustomSpellColor = {
+                                        order = 13,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customSpellColor = {
+                                        order = 14,
+                                        type = "color",
+                                        name = "Color",
+                                        width = "half",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                    },
+
+                                    npcNames_Spacer2 = {
+                                        type = "description",
+                                        order = 20,
+                                        name = "",
+                                    },
+
+                                    nameType = {
+                                        type = "select",
+                                        order = 21,
+                                        name = "Display NPC Name",
+                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target",
+                                        width = "double",
+                                        style = "radio",
+                                        values = {
+                                            [0] = "None",
+                                            [1] = "NPC's Name",
+                                            [2] = "Spell Name",
+                                            [3] = "Both (NPC Name - Spell Name)",
+                                            [4] = "Both (Spell Name - NPC Name)",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+
+                    specialTweaks = {
+                        order = 60,
+                        type = "group",
+                        name = "Misc",
+                        args = {
+                            headerHots = {
+                                order = 1,
+                                type = "header",
+                                name = "HoTs",
+                            },
+                            enableHots = {
+                                order = 2,
+                                type = "toggle",
+                                name = "Show HoTs",
+                                desc = "Show your Heal-Over-Time (HOT) healing.",
+                                get = "Options_OutgoingHealing_ShowHots",
+                                set = set2,
+                            },
+
+                            headerOverhealing = {
+                                order = 10,
+                                type = "header",
+                                name = "Overhealing",
+                            },
+                            enableOverhealing = {
+                                order = 11,
+                                type = "toggle",
+                                name = "Show Overhealing",
+                                desc = "Displays overhealing.",
+                                get = "Options_OutgoingHealing_ShowOverhealing",
+                                set = set2,
+                                disabled = isFrameItemDisabled,
+                            },
+                            enableOverhealingSubtraction = {
+                                order = 12,
+                                type = "toggle",
+                                name = "Subtract Overhealing",
+                                desc = "Subtract the overhealed amount from the Total Amount",
+                                get = "Options_OutgoingHealing_SubtractOverhealing",
+                                set = set2,
+                                disabled = function()
+                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                end,
+                            },
+                            enableOverhealingFormat = {
+                                order = 13,
+                                type = "toggle",
+                                name = "Format Overhealing",
+                                desc = "Splits overhealing into its own section. Example: +43,000 (O: 12,000)",
+                                get = "Options_OutgoingHealing_FormatOverhealing",
+                                set = set2,
+                                disabled = function()
+                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                end,
+                            },
+                            overhealingPrefix = {
+                                order = 14,
+                                type = "input",
+                                name = "Overhealing Prefix",
+                                desc = "Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
+                                get = "Options_OutgoingHealing_OverhealingPrefix",
+                                set = setTextIn2,
+                                disabled = function()
+                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
+                                end,
+                            },
+                            overhealingPostfix = {
+                                order = 15,
+                                type = "input",
+                                name = "Overhealing Postfix",
+                                desc = "Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
+                                get = "Options_OutgoingHealing_OverhealingPostfix",
+                                set = setTextIn2,
+                                disabled = function()
+                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                        or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
+                                end,
+                            },
+                        },
+                    },
+                },
+            },
+
+            damage = {
+                name = "|cffFFFFFFIncoming Damage|r",
+                type = "group",
+                order = 15,
+                childGroups = "tab",
+                args = {
+
+                    frameSettings = {
+                        order = 10,
+                        type = "group",
+                        name = "Frame",
+                        args = {
+                            headerFrameSettings = {
+                                type = "header",
+                                order = 0,
+                                name = "Frame Settings",
+                            },
+                            enabledFrame = {
+                                order = 1,
+                                type = "toggle",
+                                name = "Enable",
+                                width = "half",
+                                get = get2,
+                                set = set2_update,
+                            },
+                            secondaryFrame = {
+                                type = "select",
+                                order = 2,
+                                name = "Secondary Frame",
+                                desc = "A frame to forward messages to when this frame is disabled.",
+                                values = {
+                                    [0] = "None",
+                                    [1] = "General",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    --[4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
+                                    [6] = "Class Power",
+                                    [7] = "Special Effects (Procs)",
+                                    [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -4319,7 +4917,7 @@ function x:InitOptionsTable()
                             iconsEnabledAutoAttack = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Auto Attack",
+                                name = "Show Auto Attack Icon",
                                 desc = "Show icons from Auto Attacks.",
                                 get = get2,
                                 set = set2,
@@ -4775,9 +5373,9 @@ function x:InitOptionsTable()
             },
 
             healing = {
-                name = "|cffFFFFFFIncoming|r |cff798BDD(Healing)|r",
+                name = "|cffFFFFFFIncoming Healing|r",
                 type = "group",
-                order = 15,
+                order = 16,
                 childGroups = "tab",
                 args = {
 
@@ -4807,13 +5405,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    --[5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    --[5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -5428,7 +6027,7 @@ function x:InitOptionsTable()
             class = {
                 name = "|cff808080Class Combo Points (Disabled)|r",
                 type = "group",
-                order = 16,
+                order = 17,
                 childGroups = "tab",
                 disabled = true,
 
@@ -5655,7 +6254,7 @@ function x:InitOptionsTable()
             power = {
                 name = "|cffFFFFFFClass Power|r",
                 type = "group",
-                order = 17,
+                order = 18,
                 childGroups = "tab",
                 args = {
 
@@ -5685,13 +6284,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     --[6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -6142,7 +6742,7 @@ function x:InitOptionsTable()
             procs = {
                 name = "|cffFFFFFFSpecial Effects|r |cff798BDD(Procs)|r",
                 type = "group",
-                order = 18,
+                order = 19,
                 childGroups = "tab",
                 args = {
 
@@ -6172,13 +6772,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     --[7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,
@@ -6498,7 +7099,7 @@ function x:InitOptionsTable()
             loot = {
                 name = "|cffFFFFFFLoot, Currency & Money|r",
                 type = "group",
-                order = 19,
+                order = 20,
                 childGroups = "tab",
                 args = {
 
@@ -6528,13 +7129,14 @@ function x:InitOptionsTable()
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
-                                    [2] = "Outgoing",
-                                    [3] = "Outgoing (Criticals)",
-                                    [4] = "Incoming (Damage)",
-                                    [5] = "Incoming (Healing)",
+                                    [2] = "Outgoing Damage",
+                                    [3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     --[8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
                                 },
                                 get = get2,
                                 set = set2,

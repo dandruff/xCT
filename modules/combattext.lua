@@ -216,9 +216,9 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
     end
 
     -- Show and Format Overhealing values
-    if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
+    if overhealing > 0 and x:Options_OutgoingHealing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
-        message = message .. x:Options_Outgoing_FormatOverhealing(overhealing)
+        message = message .. x:Options_OutgoingHealing_FormatOverhealingAmount(overhealing)
     end
 
     -- Add names
@@ -252,9 +252,9 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing
     end
 
     -- Show and Format Overhealing values
-    if overhealing > 0 and x:Options_Outgoing_FormatOverhealing() then
+    if overhealing > 0 and x:Options_OutgoingHealing_FormatOverhealing() then
         overhealing = x:Abbreviate(overhealing, outputFrame)
-        message = message .. x:Options_Outgoing_FormatOverhealing(overhealing)
+        message = message .. x:Options_OutgoingHealing_FormatOverhealingAmount(overhealing)
     end
 
     -- Add names
@@ -704,6 +704,7 @@ x.events = {
             x:Clear("general")
             x:Clear("outgoing")
             x:Clear("critical")
+            x:Clear("outgoing_healing")
             x:Clear("damage")
             x:Clear("healing")
             x:Clear("power")
@@ -1213,12 +1214,8 @@ local CombatEventHandlers = {
             x.spellCache.spells[spellID] = true
         end
 
-        if not x:Options_Outgoing_ShowHealing() then
-            return
-        end
-
         -- Check to see if this is a HoT
-        if isHoT and not x:Options_Outgoing_ShowHots() then
+        if isHoT and not x:Options_OutgoingHealing_ShowHots() then
             return
         end
 
@@ -1229,7 +1226,7 @@ local CombatEventHandlers = {
 
         -- Filter Overhealing
         if x:Options_IncomingHealing_ShowOverHealing() then
-            if x:Options_Outgoing_SubtractOverhealing() then
+            if x:Options_OutgoingHealing_SubtractOverhealing() then
                 amount = amount - overhealing
             end
         else
@@ -1241,7 +1238,7 @@ local CombatEventHandlers = {
         end
 
         -- Figure out which frame and color to output
-        local outputFrame, outputColor, critical = "outgoing", "healingOut", args.critical
+        local outputFrame, outputColor, critical = "outgoing_healing", "healingOut", args.critical
         if critical then
             outputFrame = "critical"
             outputColor = "healingOutCritical"
@@ -1276,7 +1273,7 @@ local CombatEventHandlers = {
                     return
                 elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                     x:AddSpamMessage(
-                        "outgoing",
+                        "outgoing_healing",
                         spellID,
                         amount,
                         outputColor,
@@ -1290,7 +1287,7 @@ local CombatEventHandlers = {
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
                     x:AddSpamMessage(
-                        "outgoing",
+                        "outgoing_healing",
                         spellID,
                         amount,
                         outputColor,
@@ -1576,7 +1573,7 @@ local CombatEventHandlers = {
 
         local settings
         if critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
-            settings = x.db.profile.frames["critical"]
+            settings = x.db.profile.frames.critical
             if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
                 message = string.format(
                     format_crit,
@@ -1588,7 +1585,7 @@ local CombatEventHandlers = {
                 message = x:Abbreviate(amount, "critical")
             end
         else
-            settings = x.db.profile.frames["outgoing"]
+            settings = x.db.profile.frames.outgoing
             message = x:Abbreviate(amount, "outgoing")
         end
 
@@ -1752,7 +1749,7 @@ local CombatEventHandlers = {
     ["HealingIncoming"] = function(args)
         local amount, isHoT = args.amount, args.prefix == "SPELL_PERIODIC"
         local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
-        local settings = x.db.profile.frames["healing"]
+        local settings = x.db.profile.frames.healing
 
         if x:Options_Filter_TrackSpells() then
             x.spellCache.healing[args.spellId] = true
