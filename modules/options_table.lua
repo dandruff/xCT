@@ -156,15 +156,6 @@ function x:InitOptionsTable()
         x.db.profile[info[#info - 1]][info[#info]] = string.gsub(value, "||", "|")
         x:UpdateCVar()
     end
-    local function set1(info, value)
-        x.db.profile.frames[info[#info - 1]][info[#info]] = value
-        x:UpdateCVar()
-    end
-    local function set1_update(info, value)
-        set1(info, value)
-        x:UpdateFrames(info[#info - 1])
-        x:UpdateCVar()
-    end
     local function get2(info)
         return x.db.profile.frames[info[#info - 2]][info[#info]]
     end
@@ -176,11 +167,6 @@ function x:InitOptionsTable()
         set2(info, value)
         x:UpdateFrames(info[#info - 2])
         x:UpdateCVar()
-    end
-    local function set2_update_force(info, value)
-        set2(info, value)
-        x:UpdateFrames(info[#info - 2])
-        x:UpdateCVar(true)
     end
     local function getColor2(info)
         return unpack(x.db.profile.frames[info[#info - 2]][info[#info]] or {})
@@ -257,7 +243,7 @@ function x:InitOptionsTable()
         return x.db.profile.frames[info[#info - 2]].enabledFrame
     end
 
-    local function setSpecialCriticalOptions(info, value)
+    local function setSpecialCriticalOptions(info)
         x.db.profile[info[#info - 2]].mergeCriticalsWithOutgoing = false
         x.db.profile[info[#info - 2]].mergeCriticalsByThemselves = false
         x.db.profile[info[#info - 2]].mergeDontMergeCriticals = false
@@ -266,7 +252,7 @@ function x:InitOptionsTable()
         x.db.profile[info[#info - 2]][info[#info]] = true
     end
 
-    local function setFormating(info, value)
+    local function setFormatting(info)
         x.db.profile.spells.formatAbbreviate = false
         x.db.profile.spells.formatGroups = false
 
@@ -424,7 +410,7 @@ function x:InitOptionsTable()
         return healingHistory
     end
 
-    addon.optionsTable.args["spells"] = {
+    addon.optionsTable.args.spells = {
         name = "Spam Merger",
         type = "group",
         childGroups = "tab",
@@ -708,7 +694,7 @@ function x:InitOptionsTable()
         },
     }
 
-    addon.optionsTable.args["spellFilter"] = {
+    addon.optionsTable.args.spellFilter = {
         name = "Filters",
         type = "group",
         order = 3,
@@ -1223,7 +1209,7 @@ function x:InitOptionsTable()
         },
     }
 
-    addon.optionsTable.args["Credits"] = {
+    addon.optionsTable.args.Credits = {
         name = "Credits",
         type = "group",
         order = 6,
@@ -1395,7 +1381,7 @@ function x:InitOptionsTable()
         },
     }
 
-    addon.optionsTable.args["FloatingCombatText"] = {
+    addon.optionsTable.args.FloatingCombatText = {
         name = "Floating Combat Text",
         type = "group",
         order = 1,
@@ -1765,7 +1751,7 @@ function x:InitOptionsTable()
         },
     }
 
-    addon.optionsTable.args["SpellSchools"] = {
+    addon.optionsTable.args.SpellSchools = {
         name = "Spell School Colors",
         type = "group",
         order = 5,
@@ -1779,7 +1765,7 @@ function x:InitOptionsTable()
         },
     }
 
-    addon.optionsTable.args["Frames"] = {
+    addon.optionsTable.args.Frames = {
         name = "Frames",
         type = "group",
         order = 0,
@@ -1870,7 +1856,7 @@ function x:InitOptionsTable()
                         order = 2,
                         type = "toggle",
                         name = "Abbreviate Numbers",
-                        set = setFormating,
+                        set = setFormatting,
                         get = getDBSpells,
                     },
                     formatGroups = {
@@ -1878,7 +1864,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Decimal Marks",
                         desc = "Groups decimals and separates them by commas; this allows for better responsiveness when reading numbers.\n\n|cffFF0000EXAMPLE|r |cff798BDD12,890|r",
-                        set = setFormating,
+                        set = setFormatting,
                         get = getDBSpells,
                     },
                     decimalPoint = {
