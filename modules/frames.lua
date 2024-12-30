@@ -64,8 +64,6 @@ x.FrameTitles = {
     ["loot"] = "Loot & Money", -- LOOT,
 }
 
-local frameTitles = x.FrameTitles
-
 local function autoClearFrame_OnUpdate(self, elasped)
     if not self.last then
         self.last = 0
@@ -881,7 +879,7 @@ function x.StartConfigMode()
             f.title = f:CreateFontString(nil, "OVERLAY")
             f.title:SetPoint("BOTTOM", f, "TOP", 0, -18)
             f.title:SetFont(LSM:Fetch("font", "Condensed Bold (xCT+)"), 15, "OUTLINE")
-            f.title:SetText(frameTitles[framename])
+            f.title:SetText(x.frameTitles[framename])
 
             -- Size Text
             f.width = f:CreateFontString(nil, "OVERLAY")
