@@ -658,18 +658,8 @@ do
             if item and item.displayTime <= now and item.mergedCount > 0 then
                 item.displayTime = now
 
-                if frameName == "outgoing" then
+                if frameName == "outgoing" or frameName == "outgoing_healing" then
                     -- Outgoing damage
-                    -- TODO separate heal + damage
-                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
-                        -- not enough to display
-                        item.mergedCount = 0
-                        item.mergedAmount = 0
-                        item.message = ""
-                    end
-                elseif frameName == "outgoing_healing" then
-                    -- Outgoing healing
-                    -- TODO separate heal + damage
                     if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
                         -- not enough to display
                         item.mergedCount = 0
@@ -678,7 +668,6 @@ do
                     end
                 elseif frameName == "critical" then
                     -- Outgoing damage and healing crits
-                    -- TODO separate heal + damage
                     if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
                         item.mergedCount = 0

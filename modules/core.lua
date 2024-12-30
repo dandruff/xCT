@@ -162,6 +162,8 @@ function x:OnEnable()
     -- Register the Options
     ACD:SetDefaultSize(AddonName, 803, 560)
     AC:RegisterOptionsTable(AddonName, addon.optionsTable)
+
+    self:Print("Version 4.9.0 added a new Frame: 'Outgoing Healing'. The default is set to merge with 'Outgoing Damage' but you may want to change that!")
 end
 
 -- Gets only called when your addon is manually being disabled.
@@ -334,7 +336,7 @@ function x:CompatibilityLogic(existing)
             end
         end
 
-        -- 4.3.0 Beta 4 -> Remove redundent Merge Entries from the Config
+        -- 4.3.0 Beta 4 -> Remove redundant Merge Entries from the Config
         if CompareVersions(VersionToTable("4.3.0 Beta 5"), previousVersion) > 0 then
             if currentVersion.devBuild then
                 x.MigratePrint("|cff798BDDMerge Entries:|r (|cffFFFF00Optimizing SavedVars|r)")

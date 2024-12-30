@@ -1021,7 +1021,7 @@ function x:InitOptionsTable()
             },
 
             listSpells = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Damage and Healing|r",
+                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r",
                 type = "group",
                 order = 50,
                 guiInline = false,
@@ -3231,684 +3231,10 @@ function x:InitOptionsTable()
                 },
             },
 
-            critical = {
-                name = "|cffFFFFFFOutgoing Damage|r |cff798BDD(Criticals)|r",
-                type = "group",
-                order = 13,
-                childGroups = "tab",
-                args = {
-
-                    frameSettings = {
-                        order = 10,
-                        type = "group",
-                        name = "Frame",
-                        args = {
-                            headerFrameSettings = {
-                                type = "header",
-                                order = 0,
-                                name = "Frame Settings",
-                            },
-                            enabledFrame = {
-                                order = 1,
-                                type = "toggle",
-                                name = "Enable",
-                                width = "half",
-                                get = get2,
-                                set = set2_update,
-                            },
-                            secondaryFrame = {
-                                type = "select",
-                                order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
-                                values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    --[3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
-                                },
-                                get = get2,
-                                set = set2,
-                                disabled = isFrameItemEnabled,
-                            },
-                            insertText = {
-                                type = "select",
-                                order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
-                                values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
-                                },
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            alpha = {
-                                order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
-                                type = "range",
-                                min = 0,
-                                max = 100,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            megaDamage = {
-                                order = 5,
-                                type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
-                                get = get2,
-                                set = set2,
-                            },
-
-                            frameScrolling = {
-                                type = "header",
-                                order = 10,
-                                name = "Scrollable Frame Settings",
-                            },
-                            enableScrollable = {
-                                order = 11,
-                                type = "toggle",
-                                name = "Enabled",
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            scrollableLines = {
-                                order = 12,
-                                name = "Number of Lines",
-                                type = "range",
-                                min = 10,
-                                max = 60,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameNotScrollable,
-                            },
-                            scrollableInCombat = {
-                                order = 13,
-                                type = "toggle",
-                                name = "Disable in Combat",
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-
-                            frameFading = {
-                                type = "header",
-                                order = 30,
-                                name = "Fading Text Settings",
-                            },
-                            enableCustomFade = {
-                                order = 31,
-                                type = "toggle",
-                                name = "Use Custom Fade",
-                                width = "full",
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            enableFade = {
-                                order = 32,
-                                type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
-                                width = "half",
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameUseCustomFade,
-                            },
-                            fadeTime = {
-                                order = 33,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
-                                type = "range",
-                                min = 0,
-                                max = 2,
-                                step = 0.1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameFadingDisabled,
-                            },
-                            visibilityTime = {
-                                order = 34,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
-                                type = "range",
-                                min = 2,
-                                max = 15,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameFadingDisabled,
-                            },
-                        },
-                    },
-
-                    fonts = {
-                        order = 20,
-                        type = "group",
-                        name = "Font",
-                        args = {
-                            fontSettings = {
-                                type = "header",
-                                order = 0,
-                                name = "Font Settings",
-                            },
-                            font = {
-                                type = "select",
-                                dialogControl = "LSM30_Font",
-                                order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
-                                values = AceGUIWidgetLSMlists.font,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            fontSize = {
-                                order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
-                                type = "range",
-                                min = 6,
-                                max = 64,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            fontOutline = {
-                                type = "select",
-                                order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
-                                values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
-                                    -- BUG: Setting font to monochrome AND above size 16 will crash WoW
-                                    -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
-                                },
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-                            fontJustify = {
-                                type = "select",
-                                order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
-                                values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
-                                },
-                                get = get2,
-                                set = set2_update,
-                            },
-
-                            fontShadowSettings = {
-                                type = "header",
-                                order = 10,
-                                name = "Font Shadow Settings",
-                            },
-
-                            enableFontShadow = {
-                                order = 11,
-                                type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameItemDisabled,
-                            },
-
-                            fontShadowColor = {
-                                order = 12,
-                                type = "color",
-                                hasAlpha = true,
-                                name = "Font Shadow Color",
-                                get = getColor2,
-                                set = setColor2_alpha,
-                                disabled = isFrameFontShadowDisabled,
-                            },
-
-                            fontShadowOffsetX = {
-                                order = 13,
-                                name = "Horizonal Offset",
-                                type = "range",
-                                min = -10,
-                                max = 10,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameFontShadowDisabled,
-                            },
-
-                            fontShadowOffsetY = {
-                                order = 14,
-                                name = "Vertical Offset",
-                                type = "range",
-                                min = -10,
-                                max = 10,
-                                step = 1,
-                                get = get2,
-                                set = set2_update,
-                                disabled = isFrameFontShadowDisabled,
-                            },
-                        },
-                    },
-
-                    icons = {
-                        order = 30,
-                        type = "group",
-                        name = "Icons",
-                        args = {
-                            headerIconSettings = {
-                                type = "header",
-                                order = 1,
-                                name = "Icon Settings",
-                            },
-                            iconsEnabled = {
-                                order = 2,
-                                type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
-                                get = get2,
-                                set = set2,
-                                disabled = isFrameItemDisabled,
-                            },
-                            iconsSize = {
-                                order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
-                                type = "range",
-                                min = 6,
-                                max = 22,
-                                step = 1,
-                                get = get2,
-                                set = set2,
-                                disabled = isFrameIconDisabled,
-                            },
-                            spacerIconsEnabled = {
-                                order = 4,
-                                type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
-                                get = get2,
-                                set = set2,
-                                disabled = isFrameIconSpacerDisabled,
-                            },
-                        },
-                    },
-
-                    fontColors = {
-                        order = 40,
-                        type = "group",
-                        name = "Colors",
-                        args = {
-                            customColors_label = {
-                                type = "header",
-                                order = 0,
-                                name = "Custom Colors",
-                            },
-
-                            customColor = {
-                                order = 2,
-                                type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
-                                width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
-                                get = get2,
-                                set = set2,
-                            },
-
-                            fontColor = {
-                                order = 3,
-                                type = "color",
-                                name = "Color",
-                                get = getColor2,
-                                set = setColor2,
-                                hidden = isFrameCustomColorDisabled,
-                            },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
-                        },
-                    },
-
-                    names = {
-                        order = 50,
-                        type = "group",
-                        name = "Names",
-                        childGroups = "select",
-                        get = getNameFormat,
-                        set = setNameFormat,
-                        args = {
-                            namesDescription = {
-                                type = "description",
-                                order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
-                                fontSize = "small",
-                            },
-
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
-                            namePrefix = {
-                                order = 3,
-                                type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
-                                get = getNameFormatText,
-                                set = setNameFormatText,
-                            },
-
-                            namePostfix = {
-                                order = 4,
-                                type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
-                                get = getNameFormatText,
-                                set = setNameFormatText,
-                            },
-
-                            PLAYER = {
-                                order = 10,
-                                type = "group",
-                                name = "Events to a Player",
-                                args = {
-                                    playerNames = {
-                                        type = "description",
-                                        order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
-                                        fontSize = "large",
-                                    },
-
-                                    enableNameColor = {
-                                        order = 2,
-                                        type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
-                                    },
-
-                                    removeRealmName = {
-                                        order = 3,
-                                        type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
-                                    },
-
-                                    enableCustomNameColor = {
-                                        order = 4,
-                                        type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
-                                        width = "half",
-                                    },
-
-                                    customNameColor = {
-                                        order = 5,
-                                        type = "color",
-                                        name = "Color",
-                                        get = getNameFormatColor,
-                                        set = setNameFormatColor,
-                                        width = "half",
-                                    },
-
-                                    playerSpellNames = {
-                                        type = "description",
-                                        order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
-                                        fontSize = "large",
-                                    },
-
-                                    enableSpellColor = {
-                                        order = 11,
-                                        type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
-                                    },
-
-                                    playerNames_Spacer1 = {
-                                        type = "description",
-                                        order = 12,
-                                        name = "",
-                                        width = "normal",
-                                    },
-
-                                    enableCustomSpellColor = {
-                                        order = 13,
-                                        type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
-                                        width = "half",
-                                    },
-
-                                    customSpellColor = {
-                                        order = 14,
-                                        type = "color",
-                                        name = "Color",
-                                        width = "half",
-                                        get = getNameFormatColor,
-                                        set = setNameFormatColor,
-                                        width = "half",
-                                    },
-
-                                    playerNames_Spacer2 = {
-                                        type = "description",
-                                        order = 20,
-                                        name = "",
-                                    },
-
-                                    nameType = {
-                                        type = "select",
-                                        order = 30,
-                                        name = "Display Player Name",
-                                        desc = "",
-                                        width = "double",
-                                        style = "radio",
-                                        values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
-                                        },
-                                    },
-                                },
-                            },
-
-                            NPC = {
-                                order = 20,
-                                type = "group",
-                                name = "Events to a NPC",
-                                args = {
-                                    npcNames = {
-                                        type = "description",
-                                        order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
-                                        fontSize = "large",
-                                    },
-
-                                    customNameColor = {
-                                        order = 2,
-                                        type = "color",
-                                        name = "NPC Name's Color",
-                                        get = getNameFormatColor,
-                                        set = setNameFormatColor,
-                                    },
-
-                                    npcSpellNames = {
-                                        type = "description",
-                                        order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
-                                        fontSize = "large",
-                                    },
-
-                                    enableSpellColor = {
-                                        order = 11,
-                                        type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
-                                    },
-
-                                    npcNames_Spacer1 = {
-                                        type = "description",
-                                        order = 12,
-                                        name = "",
-                                        width = "normal",
-                                    },
-
-                                    enableCustomSpellColor = {
-                                        order = 13,
-                                        type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
-                                        width = "half",
-                                    },
-
-                                    customSpellColor = {
-                                        order = 14,
-                                        type = "color",
-                                        name = "Color",
-                                        width = "half",
-                                        get = getNameFormatColor,
-                                        set = setNameFormatColor,
-                                    },
-
-                                    npcNames_Spacer2 = {
-                                        type = "description",
-                                        order = 20,
-                                        name = "",
-                                    },
-
-                                    nameType = {
-                                        type = "select",
-                                        order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "",
-                                        width = "double",
-                                        style = "radio",
-                                        values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-
-                    specialTweaks = {
-                        order = 60,
-                        type = "group",
-                        name = "Misc",
-                        args = {
-                            specialTweaks = {
-                                type = "header",
-                                order = 0,
-                                name = "Miscellaneous Settings",
-                            },
-                            enableAutoAttack_Critical = {
-                                order = 1,
-                                type = "toggle",
-                                name = "Show Auto Attacks",
-                                desc = "Show criticals from Auto Attack and Swings. If disabled, they will be displayed as non-critical auto attacks. They will be merged into the Outgoing frame.",
-                                get = "Options_Critical_ShowAutoAttack",
-                                set = set2,
-                            },
-                            prefixAutoAttack_Critical = {
-                                order = 2,
-                                type = "toggle",
-                                name = "Show Auto Attacks (Pre)Postfix",
-                                desc = "Make Auto Attack and Swing criticals more visible by adding the prefix and postfix.",
-                                get = "Options_Critical_PrefixAutoAttack",
-                                set = set2,
-                            },
-                            petCrits = {
-                                order = 3,
-                                type = "toggle",
-                                name = "Allow Pet Crits",
-                                desc = "Enable this to see when your pet's abilities critical strike, otherwise disable for less combat text spam.",
-                                get = "Options_Critical_ShowPetCrits",
-                                set = set2,
-                            },
-
-                            criticalAppearance = {
-                                type = "header",
-                                order = 10,
-                                name = "Critical Appearance",
-                            },
-                            critPrefix = {
-                                order = 11,
-                                type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying a critical amount.",
-                                get = getTextIn2,
-                                set = setTextIn2,
-                                --disabled = isFrameItemDisabled,
-                            },
-                            critPostfix = {
-                                order = 12,
-                                type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying a critical amount.",
-                                get = getTextIn2,
-                                set = setTextIn2,
-                                --disabled = isFrameItemDisabled,
-                            },
-                            critPostPreReset = {
-                                order = 13,
-                                type = "execute",
-                                name = "Reset",
-                                desc = "Reset Prefix and Postfix to their default setting.",
-                                func = function()
-                                    local critical = x.db.profile.frames.critical
-                                    critical.critPrefix = "|cffFF0000*|r"
-                                    critical.critPostfix = "|cffFF0000*|r"
-                                end,
-                                width = "half",
-                                disabled = function()
-                                    local critical = x.db.profile.frames.critical
-                                    return critical.critPrefix == "|cffFF0000*|r"
-                                        and critical.critPostfix == "|cffFF0000*|r"
-                                end,
-                            },
-                        },
-                    },
-                },
-            },
-
             outgoing_healing = {
                 name = "|cffFFFFFFOutgoing Healing|r",
                 type = "group",
-                order = 14,
+                order = 13,
                 childGroups = "tab",
                 args = {
 
@@ -4580,6 +3906,680 @@ function x:InitOptionsTable()
                                     return not x.db.profile.frames.outgoing_healing.enabledFrame
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
+                                end,
+                            },
+                        },
+                    },
+                },
+            },
+
+            critical = {
+                name = "|cffFFFFFFOutgoing|r |cff798BDD(Criticals)|r",
+                type = "group",
+                order = 14,
+                childGroups = "tab",
+                args = {
+
+                    frameSettings = {
+                        order = 10,
+                        type = "group",
+                        name = "Frame",
+                        args = {
+                            headerFrameSettings = {
+                                type = "header",
+                                order = 0,
+                                name = "Frame Settings",
+                            },
+                            enabledFrame = {
+                                order = 1,
+                                type = "toggle",
+                                name = "Enable",
+                                width = "half",
+                                get = get2,
+                                set = set2_update,
+                            },
+                            secondaryFrame = {
+                                type = "select",
+                                order = 2,
+                                name = "Secondary Frame",
+                                desc = "A frame to forward messages to when this frame is disabled.",
+                                values = {
+                                    [0] = "None",
+                                    [1] = "General",
+                                    [2] = "Outgoing Damage",
+                                    --[3] = "Outgoing Damage (Criticals)",
+                                    [4] = "Incoming Damage",
+                                    [5] = "Incoming Healing",
+                                    [6] = "Class Power",
+                                    [7] = "Special Effects (Procs)",
+                                    [8] = "Loot, Currency & Money",
+                                    [10] = "Outgoing Healing"
+                                },
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameItemEnabled,
+                            },
+                            insertText = {
+                                type = "select",
+                                order = 3,
+                                name = "Text Direction",
+                                desc = "Changes the direction that the text travels in the frame.",
+                                values = {
+                                    ["top"] = "Down",
+                                    ["bottom"] = "Up",
+                                },
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            alpha = {
+                                order = 4,
+                                name = "Frame Alpha",
+                                desc = "Sets the alpha of the frame.",
+                                type = "range",
+                                min = 0,
+                                max = 100,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            megaDamage = {
+                                order = 5,
+                                type = "toggle",
+                                name = "Number Formatting",
+                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                get = get2,
+                                set = set2,
+                            },
+
+                            frameScrolling = {
+                                type = "header",
+                                order = 10,
+                                name = "Scrollable Frame Settings",
+                            },
+                            enableScrollable = {
+                                order = 11,
+                                type = "toggle",
+                                name = "Enabled",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            scrollableLines = {
+                                order = 12,
+                                name = "Number of Lines",
+                                type = "range",
+                                min = 10,
+                                max = 60,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameNotScrollable,
+                            },
+                            scrollableInCombat = {
+                                order = 13,
+                                type = "toggle",
+                                name = "Disable in Combat",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+
+                            frameFading = {
+                                type = "header",
+                                order = 30,
+                                name = "Fading Text Settings",
+                            },
+                            enableCustomFade = {
+                                order = 31,
+                                type = "toggle",
+                                name = "Use Custom Fade",
+                                width = "full",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            enableFade = {
+                                order = 32,
+                                type = "toggle",
+                                name = "Enable",
+                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                width = "half",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameUseCustomFade,
+                            },
+                            fadeTime = {
+                                order = 33,
+                                name = "Fade Out Duration",
+                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                type = "range",
+                                min = 0,
+                                max = 2,
+                                step = 0.1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFadingDisabled,
+                            },
+                            visibilityTime = {
+                                order = 34,
+                                name = "Visibility Duration",
+                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                type = "range",
+                                min = 2,
+                                max = 15,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFadingDisabled,
+                            },
+                        },
+                    },
+
+                    fonts = {
+                        order = 20,
+                        type = "group",
+                        name = "Font",
+                        args = {
+                            fontSettings = {
+                                type = "header",
+                                order = 0,
+                                name = "Font Settings",
+                            },
+                            font = {
+                                type = "select",
+                                dialogControl = "LSM30_Font",
+                                order = 1,
+                                name = "Font",
+                                desc = "Set the font of the frame.",
+                                values = AceGUIWidgetLSMlists.font,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontSize = {
+                                order = 2,
+                                name = "Font Size",
+                                desc = "Set the font size of the frame.",
+                                type = "range",
+                                min = 6,
+                                max = 64,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontOutline = {
+                                type = "select",
+                                order = 3,
+                                name = "Font Outline",
+                                desc = "Set the font outline.",
+                                values = {
+                                    ["1NONE"] = "None",
+                                    ["2OUTLINE"] = "OUTLINE",
+                                    -- BUG: Setting font to monochrome AND above size 16 will crash WoW
+                                    -- http://us.battle.net/wow/en/forum/topic/6470967362
+                                    ["3MONOCHROME"] = "MONOCHROME",
+                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
+                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                },
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+                            fontJustify = {
+                                type = "select",
+                                order = 4,
+                                name = "Justification",
+                                desc = "Justifies the output to a side.",
+                                values = {
+                                    ["RIGHT"] = "Right",
+                                    ["LEFT"] = "Left",
+                                    ["CENTER"] = "Center",
+                                },
+                                get = get2,
+                                set = set2_update,
+                            },
+
+                            fontShadowSettings = {
+                                type = "header",
+                                order = 10,
+                                name = "Font Shadow Settings",
+                            },
+
+                            enableFontShadow = {
+                                order = 11,
+                                type = "toggle",
+                                name = "Enable Font Shadow",
+                                desc = "Shows a shadow behind the combat text fonts.",
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameItemDisabled,
+                            },
+
+                            fontShadowColor = {
+                                order = 12,
+                                type = "color",
+                                hasAlpha = true,
+                                name = "Font Shadow Color",
+                                get = getColor2,
+                                set = setColor2_alpha,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+
+                            fontShadowOffsetX = {
+                                order = 13,
+                                name = "Horizonal Offset",
+                                type = "range",
+                                min = -10,
+                                max = 10,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+
+                            fontShadowOffsetY = {
+                                order = 14,
+                                name = "Vertical Offset",
+                                type = "range",
+                                min = -10,
+                                max = 10,
+                                step = 1,
+                                get = get2,
+                                set = set2_update,
+                                disabled = isFrameFontShadowDisabled,
+                            },
+                        },
+                    },
+
+                    icons = {
+                        order = 30,
+                        type = "group",
+                        name = "Icons",
+                        args = {
+                            headerIconSettings = {
+                                type = "header",
+                                order = 1,
+                                name = "Icon Settings",
+                            },
+                            iconsEnabled = {
+                                order = 2,
+                                type = "toggle",
+                                name = "Enable Icons",
+                                desc = "Show icons next to your damage.",
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameItemDisabled,
+                            },
+                            iconsSize = {
+                                order = 3,
+                                name = "Size",
+                                desc = "Set the icon size. (Recommended value: 16)",
+                                type = "range",
+                                min = 6,
+                                max = 22,
+                                step = 1,
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameIconDisabled,
+                            },
+                            spacerIconsEnabled = {
+                                order = 4,
+                                type = "toggle",
+                                name = "Show Invisible Icons",
+                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                get = get2,
+                                set = set2,
+                                disabled = isFrameIconSpacerDisabled,
+                            },
+                        },
+                    },
+
+                    fontColors = {
+                        order = 40,
+                        type = "group",
+                        name = "Colors",
+                        args = {
+                            customColors_label = {
+                                type = "header",
+                                order = 0,
+                                name = "Custom Colors",
+                            },
+
+                            customColor = {
+                                order = 2,
+                                type = "toggle",
+                                name = "All Text One Color (Override Color Settings)",
+                                width = "double",
+                                desc = "Change all the text in this frame to a specific color.",
+                                get = get2,
+                                set = set2,
+                            },
+
+                            fontColor = {
+                                order = 3,
+                                type = "color",
+                                name = "Color",
+                                get = getColor2,
+                                set = setColor2,
+                                hidden = isFrameCustomColorDisabled,
+                            },
+
+                            customColors_Desc = {
+                                type = "description",
+                                order = 4,
+                                name = "\n|cffFFFF00Other Color Settings|r:",
+                                fontSize = "small",
+                            },
+                        },
+                    },
+
+                    names = {
+                        order = 50,
+                        type = "group",
+                        name = "Names",
+                        childGroups = "select",
+                        get = getNameFormat,
+                        set = setNameFormat,
+                        args = {
+                            namesDescription = {
+                                type = "description",
+                                order = 1,
+                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                fontSize = "small",
+                            },
+
+                            nameAppearance = {
+                                type = "description",
+                                order = 2,
+                                name = "|cff798BDDName Appearance|r:\n\n",
+                                fontSize = "large",
+                                width = "normal",
+                            },
+
+                            namePrefix = {
+                                order = 3,
+                                type = "input",
+                                name = "Prefix",
+                                desc = "Prefix this value to the beginning when displaying the name.",
+                                get = getNameFormatText,
+                                set = setNameFormatText,
+                            },
+
+                            namePostfix = {
+                                order = 4,
+                                type = "input",
+                                name = "Postfix",
+                                desc = "Postfix this value to the end when displaying the name.",
+                                get = getNameFormatText,
+                                set = setNameFormatText,
+                            },
+
+                            PLAYER = {
+                                order = 10,
+                                type = "group",
+                                name = "Events to a Player",
+                                args = {
+                                    playerNames = {
+                                        type = "description",
+                                        order = 1,
+                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableNameColor = {
+                                        order = 2,
+                                        type = "toggle",
+                                        name = "Color Player Name",
+                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                    },
+
+                                    removeRealmName = {
+                                        order = 3,
+                                        type = "toggle",
+                                        name = "Remove Realm Name",
+                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                    },
+
+                                    enableCustomNameColor = {
+                                        order = 4,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customNameColor = {
+                                        order = 5,
+                                        type = "color",
+                                        name = "Color",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                        width = "half",
+                                    },
+
+                                    playerSpellNames = {
+                                        type = "description",
+                                        order = 10,
+                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableSpellColor = {
+                                        order = 11,
+                                        type = "toggle",
+                                        name = "Color Spell Name",
+                                        desc = "The spell name will be colored according to it's spell school.",
+                                    },
+
+                                    playerNames_Spacer1 = {
+                                        type = "description",
+                                        order = 12,
+                                        name = "",
+                                        width = "normal",
+                                    },
+
+                                    enableCustomSpellColor = {
+                                        order = 13,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customSpellColor = {
+                                        order = 14,
+                                        type = "color",
+                                        name = "Color",
+                                        width = "half",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                        width = "half",
+                                    },
+
+                                    playerNames_Spacer2 = {
+                                        type = "description",
+                                        order = 20,
+                                        name = "",
+                                    },
+
+                                    nameType = {
+                                        type = "select",
+                                        order = 30,
+                                        name = "Display Player Name",
+                                        desc = "",
+                                        width = "double",
+                                        style = "radio",
+                                        values = {
+                                            [0] = "None",
+                                            [1] = "Player Name",
+                                            [2] = "Spell Name",
+                                            [3] = "Both (Player Name - Spell Name)",
+                                            [4] = "Both (Spell Name - Player Name)",
+                                        },
+                                    },
+                                },
+                            },
+
+                            NPC = {
+                                order = 20,
+                                type = "group",
+                                name = "Events to a NPC",
+                                args = {
+                                    npcNames = {
+                                        type = "description",
+                                        order = 1,
+                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    customNameColor = {
+                                        order = 2,
+                                        type = "color",
+                                        name = "NPC Name's Color",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                    },
+
+                                    npcSpellNames = {
+                                        type = "description",
+                                        order = 10,
+                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        fontSize = "large",
+                                    },
+
+                                    enableSpellColor = {
+                                        order = 11,
+                                        type = "toggle",
+                                        name = "Color Spell Name",
+                                        desc = "The spell name will be colored according to it's spell school.",
+                                    },
+
+                                    npcNames_Spacer1 = {
+                                        type = "description",
+                                        order = 12,
+                                        name = "",
+                                        width = "normal",
+                                    },
+
+                                    enableCustomSpellColor = {
+                                        order = 13,
+                                        type = "toggle",
+                                        name = "Custom",
+                                        desc = "Preempt an automatic color with a custom one.",
+                                        width = "half",
+                                    },
+
+                                    customSpellColor = {
+                                        order = 14,
+                                        type = "color",
+                                        name = "Color",
+                                        width = "half",
+                                        get = getNameFormatColor,
+                                        set = setNameFormatColor,
+                                    },
+
+                                    npcNames_Spacer2 = {
+                                        type = "description",
+                                        order = 20,
+                                        name = "",
+                                    },
+
+                                    nameType = {
+                                        type = "select",
+                                        order = 21,
+                                        name = "Display NPC Name",
+                                        desc = "",
+                                        width = "double",
+                                        style = "radio",
+                                        values = {
+                                            [0] = "None",
+                                            [1] = "NPC's Name",
+                                            [2] = "Spell Name",
+                                            [3] = "Both (NPC Name - Spell Name)",
+                                            [4] = "Both (Spell Name - NPC Name)",
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+
+                    specialTweaks = {
+                        order = 60,
+                        type = "group",
+                        name = "Misc",
+                        args = {
+                            specialTweaks = {
+                                type = "header",
+                                order = 0,
+                                name = "Miscellaneous Settings",
+                            },
+                            enableAutoAttack_Critical = {
+                                order = 1,
+                                type = "toggle",
+                                name = "Show Auto Attacks",
+                                desc = "Show criticals from Auto Attack and Swings. If disabled, they will be displayed as non-critical auto attacks. They will be merged into the Outgoing frame.",
+                                get = "Options_Critical_ShowAutoAttack",
+                                set = set2,
+                            },
+                            prefixAutoAttack_Critical = {
+                                order = 2,
+                                type = "toggle",
+                                name = "Show Auto Attacks (Pre)Postfix",
+                                desc = "Make Auto Attack and Swing criticals more visible by adding the prefix and postfix.",
+                                get = "Options_Critical_PrefixAutoAttack",
+                                set = set2,
+                            },
+                            petCrits = {
+                                order = 3,
+                                type = "toggle",
+                                name = "Allow Pet Crits",
+                                desc = "Enable this to see when your pet's abilities critical strike, otherwise disable for less combat text spam.",
+                                get = "Options_Critical_ShowPetCrits",
+                                set = set2,
+                            },
+
+                            criticalAppearance = {
+                                type = "header",
+                                order = 10,
+                                name = "Critical Appearance",
+                            },
+                            critPrefix = {
+                                order = 11,
+                                type = "input",
+                                name = "Prefix",
+                                desc = "Prefix this value to the beginning when displaying a critical amount.",
+                                get = getTextIn2,
+                                set = setTextIn2,
+                                --disabled = isFrameItemDisabled,
+                            },
+                            critPostfix = {
+                                order = 12,
+                                type = "input",
+                                name = "Postfix",
+                                desc = "Postfix this value to the end when displaying a critical amount.",
+                                get = getTextIn2,
+                                set = setTextIn2,
+                                --disabled = isFrameItemDisabled,
+                            },
+                            critPostPreReset = {
+                                order = 13,
+                                type = "execute",
+                                name = "Reset",
+                                desc = "Reset Prefix and Postfix to their default setting.",
+                                func = function()
+                                    local critical = x.db.profile.frames.critical
+                                    critical.critPrefix = "|cffFF0000*|r"
+                                    critical.critPostfix = "|cffFF0000*|r"
+                                end,
+                                width = "half",
+                                disabled = function()
+                                    local critical = x.db.profile.frames.critical
+                                    return critical.critPrefix == "|cffFF0000*|r"
+                                        and critical.critPostfix == "|cffFF0000*|r"
                                 end,
                             },
                         },
