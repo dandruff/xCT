@@ -268,10 +268,6 @@ function x:Options_SpamMerger_EnableSpamMerger()
     return x.db.profile.spells.enableMerger
 end
 
-function x:Options_SpamMerger_EnableDebug()
-    return x.db.profile.spells.enableMergerDebug
-end
-
 function x:Options_SpamMerger_FallbackInterval()
     return x.db.profile.spells.mergeEverythingInterval
 end

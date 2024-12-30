@@ -494,7 +494,9 @@ do
     spell(113344, 2.5)  --  Talent: Bloodbath
     spell(50622, 2.5)   --  Talent: Bladestorm
     spell(205546, 3.0)  --  Artifact: Odyn's Fury (DoT)
-    alias(85384, 96103) --  [MH/OH] Raging Blow
+    alias(85384,  96103) --  [MH/OH] Raging Blow
+    alias(335100, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
+    alias(335098, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
     alias(95738, 50622) --  [MH/OH] Bladestorm
     alias(205547, 205546) --  Artifact: Odyn's Fury (Hit)
     alias(218617, 184367) --  Rampage (1st Hit)

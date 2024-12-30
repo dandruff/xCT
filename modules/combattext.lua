@@ -389,7 +389,7 @@ function x:GetSpellTextureFormatted(
         end
     end
 
-    if x:Options_SpamMerger_EnableDebug() then
+    if x.enableMergerDebug then
         message = message .. " |cffFFFFFF[|cffFF0000ID:|r|cffFFFF00" .. (spellID or "No ID") .. "|r]|r"
     end
 

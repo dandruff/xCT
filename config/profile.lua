@@ -1229,7 +1229,6 @@ addon.defaults = {
 
         spells = {
             enableMerger = true, -- enable/disable spam merger
-            enableMergerDebug = false, -- Shows spell IDs for debugging merged spells
             mergeEverythingInterval = 0.5,
             mergeIncomingHealingInterval = 5,
             mergeIncomingDamageInterval = 1,

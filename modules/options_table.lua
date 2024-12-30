@@ -458,9 +458,13 @@ function x:InitOptionsTable()
                         order = 3,
                         type = "toggle",
                         name = "Enable Debugging",
-                        desc = "Adds the spell ID to each message.",
-                        get = "Options_SpamMerger_EnableDebug",
-                        set = set0_1,
+                        desc = "Adds the spell ID to each message for this session only.",
+                        get = function()
+                            return x.enableMergerDebug or false
+                        end,
+                        set = function(_, value)
+                            x.enableMergerDebug = value
+                        end,
                     },
 
                     outgoingHeader = {
