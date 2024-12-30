@@ -49,21 +49,19 @@ local frameIndex = {
     [7] = "procs",
     [8] = "loot",
     --[9] = "class",    -- this is not used by redirection
-    [10] = "outgoing_healing" -- new in 4.9.0: pseudo-frame in order for the merger to differentiate between outgoing damage and healing
 }
 
 -- Static Title Lookup
 x.FrameTitles = {
     ["general"] = "General",
     ["outgoing"] = "Outgoing",
-    ["outgoing_healing"] = "Outgoing healing",
     ["critical"] = "Outgoing (Criticals)",
     ["damage"] = "Damage (Incoming)",
     ["healing"] = "Healing (Incoming)",
     ["power"] = "Class Power",
     --["class"]        = "Combo",
     ["procs"] = "Special Effects (Procs)",
-    ["loot"] = "Loot & Money",
+    ["loot"] = "Loot & Money"
 }
 
 local function autoClearFrame_OnUpdate(self, elasped)
@@ -431,11 +429,6 @@ end
 --        Sends a message to the framename specified.
 -- =====================================================
 function x:AddMessage(frameName, message, colorName)
-    if frameName == "outgoing_healing" then
-        -- New pseudo frame in 4.9.0 ... no real frame just there to differentiate between damage and healing
-        frameName = "outgoing"
-    end
-
     local frame = x:GetFrame(frameName, true)
     local frameOptions = x.db.profile.frames[frameName]
 
