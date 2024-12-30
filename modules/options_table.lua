@@ -897,8 +897,8 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Whitelist",
                         desc = "Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist).",
+                        get = "Options_Filter_BuffWhitelist",
                         set = set0_1,
-                        get = get0_1,
                         width = "full",
                     },
                     spellName = {
@@ -913,7 +913,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Remove",
                         desc = "Check to remove the aura from the filtered list.",
-                        get = getCheckAdd,
+                        get = getCheckAdd, -- TODO getCheckAdd
                         set = setCheckAdd,
                     },
 

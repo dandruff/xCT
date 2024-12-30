@@ -410,9 +410,13 @@ function x:Options_Filter_TrackSpells()
     return x.db.profile.spellFilter.trackSpells
 end
 
+function x:Options_Filter_BuffWhitelist()
+    return x.db.profile.spellFilter.whitelistBuffs
+end
+
 function x:Options_Filter_HideBuff(name)
     local hidden = x.db.profile.spellFilter.listBuffs[name]
-    if x.db.profile.spellFilter.whitelistBuffs then
+    if x:Options_Filter_BuffWhitelist() then
         return not hidden
     end
     return hidden
