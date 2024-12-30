@@ -16,8 +16,6 @@ local _, addon = ...
 local x = addon.engine
 
 function x:InitOptionsTable()
-    local blankTable = {}
-
     -- Create the options table for AceConfig
     addon.optionsTable = {
         -- Add a place for the user to grab
@@ -101,17 +99,17 @@ function x:InitOptionsTable()
                 order = 31,
                 type = "execute",
                 name = "Test",
-                func = x.ToggleTestMode,
                 desc = "Allows you to preview xCT+ in order to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
                 width = "half",
+                func = x.ToggleTestMode,
             },
             ToggleFrames = {
                 order = 32,
                 type = "execute",
                 name = "Move",
                 desc = "Allows you to adjust the position of all the xCT+ frames on your screen.\n\nYou can also type: '|cffFF0000/xct lock|r'",
-                func = x.ToggleConfigMode,
                 width = "half",
+                func = x.ToggleConfigMode,
             },
 
             hiddenObjectShhhhhh = {
@@ -146,7 +144,7 @@ function x:InitOptionsTable()
         x:UpdateCVar()
     end
     local function getColor0_1(info)
-        return unpack(x.db.profile[info[#info - 2]][info[#info]] or blankTable)
+        return unpack(x.db.profile[info[#info - 2]][info[#info]] or {})
     end
     local function setColor0_1(info, r, g, b)
         x.db.profile[info[#info - 2]][info[#info]] = { r, g, b }
@@ -185,7 +183,7 @@ function x:InitOptionsTable()
         x:UpdateCVar(true)
     end
     local function getColor2(info)
-        return unpack(x.db.profile.frames[info[#info - 2]][info[#info]] or blankTable)
+        return unpack(x.db.profile.frames[info[#info - 2]][info[#info]] or {})
     end
     local function setColor2(info, r, g, b)
         x.db.profile.frames[info[#info - 2]][info[#info]] = { r, g, b }
@@ -213,7 +211,7 @@ function x:InitOptionsTable()
         x.db.profile.frames[info[#info - 3]].names[info[#info - 1]][info[#info]] = value
     end
     local function getNameFormatColor(info)
-        return unpack(x.db.profile.frames[info[#info - 3]].names[info[#info - 1]][info[#info]] or blankTable)
+        return unpack(x.db.profile.frames[info[#info - 3]].names[info[#info - 1]][info[#info]] or {})
     end
     local function setNameFormatColor(info, r, g, b)
         x.db.profile.frames[info[#info - 3]].names[info[#info - 1]][info[#info]] = { r, g, b }
