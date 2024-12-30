@@ -49,19 +49,21 @@ local frameIndex = {
     [7] = "procs",
     [8] = "loot",
     --[9] = "class",    -- this is not used by redirection
+    [10] = "outgoing_healing" -- new in 4.9.0: pseudo-frame in order for the merger to differentiate between outgoing damage and healing
 }
 
 -- Static Title Lookup
 x.FrameTitles = {
-    ["general"] = "General", -- COMBAT_TEXT_LABEL,
-    ["outgoing"] = "Outgoing", -- SCORE_DAMAGE_DONE.." / "..SCORE_HEALING_DONE,
-    ["critical"] = "Outgoing (Criticals)", -- TEXT_MODE_A_STRING_RESULT_CRITICAL:gsub("%(", ""):gsub("%)", ""), -- "(Critical)" --> "Critical"
-    ["damage"] = "Damage (Incoming)", -- DAMAGE,
-    ["healing"] = "Healing (Incoming)", -- SHOW_COMBAT_HEALING,
-    ["power"] = "Class Power", -- COMBAT_TEXT_SHOW_ENERGIZE_TEXT,
-    --["class"]        = "Combo",                        -- COMBAT_TEXT_SHOW_COMBO_POINTS_TEXT,
-    ["procs"] = "Special Effects (Procs)", -- COMBAT_TEXT_SHOW_REACTIVES_TEXT,
-    ["loot"] = "Loot & Money", -- LOOT,
+    ["general"] = "General",
+    ["outgoing"] = "Outgoing",
+    ["outgoing_healing"] = "Outgoing healing",
+    ["critical"] = "Outgoing (Criticals)",
+    ["damage"] = "Damage (Incoming)",
+    ["healing"] = "Healing (Incoming)",
+    ["power"] = "Class Power",
+    --["class"]        = "Combo",
+    ["procs"] = "Special Effects (Procs)",
+    ["loot"] = "Loot & Money",
 }
 
 local function autoClearFrame_OnUpdate(self, elasped)
@@ -428,13 +430,18 @@ end
 --    )
 --        Sends a message to the framename specified.
 -- =====================================================
-function x:AddMessage(framename, message, colorname)
-    local frame = x:GetFrame(framename, true)
-    local frameOptions = x.db.profile.frames[framename]
+function x:AddMessage(frameName, message, colorName)
+    if frameName == "outgoing_healing" then
+        -- New pseudo frame in 4.9.0 ... no real frame just there to differentiate between damage and healing
+        frameName = "outgoing"
+    end
+
+    local frame = x:GetFrame(frameName, true)
+    local frameOptions = x.db.profile.frames[frameName]
 
     -- Make sure we have a valid frame
     if not frameOptions or not frame then
-        x:Print("Frame not found:", framename)
+        x:Print("Frame not found:", frameName)
         return
     end
 
@@ -444,15 +451,15 @@ function x:AddMessage(framename, message, colorname)
 
     -- Load the color
     local r, g, b = 1, 1, 1
-    if type(colorname) == "table" then
+    if type(colorName) == "table" then
         -- unpack({0, 0, 1}) leads to OOM... idk why?!
-        r, g, b = colorname[1], colorname[2], colorname[3]
+        r, g, b = colorName[1], colorName[2], colorName[3]
     else
-        local color = x:LookupColorByName(colorname)
+        local color = x:LookupColorByName(colorName)
         if color then
             r, g, b = color[1], color[2], color[3]
         else
-            x:Print("FRAME:", framename, "  there is no color named:", colorname)
+            x:Print("FRAME:", frameName, "  there is no color named:", colorName)
             error("missing color")
         end
     end
@@ -525,7 +532,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
 
     local db = addon.merges[mergeID]
 
-    -- how often to update
+    -- How many seconds are we delaying the output / merging the events?
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
     local heap, stack = spamHeap[framename], spamStack[framename]
@@ -644,8 +651,8 @@ do
             x.db.profile.frames[frameName] -- this frame's settings
 
         -- If the frame is not enabled, then dont even worry about it
-        if not settings.enabledFrame and settings.secondaryFrame == 0 then
-            currentFrameId = currentFrameId + 1 -- heh, still need to iterate to the next frame :P
+        if not settings or (not settings.enabledFrame and settings.secondaryFrame == 0) then
+            currentFrameId = currentFrameId + 1
             return
         end
 
@@ -753,7 +760,6 @@ do
                         settings.spacerIconsEnabled,
                         settings.fontJustify,
                         strColor,
-                        true, -- Merge Override = true
                         item.mergedCount
                     )
 
@@ -771,8 +777,8 @@ do
         currentFrameId = currentFrameId + 1
     end
 
-    x.merge = CreateFrame("FRAME")
-    x.merge:SetScript("OnUpdate", x.OnSpamUpdate)
+    x.spamMergerFrame = CreateFrame("FRAME")
+    x.spamMergerFrame:SetScript("OnUpdate", x.OnSpamUpdate)
 end
 
 local function Frame_Sizing_OnUpdate(self, e)
@@ -1113,64 +1119,64 @@ function x.TestMoreUpdate(self, elapsed)
             self.nextUpdate = nil
             self.lastUpdate = 0
 
-            if self == x.frames["general"] and random(3) % 3 == 0 then
-                local output, color = "general", { random(255) / 255, random(255) / 255, random(255) / 255 }
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+            if self == x.frames.general and random(3) % 3 == 0 then
+                local outputFrame, color = "general", { random(255) / 255, random(255) / 255, random(255) / 255 }
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(output, COMBAT_TEXT_LABEL, color)
-            elseif self == x.frames["outgoing"] then
-                local output, color = "outgoing", GetRandomSpellColor()
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, COMBAT_TEXT_LABEL, color)
+            elseif self == x.frames.outgoing then
+                local outputFrame, color = "outgoing", GetRandomSpellColor()
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
-                local message = x:Abbreviate(random(60000), "outgoing")
-                local merged, multistriked = false, 0
+                local message = x:Abbreviate(random(60000), outputFrame)
+
+                local mergeCount = 0
                 if x.db.profile.spells.enableMerger and random(3) % 3 == 0 then
-                    multistriked = random(17) + 1
-                    merged = true
+                    mergeCount = random(17) + 1
                 end
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
                 message = x:GetSpellTextureFormatted(
-                    x.db.profile.frames["outgoing"].iconsEnabled and GetRandomSpellID() or -1,
+                    x.db.profile.frames.outgoing.iconsEnabled and GetRandomSpellID() or -1,
                     message,
-                    x.db.profile.frames["outgoing"].iconsSize,
-                    x.db.profile.frames["outgoing"].spacerIconsEnabled,
-                    x.db.profile.frames["outgoing"].fontJustify,
-                    nil,
-                    merged,
-                    multistriked
+                    x.db.profile.frames.outgoing.iconsSize,
+                    x.db.profile.frames.outgoing.spacerIconsEnabled,
+                    x.db.profile.frames.outgoing.fontJustify,
+                    nil, -- strColor
+                    mergeCount -- entries
                 )
-                x:AddMessage(output, message, color)
-            elseif self == x.frames["critical"] and random(2) % 2 == 0 then
-                local output, color = "critical", GetRandomSpellColor()
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, message, color)
+            elseif self == x.frames.critical and random(2) % 2 == 0 then
+                local outputFrame, color = "critical", GetRandomSpellColor()
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
                 local message = x.db.profile.frames.critical.critPrefix
-                    .. x:Abbreviate(random(60000), "critical")
+                    .. x:Abbreviate(random(60000), outputFrame)
                     .. x.db.profile.frames.critical.critPostfix
-                local merged, multistriked = false, 0
+
+                local mergeCount = 0
                 if
                     x:Options_SpamMerger_EnableSpamMerger()
                     and (random(3) % 3 == 0)
@@ -1178,57 +1184,55 @@ function x.TestMoreUpdate(self, elapsed)
                         x:Options_SpamMerger_MergeCriticalsWithOutgoing() or x:Options_SpamMerger_MergeCriticalsByThemselves()
                     )
                 then
-                    multistriked = random(17) + 1
-                    merged = true
+                    mergeCount = random(17) + 1
                 end
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
                 message = x:GetSpellTextureFormatted(
-                    x.db.profile.frames["critical"].iconsEnabled and GetRandomSpellID() or -1, -- spellID
+                    x.db.profile.frames.critical.iconsEnabled and GetRandomSpellID() or -1, -- spellID
                     message, -- message
-                    x.db.profile.frames["critical"].iconsSize, -- iconSize
-                    x.db.profile.frames["critical"].spacerIconsEnabled, -- showInvisibleIcon
-                    x.db.profile.frames["critical"].fontJustify, -- justify
+                    x.db.profile.frames.critical.iconsSize, -- iconSize
+                    x.db.profile.frames.critical.spacerIconsEnabled, -- showInvisibleIcon
+                    x.db.profile.frames.critical.fontJustify, -- justify
                     nil, -- strColor
-                    merged, -- mergeOverride
-                    multistriked -- entries
+                    mergeCount -- entries
                 )
-                x:AddMessage(output, message, color)
-            elseif self == x.frames["damage"] and random(2) % 2 == 0 then
-                local output, color = "damage", { 1, random(100) / 255, random(100) / 255 }
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, message, color)
+            elseif self == x.frames.damage and random(2) % 2 == 0 then
+                local outputFrame, color = "damage", { 1, random(100) / 255, random(100) / 255 }
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(output, "-" .. x:Abbreviate(random(100000), "damage"), color)
-            elseif self == x.frames["healing"] and random(2) % 2 == 0 then
-                local output, color = "healing", { 0.1, ((random(3) + 1) * 63) / 255, 0.1 }
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, "-" .. x:Abbreviate(random(100000), "damage"), color)
+            elseif self == x.frames.healing and random(2) % 2 == 0 then
+                local outputFrame, color = "healing", { 0.1, ((random(3) + 1) * 63) / 255, 0.1 }
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
                 if COMBAT_TEXT_SHOW_FRIENDLY_NAMES == "1" then
                     local message = UnitName("player")
                     local realm = ""
-                    if x.db.profile.frames["healing"].enableRealmNames then
+                    if x.db.profile.frames.healing.enableRealmNames then
                         realm = "-" .. GetRealmName()
                     end
-                    if x.db.profile.frames["healing"].enableClassNames then
+                    if x.db.profile.frames.healing.enableClassNames then
                         message = sformat(
                             "|c%s%s%s|r",
                             RAID_CLASS_COLORS[select(2, UnitClass("player"))].colorStr,
@@ -1239,29 +1243,30 @@ function x.TestMoreUpdate(self, elapsed)
                     if x.db.profile.spells.mergeHealing and random(2) % 2 == 0 then
                         message = sformat("%s |cffFFFF00x%s|r", message, random(17) + 1)
                     end
-                    x:AddMessage(output, "+" .. x:Abbreviate(random(90000), "healing") .. " " .. message, color)
+                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(90000), "healing") .. " " .. message, color)
                 else
-                    x:AddMessage(output, "+" .. x:Abbreviate(random(90000), "healing"), color)
+                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(90000), "healing"), color)
                 end
-            elseif self == x.frames["power"] and random(4) % 4 == 0 then
-                local output = "power"
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+            elseif self == x.frames.power and random(4) % 4 == 0 then
+                local outputFrame = "power"
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
                 local _, powerToken = UnitPowerType("player")
                 local color = { PowerBarColor[powerToken].r, PowerBarColor[powerToken].g, PowerBarColor[powerToken].b }
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(output, "+" .. x:Abbreviate(random(5000), "power") .. " " .. _G[powerToken], color)
-            elseif self == x.frames["class"] and random(4) % 4 == 0 then
-                if not x.db.profile.frames["class"].enabledFrame then
-                    x:Clear("class")
+                x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(5000), "power") .. " " .. _G[powerToken], color)
+            elseif self == x.frames.class and random(4) % 4 == 0 then
+                local outputFrame = "class"
+                if not x.db.profile.frames.class.enabledFrame then
+                    x:Clear(outputFrame)
                     return
                 end
                 if not self.testCombo then
@@ -1272,40 +1277,40 @@ function x.TestMoreUpdate(self, elapsed)
                     self.testCombo = 1
                 end
                 local color = { 1, 0.82, 0 }
-                if x.db.profile.frames["class"].customColor then
-                    color = x.db.profile.frames["class"].fontColor
+                if x.db.profile.frames.class.customColor then
+                    color = x.db.profile.frames.class.fontColor
                 end
-                x:AddMessage("class", tostring(self.testCombo), color)
-            elseif self == x.frames["procs"] and random(8) % 8 == 0 then
-                local output = "procs"
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, tostring(self.testCombo), color)
+            elseif self == x.frames.procs and random(8) % 8 == 0 then
+                local outputFrame = "procs"
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
                 local color = { 1, 1, 0 }
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(output, ERR_SPELL_COOLDOWN, color)
-            elseif self == x.frames["loot"] and random(8) % 8 == 0 then
-                local output = "loot"
-                if not x.db.profile.frames[output].enabledFrame then
-                    x:Clear(output)
-                    if x.db.profile.frames[output].secondaryFrame ~= 0 then
-                        output = frameIndex[x.db.profile.frames[output].secondaryFrame]
+                x:AddMessage(outputFrame, ERR_SPELL_COOLDOWN, color)
+            elseif self == x.frames.loot and random(8) % 8 == 0 then
+                local outputFrame = "loot"
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
                 end
                 local color = { 1, 1, 0 }
-                if x.db.profile.frames[output].customColor then
-                    color = x.db.profile.frames[output].fontColor
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
                 end
-                if x.db.profile.frames[output].colorBlindMoney then
+                if x.db.profile.frames[outputFrame].colorBlindMoney then
                     local g, s, c, message =
                         random(100) % 10 ~= 0 and random(100) or nil,
                         random(100) % 10 ~= 0 and random(100) or nil,
@@ -1331,9 +1336,9 @@ function x.TestMoreUpdate(self, elapsed)
                     if not g and not s and not c then
                         return
                     end
-                    x:AddMessage(output, MONEY .. ": " .. message, color)
+                    x:AddMessage(outputFrame, MONEY .. ": " .. message, color)
                 else
-                    x:AddMessage(output, MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)), color)
+                    x:AddMessage(outputFrame, MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)), color)
                 end
             end
         end

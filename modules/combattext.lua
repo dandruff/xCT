@@ -325,8 +325,7 @@ end
     showInvisibleIcon,[bool] - Whether or not to include a blank icon (also req iconSize to be -1 if disabled)
     justify,        [string] - Can be 'LEFT' or 'RIGHT'
     strColor,       [string] - the color to be used or defaults white
-    mergeOverride,    [bool] - If enable, will format like: "Messsage x12" where 12 is entries
-    entries         [number] - The number of entries to use
+    mergeCount      [number] - The number of events merged into this message
   )
   Returns:
     message,     [string] - the message contains the formatted icon
@@ -340,8 +339,7 @@ function x:GetSpellTextureFormatted(
     showInvisibleIcon,
     justify,
     strColor,
-    mergeOverride,
-    entries
+    mergeCount
 )
     strColor = strColor or format_strcolor_white
 
@@ -359,24 +357,14 @@ function x:GetSpellTextureFormatted(
         end
     end
 
-    if mergeOverride then
-        if entries > 1 then
-            if not showInvisibleIcon then
-                message = string.format(format_msspell_no_icon, message, strColor, entries)
-            else
-                if justify == "LEFT" then
-                    message = string.format(format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, entries)
-                else
-                    message = string.format(format_msspell_icon_right, message, strColor, entries, icon, iconSize, iconSize)
-                end
-            end
+    if mergeCount > 1 then
+        if not showInvisibleIcon then
+            message = string.format(format_msspell_no_icon, message, strColor, mergeCount)
         else
-            if showInvisibleIcon then
-                if justify == "LEFT" then
-                    message = string.format("%s %s", string.format(format_spell_icon, icon, iconSize, iconSize), message)
-                else
-                    message = string.format("%s%s", message, string.format(format_spell_icon, icon, iconSize, iconSize))
-                end
+            if justify == "LEFT" then
+                message = string.format(format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, mergeCount)
+            else
+                message = string.format(format_msspell_icon_right, message, strColor, mergeCount, icon, iconSize, iconSize)
             end
         end
     else
@@ -2001,9 +1989,9 @@ local CombatEventHandlers = {
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames["damage"].iconsEnabled and x.db.profile.frames["damage"].iconsSize or -1,
-            x.db.profile.frames["damage"].spacerIconsEnabled,
-            x.db.profile.frames["damage"].fontJustify
+            x.db.profile.frames.damage.iconsEnabled and x.db.profile.frames.damage.iconsSize or -1,
+            x.db.profile.frames.damage.spacerIconsEnabled,
+            x.db.profile.frames.damage.fontJustify
         )
 
         x:AddMessage("damage", message, color)

@@ -321,7 +321,7 @@ function x:InitOptionsTable()
         end
 
         for i in pairs(x.spellCache.buffs) do
-            buffHistory[i] = x:GetSpellTextureFormatted("", "", 0, 16, nil, nil, nil, true) .. " " .. i
+            buffHistory[i] = i
         end
 
         return buffHistory
@@ -333,7 +333,7 @@ function x:InitOptionsTable()
         end
 
         for i in pairs(x.spellCache.debuffs) do
-            debuffHistory[i] = x:GetSpellTextureFormatted("", "", 0, 16, nil, nil, nil, true) .. " " .. i
+            debuffHistory[i] = i
         end
 
         return debuffHistory
@@ -347,8 +347,14 @@ function x:InitOptionsTable()
         for i in pairs(x.spellCache.spells) do
             local name = C_Spell.GetSpellName(i)
             local icon = C_Spell.GetSpellTexture(i)
-            spellHistory[tostring(i)] =
-                string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
+            spellHistory[tostring(i)] = string.format(
+                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff798BDD(%d)|r",
+                icon or 0,
+                16,
+                16,
+                name or UNKNOWN,
+                i
+            )
         end
 
         return spellHistory
@@ -360,7 +366,7 @@ function x:InitOptionsTable()
         end
 
         for i in pairs(x.spellCache.procs) do
-            procHistory[i] = x:GetSpellTextureFormatted(i, "", 0, 16, nil, nil, nil, true) .. " " .. i
+            procHistory[i] = i
         end
 
         return procHistory
