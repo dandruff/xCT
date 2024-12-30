@@ -45,7 +45,6 @@ do
     spell(47541,  1.0) --  Death Coil
     spell(156000, 3.0) --  Talent: Defile
     spell(115994, 1.0) --  Talent: Unholy Blight
-    spell(212423, 1.0) --  Talent: All will serve
     spell(319230, 1.0) --  Talent: Unholy Pact
     alias(55090,  70890)  --  Scourge Strike: Merge physical + shadow portion
     alias(319238, 319230) --  [Cleave Merger] Unholy Pact

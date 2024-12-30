@@ -549,17 +549,15 @@ function x:UpdateComboTracker()
 end
 
 -- Get and set methods for the spell filter
-local function getSF(info)
+local function isSpellFiltered(info)
     return x.db.profile.spellFilter[info[#info - 2]][info[#info]]
 end
-local function setSF(info, value)
+local function setIsSpellFiltered(info, value)
     x.db.profile.spellFilter[info[#info - 2]][info[#info]] = value
 end
 
 -- Update the Buff, Debuff and Spell filter list
 function x:UpdateAuraSpellFilter(specific)
-    local i = 10
-
     if not specific or specific == "buffs" then
         -- Redo all the list
         addon.optionsTable.args.spellFilter.args.listBuffs.args.list = {
@@ -577,16 +575,15 @@ function x:UpdateAuraSpellFilter(specific)
         for name in pairs(x.db.profile.spellFilter.listBuffs) do
             updated = true
             buffs[name] = {
-                order = i,
                 name = name,
                 type = "toggle",
-                get = getSF,
-                set = setSF,
+                get = isSpellFiltered,
+                set = setIsSpellFiltered,
             }
         end
 
         if not updated then
-            buffs["noSpells"] = {
+            buffs.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -596,7 +593,6 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update debuffs
     if not specific or specific == "debuffs" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listDebuffs.args.list = {
             name = "Filtered Debuffs |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -611,16 +607,15 @@ function x:UpdateAuraSpellFilter(specific)
         for name in pairs(x.db.profile.spellFilter.listDebuffs) do
             updated = true
             debuffs[name] = {
-                order = i,
                 name = name,
                 type = "toggle",
-                get = getSF,
-                set = setSF,
+                get = isSpellFiltered,
+                set = setIsSpellFiltered,
             }
         end
 
         if not updated then
-            debuffs["noSpells"] = {
+            debuffs.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -630,7 +625,6 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update procs
     if not specific or specific == "procs" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listProcs.args.list = {
             name = "Filtered Procs |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -645,16 +639,15 @@ function x:UpdateAuraSpellFilter(specific)
         for name in pairs(x.db.profile.spellFilter.listProcs) do
             updated = true
             procs[name] = {
-                order = i,
                 name = name,
                 type = "toggle",
-                get = getSF,
-                set = setSF,
+                get = isSpellFiltered,
+                set = setIsSpellFiltered,
             }
         end
 
         if not updated then
-            procs["noSpells"] = {
+            procs.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -664,7 +657,6 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update spells
     if not specific or specific == "spells" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listSpells.args.list = {
             name = "Filtered Spells |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -680,14 +672,14 @@ function x:UpdateAuraSpellFilter(specific)
             local spellID = tonumber(string.match(id, "%d+"))
             local spellName = C_Spell.GetSpellName(spellID)
             if spellName then
+                local spellDesc = C_Spell.GetSpellDescription(spellID)
                 updated = true
                 spells[id] = {
-                    order = i,
                     name = spellName,
-                    desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
+                    desc = spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r",
                     type = "toggle",
-                    get = getSF,
-                    set = setSF,
+                    get = isSpellFiltered,
+                    set = setIsSpellFiltered,
                 }
             else
                 x.db.profile.spellFilter.listSpells[id] = nil
@@ -695,7 +687,7 @@ function x:UpdateAuraSpellFilter(specific)
         end
 
         if not updated then
-            spells["noSpells"] = {
+            spells.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -705,7 +697,6 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update spells
     if not specific or specific == "items" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listItems.args.list = {
             name = "Filtered Items |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -724,17 +715,16 @@ function x:UpdateAuraSpellFilter(specific)
             name = name or "Unknown Item"
             updated = true
             spells[id] = {
-                order = i,
                 name = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture or x.BLANK_ICON, 16, 16, name),
                 desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
                 type = "toggle",
-                get = getSF,
-                set = setSF,
+                get = isSpellFiltered,
+                set = setIsSpellFiltered,
             }
         end
 
         if not updated then
-            spells["noSpells"] = {
+            spells.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -743,7 +733,6 @@ function x:UpdateAuraSpellFilter(specific)
     end
 
     if not specific or specific == "damage" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listDamage.args.list = {
             name = "Filtered Incoming Damage |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -761,12 +750,11 @@ function x:UpdateAuraSpellFilter(specific)
             if spellName then
                 updated = true
                 spells[id] = {
-                    order = i,
                     name = spellName,
                     desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
                     type = "toggle",
-                    get = getSF,
-                    set = setSF,
+                    get = isSpellFiltered,
+                    set = setIsSpellFiltered,
                 }
             else
                 x.db.profile.spellFilter.listDamage[id] = nil
@@ -774,7 +762,7 @@ function x:UpdateAuraSpellFilter(specific)
         end
 
         if not updated then
-            spells["noSpells"] = {
+            spells.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
@@ -783,7 +771,6 @@ function x:UpdateAuraSpellFilter(specific)
     end
 
     if not specific or specific == "healing" then
-        i = 10
         addon.optionsTable.args.spellFilter.args.listHealing.args.list = {
             name = "Filtered Incoming Healing |cff798BDD(Uncheck to Disable)|r",
             type = "group",
@@ -801,12 +788,11 @@ function x:UpdateAuraSpellFilter(specific)
             if spellName then
                 updated = true
                 spells[id] = {
-                    order = i,
                     name = spellName,
                     desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
                     type = "toggle",
-                    get = getSF,
-                    set = setSF,
+                    get = isSpellFiltered,
+                    set = setIsSpellFiltered,
                 }
             else
                 x.db.profile.spellFilter.listHealing[id] = nil
@@ -814,7 +800,7 @@ function x:UpdateAuraSpellFilter(specific)
         end
 
         if not updated then
-            spells["noSpells"] = {
+            spells.noSpells = {
                 order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",

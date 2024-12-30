@@ -905,7 +905,7 @@ function x:InitOptionsTable()
                         type = "toggle",
                         name = "Remove",
                         desc = "Check to remove the aura from the filtered list.",
-                        get = getCheckAdd, -- TODO getCheckAdd
+                        get = getCheckAdd,
                         set = setCheckAdd,
                     },
 
