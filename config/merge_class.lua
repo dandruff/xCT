@@ -489,21 +489,22 @@ do
     spell(262115, 3.0) --  Mastery: Deep Wounds (DoT over 6s)
 
     spec(72) -- Fury
-    spell(184367, 2.5)  --  Rampage (Red Face Icon)
+    spell(184367, 2.5)  --  Rampage
     spell(96103, 1.0)   --  Raging Blow
     spell(113344, 2.5)  --  Talent: Bloodbath
     spell(50622, 2.5)   --  Talent: Bladestorm
-    spell(205546, 3.0)  --  Artifact: Odyn's Fury (DoT)
     alias(85384,  96103) --  [MH/OH] Raging Blow
     alias(335100, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
     alias(335098, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
     alias(95738, 50622) --  [MH/OH] Bladestorm
-    alias(205547, 205546) --  Artifact: Odyn's Fury (Hit)
     alias(218617, 184367) --  Rampage (1st Hit)
     alias(184707, 184367) --  Rampage (2nd Hit)
     alias(184709, 184367) --  Rampage (3rd Hit)
     alias(201364, 184367) --  Rampage (4th Hit)
     alias(201363, 184367) --  Rampage (5th Hit)
+    alias(385060, 385059) --  Talent: Odyns Fury
+    alias(385061, 385059) --  Talent: Odyns Fury
+    alias(385062, 385059) --  Talent: Odyns Fury
 
     spec(73) -- Protection
     spell(115767, 3.5) --  Deep Wounds
