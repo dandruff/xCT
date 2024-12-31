@@ -587,7 +587,7 @@ function x:EnableLibSinkSupport()
 
     local frames, color = {}, {}
 
-    for name, title in pairs(x.FrameTitles) do
+    for name, title in pairs(x.frameTitles) do
         if name ~= "class" then
             frames[title] = name
         end

@@ -357,7 +357,7 @@ function x:GetSpellTextureFormatted(
         end
     end
 
-    if mergeCount > 1 then
+    if mergeCount and mergeCount > 1 then
         if not showInvisibleIcon then
             message = string.format(format_msspell_no_icon, message, strColor, mergeCount)
         else
