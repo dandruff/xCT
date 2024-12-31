@@ -50,7 +50,8 @@ do
     alias(319238, 319230) --  [Cleave Merger] Unholy Pact
     alias(319236, 319230) --  [Cleave Merger] Unholy Pact
     alias(191685, 215969) --  [DD/DoT Merger] Virulent Plague Eruption
-    alias(212969, 212739) --  [DD/DoT Merger] Talent: Epidemic
+    alias(212739, 207317) --  Epidemic
+    alias(215969, 207317) --  Epidemic
 end
 
 class("DEMONHUNTER")
