@@ -266,156 +266,6 @@ function x:InitOptionsTable()
     -- Apply to All variables
     local miscFont, miscFontOutline, miscEnableCustomFade
 
-    -- Spell Filter Methods
-    local checkAdd = {
-        listBuffs = false,
-        listDebuffs = false,
-        listSpells = false,
-        listProcs = false,
-    }
-
-    local function getCheckAdd(info)
-        return checkAdd[info[#info - 1]]
-    end
-    local function setCheckAdd(info, value)
-        checkAdd[info[#info - 1]] = value
-    end
-
-    local function trim(s)
-        return (s:gsub("^%s*(.-)%s*$", "%1"))
-    end
-
-    -- For each 'comma' separated value in 'input' (string) do 'func(value, ...)'
-    local function foreach(input, comma, func, ...)
-        local pattern = ("[^%s]+"):format(comma)
-        local s, e = 0, 0
-        while e do
-            s, e = input:find(pattern, e + 1)
-            if s and e then
-                func(trim(input:sub(s, e)), ...)
-            end
-        end
-    end
-
-    local function setSpell(info, value)
-        if not checkAdd[info[#info - 1]] then
-            -- Add Spell
-            foreach(value, ";", x.AddFilteredSpell, info[#info - 1])
-        else
-            -- Remove Spell
-            foreach(value, ";", x.RemoveFilteredSpell, info[#info - 1])
-        end
-    end
-
-    local function IsTrackSpellsDisabled()
-        return not x.db.profile.spellFilter.trackSpells
-    end
-
-    -- Lists that will be used to show tracked spells
-    local buffHistory, debuffHistory, spellHistory, procHistory, itemHistory, damageHistory, healingHistory =
-        {}, {}, {}, {}, {}, {}, {}
-
-    local function GetBuffHistory()
-        for i in pairs(buffHistory) do
-            buffHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.buffs) do
-            buffHistory[i] = i
-        end
-
-        return buffHistory
-    end
-
-    local function GetDebuffHistory()
-        for i in pairs(debuffHistory) do
-            debuffHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.debuffs) do
-            debuffHistory[i] = i
-        end
-
-        return debuffHistory
-    end
-
-    local function GetSpellHistory()
-        for i in pairs(spellHistory) do
-            spellHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.spells) do
-            local name = C_Spell.GetSpellName(i)
-            local icon = C_Spell.GetSpellTexture(i)
-            spellHistory[tostring(i)] = string.format(
-                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff798BDD(%d)|r",
-                icon or 0,
-                16,
-                16,
-                name or UNKNOWN,
-                i
-            )
-        end
-
-        return spellHistory
-    end
-
-    local function GetProcHistory()
-        for i in pairs(procHistory) do
-            procHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.procs) do
-            procHistory[i] = i
-        end
-
-        return procHistory
-    end
-
-    local function GetItemHistory()
-        for i in pairs(itemHistory) do
-            itemHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.items) do
-            local name = C_Item.GetItemNameByID(i)
-            local texture = C_Item.GetItemIconByID(i)
-            itemHistory[i] = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture, 16, 16, name)
-        end
-
-        return itemHistory
-    end
-
-    local function GetDamageIncomingHistory()
-        for i in pairs(damageHistory) do
-            damageHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.damage) do
-            local name = C_Spell.GetSpellName(i)
-            local icon = C_Spell.GetSpellTexture(i)
-            damageHistory[tostring(i)] =
-                string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
-        end
-
-        return damageHistory
-    end
-
-    local function GetHealingIncomingHistory()
-        for i in pairs(healingHistory) do
-            healingHistory[i] = nil
-        end
-
-        for i in pairs(x.spellCache.healing) do
-            local name = C_Spell.GetSpellName(i)
-            local icon = C_Spell.GetSpellTexture(i)
-            healingHistory[tostring(i)] =
-                string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)", icon or 0, 16, 16, name or UNKNOWN, i)
-        end
-
-        return healingHistory
-    end
-
     addon.optionsTable.args.spells = {
         name = "Spam Merger",
         type = "group",
@@ -700,6 +550,174 @@ function x:InitOptionsTable()
         },
     }
 
+    local function IsTrackSpellsDisabled()
+        return not x.db.profile.spellFilter.trackSpells
+    end
+
+    local function GetBuffHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.buffs) do
+            result[i] = i
+        end
+
+        return result
+    end
+
+    local function GetDebuffHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.debuffs) do
+            result[i] = i
+        end
+
+        return result
+    end
+
+    local function GetSpellHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.spells) do
+            result[tostring(i)] = string.format(
+                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff798BDD(%d)|r",
+                C_Spell.GetSpellTexture(i) or 0,
+                16,
+                16,
+                 C_Spell.GetSpellName(i) or UNKNOWN,
+                i
+            )
+        end
+
+        return result
+    end
+
+    local function GetProcHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.procs) do
+            result[i] = i
+        end
+
+        return result
+    end
+
+    local function GetItemHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.items) do
+            result[i] = string.format(
+                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s",
+                C_Item.GetItemIconByID(i),
+                16,
+                16,
+                C_Item.GetItemNameByID(i)
+            )
+        end
+
+        return result
+    end
+
+    local function GetDamageIncomingHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.damage) do
+            result[tostring(i)] = string.format(
+                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)",
+                C_Spell.GetSpellTexture(i) or 0,
+                16,
+                16,
+                C_Spell.GetSpellName(i) or UNKNOWN,
+                i
+            )
+        end
+
+        return result
+    end
+
+    local function GetHealingIncomingHistory()
+        local result = {}
+
+        for i in pairs(x.spellCache.healing) do
+            result[tostring(i)] = string.format(
+                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)",
+                C_Spell.GetSpellTexture(i) or 0,
+                16,
+                16,
+                C_Spell.GetSpellName(i) or UNKNOWN,
+                i
+            )
+        end
+
+        return result
+    end
+
+    local function getFilteredSpells(info)
+        local category = info[#info - 1]
+        local result = {}
+
+        for id in pairs(x.db.profile.spellFilter[category]) do
+            local spellID = tonumber(id)
+            if spellID then
+                local spellName = C_Spell.GetSpellName(spellID)
+                if spellName then
+                    result[id] = spellName .. " (" .. spellID .. ")"
+                end
+            else
+                result[id] = id
+            end
+        end
+
+        return result
+    end
+
+    local function AddFilteredSpell(info, value)
+        local category = info[#info - 1]
+
+        x.db.profile.spellFilter[category][value] = true
+
+        if category == "listBuffs" then
+            x:UpdateAuraSpellFilter("buffs")
+        elseif category == "listDebuffs" then
+            x:UpdateAuraSpellFilter("debuffs")
+        elseif category == "listSpells" then
+            x:UpdateAuraSpellFilter("spells")
+        elseif category == "listProcs" then
+            x:UpdateAuraSpellFilter("procs")
+        elseif category == "listItems" then
+            x:UpdateAuraSpellFilter("items")
+        elseif category == "listDamage" then
+            x:UpdateAuraSpellFilter("damage")
+        elseif category == "listHealing" then
+            x:UpdateAuraSpellFilter("healing")
+        else
+            x:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
+        end
+    end
+
+    local function removeFilteredSpell(info, value)
+        local category = info[#info - 1]
+
+        x.db.profile.spellFilter[category][value] = nil
+
+        if category == "listBuffs" then
+            x:UpdateAuraSpellFilter("buffs")
+        elseif category == "listDebuffs" then
+            x:UpdateAuraSpellFilter("debuffs")
+        elseif category == "listSpells" then
+            x:UpdateAuraSpellFilter("spells")
+        elseif category == "listProcs" then
+            x:UpdateAuraSpellFilter("procs")
+        elseif category == "listItems" then
+            x:UpdateAuraSpellFilter("items")
+        elseif category == "listDamage" then
+            x:UpdateAuraSpellFilter("damage")
+        elseif category == "listHealing" then
+            x:UpdateAuraSpellFilter("healing")
+        else
+            x:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
+        end
+    end
+
     addon.optionsTable.args.spellFilter = {
         name = "Filters",
         type = "group",
@@ -879,10 +897,10 @@ function x:InitOptionsTable()
                 order = 20,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses.  In order to filter them, you need to type the |cffFFFF00exact name of the aura|r (case sensitive).",
+                        name = "These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses.",
                     },
                     whitelistBuffs = {
                         order = 1,
@@ -891,33 +909,42 @@ function x:InitOptionsTable()
                         desc = "Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist).",
                         get = "Options_Filter_BuffWhitelist",
                         set = set0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 6,
-                        type = "input",
-                        name = "Aura Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter.\n\nYou can add/remove |cff798BDDmultiple|r entries by separating them with a |cffFF8000semicolon|r (e.g. 'Shadowform;Power Word: Fortitude').",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 7,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the aura from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
-                    -- This is a feature option that I will enable when I get more time D:
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Buff to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 8,
+                        order = 12,
                         type = "select",
-                        name = "Buff History:",
+                        name = "Add via History",
                         desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetBuffHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Buff from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Buff",
+                        desc = "Remove the Buff from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -928,10 +955,10 @@ function x:InitOptionsTable()
                 order = 30,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses. In order to filter them, you need to type the |cffFFFF00exact name of the aura|r (case sensitive).",
+                        name = "These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses.",
                     },
                     whitelistDebuffs = {
                         order = 1,
@@ -940,33 +967,42 @@ function x:InitOptionsTable()
                         desc = "Filtered auras gains and fades that are |cffFF1A1ADebuffs|r will be on a whitelist (opposed to a blacklist).",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 2,
-                        type = "input",
-                        name = "Aura Name",
-                        desc = "The full, case-sensitive name of the |cffFF1A1ADebuff|r you want to filter.",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the aura from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
-                    -- This is a feature option that I will enable when I get more time D:
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Debuff to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Shadow Word: Pain').",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 4,
+                        order = 12,
                         type = "select",
-                        name = "Debuff History:",
-                        desc = "A list of |cffFF1A1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = "Add via History",
+                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetDebuffHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Debuff from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Debuff",
+                        desc = "Remove the Debuff from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -977,10 +1013,10 @@ function x:InitOptionsTable()
                 order = 40,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers.  In order to filter them, you need to type the |cffFFFF00exact name of the proc|r (case sensitive).",
+                        name = "These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers.",
                     },
                     whitelistProcs = {
                         order = 1,
@@ -989,33 +1025,42 @@ function x:InitOptionsTable()
                         desc = "Check for whitelist, uncheck for blacklist.",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 6,
-                        type = "input",
-                        name = "Proc Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter.\n\nYou can add/remove |cff798BDDmultiple|r entries by separating them with a |cffFF8000semicolon|r (e.g. 'Shadowform;Power Word: Fortitude').",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 7,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the item from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
-                    -- This is a feature option that I will enable when I get more time D:
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Proc to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 8,
+                        order = 12,
                         type = "select",
-                        name = "Proc History:",
-                        desc = "A list of |cff1AFF1AProc|r items that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = "Add via History",
+                        desc = "A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetProcHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Proc from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered proc",
+                        desc = "Remove the proc from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -1026,10 +1071,10 @@ function x:InitOptionsTable()
                 order = 50,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does. In order to filter them, you need to type the |cffFFFF00Spell ID|r of the spell.",
+                        name = "These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does.",
                     },
                     whitelistSpells = {
                         order = 1,
@@ -1038,80 +1083,100 @@ function x:InitOptionsTable()
                         desc = "Filtered |cff71d5ffOutgoing Spells|r will be on a whitelist (opposed to a blacklist).",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 2,
-                        type = "input",
-                        name = "Spell ID",
-                        desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the spell from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spell to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 4,
+                        order = 12,
                         type = "select",
-                        name = "Spell History:",
+                        name = "Add via History",
                         desc = "A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetSpellHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
 
             listItems = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDItems (Plus)|r",
+                name = "|cffFFFFFFFilter:|r |cff798BDDItems|r",
                 type = "group",
                 order = 60,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cff8020FFItems|r that your player collects.  In order to filter them, you need to type the |cffFFFF00exact name of the item|r (case sensitive).",
+                        name = "These options allow you to filter out |cff8020FFItems|r that your player collects.",
                     },
                     whitelistItems = {
                         order = 1,
                         type = "toggle",
                         name = "Whitelist",
-                        desc = "Filtered |cff798BDDItems (Plus)|r will be on a whitelist (opposed to a blacklist).",
+                        desc = "Filtered |cff798BDDItems|r will be on a whitelist (opposed to a blacklist).",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 2,
-                        type = "input",
-                        name = "Item ID",
-                        desc = "The Item ID of the |cff798BDDItem|r you want to filter.",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the spell from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Item to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The ID of the |cff798BDDItem|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 4,
+                        order = 12,
                         type = "select",
-                        name = "Item History:",
+                        name = "Add via History",
                         desc = "A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetItemHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Item from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Item",
+                        desc = "Remove the Item from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -1122,44 +1187,54 @@ function x:InitOptionsTable()
                 order = 70,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character.  In order to add a new item, you need to type the |cffFFFF00Spell ID|r. Checking |cffFFFF00Remove|r and typing in a |cffFFFF00Spell ID|r will remove it from the list.\n",
+                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character.",
                     },
                     whitelistDamage = {
                         order = 1,
                         type = "toggle",
                         name = "Whitelist",
-                        desc = "Temp Description",
+                        desc = "Filtered |cff71d5ffIncoming Damage Spells|r will be on a whitelist (opposed to a blacklist).",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 2,
-                        type = "input",
-                        name = "Spell ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the spell from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spells to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 4,
+                        order = 12,
                         type = "select",
-                        name = "Spell History:",
+                        name = "Add via History",
                         desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetDamageIncomingHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -1170,45 +1245,54 @@ function x:InitOptionsTable()
                 order = 80,
                 guiInline = false,
                 args = {
-                    title = {
+                    description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character.  In order to add a new item, you need to type the |cffFFFF00Spell ID|r. Checking |cffFFFF00Remove|r and typing in a |cffFFFF00Spell ID|r will remove it from the list.\n",
+                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character.",
                     },
                     whitelistHealing = {
                         order = 1,
                         type = "toggle",
                         name = "Whitelist",
-                        desc = "Temp Description",
+                        desc = "Filtered |cff71d5ffIncoming Healing Spells|r will be on a whitelist (opposed to a blacklist).",
                         set = set0_1,
                         get = get0_1,
-                        width = "full",
-                    },
-                    spellName = {
-                        order = 2,
-                        type = "input",
-                        name = "Spell ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
-                        set = setSpell,
-                    },
-                    checkAdd = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Remove",
-                        desc = "Check to remove the spell from the filtered list.",
-                        get = getCheckAdd,
-                        set = setCheckAdd,
                     },
 
-                    -- This is a feature option that I will enable when I get more time D:
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spell to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
                     selectTracked = {
-                        order = 4,
+                        order = 12,
                         type = "select",
-                        name = "Spell History:",
+                        name = "Add via History",
                         desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
                         disabled = IsTrackSpellsDisabled,
                         values = GetHealingIncomingHistory,
-                        set = setSpell,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
                     },
                 },
             },
@@ -8028,12 +8112,16 @@ end
 -- Update the Buff, Debuff and Spell filter list
 function x:UpdateAuraSpellFilter(specific)
     if not specific or specific == "buffs" then
-        -- Redo all the list
+        addon.optionsTable.args.spellFilter.args.listBuffs.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Buffs |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listBuffs.args.list = {
-            name = "Filtered Buffs |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8053,20 +8141,23 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             buffs.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No buffs have been added to this list yet.",
                 type = "description",
             }
         end
     end
 
-    -- Update debuffs
     if not specific or specific == "debuffs" then
+        addon.optionsTable.args.spellFilter.args.listDebuffs.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Debuffs |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listDebuffs.args.list = {
-            name = "Filtered Debuffs |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8085,8 +8176,7 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             debuffs.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No debuffs have been added to this list yet.",
                 type = "description",
             }
         end
@@ -8094,11 +8184,16 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update procs
     if not specific or specific == "procs" then
+        addon.optionsTable.args.spellFilter.args.listProcs.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Procs |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listProcs.args.list = {
-            name = "Filtered Procs |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8117,8 +8212,7 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             procs.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No procs have been added to this list yet.",
                 type = "description",
             }
         end
@@ -8126,11 +8220,16 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update spells
     if not specific or specific == "spells" then
+        addon.optionsTable.args.spellFilter.args.listSpells.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Spells |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listSpells.args.list = {
-            name = "Filtered Spells |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8157,8 +8256,7 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No spells have been added to this list yet.",
                 type = "description",
             }
         end
@@ -8166,11 +8264,16 @@ function x:UpdateAuraSpellFilter(specific)
 
     -- Update spells
     if not specific or specific == "items" then
+        addon.optionsTable.args.spellFilter.args.listItems.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Items |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listItems.args.list = {
-            name = "Filtered Items |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8194,7 +8297,6 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                order = 1,
                 name = "No items have been added to this list yet.",
                 type = "description",
             }
@@ -8202,11 +8304,16 @@ function x:UpdateAuraSpellFilter(specific)
     end
 
     if not specific or specific == "damage" then
+        addon.optionsTable.args.spellFilter.args.listDamage.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Incoming Damage |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listDamage.args.list = {
-            name = "Filtered Incoming Damage |cff798BDD(Uncheck to Disable)|r",
+            order = 101,
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
             args = {},
         }
 
@@ -8232,19 +8339,23 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No spells have been added to this list yet.",
                 type = "description",
             }
         end
     end
 
     if not specific or specific == "healing" then
+        addon.optionsTable.args.spellFilter.args.listHealing.args.headerFilterList = {
+            order = 100,
+            name = "Filtered Incoming Healing |cff798BDD(Uncheck to disable)|r",
+            type = "header",
+        }
         addon.optionsTable.args.spellFilter.args.listHealing.args.list = {
-            name = "Filtered Incoming Healing |cff798BDD(Uncheck to Disable)|r",
+            name = "",
             type = "group",
             guiInline = true,
-            order = 11,
+            order = 101,
             args = {},
         }
 
@@ -8270,77 +8381,10 @@ function x:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                order = 1,
-                name = "No items have been added to this list yet.",
+                name = "No spells have been added to this list yet.",
                 type = "description",
             }
         end
-    end
-end
-
--- Add and remove Buffs, debuffs, and spells from the filter
-function x.AddFilteredSpell(name, category)
-    if category == "listBuffs" then
-        x.db.profile.spellFilter.listBuffs[name] = true
-        x:UpdateAuraSpellFilter("buffs")
-    elseif category == "listDebuffs" then
-        x.db.profile.spellFilter.listDebuffs[name] = true
-        x:UpdateAuraSpellFilter("debuffs")
-    elseif category == "listSpells" then
-        local spellID = tonumber(string.match(name, "%d+"))
-        if spellID and C_Spell.GetSpellName(spellID) then
-            x.db.profile.spellFilter.listSpells[name] = true
-            x:UpdateAuraSpellFilter("spells")
-        else
-            print("|cffFF0000x|r|cffFFFF00CT+|r  Could not add invalid Spell ID: |cff798BDD" .. name .. "|r")
-        end
-    elseif category == "listProcs" then
-        x.db.profile.spellFilter.listProcs[name] = true
-        x:UpdateAuraSpellFilter("procs")
-    elseif category == "listItems" then
-        x.db.profile.spellFilter.listItems[name] = true
-        x:UpdateAuraSpellFilter("items")
-    elseif category == "listDamage" then
-        x.db.profile.spellFilter.listDamage[name] = true
-        x:UpdateAuraSpellFilter("damage")
-    elseif category == "listHealing" then
-        x.db.profile.spellFilter.listHealing[name] = true
-        x:UpdateAuraSpellFilter("healing")
-    else
-        print("|cffFF0000x|r|cffFFFF00CT+|r  |cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
-    end
-end
-
-function x.RemoveFilteredSpell(name, category)
-    if category == "listBuffs" then
-        x.db.profile.spellFilter.listBuffs[name] = nil
-        x:UpdateAuraSpellFilter("buffs")
-    elseif category == "listDebuffs" then
-        x.db.profile.spellFilter.listDebuffs[name] = nil
-        x:UpdateAuraSpellFilter("debuffs")
-    elseif category == "listSpells" then
-        local spellID = tonumber(string.match(name, "%d+"))
-        if spellID and C_Spell.GetSpellName(spellID) then
-            x.db.profile.spellFilter.listSpells[name] = nil
-            x:UpdateAuraSpellFilter("spells")
-        else
-            print("|cffFF0000x|r|cffFFFF00CT+|r  Could not remove invalid Spell ID: |cff798BDD" .. name .. "|r")
-        end
-        x:UpdateAuraSpellFilter("spells")
-    elseif category == "listProcs" then
-        x.db.profile.spellFilter.listProcs[name] = nil
-        x:UpdateAuraSpellFilter("procs")
-    elseif category == "listItems" then
-        x.db.profile.spellFilter.listItems[name] = nil
-        x:UpdateAuraSpellFilter("items")
-    elseif category == "listDamage" then
-        x.db.profile.spellFilter.listDamage[name] = nil
-        x:UpdateAuraSpellFilter("damage")
-    elseif category == "listHealing" then
-        x.db.profile.spellFilter.listHealing[name] = nil
-        x:UpdateAuraSpellFilter("healing")
-    else
-        print("|cffFF0000x|r|cffFFFF00CT+|r  |cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
     end
 end
 
