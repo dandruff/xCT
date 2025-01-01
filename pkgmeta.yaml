@@ -3,3 +3,8 @@ ignore:
   - .gitignore
   - .stylua.toml
   - pkgmeta.yaml
+
+# We want to have 2 folders: xCT+ and xCT+Options
+move-folders:
+  xCT+/xCT+: xCT+
+  xCT+/xCT+Options: xCT+Options

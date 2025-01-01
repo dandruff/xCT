@@ -1,3 +1,1 @@
 - refactor options
-- add frame "outgoing heal" as an alias (?) so we can split outgoing heals and dmg in the merger
-- Cleanup Spell-Filters: disabling a filter should delete it from the lua (or something like that)
