@@ -7901,25 +7901,6 @@ function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
     end
 end
 
-function x:LoadDefaultColors()
-    local function cleanColors(colorTable)
-        for _, color in pairs(colorTable) do
-            if color.colors then
-                cleanColors(color.colors)
-            else
-                color.color = { color.default[1], color.default[2], color.default[3] }
-            end
-        end
-    end
-
-    for _, settings in pairs(optionsAddon.defaults.profile.frames) do
-        if settings.colors then
-            cleanColors(settings.colors)
-        end
-    end
-    cleanColors(optionsAddon.defaults.profile.SpellColors)
-end
-
 function x:UpdateCVar(force)
     -- Store Localized Strings
     -- To remove: "Changed Target!"

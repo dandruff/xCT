@@ -440,6 +440,25 @@ function x:EnableLibSinkSupport()
     )
 end
 
+function x:LoadDefaultColors()
+    local function cleanColors(colorTable)
+        for _, color in pairs(colorTable) do
+            if color.colors then
+                cleanColors(color.colors)
+            else
+                color.color = { color.default[1], color.default[2], color.default[3] }
+            end
+        end
+    end
+
+    for _, settings in pairs(addon.defaults.profile.frames) do
+        if settings.colors then
+            cleanColors(settings.colors)
+        end
+    end
+    cleanColors(addon.defaults.profile.SpellColors)
+end
+
 -- Close Config when entering combat
 function x:CombatStateChanged()
     self:LoadOptionsAddon()
