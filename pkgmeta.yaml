@@ -4,6 +4,7 @@ ignore:
   - .github
   - .gitignore
   - .stylua.toml
+  - libs/LibStub/tests
   - pkgmeta.yaml
 
 # We want to have 2 folders: xCT+ and xCT+Options
