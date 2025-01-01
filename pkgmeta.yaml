@@ -1,3 +1,5 @@
+package-as: xCT+
+
 ignore:
   - .github
   - .gitignore
