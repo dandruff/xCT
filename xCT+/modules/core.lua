@@ -74,12 +74,9 @@ function x:OnEnable()
     -- Delay updating frames until all other addons are loaded!
     self:UpdateCombatTextEvents(true)
 
-    -- Update combat text engine CVars
     self:UpdateCVar()
-
-    -- Register Slash Commands
     self:RegisterChatCommand("xct", "OpenxCTCommand")
-
+    self:CacheColors()
     self:EnableLibSinkSupport()
 
     -- Register addon to the new compartment frame see https://wowpedia.fandom.com/wiki/Addon_compartment
@@ -94,8 +91,6 @@ function x:OnEnable()
 
     x:UpdateFrames()
     x:UpdateCVar()
-
-    self.openConfigAfterCombat = false
 
     self:Print("Version 4.9.0 added a new Frame: 'Outgoing Healing'. The default is set to merge with 'Outgoing Damage' but you may want to change that!")
 end
@@ -441,6 +436,7 @@ function x:EnableLibSinkSupport()
 end
 
 function x:LoadDefaultColors()
+    -- TODO idk what this does tbh
     local function cleanColors(colorTable)
         for _, color in pairs(colorTable) do
             if color.colors then
@@ -456,7 +452,55 @@ function x:LoadDefaultColors()
             cleanColors(settings.colors)
         end
     end
+
     cleanColors(addon.defaults.profile.SpellColors)
+end
+
+-- Cache colors for a fast lookup
+function x:CacheColors()
+    self.colorNameDB = {}
+    for _, settings in pairs(x.db.profile.frames) do
+        if settings.colors then
+            for colorName, colorSettings in pairs(settings.colors) do
+                if colorSettings.colors then
+                    for currentColorName in pairs(colorSettings.colors) do
+                        local currentColorSettings = colorSettings.colors[currentColorName]
+
+                        -- Check for nil colors and set them to the default
+                        if not currentColorSettings.color or not unpack(currentColorSettings.color) then
+                            -- This needs to be a new table apparently
+                            currentColorSettings.color = { unpack(currentColorSettings.default) }
+                        end
+
+                        -- Cache this color into a quick lookup
+                        self.colorNameDB[currentColorName] = currentColorSettings
+                    end
+                else
+                    -- Check for nil colors and set them to the default
+                    if not colorSettings.color or not unpack(colorSettings.color) then
+                        -- This needs to be a new table apparently
+                        colorSettings.color = { unpack(colorSettings.default) }
+                    end
+
+                    -- Cache this color into a quick lookup
+                    self.colorNameDB[colorName] = colorSettings
+                end
+            end
+        end
+    end
+
+    for colorName, colorSettings in pairs(x.db.profile.SpellColors) do
+        colorName = tostring(colorName)
+
+        -- Check for nil colors and set them to the default
+        if not colorSettings.color or not unpack(colorSettings.color) then
+            -- This needs to be a new table apparently
+            colorSettings.color = { unpack(colorSettings.default) }
+        end
+
+        -- Cache this color into a quick lookup
+        self.colorNameDB[colorName] = colorSettings
+    end
 end
 
 function x:UpdateCVar(force)
@@ -645,12 +689,7 @@ function x:UpdateCVar(force)
     )
 end
 
--- Close Config when entering combat
 function x:CombatStateChanged()
-    self:LoadOptionsAddon()
-
-    xCT_Plus_Options.engine:CombatStateChanged()
-
     for framename, settings in pairs(x.db.profile.frames) do
         if settings.enableScrollable and settings.scrollableInCombat then
             if x.inCombat then
@@ -742,5 +781,18 @@ end
 function x:HideConfigTool(wait)
     if x.isOptionsAddonLoaded then
         xCT_Plus_Options.engine:HideConfigTool(wait)
+    end
+end
+
+-- DB for the colors
+-- Returns the color and if it was enabled
+function x:LookupColorByName(name)
+    if self.colorNameDB[name] then
+        if self.colorNameDB[name].enabled then
+            return self.colorNameDB[name].color or self.colorNameDB[name].default, true
+        end
+        return self.colorNameDB[name].default, false
+    else
+        return
     end
 end

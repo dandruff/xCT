@@ -8205,21 +8205,6 @@ local function tableCompare(t1, t2)
     return equal
 end
 
--- DB for the colors
-local colorNameDB = {}
-
--- Returns the color and if it was enabled
-function x:LookupColorByName(name)
-    if colorNameDB[name] then
-        if colorNameDB[name].enabled then
-            return colorNameDB[name].color or colorNameDB[name].default, true
-        end
-        return colorNameDB[name].default, false
-    else
-        return
-    end
-end
-
 local getColorDB = function(info)
     local enabled = string.match(info[#info], "(.*)_enabled")
     local color = string.match(info[#info], "(.*)_color")
@@ -8369,8 +8354,6 @@ local function GenerateColorOptionsTable_Entry(colorName, settings, options, ind
         settings.color = { unpack(settings.default) }
     end
 
-    -- Cache this color into a quick lookup
-    colorNameDB[colorName] = settings
     options[colorName .. "_enabled"] = {
         order = index,
         type = "toggle",
@@ -8427,7 +8410,7 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
         }
         index = index + 1
 
-        -- Sort the Colors Alphabetical
+        -- Sort the colors alphabetically
         local sortedList = {}
         for currentColorName in pairs(settings.colors) do
             table.insert(sortedList, currentColorName)
@@ -8446,6 +8429,7 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
         GenerateColorOptionsTable_Entry(colorName, settings, options, index)
         index = index + 4
     end
+
     return index
 end
 
@@ -8456,7 +8440,7 @@ function optionsAddon.engine:GenerateColorOptions()
         if settings.colors then
             local index = 10
 
-            -- Sort the Colors Alphabetical
+            -- Sort the colors alphabetically
             local sortedList = {}
             for colorName in pairs(settings.colors) do
                 table.insert(sortedList, colorName)
@@ -8491,7 +8475,7 @@ function optionsAddon.engine:GenerateSpellSchoolColors()
 
     local sortedList = {}
     for n in pairs(settings) do
-        sortedList[#sortedList + 1] = tonumber(n)
+        table.insert(sortedList, tonumber(n))
     end
 
     table.sort(sortedList)

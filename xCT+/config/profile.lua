@@ -73,13 +73,41 @@ addon.defaults = {
 
         SpellColors = {
             -- Vanilla Schools
-            [tostring(SCHOOL_MASK_PHYSICAL)] = { enabled = false, desc = "Physical", default = { 1.00, 1.00, 1.00 } },
-            [tostring(SCHOOL_MASK_HOLY)] = { enabled = false, desc = "Holy", default = { 1.00, 1.00, 0.30 } },
-            [tostring(SCHOOL_MASK_FIRE)] = { enabled = false, desc = "Fire", default = { 1.00, 0.15, 0.18 } },
-            [tostring(SCHOOL_MASK_NATURE)] = { enabled = false, desc = "Nature", default = { 0.40, 1.00, 0.40 } },
-            [tostring(SCHOOL_MASK_FROST)] = { enabled = false, desc = "Frost", default = { 0.30, 0.30, 0.90 } },
-            [tostring(SCHOOL_MASK_SHADOW)] = { enabled = false, desc = "Shadow", default = { 1.00, 0.70, 1.00 } },
-            [tostring(SCHOOL_MASK_ARCANE)] = { enabled = false, desc = "Arcane", default = { 0.75, 0.75, 0.75 } },
+            [tostring(SCHOOL_MASK_PHYSICAL)] = {
+                enabled = false,
+                desc = "Physical",
+                default = { 1.00, 1.00, 1.00 }
+            },
+            [tostring(SCHOOL_MASK_HOLY)] = {
+                enabled = false,
+                desc = "Holy",
+                default = { 1.00, 1.00, 0.30 }
+            },
+            [tostring(SCHOOL_MASK_FIRE)] = {
+                enabled = false,
+                desc = "Fire",
+                default = { 1.00, 0.15, 0.18 }
+            },
+            [tostring(SCHOOL_MASK_NATURE)] = {
+                enabled = false,
+                desc = "Nature",
+                default = { 0.40, 1.00, 0.40 }
+            },
+            [tostring(SCHOOL_MASK_FROST)] = {
+                enabled = false,
+                desc = "Frost",
+                default = { 0.30, 0.30, 0.90 }
+            },
+            [tostring(SCHOOL_MASK_SHADOW)] = {
+                enabled = false,
+                desc = "Shadow",
+                default = { 1.00, 0.70, 1.00 }
+            },
+            [tostring(SCHOOL_MASK_ARCANE)] = {
+                enabled = false,
+                desc = "Arcane",
+                default = { 0.75, 0.75, 0.75 }
+            },
 
             -- Physical and a Magical
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_FIRE)] = {
@@ -199,7 +227,11 @@ addon.defaults = {
 
             [tostring(
                 SCHOOL_MASK_FIRE + SCHOOL_MASK_FROST + SCHOOL_MASK_ARCANE + SCHOOL_MASK_NATURE + SCHOOL_MASK_SHADOW
-            )] = { enabled = false, desc = "Chromatic", default = { 0.69, 0.58, 0.65 } },
+            )] = {
+                enabled = false,
+                desc = "Chromatic",
+                default = { 0.69, 0.58, 0.65 }
+            },
 
             [tostring(
                 SCHOOL_MASK_FIRE
@@ -208,7 +240,11 @@ addon.defaults = {
                     + SCHOOL_MASK_NATURE
                     + SCHOOL_MASK_SHADOW
                     + SCHOOL_MASK_HOLY
-            )] = { enabled = false, desc = "Magic", default = { 0.74, 0.65, 0.59 } },
+            )] = {
+                enabled = false,
+                desc = "Magic",
+                default = { 0.74, 0.65, 0.59 }
+            },
 
             [tostring(
                 SCHOOL_MASK_PHYSICAL
@@ -218,7 +254,11 @@ addon.defaults = {
                     + SCHOOL_MASK_NATURE
                     + SCHOOL_MASK_SHADOW
                     + SCHOOL_MASK_HOLY
-            )] = { enabled = false, desc = "Chaos", default = { 0.78, 0.70, 0.65 } },
+            )] = {
+                enabled = false,
+                desc = "Chaos",
+                default = { 0.78, 0.70, 0.65 }
+            },
         },
 
         frameSettings = {
@@ -264,7 +304,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["interrupts"] = { enabled = false, desc = "Interrupts", default = { 1.00, 0.50, 0.00 } },
                     ["killingBlow"] = { enabled = false, desc = "Killing Blows", default = { 0.20, 1.00, 0.20 } },
                     ["honorGains"] = { enabled = false, desc = "Honor Gained", default = { 0.10, 0.10, 1.00 } },
@@ -272,7 +312,7 @@ addon.defaults = {
                     ["auras"] = {
                         enabled = false,
                         desc = "Buffs and Debuffs",
-                        colors = {
+                        ["colors"] = {
                             ["buffsGained"] = {
                                 enabled = false,
                                 desc = "Buffs Gained",
@@ -298,7 +338,7 @@ addon.defaults = {
                     ["dispells"] = {
                         enabled = false,
                         desc = "Dispell Buffs and Debuffs",
-                        colors = {
+                        ["colors"] = {
                             ["dispellBuffs"] = {
                                 enabled = false,
                                 desc = "Buffs",
@@ -319,7 +359,7 @@ addon.defaults = {
                     ["reputation"] = {
                         enabled = false,
                         desc = "Reputation",
-                        colors = {
+                        ["colors"] = {
                             ["reputationGain"] = {
                                 enabled = false,
                                 desc = "Reputation Gained",
@@ -335,7 +375,7 @@ addon.defaults = {
                     ["combat"] = {
                         enabled = false,
                         desc = "Combat Status",
-                        colors = {
+                        ["colors"] = {
                             ["combatEntering"] = {
                                 enabled = false,
                                 desc = "Entering Combat",
@@ -351,7 +391,7 @@ addon.defaults = {
                     ["lowResources"] = {
                         enabled = false,
                         desc = "Low Resources",
-                        colors = {
+                        ["colors"] = {
                             ["lowResourcesHealth"] = {
                                 enabled = false,
                                 desc = "Low Health",
@@ -423,7 +463,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["melee"] = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
                     ["misstypesOut"] = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
                 },
@@ -550,7 +590,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["meleeCrit"] = {
                         enabled = false,
                         desc = "Auto Attack Damage (Critical)",
@@ -665,11 +705,11 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["healing"] = {
                         enabled = false,
                         desc = "Healing Color Overrides",
-                        colors = {
+                        ["colors"] = {
                             ["healingOut"] = {
                                 enabled = false,
                                 desc = "Healing",
@@ -811,7 +851,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["damageTaken"] = {
                         enabled = false,
                         desc = "Physical Damage",
@@ -836,7 +876,7 @@ addon.defaults = {
                     ["missTypesTaken"] = {
                         enabled = false,
                         desc = "Miss Types",
-                        colors = {
+                        ["colors"] = {
                             ["missTypeMiss"] = { enabled = false, desc = "Missed", default = { 0.50, 0.50, 0.50 } },
                             ["missTypeDodge"] = { enabled = false, desc = "Dodged", default = { 0.50, 0.50, 0.50 } },
                             ["missTypeParry"] = { enabled = false, desc = "Parry", default = { 0.50, 0.50, 0.50 } },
@@ -853,7 +893,7 @@ addon.defaults = {
                     ["missTypesTakenPartial"] = {
                         enabled = false,
                         desc = "Miss Types |cff798BDD(Partials)|r",
-                        colors = {
+                        ["colors"] = {
                             ["missTypeResistPartial"] = {
                                 enabled = false,
                                 desc = "Resisted |cff798BDD(Partial)|r",
@@ -995,7 +1035,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["healingTaken"] = { enabled = false, desc = "Healing", default = { 0.10, 0.75, 0.10 } },
                     ["healingTakenCritical"] = {
                         enabled = false,
@@ -1115,7 +1155,7 @@ addon.defaults = {
         -- font colors
         ["customColor"] = false,
         ["fontColor"] = { 1.00, 1.00, 1.00 },
-        colors = {
+        ["colors"] = {
           ['comboPoints']     = { enabled = false, desc = "Combo Points",     default = { 1.00, 0.82, 0.00 } },
           ['comboPointsMax']  = { enabled = false, desc = "Max Combo Points", default = { 0.00, 0.82, 1.00 } },
         },
@@ -1152,7 +1192,7 @@ addon.defaults = {
 
                 -- https://github.com/Gethe/wow-ui-source/blob/e337b8949ffad2876ea0489d8331db2414342d32
                 -- /AddOns/Blizzard_CombatLog/Blizzard_CombatLog.lua#L1797
-                colors = {
+                ["colors"] = {
                     ["color_MANA"] = { enabled = false, desc = MANA, default = { 0.00, 0.00, 1.00 } },
                     ["color_RAGE"] = { enabled = false, desc = RAGE, default = { 1.00, 0.00, 0.00 } },
                     ["color_FURY"] = { enabled = false, desc = FURY, default = { 0.788, 0.259, 0.992 } },
@@ -1272,7 +1312,7 @@ addon.defaults = {
                 -- font colors
                 ["customColor"] = false,
                 ["fontColor"] = { 1.00, 1.00, 1.00 },
-                colors = {
+                ["colors"] = {
                     ["spellProc"] = { enabled = false, desc = "Spell Procs", default = { 1.00, 0.82, 0.00 } },
                     ["spellReactive"] = { enabled = false, desc = "Spell Reactive", default = { 1.00, 0.82, 0.00 } },
                 },

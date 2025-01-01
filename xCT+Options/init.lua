@@ -13,7 +13,7 @@
  [====================================]]
 
 local AddonName, optionsAddon = ...
-optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceTimer-3.0")
+optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", 'AceEvent-3.0', "AceTimer-3.0")
 -- TODO AceConsole?
 
 local x = optionsAddon.engine
@@ -76,6 +76,10 @@ function x:OnEnable()
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileReset", ProfileReset)
 
+    self:RegisterEvent('PLAYER_REGEN_DISABLED', 'onEnteringCombat')
+    self:RegisterEvent('PLAYER_REGEN_ENABLED', 'onLeavingCombat')
+
+    self.openConfigAfterCombat = false
 end
 
 -- Gets only called when your addon is manually being disabled.
@@ -84,7 +88,7 @@ function x:OnDisable()
 end
 
 function x:ToggleConfigTool()
-    if x.isConfigToolOpen then
+    if self.isConfigToolOpen then
         x:HideConfigTool()
     else
         x:ShowConfigTool()
@@ -92,47 +96,44 @@ function x:ToggleConfigTool()
 end
 
 local function myContainer_OnRelease()
-    AceGUI:Release(x.optionsFrame)
-    x.optionsFrame = nil
+    AceGUI:Release(self.optionsFrame)
+    self.optionsFrame = nil
 
-    x.isConfigToolOpen = false
+    self.isConfigToolOpen = false
 end
 
 function x:ShowConfigTool(...)
-    if x.isConfigToolOpen then
+    if self.isConfigToolOpen then
         -- Already open
         return
     end
 
-    if xCT_Plus.engine.inCombat and xCT_Plus.engine.db.profile.hideConfig then
+    if InCombatLockdown() and xCT_Plus.engine.db.profile.hideConfig then
         self:Print("Will open the |cff798BDDConfiguration Tool|r after combat.")
-        xCT_Plus.engine.openConfigAfterCombat = true
+        self.openConfigAfterCombat = true
         return
     end
 
-    x.isConfigToolOpen = true
+    self.isConfigToolOpen = true
 
-    if x.optionsFrame then
-        x.optionsFrame:Hide()
+    if self.optionsFrame then
+        self.optionsFrame:Hide()
     end
 
     -- Register my AddOn for Escape keypresses
-    x.optionsFrame = AceGUI:Create("Frame")
-    x.optionsFrame.frame:SetScript(
+    self.optionsFrame = AceGUI:Create("Frame")
+    self.optionsFrame.frame:SetScript(
         "OnHide",
         function()
             x:HideConfigTool()
         end
     )
 
-    _G.xCT_PlusConfigFrame = x.optionsFrame.frame
+    _G.xCT_PlusConfigFrame = self.optionsFrame.frame
     table.insert(UISpecialFrames, "xCT_PlusConfigFrame")
 
     -- Properly dispose of this frame
-    x.optionsFrame:SetCallback("OnClose", myContainer_OnRelease)
-
-    -- Last minute settings and SHOW
-    --x.optionsFrame.content:GetParent():SetMinResize(803, 300)
+    self.optionsFrame:SetCallback("OnClose", myContainer_OnRelease)
 
     -- Go through and select all the groups that are relevant to the player
     if not x.selectDefaultGroups then
@@ -149,51 +150,36 @@ function x:ShowConfigTool(...)
         ACD:SelectGroup(AddonName, ...)
     end
 
-    ACD:Open(AddonName, x.optionsFrame)
+    ACD:Open(AddonName, self.optionsFrame)
 end
 
 function x:HideConfigTool(wait)
     -- If the caller says we need to wait a bit, we'll wait!
     if wait then
-        x:ScheduleTimer("HideConfigTool", 0.1)
+        self:ScheduleTimer("HideConfigTool", 0.1)
         return
     end
 
-    x.isConfigToolOpen = false
+    self.isConfigToolOpen = false
 
-    if x.optionsFrame then
-        x.optionsFrame:Hide()
+    if self.optionsFrame then
+        self.optionsFrame:Hide()
     end
 
-    -- MORE!
     GameTooltip:Hide()
 end
 
--- Close Config when entering combat
-function x:CombatStateChanged()
-    if xCT_Plus.engine.db.profile.hideConfig then
-        if xCT_Plus.engine.inCombat then
-            if x.optionsFrame then
-                if x.optionsFrame:IsShown() then
-                    x.openConfigAfterCombat = true
-                    x:HideConfigTool()
-                end
-            end
-        else
-            if x.openConfigAfterCombat then
-                x:ShowConfigTool()
-            end
-            x.openConfigAfterCombat = false
-        end
+function x:onEnteringCombat()
+    if xCT_Plus.engine.db.profile.hideConfig and self.isConfigToolOpen then
+        self.openConfigAfterCombat = true
+        x:HideConfigTool()
+    end
+end
+
+function x:onLeavingCombat()
+    if self.openConfigAfterCombat then
+        x:ShowConfigTool()
     end
 
-    for framename, settings in pairs(xCT_Plus.engine.db.profile.frames) do
-        if settings.enableScrollable and settings.scrollableInCombat then
-            if xCT_Plus.engine.inCombat then
-                xCT_Plus.engine:DisableFrameScrolling(framename)
-            else
-                xCT_Plus.engine:EnableFrameScrolling(framename)
-            end
-        end
-    end
+    self.openConfigAfterCombat = false
 end
