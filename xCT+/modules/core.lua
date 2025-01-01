@@ -692,7 +692,7 @@ end
 function x:CombatStateChanged()
     for framename, settings in pairs(x.db.profile.frames) do
         if settings.enableScrollable and settings.scrollableInCombat then
-            if x.inCombat then
+            if InCombatLockdown() then
                 x:DisableFrameScrolling(framename)
             else
                 x:EnableFrameScrolling(framename)
@@ -757,6 +757,7 @@ end
 -- Load xCT+Options on demand
 function x:LoadOptionsAddon()
     if not x.isOptionsAddonLoaded then
+        -- Funnily enough, this works in combat!
         local loaded = C_AddOns.LoadAddOn("xCT+Options")
         if not loaded then
             self:Print("Options could not be loaded. Did you have the 'xCT+Options' folder in your Addons-folder?")
