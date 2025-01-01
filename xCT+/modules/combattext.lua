@@ -697,7 +697,12 @@ x.events = {
     end,
 
     ["PLAYER_REGEN_ENABLED"] = function()
-        x:CombatStateChanged()
+        for framename, settings in pairs(x.db.profile.frames) do
+            if settings.enableScrollable and settings.scrollableInCombat then
+                x:EnableFrameScrolling(framename)
+            end
+        end
+
         if x:Options_Global_ClearWhenLeavingCombat() then
             -- only clear frames with icons
             x:Clear("general")
@@ -717,7 +722,12 @@ x.events = {
     end,
 
     ["PLAYER_REGEN_DISABLED"] = function()
-        x:CombatStateChanged()
+        for framename, settings in pairs(x.db.profile.frames) do
+            if settings.enableScrollable and settings.scrollableInCombat then
+                x:DisableFrameScrolling(framename)
+            end
+        end
+
         if x:Options_General_ShowCombatState() then
             x:AddMessage("general", _G.ENTERING_COMBAT, "combatEntering")
         end

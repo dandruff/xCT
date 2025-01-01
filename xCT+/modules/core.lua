@@ -689,18 +689,6 @@ function x:UpdateCVar(force)
     )
 end
 
-function x:CombatStateChanged()
-    for framename, settings in pairs(x.db.profile.frames) do
-        if settings.enableScrollable and settings.scrollableInCombat then
-            if InCombatLockdown() then
-                x:DisableFrameScrolling(framename)
-            else
-                x:EnableFrameScrolling(framename)
-            end
-        end
-    end
-end
-
 -- Process the slash command ('input' contains whatever follows the slash command)
 function x:OpenxCTCommand(input)
     input = string.lower(input)
