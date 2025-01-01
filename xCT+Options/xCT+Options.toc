@@ -1,0 +1,10 @@
+## Interface: 110007
+## Title: xCT+Options
+## Notes: Options for xCT+
+## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
+## Version: @project-version@
+## LoadOnDemand: 1
+## Dependencies: xCT+
+
+init.lua
+options_table.lua

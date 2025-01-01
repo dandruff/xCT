@@ -1,0 +1,19 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <Script  file="LibStub\LibStub.lua" />
+  <Include file="CallbackHandler-1.0\CallbackHandler-1.0.xml" />
+
+  <Include file="AceAddon-3.0\AceAddon-3.0.xml" />
+  <Include file="AceConsole-3.0\AceConsole-3.0.xml" />
+  <Include file="AceDB-3.0\AceDB-3.0.xml" />
+  <Include file="AceDBOptions-3.0\AceDBOptions-3.0.xml" />
+  <Include file="AceTimer-3.0\AceTimer-3.0.xml" />
+  <Include file="AceConfig-3.0\AceConfig-3.0.xml" />
+  <Include file="AceEvent-3.0\AceEvent-3.0.xml" />
+
+  <Include file="LibSharedMedia-3.0\lib.xml" />
+  <Include file="AceGUI-3.0\AceGUI-3.0.xml" />
+  <Include file="AceGUI-3.0-SharedMediaWidgets\widget.xml" />
+
+  <Include file="UTF8\include.xml" />
+  <Script  file="xCombatParser-1.0\xCombatParser-1.0.lua" />
+</Ui>

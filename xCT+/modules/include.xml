@@ -1,0 +1,8 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <Script file="blizzard.lua"/>
+    <Script file="frames.lua"/>
+    <Script file="combattext.lua"/>
+    <Script file="options.lua"/>
+    <Script file="grid.lua"/>
+    <Script file="core.lua"/>
+</Ui>
