@@ -12,14 +12,8 @@
  [  ©2024. All Rights Reserved.        ]
  [====================================]]
 
-local _, optionsAddon = ...
+local AddonName, optionsAddon = ...
 local x = xCT_Plus.engine
-
--- This allows us to create our config dialog
-local AceGUI = LibStub("AceGUI-3.0")
-local AC = LibStub("AceConfig-3.0")
-local ACD = LibStub("AceConfigDialog-3.0")
-local ACR = LibStub("AceConfigRegistry-3.0")
 
 function x:InitOptionsTable()
     -- Create the options table for AceConfig
@@ -7742,7 +7736,7 @@ function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
         if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
             return x.db.profile.spells.merge[spellId].interval
         end
-        return optionsAddon.merges[spellId].interval or 0
+        return xCT_Plus.merges[spellId].interval or 0
     end
 
     local function SpamMergerSetSpellInterval(info, value)
@@ -7775,7 +7769,7 @@ function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
     -- Create a list of the categories (to be sorted)
     local spamMergerGlobalSpellCategories = {}
     local spamMergerRacialSpellCategories = {}
-    for _, entry in pairs(optionsAddon.merges) do
+    for _, entry in pairs(xCT_Plus.merges) do
         if not x.CLASS_NAMES[entry.category] then
             if entry.desc == "Racial Spell" then
                 table.insert(
@@ -7828,7 +7822,7 @@ function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
     ------------------------------------------------------
 
     -- Update the UI
-    for spellID, entry in pairs(optionsAddon.merges) do
+    for spellID, entry in pairs(xCT_Plus.merges) do
         local name = C_Spell.GetSpellName(spellID)
         if name then
             --TODO better code when i understand more the code
@@ -7841,7 +7835,7 @@ function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
             desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
 
             local firstSecondaryIdFound = true
-            for originalSpellId, replaceSpellId in pairs(optionsAddon.replaceSpellId) do
+            for originalSpellId, replaceSpellId in pairs(xCT_Plus.replaceSpellId) do
                 if replaceSpellId == spellID then
                     if firstSecondaryIdFound then
                         desc = desc .. "\n|cffFF0000Secondary ID(s)|r |cff798BDD" .. originalSpellId
@@ -7905,6 +7899,7 @@ end
 local function isSpellFiltered(info)
     return x.db.profile.spellFilter[info[#info - 2]][info[#info]]
 end
+
 local function setIsSpellFiltered(info, value)
     x.db.profile.spellFilter[info[#info - 2]][info[#info]] = value
 end
@@ -8553,8 +8548,8 @@ end
 
 -- Force Config Page to refresh
 function x:RefreshConfig()
-    if ACD.OpenFrames[AddonName] then
-        ACR:NotifyChange(AddonName)
+    if LibStub("AceConfigDialog-3.0").OpenFrames[AddonName] then
+        LibStub("AceConfigRegistry-3.0"):NotifyChange(AddonName)
     end
 end
 

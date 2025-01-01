@@ -21,6 +21,11 @@ local x = optionsAddon.engine
 -- Make the main Addon globally accessible
 xCT_Plus_Options = optionsAddon
 
+-- This allows us to create our config dialog
+local AceGUI = LibStub("AceGUI-3.0")
+local AC = LibStub("AceConfig-3.0")
+local ACD = LibStub("AceConfigDialog-3.0")
+
 -- Gets called directly after the addon is fully loaded.
 function x:OnInitialize()
     if not xCT_Plus then
@@ -31,11 +36,11 @@ function x:OnInitialize()
     xCT_Plus.engine:InitOptionsTable()
 
     -- Add the profile options to my dialog config
-    xCT_Plus.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
+    optionsAddon.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(xCT_Plus.engine.db)
 
     -- Register the Options
     ACD:SetDefaultSize("xCT+", 803, 560)
-    AC:RegisterOptionsTable("xCT+", optionsAddon.optionsTable)
+    AC:RegisterOptionsTable(AddonName, optionsAddon.optionsTable)
 end
 
 -- Profile Updated, need to refresh important stuff
@@ -67,9 +72,9 @@ function x:OnEnable()
     end
 
     -- Had to pass the explicit method into here, not sure why
-    xCT_Plus.db.RegisterCallback(self, "OnProfileChanged", RefreshConfig)
-    xCT_Plus.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
-    xCT_Plus.db.RegisterCallback(self, "OnProfileReset", ProfileReset)
+    xCT_Plus.engine.db.RegisterCallback(self, "OnProfileChanged", RefreshConfig)
+    xCT_Plus.engine.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
+    xCT_Plus.engine.db.RegisterCallback(self, "OnProfileReset", ProfileReset)
 
 end
 
@@ -134,7 +139,7 @@ function x:ShowConfigTool(...)
         x.selectDefaultGroups = true
 
         -- Select the player's class, then go back to home
-        ACD:SelectGroup(AddonName, "spells", "classList", x.player.class)
+        ACD:SelectGroup(AddonName, "spells", "classList", xCT_Plus.engine.player.class)
         ACD:SelectGroup(AddonName, "spells", "mergeOptions")
         ACD:SelectGroup(AddonName, "Frames")
     end
@@ -182,7 +187,7 @@ function x:CombatStateChanged()
         end
     end
 
-    for framename, settings in pairs(x.db.profile.frames) do
+    for framename, settings in pairs(xCT_Plus.engine.db.profile.frames) do
         if settings.enableScrollable and settings.scrollableInCombat then
             if xCT_Plus.engine.inCombat then
                 xCT_Plus.engine:DisableFrameScrolling(framename)

@@ -6,4 +6,5 @@
 ## LoadOnDemand: 1
 ## Dependencies: xCT+
 
+init.lua
 options_table.lua

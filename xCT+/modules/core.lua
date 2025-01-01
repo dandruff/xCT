@@ -718,7 +718,7 @@ end
 -- Load xCT+Options on demand
 function x:LoadOptionsAddon()
     if not x.isOptionsAddonLoaded then
-        local loaded = LoadAddon("xCT+Options")
+        local loaded = C_AddOns.LoadAddOn("xCT+Options")
         if not loaded then
             self:Print("Options could not be loaded. Did you have the 'xCT+Options' folder in your Addons-folder?")
             return
