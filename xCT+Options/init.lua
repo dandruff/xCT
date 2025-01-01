@@ -39,7 +39,7 @@ function x:OnInitialize()
     optionsAddon.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(xCT_Plus.engine.db)
 
     -- Register the Options
-    ACD:SetDefaultSize("xCT+", 803, 560)
+    ACD:SetDefaultSize(AddonName, 803, 560)
     AC:RegisterOptionsTable(AddonName, optionsAddon.optionsTable)
 end
 
@@ -92,8 +92,8 @@ function x:ToggleConfigTool()
 end
 
 local function myContainer_OnRelease()
-    AceGUI:Release(x.myContainer)
-    x.myContainer = nil
+    AceGUI:Release(x.optionsFrame)
+    x.optionsFrame = nil
 
     x.isConfigToolOpen = false
 end
@@ -112,27 +112,27 @@ function x:ShowConfigTool(...)
 
     x.isConfigToolOpen = true
 
-    if x.myContainer then
-        x.myContainer:Hide()
+    if x.optionsFrame then
+        x.optionsFrame:Hide()
     end
 
     -- Register my AddOn for Escape keypresses
-    x.myContainer = AceGUI:Create("Frame")
-    x.myContainer.frame:SetScript(
+    x.optionsFrame = AceGUI:Create("Frame")
+    x.optionsFrame.frame:SetScript(
         "OnHide",
         function()
             x:HideConfigTool()
         end
     )
 
-    _G.xCT_PlusConfigFrame = x.myContainer.frame
+    _G.xCT_PlusConfigFrame = x.optionsFrame.frame
     table.insert(UISpecialFrames, "xCT_PlusConfigFrame")
 
     -- Properly dispose of this frame
-    x.myContainer:SetCallback("OnClose", myContainer_OnRelease)
+    x.optionsFrame:SetCallback("OnClose", myContainer_OnRelease)
 
     -- Last minute settings and SHOW
-    --x.myContainer.content:GetParent():SetMinResize(803, 300)
+    --x.optionsFrame.content:GetParent():SetMinResize(803, 300)
 
     -- Go through and select all the groups that are relevant to the player
     if not x.selectDefaultGroups then
@@ -149,7 +149,7 @@ function x:ShowConfigTool(...)
         ACD:SelectGroup(AddonName, ...)
     end
 
-    ACD:Open(AddonName, x.myContainer)
+    ACD:Open(AddonName, x.optionsFrame)
 end
 
 function x:HideConfigTool(wait)
@@ -161,8 +161,8 @@ function x:HideConfigTool(wait)
 
     x.isConfigToolOpen = false
 
-    if x.myContainer then
-        x.myContainer:Hide()
+    if x.optionsFrame then
+        x.optionsFrame:Hide()
     end
 
     -- MORE!
@@ -173,8 +173,8 @@ end
 function x:CombatStateChanged()
     if xCT_Plus.engine.db.profile.hideConfig then
         if xCT_Plus.engine.inCombat then
-            if x.myContainer then
-                if x.myContainer:IsShown() then
+            if x.optionsFrame then
+                if x.optionsFrame:IsShown() then
                     x.openConfigAfterCombat = true
                     x:HideConfigTool()
                 end
