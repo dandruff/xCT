@@ -28,7 +28,7 @@ local L_AUTOATTACK = C_Spell.GetSpellName(6603)
 local L_KILLCOMMAND = C_Spell.GetSpellName(34026)
 
 --[=====================================================[
- Power Type Definitions
+ Power Type Definitions, see https://wowpedia.fandom.com/wiki/Enum.PowerType
 --]=====================================================]
 x.POWER_LOOKUP = {
     [0] = "MANA",
