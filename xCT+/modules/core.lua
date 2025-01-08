@@ -67,7 +67,6 @@ function x:OnEnable()
     -- Clean up the Profile
     local success = x:CompatibilityLogic(x:CheckExistingProfile())
     if not success then
-        self:UnregisterCombatEvents()
         return
     end
 

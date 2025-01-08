@@ -72,7 +72,7 @@ function x:UpdatePlayer()
     x.player.spec = GetSpecialization(false, false, activeTalentGroup)
 end
 
--- Enable the combat text
+-- Register for the needed events
 function x:RegisterCombatEvents()
     self:RegisterEvent("COMBAT_TEXT_UPDATE")
     self:RegisterEvent("UNIT_HEALTH")
@@ -102,38 +102,6 @@ function x:RegisterCombatEvents()
     self:RegisterEvent("PLAYER_TARGET_CHANGED")
 
     LibStub("xCombatParser-1.0"):RegisterCombat(x.CombatLogEvent)
-end
-
--- Disable the combat text
-function x:UnregisterCombatEvents()
-    self:UnregisterEvent("COMBAT_TEXT_UPDATE")
-    self:UnregisterEvent("UNIT_HEALTH")
-    self:UnregisterEvent("UNIT_POWER_UPDATE")
-    self:UnregisterEvent("PLAYER_REGEN_DISABLED")
-    self:UnregisterEvent("PLAYER_REGEN_ENABLED")
-    self:UnregisterEvent("UNIT_ENTERED_VEHICLE")
-    self:UnregisterEvent("UNIT_EXITING_VEHICLE")
-    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
-    self:UnregisterEvent("UNIT_PET")
-    self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-    self:UnregisterEvent("CHAT_MSG_SKILL")
-
-    -- Loot frame
-    self:UnregisterEvent("CHAT_MSG_LOOT")
-    self:UnregisterEvent("CHAT_MSG_CURRENCY")
-    self:UnregisterEvent("CHAT_MSG_MONEY")
-
-    -- Class combo points / runes / ...
-    if x.player.class == 'DEATHKNIGHT' then
-        self:UnregisterEvent("RUNE_POWER_UPDATE")
-    end
-
-    self:UnregisterEvent("UNIT_AURA")
-    self:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-    --self:UnregisterEvent("UNIT_COMBO_POINTS")
-    self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-
-    LibStub("xCombatParser-1.0"):UnregisterCombat(x.CombatLogEvent)
 end
 
 --[=====================================================[
