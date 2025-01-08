@@ -67,8 +67,3 @@ Feel free to the beta and alpha version and provide feedback in Github!
 
 Feel free to use the comments below for quick and dirty questions. If you think that you have a question that is more 
 involved, you should create a ticket on the [GitHub issue tracker](https://github.com/dandruff/xCT/issues/new).
-
-## Credits
-
-Thanks to the wonderful WoW community for help with transcripts, translations,
-libraries, etc. This addon is powered by you.
