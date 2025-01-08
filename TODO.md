@@ -1,1 +1,2 @@
 - refactor options
+- if a frame is disabled but rerouted to another frame ... use the secondary frames options (e. g. for icons, ...)
