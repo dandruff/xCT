@@ -72,59 +72,68 @@ function x:UpdatePlayer()
     x.player.spec = GetSpecialization(false, false, activeTalentGroup)
 end
 
---[=====================================================[
- AddOn:UpdateCombatTextEvents(
-    enable,     [BOOL] - Enable the events?
-  )
-    Registers or updates the combat text event frame
---]=====================================================]
-function x:UpdateCombatTextEvents(enable)
-    local f
-    if x.combatEvents then
-        x.combatEvents:UnregisterAllEvents()
-        f = x.combatEvents
-    else
-        f = CreateFrame("FRAME")
+-- Enable the combat text
+function x:RegisterCombatEvents()
+    self:RegisterEvent("COMBAT_TEXT_UPDATE")
+    self:RegisterEvent("UNIT_HEALTH")
+    self:RegisterEvent("UNIT_POWER_UPDATE")
+    self:RegisterEvent("PLAYER_REGEN_DISABLED")
+    self:RegisterEvent("PLAYER_REGEN_ENABLED")
+    self:RegisterEvent("UNIT_ENTERED_VEHICLE")
+    self:RegisterEvent("UNIT_EXITING_VEHICLE")
+    self:RegisterEvent("PLAYER_ENTERING_WORLD")
+    self:RegisterEvent("UNIT_PET")
+    self:RegisterEvent("PLAYER_TARGET_CHANGED")
+    self:RegisterEvent("CHAT_MSG_SKILL")
+
+    -- Loot frame
+    self:RegisterEvent("CHAT_MSG_LOOT")
+    self:RegisterEvent("CHAT_MSG_CURRENCY")
+    self:RegisterEvent("CHAT_MSG_MONEY")
+
+    -- Class combo points / runes / ...
+    if x.player.class == 'DEATHKNIGHT' then
+        self:RegisterEvent("RUNE_POWER_UPDATE")
     end
 
-    if enable then
-        -- Enabled Combat Text
-        f:RegisterEvent("COMBAT_TEXT_UPDATE")
-        f:RegisterEvent("UNIT_HEALTH")
-        f:RegisterEvent("UNIT_POWER_UPDATE")
-        f:RegisterEvent("PLAYER_REGEN_DISABLED")
-        f:RegisterEvent("PLAYER_REGEN_ENABLED")
-        f:RegisterEvent("UNIT_ENTERED_VEHICLE")
-        f:RegisterEvent("UNIT_EXITING_VEHICLE")
-        f:RegisterEvent("PLAYER_ENTERING_WORLD")
-        f:RegisterEvent("UNIT_PET")
-        f:RegisterEvent("PLAYER_TARGET_CHANGED")
-        f:RegisterEvent("CHAT_MSG_SKILL")
+    self:RegisterEvent("UNIT_AURA")
+    self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    --self:RegisterEvent("UNIT_COMBO_POINTS")
+    self:RegisterEvent("PLAYER_TARGET_CHANGED")
 
-        -- Loot frame
-        f:RegisterEvent("CHAT_MSG_LOOT")
-        f:RegisterEvent("CHAT_MSG_CURRENCY")
-        f:RegisterEvent("CHAT_MSG_MONEY")
+    LibStub("xCombatParser-1.0"):RegisterCombat(x.CombatLogEvent)
+end
 
-        -- Class combo points / runes / ...
-        if x.player.class == 'DEATHKNIGHT' then
-            f:RegisterEvent("RUNE_POWER_UPDATE")
-        end
+-- Disable the combat text
+function x:UnregisterCombatEvents()
+    self:UnregisterEvent("COMBAT_TEXT_UPDATE")
+    self:UnregisterEvent("UNIT_HEALTH")
+    self:UnregisterEvent("UNIT_POWER_UPDATE")
+    self:UnregisterEvent("PLAYER_REGEN_DISABLED")
+    self:UnregisterEvent("PLAYER_REGEN_ENABLED")
+    self:UnregisterEvent("UNIT_ENTERED_VEHICLE")
+    self:UnregisterEvent("UNIT_EXITING_VEHICLE")
+    self:UnregisterEvent("PLAYER_ENTERING_WORLD")
+    self:UnregisterEvent("UNIT_PET")
+    self:UnregisterEvent("PLAYER_TARGET_CHANGED")
+    self:UnregisterEvent("CHAT_MSG_SKILL")
 
-        f:RegisterEvent("UNIT_AURA")
-        f:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
-        --f:RegisterEvent("UNIT_COMBO_POINTS")
-        f:RegisterEvent("PLAYER_TARGET_CHANGED")
+    -- Loot frame
+    self:UnregisterEvent("CHAT_MSG_LOOT")
+    self:UnregisterEvent("CHAT_MSG_CURRENCY")
+    self:UnregisterEvent("CHAT_MSG_MONEY")
 
-        x.combatEvents = f
-        f:SetScript("OnEvent", x.OnCombatTextEvent)
-
-        LibStub("xCombatParser-1.0"):RegisterCombat(x.CombatLogEvent)
-    else
-        -- Disabled Combat Text
-        f:SetScript("OnEvent", nil)
-        LibStub("xCombatParser-1.0"):UnregisterCombat(x.CombatLogEvent)
+    -- Class combo points / runes / ...
+    if x.player.class == 'DEATHKNIGHT' then
+        self:UnregisterEvent("RUNE_POWER_UPDATE")
     end
+
+    self:UnregisterEvent("UNIT_AURA")
+    self:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
+    --self:UnregisterEvent("UNIT_COMBO_POINTS")
+    self:UnregisterEvent("PLAYER_TARGET_CHANGED")
+
+    LibStub("xCombatParser-1.0"):UnregisterCombat(x.CombatLogEvent)
 end
 
 --[=====================================================[
@@ -305,10 +314,6 @@ function x.OnCombatTextEvent(self, event, ...)
         local subevent, arg2, arg3 = ...
         if x.combat_events[subevent] then
             x.combat_events[subevent](arg2, arg3)
-        end
-    else
-        if x.events[event] then
-            x.events[event](...)
         end
     end
 end
@@ -620,392 +625,393 @@ x.combat_events = {
 --[=====================================================[
  Event handlers - General Events
 --]=====================================================]
-x.events = {
-    ["UNIT_HEALTH"] = function()
-        if
-            x:Options_General_ShowLowManaAndHealth()
-            and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_HEALTH_THRESHOLD
-        then
-            if not x.lowHealth then
-                x:AddMessage("general", _G.HEALTH_LOW, "lowResourcesHealth")
-                x.lowHealth = true
-            end
-        else
-            x.lowHealth = false
+function x:UNIT_HEALTH()
+    if
+        x:Options_General_ShowLowManaAndHealth()
+        and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_HEALTH_THRESHOLD
+    then
+        if not x.lowHealth then
+            x:AddMessage("general", _G.HEALTH_LOW, "lowResourcesHealth")
+            x.lowHealth = true
         end
-    end,
+    else
+        x.lowHealth = false
+    end
+end
 
-    ["UNIT_POWER_UPDATE"] = function(unit, powerType)
-        -- Update for Class Combo Points
-        UpdateUnitPower(unit, powerType)
+function x:UNIT_POWER_UPDATE(unit, powerType)
+    -- Update for Class Combo Points
+    UpdateUnitPower(unit, powerType)
 
-        if
-            select(2, UnitPowerType(x.player.unit)) == "MANA"
-            and x:Options_General_ShowLowManaAndHealth()
-            and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_MANA_THRESHOLD
-        then
-            if not x.lowMana then
-                x:AddMessage("general", MANA_LOW, "lowResourcesMana")
-                x.lowMana = true
-            end
-        else
-            x.lowMana = false
+    if
+        select(2, UnitPowerType(x.player.unit)) == "MANA"
+        and x:Options_General_ShowLowManaAndHealth()
+        and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_MANA_THRESHOLD
+    then
+        if not x.lowMana then
+            x:AddMessage("general", MANA_LOW, "lowResourcesMana")
+            x.lowMana = true
         end
-    end,
+    else
+        x.lowMana = false
+    end
+end
 
-    ["RUNE_POWER_UPDATE"] = function(runeIndex)
-        if not x:Options_Power_ShowGains() then
-            return
+function x:RUNE_POWER_UPDATE(runeIndex)
+    if not x:Options_Power_ShowGains() then
+        return
+    end
+
+    if x:Options_Power_ShowResource("RUNES") then
+        return
+    end
+
+    if not x.DeathKnightRunes then
+        x.DeathKnightRunes = {}
+    end
+
+    if runeIndex >= 1 and runeIndex <= 6 then
+        -- A Rune has gone on cooldown
+        local _, _, runeReady = GetRuneCooldown(runeIndex)
+        if not runeReady then
+            x.DeathKnightRunes[runeIndex] = true
         end
+    end
 
-        if x:Options_Power_ShowResource("RUNES") then
-            return
-        end
-
-        if not x.DeathKnightRunes then
-            x.DeathKnightRunes = {}
-        end
-
-        if runeIndex >= 1 and runeIndex <= 6 then
-            -- A Rune has gone on cooldown
-            local _, _, runeReady = GetRuneCooldown(runeIndex)
-            if not runeReady then
-                x.DeathKnightRunes[runeIndex] = true
-            end
-        end
-
-        -- A Rune may have come off cooldown!
-        -- IDK why but runeIndex is really really big (> 32k or even negative)
-        local runeCount = 0
-        for otherRuneIndex, wasOnCd in pairs(x.DeathKnightRunes) do
-            if wasOnCd then
-                local _, _, runeReady = GetRuneCooldown(otherRuneIndex)
-                if runeReady then
-                    runeCount = runeCount + 1
-                    x.DeathKnightRunes[otherRuneIndex] = false
-                end
+    -- A Rune may have come off cooldown!
+    -- IDK why but runeIndex is really really big (> 32k or even negative)
+    local runeCount = 0
+    for otherRuneIndex, wasOnCd in pairs(x.DeathKnightRunes) do
+        if wasOnCd then
+            local _, _, runeReady = GetRuneCooldown(otherRuneIndex)
+            if runeReady then
+                runeCount = runeCount + 1
+                x.DeathKnightRunes[otherRuneIndex] = false
             end
         end
+    end
 
-        if runeCount > 0 then
-            x:AddMessage(
-                "power",
-                string.format("+%s %s", runeCount, _G.RUNES),
-                x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
-            )
-        end
-    end,
-
-    ["PLAYER_REGEN_ENABLED"] = function()
-        for framename, settings in pairs(x.db.profile.frames) do
-            if settings.enableScrollable and settings.scrollableInCombat then
-                x:EnableFrameScrolling(framename)
-            end
-        end
-
-        if x:Options_Global_ClearWhenLeavingCombat() then
-            -- only clear frames with icons
-            x:Clear("general")
-            x:Clear("outgoing")
-            x:Clear("critical")
-            x:Clear("outgoing_healing")
-            x:Clear("damage")
-            x:Clear("healing")
-            x:Clear("power")
-            x:Clear("procs")
-            x:Clear("loot")
-        end
-
-        if x:Options_General_ShowCombatState() then
-            x:AddMessage("general", _G.LEAVING_COMBAT, "combatLeaving")
-        end
-    end,
-
-    ["PLAYER_REGEN_DISABLED"] = function()
-        for framename, settings in pairs(x.db.profile.frames) do
-            if settings.enableScrollable and settings.scrollableInCombat then
-                x:DisableFrameScrolling(framename)
-            end
-        end
-
-        if x:Options_General_ShowCombatState() then
-            x:AddMessage("general", _G.ENTERING_COMBAT, "combatEntering")
-        end
-    end,
-
-    ["UNIT_COMBO_POINTS"] = function()
-        UpdateComboPoints()
-    end,
-
-    ["PLAYER_TARGET_CHANGED"] = function()
-        UpdateComboPoints()
-    end,
-
-    ["UNIT_AURA"] = function(unit)
-        UpdateAuraTracking(unit)
-    end,
-
-    ["UNIT_ENTERED_VEHICLE"] = function(unit)
-        if unit == "player" then
-            x:UpdatePlayer()
-        end
-    end,
-
-    ["UNIT_EXITING_VEHICLE"] = function(unit)
-        if unit == "player" then
-            x:UpdatePlayer()
-        end
-    end,
-
-    ["PLAYER_ENTERING_WORLD"] = function()
-        x:UpdatePlayer()
-        x:Clear()
-
-        -- Lazy Coding (Clear up messy libraries... yuck!)
-        collectgarbage()
-    end,
-
-    ["UNIT_PET"] = function()
-        x:UpdatePlayer()
-    end,
-
-    ["ACTIVE_TALENT_GROUP_CHANGED"] = function()
-        x:UpdatePlayer()
-    end, -- x:UpdateComboTracker(); x:UpdateComboPointOptions(true),
-
-    ["CHAT_MSG_LOOT"] = function(msg)
-        -- Fixing Loot for Legion
-        local preMessage, linkColor, itemString, itemName, amount = string.match(
-            msg,
-            "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-        )
-
-        if not preMessage or preMessage == "" then
-            local format_getCraftedItemString = ""
-            if x.locale == "koKR" then
-                format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
-            end
-
-            linkColor, itemString, itemName, preMessage = string.match(
-                msg,
-                format_getCraftedItemString
-            )
-        end
-
-        if not itemString or itemString == "" then
-            return
-        end
-
-        -- Decode item string: (linkQuality for pets only)
-        local linkType, linkID = strsplit(":", itemString)
-
-        -- TODO: Clean up this debug scratch stuff
-        --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
-        -- "|cff0070dd|Hbattlepet:1343:1:3:158:10:12:BattlePet-0-000002C398CB|h[Bonkers]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(1343)
-        -- "|cff9d9d9d|Hbattlepet:467:1:0:140:9:9:BattlePet-0-000002C398C4|h[Dung Beetle]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(467)
-        -- ITEM_QUALITY_COLORS[3]
-
-        -- local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-        -- "|cffffffff|Hitem:119299::::::::100:252::::::|h[드레노어 기계공학의 비밀]|h|r을 만들었습니다."
-
-        if x:Options_Filter_TrackSpells() then
-            x.spellCache.items[linkID] = true
-        end
-
-        if x:Options_Filter_HideItem(linkID) then
-            return
-        end
-
-        -- Check to see if this is a battle pet
-        if linkType == "battlepet" then
-            -- TODO: Add pet icons!
-            local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
-            local petTypeName = PET_TYPE_SUFFIX[petType]
-            local message = string.format(format_pet, speciesName, petTypeName)
-            local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
-
-            -- Add the message
-            x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b })
-            return
-        end
-
-        -- Check to see if this is a item
-        if linkType == "item" then
-            local crafted, looted, pushed =
-                (preMessage == format_crafted), (preMessage == format_looted), (preMessage == format_pushed)
-
-            -- Item Quality, See "GetAuctionItemClasses()" For Type and Subtype, Item Icon Texture Location
-            local itemQuality, _, _, itemType, itemSubtype, _, _, itemTexture = select(3, C_Item.GetItemInfo(linkID))
-
-            -- Item White-List Filter
-            local listed = x.db.profile.spells.items[itemType]
-                and (x.db.profile.spells.items[itemType][itemSubtype] == true)
-
-            -- Fix the Amount of a item looted
-            amount = tonumber(amount) or 1
-
-            -- Only let self looted items go through the "Always Show" filter
-            if
-                (listed and looted)
-                or (x:Options_Loot_ShowItems() and looted and itemQuality >= x:Options_Loot_ItemQualityFilter())
-                or (itemType == "Quest" and x:Options_Loot_ShowQuestItems() and looted)
-                or (crafted and x:Options_Loot_ShowCraftedItems())
-                or (pushed and x:Options_Loot_ShowPurchasedItems())
-            then
-                local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
-                -- "%s%s: %s [%s]%s %%s"
-
-                local icon = ""
-                if x:Options_Loot_ShowIcons() then
-                    icon = string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
-                end
-
-                local itemQualityText = ""
-                if x:Options_Loot_ShowColorBlindMoney() then
-                    -- Item Quality (Color Blind)
-                    itemQualityText = string.format(format_lewtz_blind, _G[string.format(format_quality, itemQuality)])
-                end
-
-                local message
-                if amount > 1 then
-                    message = string.format(
-                        "%s%s: |cff798BDD+%s|r %s [%s]",
-                        x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
-                        itemQualityText,
-                        amount,
-                        icon,
-                        itemName
-                    )
-                else
-                    message = string.format(
-                        "%s%s: %s [%s]",
-                        x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
-                        itemQualityText,
-                        icon,
-                        itemName
-                    )
-                end
-
-                if x:Options_Loot_ShowItemTotals() then
-                    -- We have to delay the message in order to get correct "totals".
-                    x:ScheduleTimer(
-                        "AddLootMessageDelayed",
-                        0.5,
-                        {
-                            id = linkID,
-                            message = message,
-                            r = itemQualityColor.r,
-                            g = itemQualityColor.g,
-                            b = itemQualityColor.b,
-                        }
-                    )
-                else
-                    -- Display the message directly
-                    x:AddMessage(
-                        "loot",
-                        message,
-                        { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b }
-                    )
-                end
-            end
-        end
-    end,
-
-    ["CHAT_MSG_CURRENCY"] = function(msg)
-        if not x:Options_Loot_ShowCurency() then
-            return
-        end
-
-        -- get currency from chat
-        local currencyLink, amountGained = msg:match(format_currency_multiple)
-        if not currencyLink then
-            amountGained, currencyLink = 1, msg:match(format_currency_single)
-            if not currencyLink then
-                return
-            end
-        end
-
-        local currencyInfo = C_CurrencyInfo.GetCurrencyInfoFromLink(currencyLink)
-
-        local icon = ""
-        if x:Options_Loot_ShowIcons() then
-            icon = string.format(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
-        end
-
-        local message
-        if tonumber(amountGained) > 1 then
-            message = string.format(
-                "%s: |cff798BDD+%s|r %s %s",
-                _G.CURRENCY,
-                amountGained,
-                icon,
-                currencyInfo.name
-            )
-        else
-            message = string.format(
-                "%s: %s %s",
-                _G.CURRENCY,
-                icon,
-                currencyInfo.name
-            )
-        end
-
-        if currencyInfo.quantity > 1 then
-            message = message .. string.format(
-                " |cffFFFF00(%s)|r",
-                currencyInfo.quantity
-            )
-        end
-
-        local qualityColor = ITEM_QUALITY_COLORS[currencyInfo.quality]
-
+    if runeCount > 0 then
         x:AddMessage(
-            "loot",
-            message,
-            { qualityColor.r, qualityColor.g, qualityColor.b, }
+            "power",
+            string.format("+%s %s", runeCount, _G.RUNES),
+            x:LookupColorByName("color_RUNES") or { 1, 1, 1 }
         )
-    end,
+    end
+end
 
-    ["CHAT_MSG_SKILL"] = function(msg)
-        if not x:Options_General_ShowProfessionSkillups() then
+function x:PLAYER_REGEN_ENABLED()
+    for framename, settings in pairs(x.db.profile.frames) do
+        if settings.enableScrollable and settings.scrollableInCombat then
+            x:EnableFrameScrolling(framename)
+        end
+    end
+
+    if x:Options_Global_ClearWhenLeavingCombat() then
+        -- only clear frames with icons
+        x:Clear("general")
+        x:Clear("outgoing")
+        x:Clear("critical")
+        x:Clear("outgoing_healing")
+        x:Clear("damage")
+        x:Clear("healing")
+        x:Clear("power")
+        x:Clear("procs")
+        x:Clear("loot")
+    end
+
+    if x:Options_General_ShowCombatState() then
+        x:AddMessage("general", _G.LEAVING_COMBAT, "combatLeaving")
+    end
+end
+
+function x:PLAYER_REGEN_DISABLED()
+    for framename, settings in pairs(x.db.profile.frames) do
+        if settings.enableScrollable and settings.scrollableInCombat then
+            x:DisableFrameScrolling(framename)
+        end
+    end
+
+    if x:Options_General_ShowCombatState() then
+        x:AddMessage("general", _G.ENTERING_COMBAT, "combatEntering")
+    end
+end
+
+function x:UNIT_COMBO_POINTS()
+    UpdateComboPoints()
+end
+
+function x:PLAYER_TARGET_CHANGED()
+    UpdateComboPoints()
+end
+
+function x:UNIT_AURA(unit)
+    UpdateAuraTracking(unit)
+end
+
+function x:UNIT_ENTERED_VEHICLE(unit)
+    if unit == "player" then
+        -- TODO register event for just this unit ?
+        x:UpdatePlayer()
+    end
+end
+
+function x:UNIT_EXITING_VEHICLE(unit)
+    if unit == "player" then
+        -- TODO register event for just this unit ?
+        x:UpdatePlayer()
+    end
+end
+
+function x:PLAYER_ENTERING_WORLD()
+    x:UpdatePlayer()
+    x:Clear()
+
+    -- Lazy Coding (Clear up messy libraries... yuck!)
+    collectgarbage()
+end
+
+function x:UNIT_PET()
+    x:UpdatePlayer()
+end
+
+function x:ACTIVE_TALENT_GROUP_CHANGED()
+    x:UpdatePlayer()
+    -- x:UpdateComboTracker()
+    -- x:UpdateComboPointOptions(true)
+end
+
+function x:CHAT_MSG_LOOT(msg)
+    local preMessage, linkColor, itemString, itemName, amount = string.match(
+        msg,
+        "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
+    )
+
+    if not preMessage or preMessage == "" then
+        local format_getCraftedItemString = ""
+        if x.locale == "koKR" then
+            format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
+        end
+
+        linkColor, itemString, itemName, preMessage = string.match(
+            msg,
+            format_getCraftedItemString
+        )
+    end
+
+    if not itemString or itemString == "" then
+        return
+    end
+
+    -- Decode item string: (linkQuality for pets only)
+    local linkType, linkID = strsplit(":", itemString)
+
+    -- TODO: Clean up this debug scratch stuff
+    --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
+    -- "|cff0070dd|Hbattlepet:1343:1:3:158:10:12:BattlePet-0-000002C398CB|h[Bonkers]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(1343)
+    -- "|cff9d9d9d|Hbattlepet:467:1:0:140:9:9:BattlePet-0-000002C398C4|h[Dung Beetle]|h|r" - C_PetJournal.GetPetInfoBySpeciesID(467)
+    -- ITEM_QUALITY_COLORS[3]
+
+    -- local format_getItemString = "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
+    -- "|cffffffff|Hitem:119299::::::::100:252::::::|h[드레노어 기계공학의 비밀]|h|r을 만들었습니다."
+
+    if x:Options_Filter_TrackSpells() then
+        x.spellCache.items[linkID] = true
+    end
+
+    if x:Options_Filter_HideItem(linkID) then
+        return
+    end
+
+    -- Check to see if this is a battle pet
+    if linkType == "battlepet" then
+        -- TODO: Add pet icons!
+        local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
+        local petTypeName = PET_TYPE_SUFFIX[petType]
+        local message = string.format(format_pet, speciesName, petTypeName)
+        local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
+
+        -- Add the message
+        x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b })
+        return
+    end
+
+    -- Check to see if this is a item
+    if linkType == "item" then
+        local crafted, looted, pushed =
+            (preMessage == format_crafted), (preMessage == format_looted), (preMessage == format_pushed)
+
+        -- Item Quality, See "GetAuctionItemClasses()" For Type and Subtype, Item Icon Texture Location
+        local itemQuality, _, _, itemType, itemSubtype, _, _, itemTexture = select(3, C_Item.GetItemInfo(linkID))
+
+        -- Item White-List Filter
+        local listed = x.db.profile.spells.items[itemType]
+            and (x.db.profile.spells.items[itemType][itemSubtype] == true)
+
+        -- Fix the Amount of a item looted
+        amount = tonumber(amount) or 1
+
+        -- Only let self looted items go through the "Always Show" filter
+        if
+            (listed and looted)
+            or (x:Options_Loot_ShowItems() and looted and itemQuality >= x:Options_Loot_ItemQualityFilter())
+            or (itemType == "Quest" and x:Options_Loot_ShowQuestItems() and looted)
+            or (crafted and x:Options_Loot_ShowCraftedItems())
+            or (pushed and x:Options_Loot_ShowPurchasedItems())
+        then
+            local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
+            -- "%s%s: %s [%s]%s %%s"
+
+            local icon = ""
+            if x:Options_Loot_ShowIcons() then
+                icon = string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+            end
+
+            local itemQualityText = ""
+            if x:Options_Loot_ShowColorBlindMoney() then
+                -- Item Quality (Color Blind)
+                itemQualityText = string.format(format_lewtz_blind, _G[string.format(format_quality, itemQuality)])
+            end
+
+            local message
+            if amount > 1 then
+                message = string.format(
+                    "%s%s: |cff798BDD+%s|r %s [%s]",
+                    x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
+                    itemQualityText,
+                    amount,
+                    icon,
+                    itemName
+                )
+            else
+                message = string.format(
+                    "%s%s: %s [%s]",
+                    x:Options_Loot_ShowItemTypes() and itemType or "Item", -- Item Type
+                    itemQualityText,
+                    icon,
+                    itemName
+                )
+            end
+
+            if x:Options_Loot_ShowItemTotals() then
+                -- We have to delay the message in order to get correct "totals".
+                x:ScheduleTimer(
+                    "AddLootMessageDelayed",
+                    0.5,
+                    {
+                        id = linkID,
+                        message = message,
+                        r = itemQualityColor.r,
+                        g = itemQualityColor.g,
+                        b = itemQualityColor.b,
+                    }
+                )
+            else
+                -- Display the message directly
+                x:AddMessage(
+                    "loot",
+                    message,
+                    { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b }
+                )
+            end
+        end
+    end
+end
+
+function x:CHAT_MSG_CURRENCY(msg)
+    if not x:Options_Loot_ShowCurency() then
+        return
+    end
+
+    -- get currency from chat
+    local currencyLink, amountGained = msg:match(format_currency_multiple)
+    if not currencyLink then
+        amountGained, currencyLink = 1, msg:match(format_currency_single)
+        if not currencyLink then
             return
         end
+    end
 
-        local profession, newSkillLevel = msg:match("Your skill in (.+) has increased to (%d+).")
-        if not profession or not newSkillLevel then
-            return
-        end
+    local currencyInfo = C_CurrencyInfo.GetCurrencyInfoFromLink(currencyLink)
 
-        x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", {0, 0.44, 0.87})
-    end,
+    local icon = ""
+    if x:Options_Loot_ShowIcons() then
+        icon = string.format(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+    end
 
-    ["CHAT_MSG_MONEY"] = function(msg)
-        if not x:Options_Loot_ShowMoney() then
-            return
-        end
+    local message
+    if tonumber(amountGained) > 1 then
+        message = string.format(
+            "%s: |cff798BDD+%s|r %s %s",
+            _G.CURRENCY,
+            amountGained,
+            icon,
+            currencyInfo.name
+        )
+    else
+        message = string.format(
+            "%s: %s %s",
+            _G.CURRENCY,
+            icon,
+            currencyInfo.name
+        )
+    end
 
-        local g, s, c =
-            tonumber(msg:match(GOLD_AMOUNT:gsub("%%d", "(%%d+)"))),
-            tonumber(msg:match(SILVER_AMOUNT:gsub("%%d", "(%%d+)"))),
-            tonumber(msg:match(COPPER_AMOUNT:gsub("%%d", "(%%d+)")))
-        local money, o = (g and g * 10000 or 0) + (s and s * 100 or 0) + (c or 0), MONEY .. ": "
+    if currencyInfo.quantity > 1 then
+        message = message .. string.format(
+            " |cffFFFF00(%s)|r",
+            currencyInfo.quantity
+        )
+    end
 
-        -- TODO: Add a filter for a minimum amount of money
+    local qualityColor = ITEM_QUALITY_COLORS[currencyInfo.quality]
 
-        if x:Options_Loot_ShowColorBlindMoney() then
-            o = o .. (g and g .. " G " or "") .. (s and s .. " S " or "") .. (c and c .. " C " or "")
-        else
-            o = o .. C_CurrencyInfo.GetCoinTextureString(money) .. " "
-        end
+    x:AddMessage(
+        "loot",
+        message,
+        { qualityColor.r, qualityColor.g, qualityColor.b, }
+    )
+end
 
-        -- This only works on english clients :\
-        if msg:find("share") then
-            o = o .. "(split)"
-        end
+function x:CHAT_MSG_SKILL(msg)
+    if not x:Options_General_ShowProfessionSkillups() then
+        return
+    end
 
-        x:AddMessage("loot", o, { 1, 1, 0 }) -- yellow
-    end,
-}
+    local profession, newSkillLevel = msg:match("Your skill in (.+) has increased to (%d+).")
+    if not profession or not newSkillLevel then
+        return
+    end
+
+    x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", {0, 0.44, 0.87})
+end
+
+function x:CHAT_MSG_MONEY(msg)
+    if not x:Options_Loot_ShowMoney() then
+        return
+    end
+
+    local g, s, c =
+        tonumber(msg:match(GOLD_AMOUNT:gsub("%%d", "(%%d+)"))),
+        tonumber(msg:match(SILVER_AMOUNT:gsub("%%d", "(%%d+)"))),
+        tonumber(msg:match(COPPER_AMOUNT:gsub("%%d", "(%%d+)")))
+    local money, o = (g and g * 10000 or 0) + (s and s * 100 or 0) + (c or 0), MONEY .. ": "
+
+    -- TODO: Add a filter for a minimum amount of money
+
+    if x:Options_Loot_ShowColorBlindMoney() then
+        o = o .. (g and g .. " G " or "") .. (s and s .. " S " or "") .. (c and c .. " C " or "")
+    else
+        o = o .. C_CurrencyInfo.GetCoinTextureString(money) .. " "
+    end
+
+    -- This only works on english clients :\
+    if msg:find("share") then
+        o = o .. "(split)"
+    end
+
+    x:AddMessage("loot", o, { 1, 1, 0 }) -- yellow
+end
 
 -- =====================================================
 --                  Format Name Things
@@ -2071,7 +2077,7 @@ local CombatEventHandlers = {
         if energy_type == "RUNES" then
             -- Something procced and a DK rune has gone off cooldown
             -- Use the corresponding function for it, but we dont know which rune came off CD
-            x.events["RUNE_POWER_UPDATE"](0)
+            x:RUNE_POWER_UPDATE(0)
         else
             x:AddMessage(
                 "power",
