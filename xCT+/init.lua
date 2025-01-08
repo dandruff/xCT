@@ -13,7 +13,7 @@
  [====================================]]
 
 local AddonName, addon = ...
-addon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceTimer-3.0")
+addon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 -- TODO AceConsole?
 
 -- Make the main Addon globally accessible

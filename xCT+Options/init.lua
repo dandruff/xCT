@@ -13,7 +13,7 @@
  [====================================]]
 
 local AddonName, optionsAddon = ...
-optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", 'AceEvent-3.0', "AceTimer-3.0")
+optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 -- TODO AceConsole?
 
 local x = optionsAddon.engine
@@ -29,7 +29,7 @@ local ACD = LibStub("AceConfigDialog-3.0")
 -- Gets called directly after the addon is fully loaded.
 function x:OnInitialize()
     if not xCT_Plus then
-        self:Print('xCT not found. Please load it first.')
+        self:Print("xCT not found. Please load it first.")
     end
 
     -- Initialize the options
@@ -76,8 +76,8 @@ function x:OnEnable()
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileReset", ProfileReset)
 
-    self:RegisterEvent('PLAYER_REGEN_DISABLED', 'onEnteringCombat')
-    self:RegisterEvent('PLAYER_REGEN_ENABLED', 'onLeavingCombat')
+    self:RegisterEvent("PLAYER_REGEN_DISABLED", "onEnteringCombat")
+    self:RegisterEvent("PLAYER_REGEN_ENABLED", "onLeavingCombat")
 
     self.openConfigAfterCombat = false
 end
