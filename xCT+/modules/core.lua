@@ -67,12 +67,11 @@ function x:OnEnable()
     -- Clean up the Profile
     local success = x:CompatibilityLogic(x:CheckExistingProfile())
     if not success then
-        x:UpdateCombatTextEvents(false)
         return
     end
 
     -- Delay updating frames until all other addons are loaded!
-    self:UpdateCombatTextEvents(true)
+    self:RegisterCombatEvents()
 
     self:UpdateCVar()
     self:RegisterChatCommand("xct", "OpenxCTCommand")
