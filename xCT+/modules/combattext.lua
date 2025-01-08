@@ -719,14 +719,12 @@ end
 
 function x:UNIT_ENTERED_VEHICLE(unit)
     if unit == "player" then
-        -- TODO register event for just this unit ?
         x:UpdatePlayer()
     end
 end
 
 function x:UNIT_EXITING_VEHICLE(unit)
     if unit == "player" then
-        -- TODO register event for just this unit ?
         x:UpdatePlayer()
     end
 end
