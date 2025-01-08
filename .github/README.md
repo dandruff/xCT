@@ -1,7 +1,5 @@
 # xCT +
 
-## What is it?
-
 Created for optimal performance in the toughest fights, a rugged combat text add-on is finally ready to be put to the
 test!
 
