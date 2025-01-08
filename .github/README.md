@@ -1,6 +1,6 @@
 # xCT +
 
-## Description
+## What is it?
 
 Created for optimal performance in the toughest fights, a rugged combat text add-on is finally ready to be put to the
 test!
@@ -42,7 +42,9 @@ Version 4.9.0 shapes up to be a major rewrite of the whole addon. The following 
 * show fully absorbed outgoing damage events as normal damage events (if enabled)
 * add partially absorbed outgoing damage to the amount to show the full damage we did (if enabled)
 * fix the handling of DK runes coming off CD
-* The spell value filter now works AFTER merging! e. g. if the spell filter is set for >= 100k damage and 2x 60k damage events are going out, then now it will be displayed. Before it was filtered out before merging
+* The spell value filter now works AFTER merging!
+  * e. g. if the spell filter is set for >= 100k damage, then 2x 60k damage events will be merged and displayed as 120k (x2) 
+  * Before this change, nothing was displayed because each damage event was filtered before merging
 * add notification for profession skill ups (if enabled)
 * replace "OnUpdate" function for delayed loot display with a AceTimer schedule
 * add new frame "outgoing" healing
