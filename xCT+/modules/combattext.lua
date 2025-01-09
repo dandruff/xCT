@@ -101,7 +101,7 @@ function x:RegisterCombatEvents()
     --self:RegisterEvent("UNIT_COMBO_POINTS")
     self:RegisterEvent("PLAYER_TARGET_CHANGED")
 
-    LibStub("xCombatParser-1.0"):RegisterCombat(x.CombatLogEvent)
+    LibStub("xCombatParser-1.0"):RegisterCombat(self.onCombatLogEvent)
 end
 
 --[=====================================================[
@@ -148,7 +148,6 @@ local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATT
 
 local format_fade = "-%s"
 local format_gain = "+%s"
-local format_resist = "-%s |c%s(%s %s)|r"
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
 local format_crit = "%s%s%s"
 local format_dispell = "%s: %s"
@@ -269,20 +268,18 @@ else
 end
 
 --[=====================================================[
- AddOn:OnCombatTextEvent(
-    event,     [string] - Name of the event
-    ...,       [multiple] - args from the combat event
+ AddOn:COMBAT_TEXT_UPDATE(
+    event,     [string] - Name of the event (COMBAT_TEXT_UPDATE)
+    subevent,  [string] - the name of the sub event
+    ...        [multiple] -  args from the combat event
   )
     This is the event handler and will act like a
   switchboard the send the events to where they need
   to go.
 --]=====================================================]
-function x.OnCombatTextEvent(self, event, ...)
-    if event == "COMBAT_TEXT_UPDATE" then
-        local subevent, arg2, arg3 = ...
-        if x.combat_events[subevent] then
-            x.combat_events[subevent](arg2, arg3)
-        end
+function x:COMBAT_TEXT_UPDATE(_, subevent, ...)
+    if x.combat_events[subevent] then
+        x.combat_events[subevent](...)
     end
 end
 
@@ -292,13 +289,13 @@ end
 
 --[=====================================================[
  AddOn:GetSpellTextureFormatted(
-    spellID,        [number] - The spell ID you want the icon for
-    message,        [string] - The message that will be used (usually the amount)
-    iconSize,       [number] - The format size of the icon
-    showInvisibleIcon,[bool] - Whether or not to include a blank icon (also req iconSize to be -1 if disabled)
-    justify,        [string] - Can be 'LEFT' or 'RIGHT'
-    strColor,       [string] - the color to be used or defaults white
-    mergeCount      [number] - The number of events merged into this message
+    spellID,          [number] - The spell ID you want the icon for
+    message,          [string] - The message that will be used (usually the amount)
+    iconSize,         [number] - The format size of the icon
+    showInvisibleIcon,  [bool] - Whether or not to include a blank icon (also req iconSize to be -1 if disabled)
+    justify,          [string] - Can be 'LEFT' or 'RIGHT'
+    strColor,         [string] - the color to be used or defaults white
+    mergeCount        [number] - The number of events merged into this message
   )
   Returns:
     message,     [string] - the message contains the formatted icon
@@ -607,7 +604,7 @@ function x:UNIT_HEALTH()
     end
 end
 
-function x:UNIT_POWER_UPDATE(unit, powerType)
+function x:UNIT_POWER_UPDATE(_, unit, powerType)
     -- Update for Class Combo Points
     UpdateUnitPower(unit, powerType)
 
@@ -625,7 +622,7 @@ function x:UNIT_POWER_UPDATE(unit, powerType)
     end
 end
 
-function x:RUNE_POWER_UPDATE(runeIndex)
+function x:RUNE_POWER_UPDATE(_, runeIndex)
     if not x:Options_Power_ShowGains() then
         return
     end
@@ -638,7 +635,7 @@ function x:RUNE_POWER_UPDATE(runeIndex)
         x.DeathKnightRunes = {}
     end
 
-    if runeIndex >= 1 and runeIndex <= 6 then
+    if tonumber(runeIndex) and runeIndex >= 1 and runeIndex <= 6 then
         -- A Rune has gone on cooldown
         local _, _, runeReady = GetRuneCooldown(runeIndex)
         if not runeReady then
@@ -713,17 +710,17 @@ function x:PLAYER_TARGET_CHANGED()
     UpdateComboPoints()
 end
 
-function x:UNIT_AURA(unit)
+function x:UNIT_AURA(_, unit)
     UpdateAuraTracking(unit)
 end
 
-function x:UNIT_ENTERED_VEHICLE(unit)
+function x:UNIT_ENTERED_VEHICLE(_, unit)
     if unit == "player" then
         x:UpdatePlayer()
     end
 end
 
-function x:UNIT_EXITING_VEHICLE(unit)
+function x:UNIT_EXITING_VEHICLE(_, unit)
     if unit == "player" then
         x:UpdatePlayer()
     end
@@ -747,7 +744,7 @@ function x:ACTIVE_TALENT_GROUP_CHANGED()
     -- x:UpdateComboPointOptions(true)
 end
 
-function x:CHAT_MSG_LOOT(msg)
+function x:CHAT_MSG_LOOT(_, msg)
     local preMessage, linkColor, itemString, itemName, amount = string.match(
         msg,
         "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
@@ -884,7 +881,7 @@ function x:CHAT_MSG_LOOT(msg)
     end
 end
 
-function x:CHAT_MSG_CURRENCY(msg)
+function x:CHAT_MSG_CURRENCY(_, msg)
     if not x:Options_Loot_ShowCurency() then
         return
     end
@@ -939,7 +936,7 @@ function x:CHAT_MSG_CURRENCY(msg)
     )
 end
 
-function x:CHAT_MSG_SKILL(msg)
+function x:CHAT_MSG_SKILL(_, msg)
     if not x:Options_General_ShowProfessionSkillups() then
         return
     end
@@ -952,7 +949,7 @@ function x:CHAT_MSG_SKILL(msg)
     x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", {0, 0.44, 0.87})
 end
 
-function x:CHAT_MSG_MONEY(msg)
+function x:CHAT_MSG_MONEY(_, msg)
     if not x:Options_Loot_ShowMoney() then
         return
     end
@@ -1639,10 +1636,9 @@ local CombatEventHandlers = {
             if resistType then
                 -- Craft the new message (if is partial)
                 if resistedAmount then
-                    -- format_resist: "-%s |c%s(%s %s)|r"
                     color = hexNameColor(x:LookupColorByName(color))
                     message = string.format(
-                        format_resist,
+                        "-%s |c%s(%s %s)|r",
                         x:Abbreviate(args.amount, outputFrame),
                         color,
                         resistType,
@@ -1652,21 +1648,6 @@ local CombatEventHandlers = {
                     -- It was a full resist
                     message = resistType -- TODO: Add an option to still see how much was reisted on a full resist
                 end
-            end
-        end
-
-        -- If this is not a resist, then lets format it as normal
-        if not message then
-            -- Format Criticals and also abbreviate values
-            if args.critical then
-                message = string.format(
-                    format_crit,
-                    x.db.profile.frames[outputFrame].critPrefix,
-                    x:Abbreviate(-args.amount, outputFrame),
-                    x.db.profile.frames[outputFrame].critPostfix
-                )
-            else
-                message = x:Abbreviate(-args.amount, outputFrame)
             end
         end
 
@@ -1682,7 +1663,7 @@ local CombatEventHandlers = {
             x:AddSpamMessage(
                 outputFrame,
                 args.spellId,
-                -args.amount,
+                -totalAmount,
                 colorOverride,
                 spamMergerInterval,
                 "spellName",
@@ -1697,6 +1678,21 @@ local CombatEventHandlers = {
 
         if x:Options_Filter_IncomingDamage_HideEvent(totalAmount, args.critical) then
             return
+        end
+
+        -- If this is not a resist, then lets format it as normal
+        if not message then
+            -- Format Criticals and also abbreviate values
+            if args.critical then
+                message = string.format(
+                    format_crit,
+                    x.db.profile.frames[outputFrame].critPrefix,
+                    x:Abbreviate(-args.amount, outputFrame),
+                    x.db.profile.frames[outputFrame].critPostfix
+                )
+            else
+                message = x:Abbreviate(-args.amount, outputFrame)
+            end
         end
 
         -- Add names
@@ -1895,7 +1891,7 @@ local CombatEventHandlers = {
             end
         end
 
-        -- Absorbs are handled in the x.CombatLogEvent() function
+        -- Absorbs are handled in the x.onCombatLogEvent() function
         -- Check for filtered immunes
         if args.missType == "IMMUNE" and not x:Options_Outgoing_ShowImmunes() then
             return
@@ -2043,7 +2039,7 @@ local CombatEventHandlers = {
         if energy_type == "RUNES" then
             -- Something procced and a DK rune has gone off cooldown
             -- Use the corresponding function for it, but we dont know which rune came off CD
-            x:RUNE_POWER_UPDATE(0)
+            x:RUNE_POWER_UPDATE(nil, 0)
         else
             x:AddMessage(
                 "power",
@@ -2062,7 +2058,7 @@ local BuffsOrDebuffs = {
     --["_AURA_REFRESH"] = true, -- I dont know how we should support this
 }
 
-function x.CombatLogEvent(args)
+function x.onCombatLogEvent(args)
     -- Is the source someone we care about?
     if args.isPlayer or args:IsSourceMyVehicle() or x:Options_Outgoing_ShowPetDamage() and args:IsSourceMyPet() then
         if args.suffix == "_HEAL" then
@@ -2103,10 +2099,12 @@ function x.CombatLogEvent(args)
             CombatEventHandlers.IncomingMiss(args)
         elseif args.event == "SPELL_DISPEL" then
             if x:Options_General_ShowDispells() then
-                local message = args.sourceName .. " dispelled:"
+                local message
 
                 if x.locale == "koKR" then
                     message = args.sourceName .. " 무효화:"
+                else
+                    message = args.sourceName .. " dispelled:"
                 end
 
                 message = x:GetSpellTextureFormatted(

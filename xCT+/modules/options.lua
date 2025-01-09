@@ -337,10 +337,10 @@ end
 
 function x:Options_Filter_OutgoingDamage_HideEvent(value, critical)
     if critical and x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold() then
-        return tonumber(x:Options_Filter_OutgoingDamage_Critical_MinimumThreshold()) > value
+        return tonumber(x:Options_Filter_OutgoingDamage_Critical_MinimumThreshold()) > math.abs(value)
     end
 
-    return tonumber(x:Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold()) > value
+    return tonumber(x:Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold()) > math.abs(value)
 end
 
 function x:Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold()
@@ -357,10 +357,10 @@ end
 
 function x:Options_Filter_OutgoingHealing_HideEvent(value, critical)
     if critical and x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold() then
-        return tonumber(x:Options_Filter_OutgoingHealing_Critical_MinimumThreshold()) > value
+        return tonumber(x:Options_Filter_OutgoingHealing_Critical_MinimumThreshold()) > math.abs(value)
     end
 
-    return tonumber(x:Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold()) > value
+    return tonumber(x:Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold()) > math.abs(value)
 end
 
 function x:Options_Filter_IncomingDamage_Noncritical_MinimumThreshold()
@@ -377,10 +377,10 @@ end
 
 function x:Options_Filter_IncomingDamage_HideEvent(value, critical)
     if critical and x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold() then
-        return tonumber(x:Options_Filter_IncomingDamage_Critical_MinimumThreshold()) > value
+        return tonumber(x:Options_Filter_IncomingDamage_Critical_MinimumThreshold()) > math.abs(value)
     end
 
-    return tonumber(x:Options_Filter_IncomingDamage_Noncritical_MinimumThreshold()) > value
+    return tonumber(x:Options_Filter_IncomingDamage_Noncritical_MinimumThreshold()) > math.abs(value)
 end
 
 function x:Options_Filter_IncomingHealing_Noncritical_MinimumThreshold()
@@ -397,10 +397,10 @@ end
 
 function x:Options_Filter_IncomingHealing_HideEvent(value, critical)
     if critical and x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold() then
-        return tonumber(x:Options_Filter_IncomingHealing_Critical_MinimumThreshold()) > value
+        return tonumber(x:Options_Filter_IncomingHealing_Critical_MinimumThreshold()) > math.abs(value)
     end
 
-    return tonumber(x:Options_Filter_IncomingHealing_Noncritical_MinimumThreshold()) > value
+    return tonumber(x:Options_Filter_IncomingHealing_Noncritical_MinimumThreshold()) > math.abs(value)
 end
 
 function x:Options_Filter_TrackSpells()

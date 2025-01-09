@@ -333,22 +333,18 @@ end
 
 -- =====================================================
 -- AddOn:Abbreviate(
---        amount,                 [int] - the amount to abbreviate
---        frameName*,    [string] - the name of the frame
---            whose settings we need to check.
---    )
+--      amount,     [int]    - the amount to abbreviate
+--      frameName*, [string] - (optional) the name of the frame whose settings we need to check.
+-- )
 --
---        * = Optional
---
---        Abbreviates the specified amount.    Will also
---    check the current settings profile if a name
---    frame is specified.
+-- Abbreviates the specified amount. Will also check the current settings profile if a name frame is specified.
 -- =====================================================
 function x:Abbreviate(amount, frameName)
     local isNegative = amount < 0
     if isNegative then
-        amount = -amount
+        amount = math.abs(amount)
     end
+
     local message = tostring(amount)
 
     if frameName and self.db.profile.frames[frameName] and self.db.profile.frames[frameName].megaDamage then
@@ -403,10 +399,6 @@ function x:Abbreviate(amount, frameName)
                     end
                 end
             end
-
-            if isNegative then
-                message = "-" .. message
-            end
         else
             local k
             while true do
@@ -417,6 +409,11 @@ function x:Abbreviate(amount, frameName)
             end
         end
     end
+
+    if isNegative then
+        message = "-" .. message
+    end
+
     return message
 end
 
@@ -695,7 +692,7 @@ do
                 if item.mergedCount > 0 then
                     -- total as a string
                     local message
-                    if tonumber(item.mergedAmount) and tonumber(item.mergedAmount) > 0 then
+                    if tonumber(item.mergedAmount) and item.mergedAmount ~= 0 then
                         message = x:Abbreviate(tonumber(item.mergedAmount), frameName)
                     else
                         message = item.message
