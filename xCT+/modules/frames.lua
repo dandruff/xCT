@@ -443,6 +443,69 @@ function x:AddMessage(frameName, message, colorName)
     end
 end
 
+
+
+--[=====================================================[
+ AddOn:GetSpellTextureFormatted(
+    spellID,          [number] - The spell ID you want the icon for
+    message,          [string] - The message that will be used (usually the amount)
+    frameSettings,     [table] - The settings of the frame
+    strColor,         [string] - the color to be used or defaults white
+    mergeCount        [number] - The number of events merged into this message
+  )
+  Returns:
+    message,     [string] - the message contains the formatted icon
+
+    Formats an icon quickly for use when outputting to a combat text frame.
+--]=====================================================]
+function x:GetSpellTextureFormatted(
+    spellId,
+    message,
+    frameSettings,
+    iconSize,
+    strColor,
+    mergeCount
+)
+    iconSize = iconSize or frameSettings.iconsEnabled and frameSettings.iconsSize or -1
+    local showInvisibleIcon = frameSettings.spacerIconsEnabled
+    local justify = frameSettings.fontJustify
+
+    strColor = strColor or "ffffff"
+
+    local icon = x.BLANK_ICON
+    if iconSize >= 1 then
+        -- always show unless we specify enableIcons to be off (overriding iconSize to be -1)
+        showInvisibleIcon = true
+
+        if spellId == 0 then
+            icon = PET_ATTACK_TEXTURE
+        elseif type(spellId) == "string" then
+            icon = spellId
+        else
+            icon = spellId and C_Spell.GetSpellTexture(addon.replaceSpellId[spellId] or spellId) or x.BLANK_ICON
+        end
+    end
+
+    if mergeCount and mergeCount > 1 then
+        message = string.format("%s |cff%sx%d|r", message, strColor, mergeCount)
+    end
+
+    if showInvisibleIcon then
+        local iconStr = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, iconSize, iconSize)
+        if justify == "LEFT" then
+            message = iconStr .. " " .. message
+        else
+            message = message .. " " .. iconStr
+        end
+    end
+
+    if x.enableMergerDebug then
+        message = message .. " |cffFFFFFF[|cffFF0000ID:|r|cffFFFF00" .. (spellId or "No ID") .. "|r]|r"
+    end
+
+    return message
+end
+
 -- WoW - Battle for Azeroth doesn't support fading textures with SetAlpha?
 -- We have to do it on a font string level
 local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME")
@@ -602,13 +665,13 @@ do
 
         local frameName = x.framesById[currentFrameId]
 
-        local heap, stack, settings =
+        local heap, stack, frameSettings =
             x.spamMergerHeap[frameName], -- the heap contains merge entries
             x.spamMergerStack[frameName], -- the stack contains lookup values
-            x.db.profile.frames[frameName] -- this frame's settings
+            x:GetFrameSettings(frameName) -- this frame's settings
 
         -- If the frame is not enabled, then dont even worry about it
-        if not settings or (not settings.enabledFrame and settings.secondaryFrame == 0) then
+        if not frameSettings then
             currentFrameId = currentFrameId + 1
             return
         end
@@ -668,9 +731,9 @@ do
                     -- Add critical Prefix and Postfix
                     if frameName == "outgoing" or frameName == "critical" then
                         if frameName == "critical" then
-                            message = format("%s%s%s", settings.critPrefix, message, settings.critPostfix)
+                            message = format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                         end
-                        if settings.names[item.destinationController].nameType == 2 then
+                        if frameSettings.names[item.destinationController].nameType == 2 then
                             if item.auto then
                                 fakeArgs.spellName = item.auto
                                 fakeArgs.spellSchool = 1 -- physical
@@ -680,10 +743,10 @@ do
                             end
                             --fakeArgs.fake_sourceController = item.sourceController
                             fakeArgs.fake_destinationController = item.destinationController
-                            if settings.fontJustify == "RIGHT" then
-                                message = x.formatName(fakeArgs, settings.names) .. " " .. message
+                            if frameSettings.fontJustify == "RIGHT" then
+                                message = x.formatName(fakeArgs, frameSettings.names) .. " " .. message
                             else
-                                message = message .. x.formatName(fakeArgs, settings.names)
+                                message = message .. x.formatName(fakeArgs, frameSettings.names)
                             end
                         end
 
@@ -691,14 +754,14 @@ do
                     elseif frameName == "healing" then
                         strColor = "ffff00"
 
-                        if settings.names[item.sourceController].nameType == 1 then
+                        if frameSettings.names[item.sourceController].nameType == 1 then
                             fakeArgs.sourceName = mergeID
                             fakeArgs.sourceGUID = item.sourceGUID
                             fakeArgs.fake_sourceController = item.sourceController
-                            if settings.fontJustify == "RIGHT" then
-                                message = x.formatName(fakeArgs, settings.names, true) .. " +" .. message
+                            if frameSettings.fontJustify == "RIGHT" then
+                                message = x.formatName(fakeArgs, frameSettings.names, true) .. " +" .. message
                             else
-                                message = "+" .. message .. x.formatName(fakeArgs, settings.names, true)
+                                message = "+" .. message .. x.formatName(fakeArgs, frameSettings.names, true)
                             end
                         else
                             message = sformat("+%s", message)
@@ -706,7 +769,7 @@ do
                     end
 
                     -- Add Icons
-                    local iconSize = settings.iconsEnabled and settings.iconsSize or -1
+                    local iconSize
                     if mergeID == 6603 and not x:ShowAutoAttackIcons(frameName) then
                         -- Disable the auto attack icon for the incoming damage frame
                         iconSize = -1
@@ -715,9 +778,8 @@ do
                     message = x:GetSpellTextureFormatted(
                         mergeID,
                         message,
+                        frameSettings,
                         iconSize,
-                        settings.spacerIconsEnabled,
-                        settings.fontJustify,
                         strColor,
                         item.mergedCount
                     )
@@ -1111,12 +1173,41 @@ function x.TestMoreUpdate(self, elapsed)
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
+
                 message = x:GetSpellTextureFormatted(
                     x.db.profile.frames.outgoing.iconsEnabled and GetRandomSpellID() or -1,
                     message,
-                    x.db.profile.frames.outgoing.iconsSize,
-                    x.db.profile.frames.outgoing.spacerIconsEnabled,
-                    x.db.profile.frames.outgoing.fontJustify,
+                    x.db.profile.frames.outgoing, -- frame settings
+                    nil, -- iconSize
+                    nil, -- strColor
+                    mergeCount -- entries
+                )
+                x:AddMessage(outputFrame, message, color)
+            elseif self == x.framesByName.outgoing_healing then
+                local outputFrame, color = "outgoing_healing", GetRandomSpellColor()
+                if not x.db.profile.frames[outputFrame].enabledFrame then
+                    x:Clear(outputFrame)
+                    if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
+                    else
+                        return
+                    end
+                end
+                local message = x:Abbreviate(random(60000), outputFrame)
+
+                local mergeCount = 0
+                if x.db.profile.spells.enableMerger and random(3) % 3 == 0 then
+                    mergeCount = random(17) + 1
+                end
+                if x.db.profile.frames[outputFrame].customColor then
+                    color = x.db.profile.frames[outputFrame].fontColor
+                end
+
+                message = x:GetSpellTextureFormatted(
+                    x.db.profile.frames.outgoing.iconsEnabled and GetRandomSpellID() or -1,
+                    message,
+                    x.db.profile.frames.outgoing, -- frame settings
+                    nil, -- iconSize
                     nil, -- strColor
                     mergeCount -- entries
                 )
@@ -1151,9 +1242,8 @@ function x.TestMoreUpdate(self, elapsed)
                 message = x:GetSpellTextureFormatted(
                     x.db.profile.frames.critical.iconsEnabled and GetRandomSpellID() or -1, -- spellID
                     message, -- message
-                    x.db.profile.frames.critical.iconsSize, -- iconSize
-                    x.db.profile.frames.critical.spacerIconsEnabled, -- showInvisibleIcon
-                    x.db.profile.frames.critical.fontJustify, -- justify
+                    x.db.profile.frames.critical, -- frame settings
+                    nil, -- iconSize
                     nil, -- strColor
                     mergeCount -- entries
                 )
@@ -1338,7 +1428,7 @@ function x:EndTestMode()
     x.testing = false
 
     -- Stop the Test more
-    for framename, settings in pairs(x.db.profile.frames) do
+    for framename in pairs(x.db.profile.frames) do
         local frame = x:GetFrame(framename)
         frame:SetScript("OnUpdate", nil)
         frame:Clear()

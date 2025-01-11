@@ -69,7 +69,7 @@ function x:OnInitialize()
     x.frameTitles = {
         ["general"] = "General",
         ["outgoing"] = "Outgoing Damage",
-        ["critical"] = "Outgoing Damage (Criticals)",
+        ["critical"] = "Outgoing Criticals (Damage & Healing)",
         ["damage"] = "Incoming Damage",
         ["healing"] = "Incoming Healing",
         ["power"] = "Class Power",

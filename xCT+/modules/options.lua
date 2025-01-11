@@ -478,27 +478,30 @@ function x:ShowAutoAttackIcons(frameName)
 end
 
 function x:GetFrameSettings(frameName)
-    local settings = x.db.profile.frames[frameName]
-
-    if settings.enabledFrame then
-        return settings
+    local frameSettings = x.db.profile.frames[frameName]
+    if not frameSettings then
+        return
     end
 
-    if not settings.secondaryFrame then
+    if frameSettings.enabledFrame then
+        return frameSettings
+    end
+
+    if not frameSettings.secondaryFrame or frameSettings.secondaryFrame == 0 then
         -- Neither the frame itself is enabled, nor its output is redirected to another frame
         return nil
     end
 
-    local secondaryFrameName = x.framesById[settings.secondaryFrame]
+    local secondaryFrameName = x.framesById[frameSettings.secondaryFrame]
     if not secondaryFrameName then
         self:Print("Invalid secondary frame name", secondaryFrameName, "for frame", frameName)
         return nil
     end
 
-    settings = x.db.profile.frames[secondaryFrameName]
-    if settings.enabledFrame then
+    frameSettings = x.db.profile.frames[secondaryFrameName]
+    if frameSettings.enabledFrame then
         -- Secondary frame is enabled and ready to go!
-        return settings
+        return frameSettings
     end
 
     -- The user chose a secondary frame, but its disabled!

@@ -1,2 +1,3 @@
 - refactor options
-- if a frame is disabled but rerouted to another frame ... use the secondary frames options (e. g. for icons, ...)
+- completly redo the mapping of events to frames
+  - allow X frames and let the user decide which event type goes to which frame

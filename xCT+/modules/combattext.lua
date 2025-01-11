@@ -72,18 +72,12 @@ local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATT
 --local msg = "|cff1eff00|Hitem:108840:0:0:0:0:0:0:443688319:90:0:0:0|h[Warlords Intro Zone PH Mail Helm]|h|r"
 --local format_loot = "([^|]*)|cff(%x*)|H([^:]*):(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
 
-local format_fade = "-%s"
-local format_gain = "+%s"
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
 local format_crit = "%s%s%s"
 local format_dispell = "%s: %s"
 local format_quality = "ITEM_QUALITY%s_DESC"
 local format_remove_realm = "(.*)-.*"
 
-local format_spell_icon = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t"
-local format_msspell_icon_right = "%s |cff%sx%d|r |T%s:%d:%d:0:0:64:64:5:59:5:59|t"
-local format_msspell_icon_left = " |T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff%sx%d|r"
-local format_msspell_no_icon = "%s |cff%sx%d|r"
 local format_loot_icon = "|T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_lewtz_blind = "(%s)"
 local format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.*", "")) -- "You create: "
@@ -92,7 +86,6 @@ if x.locale == "koKR" then
 end
 local format_looted = (LOOT_ITEM_SELF:gsub("%%.*", "")) -- "You receive loot: "
 local format_pushed = (LOOT_ITEM_PUSHED_SELF:gsub("%%.*", "")) -- "You receive item: "
-local format_strcolor_white = "ffffff"
 local format_currency_single = (CURRENCY_GAINED:gsub("%%s", "(.+)")) -- "You receive currency: (.+)."
 local format_currency_multiple = (CURRENCY_GAINED_MULTIPLE:gsub("%%s", "(.+)"):gsub("%%d", "(%%d+)")) -- "You receive currency: (.+) x(%d+)."
 
@@ -150,7 +143,7 @@ end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.play
 --]=====================================================]
 local xCTFormat = {}
 
-function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
+function xCTFormat:SPELL_HEAL(outputFrame, spellId, amount, overhealing, critical, args, frameSettings)
     local outputColor, message = "healingOut"
 
     -- Format Criticals and also abbreviate values
@@ -173,21 +166,19 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critica
     end
 
     -- Add names
-    message = message .. x.formatName(args, settings.names)
+    message = message .. x.formatName(args, frameSettings.names)
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(
-        spellID,
+        spellId,
         message,
-        x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-        x.db.profile.frames[outputFrame].spacerIconsEnabled,
-        x.db.profile.frames[outputFrame].fontJustify
+        frameSettings
     )
 
     x:AddMessage(outputFrame, message, outputColor)
 end
 
-function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
+function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellId, amount, overhealing, critical, args, frameSettings)
     local outputColor, message = "healingOutPeriodic"
 
     -- Format Criticals and also abbreviate values
@@ -209,15 +200,13 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing
     end
 
     -- Add names
-    message = message .. x.formatName(args, settings.names)
+    message = message .. x.formatName(args, frameSettings.names)
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(
-        spellID,
+        spellId,
         message,
-        x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-        x.db.profile.frames[outputFrame].spacerIconsEnabled,
-        x.db.profile.frames[outputFrame].fontJustify
+        frameSettings
     )
 
     x:AddMessage(outputFrame, message, outputColor)
@@ -240,73 +229,6 @@ else
     XCT_STOLE = utf8_fc_upper(ACTION_SPELL_STOLEN)
     XCT_KILLED = utf8_fc_upper(ACTION_PARTY_KILL)
     XCT_DISPELLED = utf8_fc_upper(ACTION_SPELL_DISPEL)
-end
-
---[=====================================================[
- AddOn:GetSpellTextureFormatted(
-    spellID,          [number] - The spell ID you want the icon for
-    message,          [string] - The message that will be used (usually the amount)
-    iconSize,         [number] - The format size of the icon
-    showInvisibleIcon,  [bool] - Whether or not to include a blank icon (also req iconSize to be -1 if disabled)
-    justify,          [string] - Can be 'LEFT' or 'RIGHT'
-    strColor,         [string] - the color to be used or defaults white
-    mergeCount        [number] - The number of events merged into this message
-  )
-  Returns:
-    message,     [string] - the message contains the formatted icon
-
-    Formats an icon quickly for use when outputting to a combat text frame.
---]=====================================================]
-function x:GetSpellTextureFormatted(
-    spellID,
-    message,
-    iconSize,
-    showInvisibleIcon,
-    justify,
-    strColor,
-    mergeCount
-)
-    strColor = strColor or format_strcolor_white
-
-    local icon = x.BLANK_ICON
-    if iconSize >= 1 then
-        -- always show unless we specify enableIcons to be off (overriding iconSize to be -1)
-        showInvisibleIcon = true
-
-        if spellID == 0 then
-            icon = PET_ATTACK_TEXTURE
-        elseif type(spellID) == "string" then
-            icon = spellID
-        else
-            icon = spellID and C_Spell.GetSpellTexture(addon.replaceSpellId[spellID] or spellID) or x.BLANK_ICON
-        end
-    end
-
-    if mergeCount and mergeCount > 1 then
-        if not showInvisibleIcon then
-            message = string.format(format_msspell_no_icon, message, strColor, mergeCount)
-        else
-            if justify == "LEFT" then
-                message = string.format(format_msspell_icon_left, icon, iconSize, iconSize, message, strColor, mergeCount)
-            else
-                message = string.format(format_msspell_icon_right, message, strColor, mergeCount, icon, iconSize, iconSize)
-            end
-        end
-    else
-        if showInvisibleIcon then
-            if justify == "LEFT" then
-                message = string.format("%s %s", string.format(format_spell_icon, icon, iconSize, iconSize), message)
-            else
-                message = string.format("%s%s", message, string.format(format_spell_icon, icon, iconSize, iconSize))
-            end
-        end
-    end
-
-    if x.enableMergerDebug then
-        message = message .. " |cffFFFFFF[|cffFF0000ID:|r|cffFFFF00" .. (spellID or "No ID") .. "|r]|r"
-    end
-
-    return message
 end
 
 --[=====================================================[
@@ -764,13 +686,17 @@ EventHandlers.HealingOutgoing = function(args)
     end
 
     -- Get the settings for the correct output frame
-    local settings = x:GetFrameSettings(outputFrame)
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
 
     -- Format the message correctly
     if args.event == "SPELL_PERIODIC_HEAL" then
-        xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, settings)
+        xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, frameSettings)
     elseif args.event == "SPELL_HEAL" then
-        xCTFormat:SPELL_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, settings)
+        xCTFormat:SPELL_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, frameSettings)
     else
         x:Print("Please report: unhandled _HEAL event", args.event)
     end
@@ -1018,8 +944,8 @@ EventHandlers.DamageOutgoing = function(args)
     end
 
     local message
-    local settings = x:GetFrameSettings(outputFrame)
-    if not settings then
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
         -- Frame is disabled and the secondary frame is disabled too or not chosen
         return
     end
@@ -1041,7 +967,7 @@ EventHandlers.DamageOutgoing = function(args)
 
     -- Add the Partial Miss Types
     if x:Options_Outgoing_ShowPartialMisses() then
-        local hasPartialMiss, formattedMessage = GetPartialMiss(args, settings, outputFrame)
+        local hasPartialMiss, formattedMessage = GetPartialMiss(args, frameSettings, outputFrame)
 
         if hasPartialMiss then
             message = message .. formattedMessage
@@ -1049,24 +975,20 @@ EventHandlers.DamageOutgoing = function(args)
     end
 
     -- Add names
-    message = message .. x.formatName(args, settings.names)
+    message = message .. x.formatName(args, frameSettings.names)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            settings.iconsEnabled and settings.iconsSize or -1,
-            settings.spacerIconsEnabled,
-            settings.fontJustify
+            frameSettings
         )
     else
         message = x:GetSpellTextureFormatted(
             nil,
             message,
-            settings.iconsEnabled and settings.iconsSize or -1,
-            settings.spacerIconsEnabled,
-            settings.fontJustify
+            frameSettings
         )
     end
 
@@ -1162,27 +1084,27 @@ EventHandlers.DamageIncoming = function(args)
         end
     end
 
-    local settings = x:GetFrameSettings(outputFrame)
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
 
     -- Add names
-    message = message .. x.formatName(args, settings.names, true)
+    message = message .. x.formatName(args, frameSettings.names, true)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            settings.iconsEnabled and settings.iconsSize or -1,
-            settings.spacerIconsEnabled,
-            settings.fontJustify
+            frameSettings
         )
     else
         message = x:GetSpellTextureFormatted(
             nil,
             message,
-            settings.iconsEnabled and settings.iconsSize or -1,
-            settings.spacerIconsEnabled,
-            settings.fontJustify
+            frameSettings
         )
     end
 
@@ -1191,10 +1113,6 @@ EventHandlers.DamageIncoming = function(args)
 end
 
 EventHandlers.HealingIncoming = function(args)
-    local amount, isHoT = args.amount, args.prefix == "SPELL_PERIODIC"
-    local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
-    local settings = x.db.profile.frames.healing
-
     if x:Options_Filter_TrackSpells() then
         x.spellCache.healing[args.spellId] = true
     end
@@ -1202,6 +1120,9 @@ EventHandlers.HealingIncoming = function(args)
     if x:Options_Filter_HideIncomingHealing(args.spellId) then
         return
     end
+
+    local amount, isHoT, outputFrame = args.amount, args.prefix == "SPELL_PERIODIC", "healing"
+    local color = isHoT and "healingTakenPeriodic" or args.critical and "healingTakenCritical" or "healingTaken"
 
     -- Adjust the amount if the user doesnt want over healing
     if not x:Options_IncomingHealing_ShowOverHealing() then
@@ -1213,7 +1134,6 @@ EventHandlers.HealingIncoming = function(args)
         amount = amount - args.absorbed
     end
 
-    -- Filter out small amounts
     if amount <= 0 then
         return
     end
@@ -1226,13 +1146,12 @@ EventHandlers.HealingIncoming = function(args)
         end
     end
 
-    -- format_gain = "+%s"
-    local message = string.format(format_gain, x:Abbreviate(amount, "healing"))
+    local message = string.format("+%s", x:Abbreviate(amount, outputFrame))
 
     local spamMergerInterval = x:Options_SpamMerger_IncomingHealingInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         x:AddSpamMessage(
-            "healing",
+            outputFrame,
             args.sourceName or "Unknown Source",
             amount,
             "healingTaken",
@@ -1247,19 +1166,23 @@ EventHandlers.HealingIncoming = function(args)
             return
         end
 
+        local frameSettings = x:GetFrameSettings(outputFrame)
+        if not frameSettings then
+            -- Frame is disabled and the secondary frame is disabled too or not chosen
+            return
+        end
+
         -- Add names
-        message = message .. x.formatName(args, settings.names, true)
+        message = message .. x.formatName(args, frameSettings.names, true)
 
         -- Add the icon
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames.healing.iconsEnabled and x.db.profile.frames.healing.iconsSize or -1,
-            x.db.profile.frames.healing.spacerIconsEnabled,
-            x.db.profile.frames.healing.fontJustify
+            frameSettings
         )
 
-        x:AddMessage("healing", message, color)
+        x:AddMessage(outputFrame, message, color)
     end
 end
 
@@ -1287,25 +1210,31 @@ EventHandlers.AuraIncoming = function(args)
     end
 
     -- Begin constructing the event message and color
-    local color, message
+    local message, color
     if isGaining then
-        message = string.format(format_gain, args.spellName)
+        message = string.format("+%s", args.spellName)
         color = isBuff and "buffsGained" or "debuffsGained"
     else
-        message = string.format(format_fade, args.spellName)
+        message = string.format("-%s", args.spellName)
         color = isBuff and "buffsFaded" or "debuffsFaded"
     end
 
-    -- Add the icon
-    message = x:GetSpellTextureFormatted(
-        args.spellId,
-        message,
-        x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
-        x.db.profile.frames.general.spacerIconsEnabled,
-        x.db.profile.frames.general.fontJustify
-    )
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
 
-    x:AddMessage("general", message, color)
+    x:AddMessage(
+        outputFrame,
+        x:GetSpellTextureFormatted(
+            args.spellId,
+            message,
+            frameSettings
+        ),
+        color
+    )
 end
 
 EventHandlers.KilledUnit = function(args)
@@ -1332,16 +1261,21 @@ EventHandlers.InterruptedUnit = function(args)
     -- Create and format the message
     local message = string.format(format_dispell, INTERRUPTED, args.extraSpellName)
 
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
     -- Add the icon
     message = x:GetSpellTextureFormatted(
         args.extraSpellId,
         message,
-        x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
-        x.db.profile.frames.general.spacerIconsEnabled,
-        x.db.profile.frames.general.fontJustify
+        frameSettings
     )
 
-    x:AddMessage("general", message, "interrupts")
+    x:AddMessage(outputFrame, message, "interrupts")
 end
 
 EventHandlers.OutgoingMiss = function(args)
@@ -1375,12 +1309,19 @@ EventHandlers.OutgoingMiss = function(args)
         return
     end
 
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
     local message = _G["COMBAT_TEXT_" .. args.missType]
 
     local spamMergerInterval = x:Options_SpamMerger_OutgoingDamageMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         x:AddSpamMessage(
-            "outgoing",
+            outputFrame,
             message,
             0,
             "misstypesOut",
@@ -1389,16 +1330,15 @@ EventHandlers.OutgoingMiss = function(args)
         return
     end
 
-    -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        spellId,
-        message,
-        x.db.profile.frames.outgoing.iconsEnabled and x.db.profile.frames.outgoing.iconsSize or -1,
-        x.db.profile.frames.outgoing.spacerIconsEnabled,
-        x.db.profile.frames.outgoing.fontJustify
+    x:AddMessage(
+        outputFrame,
+        x:GetSpellTextureFormatted(
+            spellId,
+            message,
+            frameSettings
+        ),
+        "misstypesOut"
     )
-
-    x:AddMessage("outgoing", message, "misstypesOut")
 end
 
 EventHandlers.IncomingMiss = function(args)
@@ -1413,11 +1353,12 @@ EventHandlers.IncomingMiss = function(args)
 
     local message = _G["COMBAT_TEXT_" .. args.missType]
     local color = missTypeColorLookup[args.missType] or "misstypesOut"
+    local outputFrame = "damage"
 
     local spamMergerInterval = x:Options_SpamMerger_IncomingMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         x:AddSpamMessage(
-            "damage",
+            outputFrame,
             message,
             0,
             color,
@@ -1426,16 +1367,20 @@ EventHandlers.IncomingMiss = function(args)
         return
     end
 
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
     -- Add Icons
     message = x:GetSpellTextureFormatted(
         args.spellId,
         message,
-        x.db.profile.frames.damage.iconsEnabled and x.db.profile.frames.damage.iconsSize or -1,
-        x.db.profile.frames.damage.spacerIconsEnabled,
-        x.db.profile.frames.damage.fontJustify
+        frameSettings
     )
 
-    x:AddMessage("damage", message, color)
+    x:AddMessage(outputFrame, message, color)
 end
 
 EventHandlers.SpellDispel = function(args)
@@ -1445,21 +1390,25 @@ EventHandlers.SpellDispel = function(args)
 
     local color = args.auraType == "BUFF" and "dispellBuffs" or "dispellDebuffs"
     local message = string.format(format_dispell, XCT_DISPELLED, args.extraSpellName)
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(
         args.extraSpellId,
         message,
-        x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
-        x.db.profile.frames.general.spacerIconsEnabled,
-        x.db.profile.frames.general.fontJustify
+        frameSettings
     )
 
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage("general", args.extraSpellName, message, color, spamMergerInterval)
+        x:AddSpamMessage(outputFrame, args.extraSpellName, message, color, spamMergerInterval)
     else
-        x:AddMessage("general", message, color)
+        x:AddMessage(outputFrame, message, color)
     end
 end
 
@@ -1469,17 +1418,21 @@ EventHandlers.SpellStolen = function(args)
     end
 
     local message = string.format(format_dispell, XCT_STOLE, args.extraSpellName)
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(
         args.extraSpellId,
         message,
-        x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
-        x.db.profile.frames.general.spacerIconsEnabled,
-        x.db.profile.frames.general.fontJustify
+        frameSettings
     )
 
-    x:AddMessage("general", message, "dispellStolen")
+    x:AddMessage(outputFrame, message, "dispellStolen")
 end
 
 EventHandlers.SpellEnergize = function(args)
@@ -1914,16 +1867,30 @@ CombatTextUpdateHandlers.SPELL_ACTIVE = function(spellName)
         message = spellName .. " |cffFFFFFFx" .. spellStacks .. "|r"
     end
 
+    local outputFrame = "procs"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
     -- Add Icons
     if icon and x.db.profile.frames.procs.iconsEnabled then
+        local iconStr = string.format(
+            "|T%s:%d:%d:0:0:64:64:5:59:5:59|t",
+            icon,
+            frameSettings.iconsSize,
+            frameSettings.iconsSize
+        )
+
         if x.db.profile.frames.procs.fontJustify == "LEFT" then
-            message = string.format(format_spell_icon, icon, iconSize, iconSize) .. "  " .. message
+            message = iconStr .. "  " .. message
         else
-            message = message .. string.format(format_spell_icon, icon, iconSize, iconSize)
+            message = message .. " " .. iconStr
         end
     end
 
-    x:AddMessage("procs", message, "spellProc")
+    x:AddMessage(outputFrame, message, "spellProc")
 end
 
 CombatTextUpdateHandlers.SPELL_CAST = function(spellName)
@@ -2042,15 +2009,17 @@ function x.onCombatLogEvent(args)
                     message = args.sourceName .. " dispelled:"
                 end
 
-                message = x:GetSpellTextureFormatted(
-                    args.extraSpellId,
-                    message,
-                    x.db.profile.frames.general.iconsEnabled and x.db.profile.frames.general.iconsSize or -1,
-                    x.db.profile.frames.general.spacerIconsEnabled,
-                    x.db.profile.frames.general.fontJustify
-                )
+                local outputFrame = "general"
+                local frameSettings = x:GetFrameSettings(outputFrame)
+                if frameSettings then
+                    message = x:GetSpellTextureFormatted(
+                        args.extraSpellId,
+                        message,
+                        frameSettings
+                    )
 
-                x:AddMessage("general", message, "dispellDebuffs")
+                    x:AddMessage(outputFrame, message, "dispellDebuffs")
+                end
             end
         end
     end
