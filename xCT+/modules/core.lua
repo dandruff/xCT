@@ -50,6 +50,40 @@ function x:OnInitialize()
         damage = {},
         healing = {},
     }
+
+    x.framesByName = {}
+
+    x.framesById = {
+        [1] = "general",
+        [2] = "outgoing",
+        [3] = "critical",
+        [4] = "damage",
+        [5] = "healing",
+        [6] = "power",
+        [7] = "procs",
+        [8] = "loot",
+        --[9] = "class",    -- this is not used by redirection
+        [10] = "outgoing_healing"
+    }
+
+    x.frameTitles = {
+        ["general"] = "General",
+        ["outgoing"] = "Outgoing Damage",
+        ["critical"] = "Outgoing Damage (Criticals)",
+        ["damage"] = "Incoming Damage",
+        ["healing"] = "Incoming Healing",
+        ["power"] = "Class Power",
+        --["class"]        = "Combo",
+        ["procs"] = "Special Effects (Procs)",
+        ["loot"] = "Loot & Money",
+        ["outgoing_healing"] = "Outgoing Healing"
+    }
+
+    x.spamMergerHeap, x.spamMergerStack = {}, {}
+    for _, frameName in pairs(x.framesById) do
+        x.spamMergerHeap[frameName] = {}
+        x.spamMergerStack[frameName] = {}
+    end
 end
 
 -- Gets called during the PLAYER_LOGIN event, when most of the data provided by the game is already present.

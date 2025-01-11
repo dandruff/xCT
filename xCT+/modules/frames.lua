@@ -35,36 +35,7 @@ random(time())
 -- Shorten my handle
 local x = addon.engine
 
--- Store my frames
-x.frames = {}
-
--- Static frame lookup
-local frameIndex = {
-    [1] = "general",
-    [2] = "outgoing",
-    [3] = "critical",
-    [4] = "damage",
-    [5] = "healing",
-    [6] = "power",
-    [7] = "procs",
-    [8] = "loot",
-    --[9] = "class",    -- this is not used by redirection
-    [10] = "outgoing_healing"
-}
-
--- Static Title Lookup
-x.frameTitles = {
-    ["general"] = "General",
-    ["outgoing"] = "Outgoing Damage",
-    ["critical"] = "Outgoing Damage (Criticals)",
-    ["damage"] = "Incoming Damage",
-    ["healing"] = "Incoming Healing",
-    ["power"] = "Class Power",
-    --["class"]        = "Combo",
-    ["procs"] = "Special Effects (Procs)",
-    ["loot"] = "Loot & Money",
-    ["outgoing_healing"] = "Outgoing Healing"
-}
+local now = 0
 
 local function autoClearFrame_OnUpdate(self, elasped)
     if not self.last then
@@ -116,7 +87,7 @@ function x:GetFrame(framename, bypassUpdate)
     if not bypassUpdate then
         x:UpdateFrames(specificFrame)
     end
-    return x.frames[framename]
+    return x.framesByName[framename]
 end
 
 -- =====================================================
@@ -134,8 +105,8 @@ function x:UpdateFrames(specificFrame)
             local f = nil
 
             -- Create the frame (or retrieve it)
-            if x.frames[framename] then
-                f = x.frames[framename]
+            if x.framesByName[framename] then
+                f = x.framesByName[framename]
             else
                 f = CreateFrame(
                     "ScrollingMessageFrame",
@@ -166,7 +137,7 @@ function x:UpdateFrames(specificFrame)
                 f.moving:SetHeight(20)
                 f.moving:Hide()
 
-                x.frames[framename] = f
+                x.framesByName[framename] = f
             end
 
             f.frameName = framename
@@ -296,14 +267,14 @@ function x:UpdateFrames(specificFrame)
 end
 
 function x:EnableFrameScrolling(framename)
-    local f = x.frames[framename]
+    local f = x.framesByName[framename]
     local settings = x.db.profile.frames[framename]
     f:EnableMouseWheel(true)
     f:SetScript("OnMouseWheel", Frame_OnMouseWheel)
 end
 
 function x:DisableFrameScrolling(framename)
-    local f = x.frames[framename]
+    local f = x.framesByName[framename]
     local settings = x.db.profile.frames[framename]
     f:EnableMouseWheel(false)
     f:SetScript("OnMouseWheel", nil)
@@ -437,8 +408,8 @@ function x:AddMessage(frameName, message, colorName)
         return
     end
 
-    local secondFrameName = frameIndex[frameOptions.secondaryFrame]
-    local secondFrame = x.frames[secondFrameName]
+    local secondFrameName = x.framesById[frameOptions.secondaryFrame]
+    local secondFrame = x.framesByName[secondFrameName]
     local secondFrameOptions = x.db.profile.frames[secondFrameName]
 
     -- Load the color
@@ -477,7 +448,7 @@ end
 local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME")
 ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
     local now, alpha, scale = GetTime()
-    for _, frame in pairs(x.frames) do
+    for _, frame in pairs(x.framesByName) do
         alpha = frame.settings.alpha / 100
 
         -- Only run on frames that have a custom alpha
@@ -505,8 +476,6 @@ ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
     end
 end)
 
-local spamHeap, spamStack, now = {}, {}, 0
-
 -- =====================================================
 -- AddOn:AddSpamMessage(
 --     framename, [string]              - the framename
@@ -515,6 +484,7 @@ local spamHeap, spamStack, now = {}, {}, 0
 --                                        first 'message' value that is sent this mergeID will be used.
 --     colorname, [string or table]     - the name of the color OR a table containing the color (e.g.
 --                                        colorname={1,2,3} -- r=1, b=2, g=3)
+--     interval,  [number]              - the merge interval
 -- )
 -- Sends a message to the framename specified.
 -- =====================================================
@@ -527,7 +497,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
     -- How many seconds are we delaying the output / merging the events?
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
-    local heap, stack = spamHeap[framename], spamStack[framename]
+    local heap, stack = x.spamMergerHeap[framename], x.spamMergerStack[framename]
     if heap[mergeID] then
         heap[mergeID].color = colorname
         heap[mergeID].update = interval
@@ -613,16 +583,11 @@ end
   ]================================================================]
 
 do
-    for _, frameName in pairs(frameIndex) do
-        spamHeap[frameName] = {}
-        spamStack[frameName] = {}
-    end
-
     -- We want to display messages for one frame on each update
     local currentFrameId = 1
     local fakeArgs = {}
 
-    function x.OnSpamUpdate(self, elapsed)
+    function x.OnSpamUpdate(_, elapsed)
         if not x.db then
             return
         end
@@ -631,15 +596,15 @@ do
         now = now + elapsed
 
         -- Check to see if we are out of bounds
-        if currentFrameId > #frameIndex then
+        if currentFrameId > #x.framesById then
             currentFrameId = 1
         end
 
-        local frameName = frameIndex[currentFrameId]
+        local frameName = x.framesById[currentFrameId]
 
         local heap, stack, settings =
-            spamHeap[frameName], -- the heap contains merge entries
-            spamStack[frameName], -- the stack contains lookup values
+            x.spamMergerHeap[frameName], -- the heap contains merge entries
+            x.spamMergerStack[frameName], -- the stack contains lookup values
             x.db.profile.frames[frameName] -- this frame's settings
 
         -- If the frame is not enabled, then dont even worry about it
@@ -1058,7 +1023,7 @@ end
 
 function x:SaveAllFrames()
     for framename, settings in pairs(x.db.profile.frames) do
-        local frame = x.frames[framename]
+        local frame = x.framesByName[framename]
         -- If frame is disabled, trying to calculate position will fail
         if settings.enabledFrame then
             local x_old, y_old, width_old, height_old = settings.X, settings.Y, settings.Width, settings.Height
@@ -1113,12 +1078,12 @@ function x.TestMoreUpdate(self, elapsed)
             self.nextUpdate = nil
             self.lastUpdate = 0
 
-            if self == x.frames.general and random(3) % 3 == 0 then
+            if self == x.framesByName.general and random(3) % 3 == 0 then
                 local outputFrame, color = "general", { random(255) / 255, random(255) / 255, random(255) / 255 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1127,12 +1092,12 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, COMBAT_TEXT_LABEL, color)
-            elseif self == x.frames.outgoing then
+            elseif self == x.framesByName.outgoing then
                 local outputFrame, color = "outgoing", GetRandomSpellColor()
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1156,12 +1121,12 @@ function x.TestMoreUpdate(self, elapsed)
                     mergeCount -- entries
                 )
                 x:AddMessage(outputFrame, message, color)
-            elseif self == x.frames.critical and random(2) % 2 == 0 then
+            elseif self == x.framesByName.critical and random(2) % 2 == 0 then
                 local outputFrame, color = "critical", GetRandomSpellColor()
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1193,12 +1158,12 @@ function x.TestMoreUpdate(self, elapsed)
                     mergeCount -- entries
                 )
                 x:AddMessage(outputFrame, message, color)
-            elseif self == x.frames.damage and random(2) % 2 == 0 then
+            elseif self == x.framesByName.damage and random(2) % 2 == 0 then
                 local outputFrame, color = "damage", { 1, random(100) / 255, random(100) / 255 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1207,12 +1172,12 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, "-" .. x:Abbreviate(random(100000), "damage"), color)
-            elseif self == x.frames.healing and random(2) % 2 == 0 then
+            elseif self == x.framesByName.healing and random(2) % 2 == 0 then
                 local outputFrame, color = "healing", { 0.1, ((random(3) + 1) * 63) / 255, 0.1 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1241,12 +1206,12 @@ function x.TestMoreUpdate(self, elapsed)
                 else
                     x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(90000), "healing"), color)
                 end
-            elseif self == x.frames.power and random(4) % 4 == 0 then
+            elseif self == x.framesByName.power and random(4) % 4 == 0 then
                 local outputFrame = "power"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1257,7 +1222,7 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(5000), "power") .. " " .. _G[powerToken], color)
-            elseif self == x.frames.class and random(4) % 4 == 0 then
+            elseif self == x.framesByName.class and random(4) % 4 == 0 then
                 local outputFrame = "class"
                 if not x.db.profile.frames.class.enabledFrame then
                     x:Clear(outputFrame)
@@ -1275,12 +1240,12 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames.class.fontColor
                 end
                 x:AddMessage(outputFrame, tostring(self.testCombo), color)
-            elseif self == x.frames.procs and random(8) % 8 == 0 then
+            elseif self == x.framesByName.procs and random(8) % 8 == 0 then
                 local outputFrame = "procs"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end
@@ -1290,12 +1255,12 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, ERR_SPELL_COOLDOWN, color)
-            elseif self == x.frames.loot and random(8) % 8 == 0 then
+            elseif self == x.framesByName.loot and random(8) % 8 == 0 then
                 local outputFrame = "loot"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
-                        outputFrame = frameIndex[x.db.profile.frames[outputFrame].secondaryFrame]
+                        outputFrame = x.framesById[x.db.profile.frames[outputFrame].secondaryFrame]
                     else
                         return
                     end

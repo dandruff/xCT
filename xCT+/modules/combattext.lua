@@ -647,13 +647,11 @@ end
 local EventHandlers = {}
 
 EventHandlers.HealingOutgoing = function(args)
-    local spellName, spellSchool = args.spellName, args.spellSchool
-    local spellID, isHoT, amount, overhealing =
-        args.spellId, args.prefix == "SPELL_PERIODIC", args.amount, args.overhealing
+    local isHoT = args.prefix == "SPELL_PERIODIC"
 
     -- Keep track of spells that go by
     if x:Options_Filter_TrackSpells() then
-        x.spellCache.spells[spellID] = true
+        x.spellCache.spells[args.spellId] = true
     end
 
     -- Check to see if this is a HoT
@@ -662,26 +660,28 @@ EventHandlers.HealingOutgoing = function(args)
     end
 
     -- Filter Outgoing Healing Spell
-    if x:Options_Filter_HideSpell(spellID) then
+    if x:Options_Filter_HideSpell(args.spellId) then
         return
     end
+
+    local amount, amountOverhealing = args.amount, args.overhealing
 
     -- Filter Overhealing
     if x:Options_IncomingHealing_ShowOverHealing() then
         if x:Options_OutgoingHealing_SubtractOverhealing() then
-            amount = amount - overhealing
+            amount = amount - amountOverhealing
         end
     else
-        amount = amount - overhealing
-        overhealing = 0
+        amount = amount - amountOverhealing
+        amountOverhealing = 0
         if amount < 1 then
             return
         end
     end
 
     -- Figure out which frame and color to output
-    local outputFrame, outputColor, critical = "outgoing_healing", "healingOut", args.critical
-    if critical then
+    local outputFrame, outputColor = "outgoing_healing", "healingOut"
+    if args.critical then
         outputFrame = "critical"
         outputColor = "healingOutCritical"
     end
@@ -695,20 +695,20 @@ EventHandlers.HealingOutgoing = function(args)
     end
 
     -- Condensed Critical Merge
-    local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
+    local spamMergerInterval = x:Options_SpamMerger_SpellInterval(args.spellId)
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        if critical then
+        if args.critical then
             if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                 x:AddSpamMessage(
                     outputFrame,
-                    spellID,
+                    args.spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
@@ -716,28 +716,28 @@ EventHandlers.HealingOutgoing = function(args)
             elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                 x:AddSpamMessage(
                     "outgoing_healing",
-                    spellID,
+                    args.spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
                 x:AddSpamMessage(
                     "outgoing_healing",
-                    spellID,
+                    args.spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
@@ -746,14 +746,14 @@ EventHandlers.HealingOutgoing = function(args)
         else
             x:AddSpamMessage(
                 outputFrame,
-                spellID,
+                args.spellId,
                 amount,
                 outputColor,
                 spamMergerInterval,
                 "spellName",
-                spellName,
+                args.spellName,
                 "spellSchool",
-                spellSchool,
+                args.spellSchool,
                 "destinationController",
                 args:GetDestinationController()
             )
@@ -761,34 +761,31 @@ EventHandlers.HealingOutgoing = function(args)
         end
     end
 
-    if x:Options_Filter_OutgoingHealing_HideEvent(amount, critical) then
+    if x:Options_Filter_OutgoingHealing_HideEvent(amount, args.critical) then
         return
     end
 
     -- TODO whats this?
     if args.event == "SPELL_PERIODIC_HEAL" then
-        xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
+        xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, settings)
     elseif args.event == "SPELL_HEAL" then
-        xCTFormat:SPELL_HEAL(outputFrame, spellID, amount, overhealing, critical, args, settings)
+        xCTFormat:SPELL_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, settings)
     else
         x:Print("Please report: unhandled _HEAL event", args.event)
     end
 end
 
 EventHandlers.DamageOutgoing = function(args)
-    local message
-    local spellName, spellSchool = args.spellName, args.spellSchool
-    local critical, spellID, amount = args.critical, args.spellId, args.amount
-    local isEnvironmental, isSwing, isAutoShot, isDoT =
+    local spellId, isEnvironmental, isSwing, isAutoShot, isDoT =
+        args.spellId,
         args.prefix == "ENVIRONMENTAL",
         args.prefix == "SWING",
-        spellID == 75,
+        args.spellId == 75,
         args.prefix == "SPELL_PERIODIC"
-    local outputFrame, outputColorType = "outgoing"
 
     -- Keep track of spells that go by (Don't track Swings or Environmental damage)
     if not isEnvironmental and not isSwing and x:Options_Filter_TrackSpells() then
-        x.spellCache.spells[spellID] = true
+        x.spellCache.spells[spellId] = true
     end
 
     if not x:Options_Outgoing_ShowDamage() then
@@ -801,26 +798,30 @@ EventHandlers.DamageOutgoing = function(args)
     end
 
     -- Filter Outgoing Damage Spell
-    if x:Options_Filter_HideSpell(spellID) then
+    if x:Options_Filter_HideSpell(spellId) then
         return
     end
 
     if isSwing and not args:IsSourceMyPet() and not args:IsSourceMyVehicle() then
-        if critical and not x:Options_Outgoing_ShowAutoAttack() then
+        if args.critical and not x:Options_Outgoing_ShowAutoAttack() then
             return
         end
-        if not critical and not x:Options_Critical_ShowAutoAttack() then
+
+        if not args.critical and not x:Options_Critical_ShowAutoAttack() then
             return
         end
     end
 
+    local amount = args.amount
     if x:Options_Outgoing_ShowAbsorbedDamageAsNormalDamage() then
         -- Its a partial absorb, add it to the amount
         amount = amount + (args.absorbed or 0)
     end
 
+    local outputFrame = "outgoing"
+
     -- Check to see if my pet is doing things
-    if args:IsSourceMyPet() and (not x:Options_Outgoing_ShowKillCommandAsPlayerDamage() or spellID ~= 34026) then
+    if args:IsSourceMyPet() and (not x:Options_Outgoing_ShowKillCommandAsPlayerDamage() or spellId ~= 34026) then
         if not x:Options_Outgoing_ShowPetDamage() then
             return
         end
@@ -839,7 +840,7 @@ EventHandlers.DamageOutgoing = function(args)
                 x.db.profile.spells.mergePetColor,
                 spamMergerInterval,
                 "auto",
-                spellID == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
+                spellId == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
                 "destinationController",
                 args:GetDestinationController()
             )
@@ -847,11 +848,11 @@ EventHandlers.DamageOutgoing = function(args)
         end
 
         if not x:Options_Critical_ShowPetCrits() then
-            critical = nil -- stupid spam fix for hunter pets
+            args.critical = nil -- stupid spam fix for hunter pets
         end
 
         if isSwing then
-            spellID = 0 -- this will get fixed later
+            spellId = 0 -- this will get fixed later
         end
     end
 
@@ -863,15 +864,15 @@ EventHandlers.DamageOutgoing = function(args)
             return
         end -- for BM's second pet, Hati
         if not x:Options_Critical_ShowPetCrits() then
-            critical = nil -- stupid spam fix for hunter pets
+            args.critical = nil -- stupid spam fix for hunter pets
         end
         if isSwing then
-            spellID = 0 -- this will get fixed later
+            spellId = 0 -- this will get fixed later
         end
     end
 
     -- Check for Critical Swings
-    if critical then
+    if args.critical then
         if (isSwing or isAutoShot) and x:Options_Critical_ShowAutoAttack() then
             outputFrame = "critical"
         elseif not isSwing and not isAutoShot then
@@ -880,19 +881,20 @@ EventHandlers.DamageOutgoing = function(args)
     end
 
     -- Lookup the color
+    local outputColorType
     if isSwing or isAutoShot then
-        outputColorType = critical and "meleeCrit" or "melee"
+        outputColorType = args.critical and "meleeCrit" or "melee"
     end
 
-    local outputColor = x.GetSpellSchoolColor(spellSchool, outputColorType)
+    local outputColor = x.GetSpellSchoolColor(args.spellSchool, outputColorType)
 
-    local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellID)
+    local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellId)
     if (isSwing or isAutoShot) and x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         if outputFrame == "critical" then
             if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                 x:AddSpamMessage(
                     outputFrame,
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
@@ -905,7 +907,7 @@ EventHandlers.DamageOutgoing = function(args)
             elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                 x:AddSpamMessage(
                     "outgoing",
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
@@ -917,7 +919,7 @@ EventHandlers.DamageOutgoing = function(args)
             elseif x:Options_SpamMerger_HideMergedCriticals() then
                 x:AddSpamMessage(
                     "outgoing",
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
@@ -931,7 +933,7 @@ EventHandlers.DamageOutgoing = function(args)
         else
             x:AddSpamMessage(
                 outputFrame,
-                spellID,
+                spellId,
                 amount,
                 outputColor,
                 spamMergerInterval,
@@ -943,18 +945,18 @@ EventHandlers.DamageOutgoing = function(args)
             return
         end
     elseif not isSwing and not isAutoShot and spamMergerInterval > 0 then
-        if critical then
+        if args.critical then
             if x:Options_SpamMerger_MergeCriticalsByThemselves() then
                 x:AddSpamMessage(
                     outputFrame,
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
@@ -962,28 +964,28 @@ EventHandlers.DamageOutgoing = function(args)
             elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                 x:AddSpamMessage(
                     "outgoing",
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
                 x:AddSpamMessage(
                     "outgoing",
-                    spellID,
+                    spellId,
                     amount,
                     outputColor,
                     spamMergerInterval,
                     "spellName",
-                    spellName,
+                    args.spellName,
                     "spellSchool",
-                    spellSchool,
+                    args.spellSchool,
                     "destinationController",
                     args:GetDestinationController()
                 )
@@ -993,14 +995,14 @@ EventHandlers.DamageOutgoing = function(args)
             -- args:GetSourceController() / args:GetDestinationController()
             x:AddSpamMessage(
                 outputFrame,
-                spellID,
+                spellId,
                 amount,
                 outputColor,
                 spamMergerInterval,
                 "spellName",
-                spellName,
+                args.spellName,
                 "spellSchool",
-                spellSchool,
+                args.spellSchool,
                 "destinationController",
                 args:GetDestinationController()
             )
@@ -1008,33 +1010,37 @@ EventHandlers.DamageOutgoing = function(args)
         end
     end
 
-    if x:Options_Filter_OutgoingDamage_HideEvent(amount, critical) then
+    if x:Options_Filter_OutgoingDamage_HideEvent(amount, args.critical) then
         -- Amount is not high enough
         return
     end
 
-    local settings
-    if critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
-        settings = x.db.profile.frames.critical
+    local message
+    local settings = x:GetFrameSettings(outputFrame)
+    if not settings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
+    if args.critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
         if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
             message = string.format(
                 format_crit,
                 x.db.profile.frames.critical.critPrefix,
-                x:Abbreviate(amount, "critical"),
+                x:Abbreviate(amount, outputFrame),
                 x.db.profile.frames.critical.critPostfix
             )
         else
-            message = x:Abbreviate(amount, "critical")
+            message = x:Abbreviate(amount, outputFrame)
         end
     else
-        settings = x.db.profile.frames.outgoing
-        message = x:Abbreviate(amount, "outgoing")
+        message = x:Abbreviate(amount, outputFrame)
     end
 
     -- Add the Partial Miss Types
     if x:Options_Outgoing_ShowPartialMisses() then
-        local hasPartialMiss, formattedMessage =
-            GetPartialMiss(args, settings, critical and "critical" or "outgoing")
+        local hasPartialMiss, formattedMessage = GetPartialMiss(args, settings, outputFrame)
+
         if hasPartialMiss then
             message = message .. formattedMessage
         end
@@ -1048,17 +1054,17 @@ EventHandlers.DamageOutgoing = function(args)
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-            x.db.profile.frames[outputFrame].spacerIconsEnabled,
-            x.db.profile.frames[outputFrame].fontJustify
+            settings.iconsEnabled and settings.iconsSize or -1,
+            settings.spacerIconsEnabled,
+            settings.fontJustify
         )
     else
         message = x:GetSpellTextureFormatted(
             nil,
             message,
-            x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-            x.db.profile.frames[outputFrame].spacerIconsEnabled,
-            x.db.profile.frames[outputFrame].fontJustify
+            settings.iconsEnabled and settings.iconsSize or -1,
+            settings.spacerIconsEnabled,
+            settings.fontJustify
         )
     end
 
@@ -1067,7 +1073,7 @@ end
 
 EventHandlers.DamageIncoming = function(args)
     local message
-    local spellName, spellSchool, outputFrame = args.spellName, args.spellSchool, "damage"
+    local outputFrame = "damage"
     local settings = x.db.profile.frames[outputFrame]
 
     -- Keep track of spells that go by
@@ -1133,9 +1139,9 @@ EventHandlers.DamageIncoming = function(args)
             colorOverride,
             spamMergerInterval,
             "spellName",
-            spellName,
+            args.spellName,
             "spellSchool",
-            spellSchool,
+            args.spellSchool,
             "sourceController",
             args:GetSourceController()
         )
