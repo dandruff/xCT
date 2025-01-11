@@ -472,3 +472,7 @@ end
 function x:CVar_BypassCVars()
     return x.db.profile.bypassCVars
 end
+
+function x:ShowAutoAttackIcons(frameName)
+    return x.db.profile.frames[frameName] and x.db.profile.frames[frameName].iconsEnabledAutoAttack or false
+end
