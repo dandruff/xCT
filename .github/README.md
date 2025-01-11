@@ -1,6 +1,6 @@
 # xCT +
 
-Created for optimal performance in the toughest fights, a rugged combat text add-on is finally ready to be put to the
+Created for optimal performance in the toughest fights, a rugged combat text add-on is finally ready to be put to the 
 test!
 
 ## Overview
@@ -27,7 +27,8 @@ For those that have used Affli’s xCT Add-On, xCT+ expands the functionality of
 ## The future of xCT+ in TWW and beyond
 
 As of TWW Season 1, Dandruff-Stormreaver (US) resigned from addon development and gave Feylynn-Antonidas (EU) the 
-permission to develop xCT+ further. He has aided development since mid Dragonflight and will continue to enhance and fix xCT+.
+permission to develop xCT+ further. He has aided development since mid Dragonflight and will continue to fix and 
+enhance xCT+.
 
 ### Version 4.9.0
 Version 4.9.0 shapes up to be a major rewrite of the whole addon. The following features are currently in it:
@@ -56,7 +57,7 @@ Version 4.9.0 shapes up to be a major rewrite of the whole addon. The following 
 * Split xCT into a main addon and an options addon to reduce the footprint.
   * The main addon has a RAM footprint of about 800 KB, and the options of 1,8 MB ... wow!
 
-Feel free to the beta and alpha version and provide feedback in Github!
+Feel free to try the alpha and beta versions and provide feedback in Github!
 
 ## Download
 
@@ -67,3 +68,5 @@ Feel free to the beta and alpha version and provide feedback in Github!
 
 Feel free to use the comments below for quick and dirty questions. If you think that you have a question that is more 
 involved, you should create a ticket on the [GitHub issue tracker](https://github.com/dandruff/xCT/issues/new).
+
+All contributions (pull requests, testing, ...) are welcome!
