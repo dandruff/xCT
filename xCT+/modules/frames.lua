@@ -311,6 +311,11 @@ end
 -- Abbreviates the specified amount. Will also check the current settings profile if a name frame is specified.
 -- =====================================================
 function x:Abbreviate(amount, frameName)
+    local roundNumber = function(value)
+        return mfloor(value + 0.5)
+    end
+
+
     local isNegative = amount < 0
     if isNegative then
         amount = math.abs(amount)
@@ -319,56 +324,36 @@ function x:Abbreviate(amount, frameName)
     local message = tostring(amount)
 
     if frameName and self.db.profile.frames[frameName] and self.db.profile.frames[frameName].megaDamage then
+        local suffix = ""
         if self.db.profile.spells.formatAbbreviate then
             if x.locale == "koKR" then
                 if amount >= 100000000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 5000000) / 10000000) / 10)
-                            .. self.db.profile.megaDamage.billionSymbol
-                    else
-                        message = tostring(mfloor((amount + 50000000) / 100000000))
-                            .. self.db.profile.megaDamage.billionSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.billionSymbol
+                    amount = amount / 100000000
                 elseif amount >= 10000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 500) / 1000) / 10)
-                            .. self.db.profile.megaDamage.millionSymbol
-                    else
-                        message = tostring(mfloor((amount + 5000) / 10000)) .. self.db.profile.megaDamage.millionSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.millionSymbol
+                    amount = amount / 10000
                 elseif amount >= 1000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 50) / 100) / 10)
-                            .. self.db.profile.megaDamage.thousandSymbol
-                    else
-                        message = tostring(mfloor((amount + 500) / 1000)) .. self.db.profile.megaDamage.thousandSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.thousandSymbol
+                    amount = amount / 1000
                 end
             else
                 if amount >= 1000000000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 50000000) / 100000000) / 10)
-                            .. self.db.profile.megaDamage.billionSymbol
-                    else
-                        message = tostring(mfloor((amount + 500000000) / 1000000000))
-                            .. self.db.profile.megaDamage.billionSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.billionSymbol
+                    amount = amount / 1000000000
                 elseif amount >= 1000000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 50000) / 100000) / 10)
-                            .. self.db.profile.megaDamage.millionSymbol
-                    else
-                        message = tostring(mfloor((amount + 500000) / 1000000))
-                            .. self.db.profile.megaDamage.millionSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.millionSymbol
+                    amount = amount / 1000000
                 elseif amount >= 1000 then
-                    if self.db.profile.megaDamage.decimalPoint then
-                        message = tostring(mfloor((amount + 50) / 100) / 10)
-                            .. self.db.profile.megaDamage.thousandSymbol
-                    else
-                        message = tostring(mfloor((amount + 500) / 1000)) .. self.db.profile.megaDamage.thousandSymbol
-                    end
+                    suffix = self.db.profile.megaDamage.thousandSymbol
+                    amount = amount / 1000
                 end
+            end
+
+            if self.db.profile.megaDamage.decimalPoint then
+                message = tostring(roundNumber(amount * 10) / 10) .. suffix
+            else
+                message = tostring(roundNumber(amount)) .. suffix
             end
         else
             local k
