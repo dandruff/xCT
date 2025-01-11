@@ -471,6 +471,8 @@ function x:GetSpellTextureFormatted(
         end
     end
 
+    message = message or ""
+
     if mergeCount and mergeCount > 1 then
         message = string.format("%s |cff%sx%d|r", message, strColor, mergeCount)
     end
@@ -661,14 +663,21 @@ do
             return
         end
 
-        for _, mergeID in pairs(stack) do
+        for _, mergeId in pairs(stack) do
             -- This has all the information for the message we want to display
-            local item = heap[mergeID]
+            local item = heap[mergeId]
 
             if item and item.displayTime <= now and item.mergedCount > 0 then
                 item.displayTime = now
 
-                if frameName == "outgoing" or frameName == "outgoing_healing" then
+                if not item.mergedAmount and not item.message then
+                    -- How did this happen?!
+                    item.mergedCount = 0
+                    item.mergedAmount = 0
+                    item.message = ""
+                    x:Print("Empty item in the spam merger", mergeId)
+                    DevTools_Dump(item)
+                elseif frameName == "outgoing" or frameName == "outgoing_healing" then
                     -- Outgoing damage
                     if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
                         -- not enough to display
@@ -740,7 +749,7 @@ do
                         strColor = "ffff00"
 
                         if frameSettings.names[item.sourceController].nameType == 1 then
-                            fakeArgs.sourceName = mergeID
+                            fakeArgs.sourceName = mergeId
                             fakeArgs.sourceGUID = item.sourceGUID
                             fakeArgs.fake_sourceController = item.sourceController
                             if frameSettings.fontJustify == "RIGHT" then
@@ -755,13 +764,13 @@ do
 
                     -- Add Icons
                     local iconSize
-                    if mergeID == 6603 and not x:ShowAutoAttackIcons(frameName) then
+                    if mergeId == 6603 and not x:ShowAutoAttackIcons(frameName) then
                         -- Disable the auto attack icon for the incoming damage frame
                         iconSize = -1
                     end
 
                     message = x:GetSpellTextureFormatted(
-                        mergeID,
+                        mergeId,
                         message,
                         frameSettings,
                         iconSize,
