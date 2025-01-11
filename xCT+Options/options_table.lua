@@ -210,12 +210,7 @@ function x:InitOptionsTable()
     end
 
     local function isFrameItemDisabled(info)
-        local frameName = info[#info - 2]
-        if x.db.profile.frames[frameName].enabledFrame then
-            return false
-        end
-
-        return x.db.profile.frames[frameName].secondaryFrame == 0
+        return not x.db.profile.frames[info[#info - 2]].enabledFrame
     end
     local function isFrameNotScrollable(info)
         return isFrameItemDisabled(info) or not x.db.profile.frames[info[#info - 2]].enableScrollable

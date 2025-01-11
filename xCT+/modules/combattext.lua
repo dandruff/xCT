@@ -646,6 +646,7 @@ end
 -- =====================================================
 local EventHandlers = {}
 
+-- Outgoing healing
 EventHandlers.HealingOutgoing = function(args)
     local isHoT = args.prefix == "SPELL_PERIODIC"
 
@@ -685,9 +686,6 @@ EventHandlers.HealingOutgoing = function(args)
         outputFrame = "critical"
         outputColor = "healingOutCritical"
     end
-
-    -- Get the settings for the correct output frame
-    local settings = x.db.profile.frames[outputFrame]
 
     -- HoTs only have one color
     if isHoT then
@@ -765,7 +763,10 @@ EventHandlers.HealingOutgoing = function(args)
         return
     end
 
-    -- TODO whats this?
+    -- Get the settings for the correct output frame
+    local settings = x:GetFrameSettings(outputFrame)
+
+    -- Format the message correctly
     if args.event == "SPELL_PERIODIC_HEAL" then
         xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, settings)
     elseif args.event == "SPELL_HEAL" then
@@ -775,6 +776,7 @@ EventHandlers.HealingOutgoing = function(args)
     end
 end
 
+-- Outgoing damage
 EventHandlers.DamageOutgoing = function(args)
     local spellId, isEnvironmental, isSwing, isAutoShot, isDoT =
         args.spellId,
@@ -1071,11 +1073,8 @@ EventHandlers.DamageOutgoing = function(args)
     x:AddMessage(outputFrame, message, outputColor)
 end
 
+-- Incoming damage
 EventHandlers.DamageIncoming = function(args)
-    local message
-    local outputFrame = "damage"
-    local settings = x.db.profile.frames[outputFrame]
-
     -- Keep track of spells that go by
     if args.spellId and x:Options_Filter_TrackSpells() then
         x.spellCache.damage[args.spellId] = true
@@ -1085,41 +1084,37 @@ EventHandlers.DamageIncoming = function(args)
         return
     end
 
-    local totalAmount = args.amount
+    local outputFrame = "damage"
+    local amount = args.amount
+    local message
 
     -- Check for resists
     if x:Options_IncomingDamage_ShowResistances() then
-        totalAmount = totalAmount + (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)
+        local resistedAmount = (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)
+        if resistedAmount > 0 then
+            local resistType, color
 
-        local resistedAmount, resistType, color
-
-        -- Check for resists (full and partials)
-        if (args.resisted or 0) > 0 then
-            resistType, resistedAmount = RESIST, args.amount > 0 and args.resisted
-            color = resistedAmount and "missTypeResist" or "missTypeResistPartial"
-        elseif (args.blocked or 0) > 0 then
-            resistType, resistedAmount = BLOCK, args.amount > 0 and args.blocked
-            color = resistedAmount and "missTypeBlock" or "missTypeBlockPartial"
-        elseif (args.absorbed or 0) > 0 then
-            resistType, resistedAmount = ABSORB, args.amount > 0 and args.absorbed
-            color = resistedAmount and "missTypeAbsorb" or "missTypeAbsorbPartial"
-        end
-
-        if resistType then
-            -- Craft the new message (if is partial)
-            if resistedAmount then
-                color = hexNameColor(x:LookupColorByName(color))
-                message = string.format(
-                    "-%s |c%s(%s %s)|r",
-                    x:Abbreviate(args.amount, outputFrame),
-                    color,
-                    resistType,
-                    x:Abbreviate(resistedAmount, outputFrame)
-                )
-            else
-                -- It was a full resist
-                message = resistType -- TODO: Add an option to still see how much was reisted on a full resist
+            -- Check for resists (full and partials)
+            if (args.resisted or 0) > (args.blocked or 0) and (args.resisted or 0) > (args.absorbed or 0) then
+                resistType = RESIST
+                color = amount > 0 and "missTypeResist" or "missTypeResistPartial"
+            elseif (args.blocked or 0) > (args.resisted or 0) and (args.blocked or 0) > (args.absorbed or 0) then
+                resistType = BLOCK
+                color = amount > 0 and "missTypeBlock" or "missTypeBlockPartial"
+            elseif (args.absorbed or 0) > (args.resisted or 0) and (args.absorbed or 0) > (args.blocked or 0) then
+                resistType = ABSORB
+                color = amount > 0 and "missTypeAbsorb" or "missTypeAbsorbPartial"
             end
+
+            amount = amount + resistedAmount
+            color = hexNameColor(x:LookupColorByName(color))
+            message = string.format(
+                "-%s |c%s(%s %s)|r",
+                x:Abbreviate(amount, outputFrame),
+                color,
+                resistType,
+                x:Abbreviate(resistedAmount, outputFrame)
+            )
         end
     end
 
@@ -1135,7 +1130,7 @@ EventHandlers.DamageIncoming = function(args)
         x:AddSpamMessage(
             outputFrame,
             args.spellId,
-            -totalAmount,
+            -amount,
             colorOverride,
             spamMergerInterval,
             "spellName",
@@ -1148,7 +1143,7 @@ EventHandlers.DamageIncoming = function(args)
         return
     end
 
-    if x:Options_Filter_IncomingDamage_HideEvent(totalAmount, args.critical) then
+    if x:Options_Filter_IncomingDamage_HideEvent(amount, args.critical) then
         return
     end
 
@@ -1158,14 +1153,16 @@ EventHandlers.DamageIncoming = function(args)
         if args.critical then
             message = string.format(
                 format_crit,
-                x.db.profile.frames[outputFrame].critPrefix,
-                x:Abbreviate(-args.amount, outputFrame),
-                x.db.profile.frames[outputFrame].critPostfix
+                x.db.profile.frames.critical.critPrefix,
+                x:Abbreviate(-amount, "critical"),
+                x.db.profile.frames.critical.critPostfix
             )
         else
-            message = x:Abbreviate(-args.amount, outputFrame)
+            message = x:Abbreviate(-amount, outputFrame)
         end
     end
+
+    local settings = x:GetFrameSettings(outputFrame)
 
     -- Add names
     message = message .. x.formatName(args, settings.names, true)
@@ -1175,17 +1172,17 @@ EventHandlers.DamageIncoming = function(args)
         message = x:GetSpellTextureFormatted(
             args.spellId,
             message,
-            x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-            x.db.profile.frames[outputFrame].spacerIconsEnabled,
-            x.db.profile.frames[outputFrame].fontJustify
+            settings.iconsEnabled and settings.iconsSize or -1,
+            settings.spacerIconsEnabled,
+            settings.fontJustify
         )
     else
         message = x:GetSpellTextureFormatted(
             nil,
             message,
-            x.db.profile.frames[outputFrame].iconsEnabled and x.db.profile.frames[outputFrame].iconsSize or -1,
-            x.db.profile.frames[outputFrame].spacerIconsEnabled,
-            x.db.profile.frames[outputFrame].fontJustify
+            settings.iconsEnabled and settings.iconsSize or -1,
+            settings.spacerIconsEnabled,
+            settings.fontJustify
         )
     end
 
