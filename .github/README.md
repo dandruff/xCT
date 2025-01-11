@@ -26,7 +26,7 @@ For those that have used Affli’s xCT Add-On, xCT+ expands the functionality of
 
 ## The future of xCT+ in TWW and beyond
 
-As of TWW Season 1, Dandruff-Stormreaver (US) resigned from addon development and gave Feylynn-Antonidas (EU) the 
+As of TWW Season 1, Dandruff-Stormreaver (US) resigned from addon development and gave [RedAces](https://www.curseforge.com/members/redaces) (Feylynn-Antonidas EU) the 
 permission to develop xCT+ further. He has aided development since mid Dragonflight and will continue to fix and 
 enhance xCT+.
 
