@@ -501,6 +501,7 @@ function x:CacheColors()
                     for currentColorName, currentColorSettings in pairs(colorSettings.colors) do
                         -- if there is a valid color here, migrate it to the new version
                         if currentColorSettings.color and unpack(currentColorSettings.color) then
+                            x.db.profile.Colors[currentColorName].enabled = currentColorSettings.enabled
                             x.db.profile.Colors[currentColorName].color = currentColorSettings.color
                             self:Print("Migrating color", currentColorName, "to new format.")
                         end
@@ -508,6 +509,7 @@ function x:CacheColors()
                 else
                     -- if there is a valid color here, migrate it to the new version
                     if colorSettings.color and unpack(colorSettings.color) then
+                        x.db.profile.Colors[colorName].enabled = colorSettings.enabled
                         x.db.profile.Colors[colorName].color = colorSettings.color
                         self:Print("Migrating color", colorName, "to new format.")
                     end
