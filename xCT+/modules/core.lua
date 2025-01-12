@@ -492,34 +492,42 @@ end
 -- Cache colors for a fast lookup
 function x:CacheColors()
     self.colorNameDB = {}
-    for _, settings in pairs(x.db.profile.frames) do
-        if settings.colors then
-            for colorName, colorSettings in pairs(settings.colors) do
+
+    -- pre 4.9.0 format!
+    for frameName, frameSettings in pairs(x.db.profile.frames) do
+        if frameSettings.colors then
+            for colorName, colorSettings in pairs(frameSettings.colors) do
                 if colorSettings.colors then
-                    for currentColorName in pairs(colorSettings.colors) do
-                        local currentColorSettings = colorSettings.colors[currentColorName]
-
-                        -- Check for nil colors and set them to the default
-                        if not currentColorSettings.color or not unpack(currentColorSettings.color) then
-                            -- This needs to be a new table apparently
-                            currentColorSettings.color = { unpack(currentColorSettings.default) }
+                    for currentColorName, currentColorSettings in pairs(colorSettings.colors) do
+                        -- if there is a valid color here, migrate it to the new version
+                        if currentColorSettings.color and unpack(currentColorSettings.color) then
+                            x.db.profile.Colors[currentColorName].color = currentColorSettings.color
+                            self:Print("Migrating color", currentColorName, "to new format.")
                         end
-
-                        -- Cache this color into a quick lookup
-                        self.colorNameDB[currentColorName] = currentColorSettings
                     end
                 else
-                    -- Check for nil colors and set them to the default
-                    if not colorSettings.color or not unpack(colorSettings.color) then
-                        -- This needs to be a new table apparently
-                        colorSettings.color = { unpack(colorSettings.default) }
+                    -- if there is a valid color here, migrate it to the new version
+                    if colorSettings.color and unpack(colorSettings.color) then
+                        x.db.profile.Colors[colorName].color = colorSettings.color
+                        self:Print("Migrating color", colorName, "to new format.")
                     end
-
-                    -- Cache this color into a quick lookup
-                    self.colorNameDB[colorName] = colorSettings
                 end
             end
+
+            -- delete it from the old format
+            x.db.profile.frames[frameName].colors = nil
         end
+    end
+
+    -- new 4.9.0 format
+    for colorName, colorSettings in pairs(x.db.profile.Colors) do
+        -- Check for nil colors and set them to the default
+        if not colorSettings.color or not unpack(colorSettings.color) then
+            -- This needs to be a new table apparently
+            colorSettings.color = { unpack(colorSettings.default) }
+        end
+
+        self.colorNameDB[colorName] = colorSettings
     end
 
     for colorName, colorSettings in pairs(x.db.profile.SpellColors) do

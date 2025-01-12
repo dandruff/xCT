@@ -32,11 +32,92 @@ function xo:OnInitialize()
         self:Print("xCT not found. Please load it first.")
     end
 
+    self.CLASS_NAMES = {
+        ["DEATHKNIGHT"] = {
+            [0] = 0, -- All Specs
+            [250] = 1, -- Blood
+            [251] = 2, -- Frost
+            [252] = 3, -- Unholy
+        },
+        ["DEMONHUNTER"] = {
+            [0] = 0, -- All Specs
+            [577] = 1, -- Havoc
+            [581] = 2, -- Vengeance
+        },
+        ["DRUID"] = {
+            [0] = 0, -- All Specs
+            [102] = 1, -- Balance
+            [103] = 2, -- Feral
+            [104] = 3, -- Guardian
+            [105] = 4, -- Restoration
+        },
+        ["EVOKER"] = {
+            [0] = 0, -- All Specs
+            [1467] = 1, -- Devastation
+            [1468] = 2, -- Preservation
+            [1473] = 3, -- Augmentation
+        },
+        ["HUNTER"] = {
+            [0] = 0, -- All Specs
+            [253] = 1, -- Beast Mastery
+            [254] = 2, -- Marksmanship
+            [255] = 3, -- Survival
+        },
+        ["MAGE"] = {
+            [0] = 0, -- All Specs
+            [62] = 1, -- Arcane
+            [63] = 2, -- Fire
+            [64] = 3, -- Frost
+        },
+        ["MONK"] = {
+            [0] = 0, -- All Specs
+            [268] = 1, -- Brewmaster
+            [269] = 2, -- Windwalker
+            [270] = 3, -- Mistweaver
+        },
+        ["PALADIN"] = {
+            [0] = 0, -- All Specs
+            [65] = 1, -- Holy
+            [66] = 2, -- Protection
+            [70] = 3, -- Retribution
+        },
+        ["PRIEST"] = {
+            [0] = 0, -- All Specs
+            [256] = 1, -- Discipline
+            [257] = 2, -- Holy
+            [258] = 3, -- Shadow
+        },
+        ["ROGUE"] = {
+            [0] = 0, -- All Specs
+            [259] = 1, -- Assassination
+            [260] = 2, -- Combat
+            [261] = 3, -- Subtlety
+        },
+        ["SHAMAN"] = {
+            [0] = 0, -- All Specs
+            [262] = 1, -- Elemental
+            [263] = 2, -- Enhancement
+            [264] = 3, -- Restoration
+        },
+        ["WARLOCK"] = {
+            [0] = 0, -- All Specs
+            [265] = 1, -- Affliction
+            [266] = 2, -- Demonology
+            [267] = 3, -- Destruction
+        },
+        ["WARRIOR"] = {
+            [0] = 0, -- All Specs
+            [71] = 1, -- Arms
+            [72] = 2, -- Fury
+            [73] = 3, -- Protection
+        },
+    }
+
     -- Initialize the options
     xCT_Plus.engine:InitOptionsTable()
 
     -- Add the profile options to my dialog config
-    optionsAddon.optionsTable.args["Profiles"] = LibStub("AceDBOptions-3.0"):GetOptionsTable(xCT_Plus.engine.db)
+    optionsAddon.optionsTable.args.Profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(xCT_Plus.engine.db)
 
     -- Register the Options
     ACD:SetDefaultSize(AddonName, 803, 560)

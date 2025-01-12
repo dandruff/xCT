@@ -265,293 +265,6 @@ function x:InitOptionsTable()
         return x.db.profile.spells[info[#info]]
     end
 
-    -- Apply to All variables
-    local miscFont, miscFontOutline, miscEnableCustomFade
-
-    optionsAddon.optionsTable.args.spells = {
-        name = "Spam Merger",
-        type = "group",
-        childGroups = "tab",
-        order = 2,
-        args = {
-            explanation = {
-                type = "description",
-                order = 1,
-                name = "Normally all damage / heal events of a spell will result in one message each.\n"
-                    .. "So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\n"
-                    .. "If the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n"
-                    .. "|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\n"
-                    .. "Use an interval of 0 to disable the specific merge.",
-            },
-
-            mergeOptions = {
-                name = "Merge Options",
-                type = "group",
-                order = 11,
-                args = {
-                    enableMerger = {
-                        order = 2,
-                        type = "toggle",
-                        name = "Enable Spam Merger",
-                        get = "Options_SpamMerger_EnableSpamMerger",
-                        set = set0_1,
-                    },
-                    enableMergerDebug = {
-                        order = 3,
-                        type = "toggle",
-                        name = "Enable Debugging",
-                        desc = "Adds the spell ID to each message for this session only.",
-                        get = function()
-                            return x.enableMergerDebug or false
-                        end,
-                        set = function(_, value)
-                            x.enableMergerDebug = value
-                        end,
-                    },
-
-                    outgoingHeader = {
-                        type = "header",
-                        order = 10,
-                        name = "Outgoing Damage / Healing",
-                    },
-
-                    outgoingExplanation = {
-                        type = "description",
-                        order = 11,
-                        name = "The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs.",
-                    },
-
-                    mergeOutgoingDamageMissesInterval = {
-                        order = 23,
-                        name = "Merge-Interval Incoming Misses",
-                        desc = "The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_OutgoingDamageMissesInterval",
-                        set = set0_1,
-                    },
-
-                    mergeEverythingInterval = {
-                        order = 12,
-                        name = "Merge-Interval for other spells",
-                        desc = "The interval (seconds) in which all other spells will be merged. Certain spells have other intervals, see the tabs for them. Use 0 to disable.",
-                        type = "range",
-                        min = 0.1,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_FallbackInterval",
-                        set = set0_1,
-                    },
-
-                    incomingHeader = {
-                        type = "header",
-                        order = 20,
-                        name = "Incoming Damage / Healing",
-                    },
-
-                    mergeIncomingHealingInterval = {
-                        order = 21,
-                        name = "Merge-Interval Incoming Healing",
-                        desc = "The interval (seconds) in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_IncomingHealingInterval",
-                        set = set0_1,
-                    },
-
-                    mergeIncomingDamageInterval = {
-                        order = 22,
-                        name = "Merge-Interval Incoming Damage",
-                        desc = "The interval (seconds) in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_IncomingDamageInterval",
-                        set = set0_1,
-                    },
-
-                    mergeIncomingMissesInterval = {
-                        order = 23,
-                        name = "Merge-Interval Incoming Misses",
-                        desc = "The interval (seconds) in which incoming full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_IncomingMissesInterval",
-                        set = set0_1,
-                    },
-
-                    dispellHeader = {
-                        type = "header",
-                        order = 30,
-                        name = "Dispells",
-                    },
-
-                    mergeDispellInterval = {
-                        order = 31,
-                        name = "Merge-Interval for Dispells",
-                        desc = "The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_DispellInterval",
-                        set = set0_1,
-                    },
-
-                    petAttacksHeader = {
-                        type = "header",
-                        order = 40,
-                        name = "Pet Attacks",
-                    },
-
-                    mergePetInterval = {
-                        order = 41,
-                        name = "Merge-Interval for ALL Pet Abilities",
-                        desc = "The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable.",
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_PetAttackInterval",
-                        set = set0_1,
-                    },
-
-                    mergePetColor = {
-                        order = 42,
-                        type = "color",
-                        name = "Pet Color",
-                        desc = "Which color do you want the merged pet messages to be?",
-                        get = getColor0_1,
-                        set = setColor0_1,
-                    },
-
-                    --[[
-            spacer1 = {
-              type = "description",
-              order = 37,
-              name = "",
-              width = 'full',
-            },
-
-            mergeVehicle = {
-              order = 38,
-              type = 'toggle',
-              name = "Merge Vehicle Abilities",
-              desc = "Merges all of your vehicle abilities together.",
-              get = get0_1,
-              set = set0_1,
-            },
-
-            mergeVehicleColor = {
-              order = 39,
-              type = 'color',
-              name = "Vehicle Color",
-              get = getColor0_1,
-              set = setColor0_1,
-            },
-            ]]
-
-                    criticalHitsHeader = {
-                        type = "header",
-                        order = 50,
-                        name = "Critical Hits",
-                    },
-
-                    criticalHitsExplanation = {
-                        type = "description",
-                        order = 51,
-                        name = "Please choose one:",
-                    },
-
-                    mergeDontMergeCriticals = {
-                        order = 52,
-                        type = "toggle",
-                        name = "Don't Merge Critical Hits Together",
-                        desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
-                        get = "Options_SpamMerger_DontMergeCriticals",
-                        set = setSpecialCriticalOptions,
-                        width = "full",
-                    },
-
-                    mergeCriticalsWithOutgoing = {
-                        order = 53,
-                        type = "toggle",
-                        name = "Merge Critical Hits with Outgoing",
-                        desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
-                        get = "Options_SpamMerger_MergeCriticalsWithOutgoing",
-                        set = setSpecialCriticalOptions,
-                        width = "full",
-                    },
-
-                    mergeCriticalsByThemselves = {
-                        order = 54,
-                        type = "toggle",
-                        name = "Merge Critical Hits by Themselves",
-                        desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
-                        get = "Options_SpamMerger_MergeCriticalsByThemselves",
-                        set = setSpecialCriticalOptions,
-                        width = "full",
-                    },
-
-                    mergeHideMergedCriticals = {
-                        order = 55,
-                        type = "toggle",
-                        name = "Hide Merged Criticals",
-                        desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
-                        get = "Options_SpamMerger_HideMergedCriticals",
-                        set = setSpecialCriticalOptions,
-                        width = "full",
-                    },
-                },
-            },
-
-            classList = {
-                name = "Class Spells",
-                type = "group",
-                order = 21,
-                childGroups = "select",
-                args = {
-                    -- TODO: Add Check all and uncheck all buttons
-
-                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
-                    ["DEMONHUNTER"] = { type = "group", order = 2, name = "|cffA330C9Demon Hunter|r" },
-                    ["DRUID"] = { type = "group", order = 3, name = "|cffFF7D0ADruid|r" },
-                    ["EVOKER"] = { type = "group", order = 4, name = "|cff33937FEvoker|r" },
-                    ["HUNTER"] = { type = "group", order = 5, name = "|cffABD473Hunter|r" },
-                    ["MAGE"] = { type = "group", order = 6, name = "|cff69CCF0Mage|r" },
-                    ["MONK"] = { type = "group", order = 7, name = "|cff00FF96Monk|r" },
-                    ["PALADIN"] = { type = "group", order = 8, name = "|cffF58CBAPaladin|r" },
-                    ["PRIEST"] = { type = "group", order = 9, name = "|cffFFFFFFPriest|r" },
-                    ["ROGUE"] = { type = "group", order = 10, name = "|cffFFF569Rogue|r" },
-                    ["SHAMAN"] = { type = "group", order = 11, name = "|cff0070DEShaman|r" },
-                    ["WARLOCK"] = { type = "group", order = 12, name = "|cff9482C9Warlock|r" },
-                    ["WARRIOR"] = { type = "group", order = 13, name = "|cffC79C6EWarrior|r" },
-                },
-            },
-
-            globalList = {
-                name = "Global Spells / Items",
-                type = "group",
-                order = 22,
-                args = {},
-            },
-
-            raceList = {
-                name = "Racial Spells",
-                type = "group",
-                order = 23,
-                args = {},
-            },
-        },
-    }
-
     local function IsTrackSpellsDisabled()
         return not x.db.profile.spellFilter.trackSpells
     end
@@ -692,7 +405,7 @@ function x:InitOptionsTable()
         elseif category == "listHealing" then
             xo:UpdateAuraSpellFilter("healing")
         else
-            x:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
+            xo:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
         end
     end
 
@@ -720,1142 +433,8 @@ function x:InitOptionsTable()
         end
     end
 
-    optionsAddon.optionsTable.args.spellFilter = {
-        name = "Filters",
-        type = "group",
-        order = 3,
-        args = {
-            filterValues = {
-                name = "Minimal Value Thresholds",
-                type = "group",
-                order = 10,
-                guiInline = true,
-                args = {
-                    headerPlayerPower = {
-                        order = 0,
-                        type = "header",
-                        name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.)",
-                    },
-                    filterPowerValue = {
-                        order = 1,
-                        type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of player's power required in order for it to be displayed.",
-                        get = "Options_Filter_PlayerPowerMinimumThreshold",
-                        set = setNumber2,
-                    },
-
-                    headerOutgoingDamage = {
-                        order = 10,
-                        type = "header",
-                        name = "Outgoing Damage",
-                    },
-                    filterOutgoingDamageValue = {
-                        order = 11,
-                        type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of damage required in order for it to be displayed.",
-                        get = "Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold",
-                        set = setNumber2,
-                    },
-                    filterOutgoingDamageCritEnabled = {
-                        order = 12,
-                        type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for outgoing damage criticals.",
-                        get = "Options_Filter_OutgoingDamage_Critical_UseOwnThreshold",
-                        set = set0_1,
-                    },
-                    filterOutgoingDamageCritValue = {
-                        order = 13,
-                        type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
-                        get = "Options_Filter_OutgoingDamage_Critical_MinimumThreshold",
-                        set = setNumber2,
-                        hidden = function()
-                            return not x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold()
-                        end,
-                    },
-
-                    headerOutgoingHealing = {
-                        order = 20,
-                        type = "header",
-                        name = "Outgoing Healing",
-                    },
-                    filterOutgoingHealingValue = {
-                        order = 21,
-                        type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of healing required in order for it to be displayed.",
-                        get = "Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold",
-                        set = setNumber2,
-                    },
-                    filterOutgoingHealingCritEnabled = {
-                        order = 22,
-                        type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for outgoing healing criticals.",
-                        get = "Options_Filter_OutgoingHealing_Critical_UseOwnThreshold",
-                        set = set0_1,
-                    },
-                    filterOutgoingHealingCritValue = {
-                        order = 23,
-                        type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
-                        get = "Options_Filter_OutgoingHealing_Critical_MinimumThreshold",
-                        set = setNumber2,
-                        hidden = function()
-                            return not x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold()
-                        end,
-                    },
-
-                    headerIncomingDamage = {
-                        order = 30,
-                        type = "header",
-                        name = "Incoming Damage",
-                    },
-                    filterIncomingDamageValue = {
-                        order = 31,
-                        type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of damage required in order for it to be displayed.",
-                        get = "Options_Filter_IncomingDamage_Noncritical_MinimumThreshold",
-                        set = setNumber2,
-                    },
-                    filterIncomingDamageCritEnabled = {
-                        order = 32,
-                        type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for incoming damage criticals.",
-                        get = "Options_Filter_IncomingDamage_Critical_UseOwnThreshold",
-                        set = set0_1,
-                    },
-                    filterIncomingDamageCritValue = {
-                        order = 33,
-                        type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
-                        get = "Options_Filter_IncomingDamage_Critical_MinimumThreshold",
-                        set = setNumber2,
-                        hidden = function()
-                            return not x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold()
-                        end,
-                    },
-
-                    headerIncomingHealing = {
-                        order = 40,
-                        type = "header",
-                        name = "Incoming Healing",
-                    },
-                    filterIncomingHealingValue = {
-                        order = 41,
-                        type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of healing required in order for it to be displayed.",
-                        get = "Options_Filter_IncomingHealing_Noncritical_MinimumThreshold",
-                        set = setNumber2,
-                    },
-                    filterIncomingHealingCritEnabled = {
-                        order = 42,
-                        type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for incoming healing criticals.",
-                        get = "Options_Filter_IncomingHealing_Critical_UseOwnThreshold",
-                        set = set0_1,
-                    },
-                    filterIncomingHealingCritValue = {
-                        order = 43,
-                        type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
-                        get = "Options_Filter_IncomingHealing_Critical_MinimumThreshold",
-                        set = setNumber2,
-                        hidden = function()
-                            return not x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold()
-                        end,
-                    },
-
-                    headerSpellTracker = {
-                        order = 50,
-                        type = "header",
-                        name = "Spell History",
-                    },
-                    trackSpells = {
-                        order = 51,
-                        type = "toggle",
-                        name = "Track all Spells",
-                        desc = "Track all the spells that you've seen. This will make filtering them out easier.",
-                        get = "Options_Filter_TrackSpells",
-                        set = set0_1,
-                    },
-                },
-            },
-
-            listBuffs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDBuffs|r",
-                type = "group",
-                order = 20,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses.",
-                    },
-                    whitelistBuffs = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist).",
-                        get = "Options_Filter_BuffWhitelist",
-                        set = set0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Buff to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Power Word: Fortitude').",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetBuffHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Buff from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered Buff",
-                        desc = "Remove the Buff from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listDebuffs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDDebuffs|r",
-                type = "group",
-                order = 30,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses.",
-                    },
-                    whitelistDebuffs = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered auras gains and fades that are |cffFF1A1ADebuffs|r will be on a whitelist (opposed to a blacklist).",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Debuff to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Shadow Word: Pain').",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetDebuffHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Debuff from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered Debuff",
-                        desc = "Remove the Debuff from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listProcs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDProcs|r",
-                type = "group",
-                order = 40,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers.",
-                    },
-                    whitelistProcs = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Check for whitelist, uncheck for blacklist.",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Proc to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter (e.g. 'Power Word: Fortitude').",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetProcHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Proc from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered proc",
-                        desc = "Remove the proc from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listSpells = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r",
-                type = "group",
-                order = 50,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does.",
-                    },
-                    whitelistSpells = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffOutgoing Spells|r will be on a whitelist (opposed to a blacklist).",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Spell to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via ID",
-                        desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetSpellHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Spell from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listItems = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDItems|r",
-                type = "group",
-                order = 60,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out |cff8020FFItems|r that your player collects.",
-                    },
-                    whitelistItems = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff798BDDItems|r will be on a whitelist (opposed to a blacklist).",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Item to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via ID",
-                        desc = "The ID of the |cff798BDDItem|r you want to filter.",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetItemHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Item from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered Item",
-                        desc = "Remove the Item from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listDamage = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Damage|r",
-                type = "group",
-                order = 70,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character.",
-                    },
-                    whitelistDamage = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffIncoming Damage Spells|r will be on a whitelist (opposed to a blacklist).",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Spells to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetDamageIncomingHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Spell from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-
-            listHealing = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Healing|r",
-                type = "group",
-                order = 80,
-                guiInline = false,
-                args = {
-                    description = {
-                        order = 0,
-                        type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character.",
-                    },
-                    whitelistHealing = {
-                        order = 1,
-                        type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffIncoming Healing Spells|r will be on a whitelist (opposed to a blacklist).",
-                        set = set0_1,
-                        get = get0_1,
-                    },
-
-                    headerAdd = {
-                        order = 10,
-                        type = "header",
-                        name = "Add new Spell to filter",
-                    },
-                    spellName = {
-                        order = 11,
-                        type = "input",
-                        name = "Add via ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
-                        set = AddFilteredSpell,
-                    },
-                    selectTracked = {
-                        order = 12,
-                        type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
-                        disabled = IsTrackSpellsDisabled,
-                        values = GetHealingIncomingHistory,
-                        set = AddFilteredSpell,
-                    },
-
-                    headerRemove = {
-                        order = 20,
-                        type = "header",
-                        name = "Remove Spell from filter",
-                    },
-                    removeSpell = {
-                        order = 21,
-                        type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
-                        values = getFilteredSpells,
-                        set = removeFilteredSpell,
-                    },
-                },
-            },
-        },
-    }
-
-    optionsAddon.optionsTable.args.Credits = {
-        name = "Credits",
-        type = "group",
-        order = 6,
-        args = {
-            title = {
-                type = "header",
-                order = 0,
-                name = "Credits",
-            },
-            specialThanksTitle = {
-                type = "description",
-                order = 1,
-                name = "|cffFFFF00Special Thanks|r",
-                fontSize = "large",
-            },
-            specialThanksList = {
-                type = "description",
-                order = 2,
-                fontSize = "medium",
-                name = "  |cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
-            },
-            testerTitleSpace1 = {
-                type = "description",
-                order = 3,
-                name = " ",
-            },
-
-            testerTitle = {
-                type = "description",
-                order = 10,
-                name = "|cffFFFF00Beta Testers - Version 3.0.0|r",
-                fontSize = "large",
-            },
-            userName1 = {
-                type = "description",
-                order = 11,
-                fontSize = "medium",
-                name = " |cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
-            },
-
-            testerTitleSpace2 = {
-                type = "description",
-                order = 20,
-                name = " ",
-            },
-            curseTitle = {
-                type = "description",
-                order = 21,
-                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Curse)|r",
-                fontSize = "large",
-            },
-            userName2 = {
-                type = "description",
-                order = 22,
-                fontSize = "medium",
-                name = " |cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
-            },
-
-            testerTitleSpace3 = {
-                type = "description",
-                order = 30,
-                name = " ",
-            },
-            tukuiTitle = {
-                type = "description",
-                order = 31,
-                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Tukui)|r",
-                fontSize = "large",
-            },
-            userName3 = {
-                type = "description",
-                order = 32,
-                fontSize = "medium",
-                name = " |cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
-            },
-
-            testerTitleSpace3Legion = {
-                type = "description",
-                order = 33,
-                name = " ",
-            },
-            tukuiTitleLegion = {
-                type = "description",
-                order = 34,
-                name = "|cffFFFF00Beta Testers - Version 4.3.0+ (Legion)|r",
-                fontSize = "large",
-            },
-            userName3Legion = {
-                type = "description",
-                order = 35,
-                fontSize = "medium",
-                name = " |cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r\n",
-            },
-
-            testerTitleSpace3BFA = {
-                type = "description",
-                order = 36,
-                name = " ",
-            },
-            tukuiTitleBfA = {
-                type = "description",
-                order = 37,
-                name = "|cffFFFF00Beta Testers - Version 4.4.0+ (Battle for Azeroth)|r",
-                fontSize = "large",
-            },
-
-            userName3BfA = {
-                type = "description",
-                order = 38,
-                fontSize = "medium",
-                name = " |cffAAAAFF Toludin|r",
-            },
-
-            testerTitleSpace_SL = {
-                type = "description",
-                order = 40,
-                name = " ",
-            },
-            githubTitleSL = {
-                type = "description",
-                order = 41,
-                name = "|cffFFFF00Github Contributors|r",
-                fontSize = "large",
-            },
-            userNameSL = {
-                type = "description",
-                order = 42,
-                fontSize = "medium",
-                name = " |cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
-            },
-
-            testerTitleSpace4 = {
-                type = "description",
-                order = 45,
-                name = " ",
-            },
-
-            githubTitle = {
-                type = "description",
-                order = 46,
-                name = "|cffFFFF00Thank You Github Contributors!|r",
-                fontSize = "large",
-            },
-            userName4 = {
-                type = "description",
-                order = 47,
-                fontSize = "medium",
-                name = " |cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
-            },
-
-            testerTitleSpace5 = {
-                type = "description",
-                order = 50,
-                name = " ",
-            },
-
-            contactTitle = {
-                type = "description",
-                order = 51,
-                name = "|cffFFFF00Contact Me|r",
-                fontSize = "large",
-            },
-
-            contactStep1 = {
-                type = "description",
-                order = 52,
-                name = "1. GitHub: |cff22FF80https://github.com/dandruff/xCT|r\n\n2. Send a PM to |cffFF8000Dandruff|r at |cff6495EDhttp://tukui.org/|r",
-            },
-        },
-    }
-
-    optionsAddon.optionsTable.args.FloatingCombatText = {
-        name = "Floating Combat Text",
-        type = "group",
-        order = 1,
-        childGroups = "tab",
-        args = {
-            title2 = {
-                order = 0,
-                type = "description",
-                name = "The following settings allow you to tweak Blizzard's Floating Combat Text.",
-            },
-
-            blizzardFCT = {
-                name = "General",
-                type = "group",
-                order = 1,
-                disabled = "CVar_BypassCVars",
-                args = {
-                    enableFloatingCombatText = {
-                        order = 1,
-                        name = "Enable Scrolling Combat Text (Self)",
-                        type = "toggle",
-                        desc = "Shows incoming damage and healing done to you. It is also required for a lot of the other events to work (as noted in their descriptions).\n\n|cffFF0000Changing this requires a UI Reload!|r",
-                        width = "double",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    enableFCT_Header = {
-                        type = "description",
-                        order = 2,
-                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
-                        fontSize = "small",
-                        width = "normal",
-                    },
-
-                    enableFCT_Spacer = {
-                        type = "description",
-                        order = 3,
-                        name = "\n",
-                        fontSize = "small",
-                        width = "normal",
-                    },
-
-                    headerAppearance = {
-                        type = "header",
-                        order = 4,
-                        name = "Appearance",
-                    },
-
-                    floatingCombatTextCombatDamageDirectionalOffset = {
-                        order = 5,
-                        name = "Direction Offset",
-                        desc = "The amount to offset the vertical origin of the directional damage numbers when they appear. (e.g. move them up and down)\n\n0 = Default",
-                        type = "range",
-                        min = -20,
-                        max = 20,
-                        step = 0.1,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextCombatDamageDirectionalScale = {
-                        order = 6,
-                        name = "Direction Scale",
-                        desc = "The amount to scale the distance that directional damage numbers will move as they appear. Damage numbers will just scroll up if this is disabled.\n\n0 = Disabled\n1 = Default\n3.6 = Recommended",
-                        type = "range",
-                        min = -5,
-                        max = 5,
-                        step = 0.1,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    -- Damage
-                    headerDamage = {
-                        type = "header",
-                        order = 10,
-                        name = "Damage",
-                    },
-
-                    floatingCombatTextCombatDamage = {
-                        order = 11,
-                        name = "Show Damage",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_DAMAGE,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextCombatLogPeriodicSpells = {
-                        order = 12,
-                        name = "Show DoTs",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_LOG_PERIODIC_EFFECTS,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextCombatDamageAllAutos = {
-                        order = 13,
-                        name = "Show Auto Attacks",
-                        type = "toggle",
-                        desc = "Enable this option if you want to see all auto-attacks.",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextPetMeleeDamage = {
-                        order = 14,
-                        name = "Show Pet Melee",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextPetSpellDamage = {
-                        order = 15,
-                        name = "Show Pet Spells",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    -- Healing and Absorbs
-                    headerHealingAbsorbs = {
-                        type = "header",
-                        order = 20,
-                        name = "Healing and Absorbs",
-                    },
-
-                    floatingCombatTextCombatHealing = {
-                        order = 21,
-                        name = "Show Healing",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextFriendlyHealers = {
-                        order = 22,
-                        name = "Show Friendly Healers",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_FRIENDLY_NAMES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextCombatHealingAbsorbSelf = {
-                        order = 23,
-                        name = "Show Absorbs (Self)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_SELF
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextCombatHealingAbsorbTarget = {
-                        order = 24,
-                        name = "Show Absorbs (Target)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_TARGET,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextDamageReduction = {
-                        order = 25,
-                        name = "Show Damage Reduction",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_RESISTANCES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    -- Gains
-                    headerGains = {
-                        type = "header",
-                        order = 30,
-                        name = "Player Gains",
-                    },
-
-                    floatingCombatTextEnergyGains = {
-                        order = 31,
-                        name = "Show Energy",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_ENERGIZE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextPeriodicEnergyGains = {
-                        order = 31,
-                        name = "Show Energy (Periodic)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_PERIODIC_ENERGIZE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextComboPoints = {
-                        order = 32,
-                        name = "Show Combo Points",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBO_POINTS
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextHonorGains = {
-                        order = 33,
-                        name = "Show Honor",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_HONOR_GAINED
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextRepChanges = {
-                        order = 34,
-                        name = "Show Rep Changes",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REPUTATION
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    -- Status Effects
-                    headerStatusEffects = {
-                        type = "header",
-                        order = 40,
-                        name = "Status Effects",
-                    },
-
-                    floatingCombatTextDodgeParryMiss = {
-                        order = 41,
-                        name = "Show Miss Types",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_DODGE_PARRY_MISS,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextAuras = {
-                        order = 42,
-                        name = "Show Auras",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_AURAS
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextSpellMechanics = {
-                        order = 43,
-                        name = "Show Effects (Mine)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_TARGET_EFFECTS,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextSpellMechanicsOther = {
-                        order = 44,
-                        name = "Show Effects (Group)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextAllSpellMechanics = {
-                        order = 45,
-                        name = "Show Effects (All)",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    CombatThreatChanges = {
-                        order = 46,
-                        type = "toggle",
-                        name = "Show Threat Changes",
-                        desc = "Enable this option if you want to see threat changes.",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    -- Player's Status
-                    headerPlayerStatus = {
-                        type = "header",
-                        order = 50,
-                        name = "Player Status",
-                    },
-
-                    floatingCombatTextCombatState = {
-                        order = 52,
-                        name = "Show Combat State",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBAT_STATE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextLowManaHealth = {
-                        order = 53,
-                        name = "Show Low HP/Mana",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_LOW_HEALTH_MANA
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-
-                    floatingCombatTextReactives = {
-                        order = 54,
-                        name = "Show Reactives",
-                        type = "toggle",
-                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REACTIVES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
-                        get = get0,
-                        set = set0_update,
-                    },
-                },
-            },
-
-            advancedSettings = {
-                name = "Advanced",
-                type = "group",
-                order = 2,
-                args = {
-                    bypassCVARUpdates = {
-                        order = 4,
-                        type = "toggle",
-                        name = "Bypass CVar Updates (requires |cffFF0000/reload|r)",
-                        desc = "Allows you to bypass xCT+'s CVar engine. This option might help if you have FCT enabled, but it disappears after awhile. Once you set your FCT options, enable this.\n\n|cffFF0000Changing this requires a UI Reload!|r",
-                        width = "double",
-                        get = function()
-                            return x.db.profile.bypassCVars
-                        end,
-                        set = function(_, value)
-                            x.db.profile.bypassCVars = value
-                        end,
-                    },
-
-                    enableFCT_Header = {
-                        type = "description",
-                        order = 5,
-                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
-                        fontSize = "small",
-                        width = "normal",
-                    },
-                },
-            },
-        },
-    }
-
-    optionsAddon.optionsTable.args.SpellSchools = {
-        name = "Spell School Colors",
-        type = "group",
-        order = 5,
-        args = {
-            title = {
-                type = "description",
-                order = 0,
-                name = "|cff798BDDCustomize Spell School Colors|r:\n",
-                fontSize = "large",
-            },
-        },
-    }
+    -- Apply to All variables
+    local miscFont, miscFontOutline, miscEnableCustomFade
 
     optionsAddon.optionsTable.args.Frames = {
         name = "Frames",
@@ -2476,13 +1055,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
                         },
                     },
 
@@ -2948,13 +1520,6 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
-                            },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
                             },
                         },
                     },
@@ -3670,13 +2235,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
                         },
                     },
 
@@ -4351,13 +2909,6 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
-                            },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
                             },
                         },
                     },
@@ -5040,13 +3591,6 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
-                            },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
                             },
                         },
                     },
@@ -5811,13 +4355,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
                         },
                     },
 
@@ -6325,13 +4862,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
                         },
                     },
                 },
@@ -6646,13 +5176,6 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
-                            },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
                             },
                         },
                     },
@@ -7170,13 +5693,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            customColors_Desc = {
-                                type = "description",
-                                order = 4,
-                                name = "\n|cffFFFF00Other Color Settings|r:",
-                                fontSize = "small",
-                            },
                         },
                     },
                 },
@@ -7527,13 +6043,6 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
-
-                            --[[customColors_Desc = {
-                  type = 'description',
-                  order = 4,
-                  name = "\n|cffFFFF00Other Color Settings|r:",
-                  fontSize = 'small',
-                },]]
                         },
                     },
 
@@ -7644,84 +6153,1476 @@ function x:InitOptionsTable()
         },
     }
 
-    x.CLASS_NAMES = {
-        ["DEATHKNIGHT"] = {
-            [0] = 0, -- All Specs
-            [250] = 1, -- Blood
-            [251] = 2, -- Frost
-            [252] = 3, -- Unholy
+    optionsAddon.optionsTable.args.FloatingCombatText = {
+        name = "Floating Combat Text",
+        type = "group",
+        order = 1,
+        childGroups = "tab",
+        args = {
+            title2 = {
+                order = 0,
+                type = "description",
+                name = "The following settings allow you to tweak Blizzard's Floating Combat Text.",
+            },
+
+            blizzardFCT = {
+                name = "General",
+                type = "group",
+                order = 1,
+                disabled = "CVar_BypassCVars",
+                args = {
+                    enableFloatingCombatText = {
+                        order = 1,
+                        name = "Enable Scrolling Combat Text (Self)",
+                        type = "toggle",
+                        desc = "Shows incoming damage and healing done to you. It is also required for a lot of the other events to work (as noted in their descriptions).\n\n|cffFF0000Changing this requires a UI Reload!|r",
+                        width = "double",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    enableFCT_Header = {
+                        type = "description",
+                        order = 2,
+                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
+                        fontSize = "small",
+                        width = "normal",
+                    },
+
+                    enableFCT_Spacer = {
+                        type = "description",
+                        order = 3,
+                        name = "\n",
+                        fontSize = "small",
+                        width = "normal",
+                    },
+
+                    headerAppearance = {
+                        type = "header",
+                        order = 4,
+                        name = "Appearance",
+                    },
+
+                    floatingCombatTextCombatDamageDirectionalOffset = {
+                        order = 5,
+                        name = "Direction Offset",
+                        desc = "The amount to offset the vertical origin of the directional damage numbers when they appear. (e.g. move them up and down)\n\n0 = Default",
+                        type = "range",
+                        min = -20,
+                        max = 20,
+                        step = 0.1,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextCombatDamageDirectionalScale = {
+                        order = 6,
+                        name = "Direction Scale",
+                        desc = "The amount to scale the distance that directional damage numbers will move as they appear. Damage numbers will just scroll up if this is disabled.\n\n0 = Disabled\n1 = Default\n3.6 = Recommended",
+                        type = "range",
+                        min = -5,
+                        max = 5,
+                        step = 0.1,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    -- Damage
+                    headerDamage = {
+                        type = "header",
+                        order = 10,
+                        name = "Damage",
+                    },
+
+                    floatingCombatTextCombatDamage = {
+                        order = 11,
+                        name = "Show Damage",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_DAMAGE,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextCombatLogPeriodicSpells = {
+                        order = 12,
+                        name = "Show DoTs",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_LOG_PERIODIC_EFFECTS,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextCombatDamageAllAutos = {
+                        order = 13,
+                        name = "Show Auto Attacks",
+                        type = "toggle",
+                        desc = "Enable this option if you want to see all auto-attacks.",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextPetMeleeDamage = {
+                        order = 14,
+                        name = "Show Pet Melee",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextPetSpellDamage = {
+                        order = 15,
+                        name = "Show Pet Spells",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    -- Healing and Absorbs
+                    headerHealingAbsorbs = {
+                        type = "header",
+                        order = 20,
+                        name = "Healing and Absorbs",
+                    },
+
+                    floatingCombatTextCombatHealing = {
+                        order = 21,
+                        name = "Show Healing",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextFriendlyHealers = {
+                        order = 22,
+                        name = "Show Friendly Healers",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_FRIENDLY_NAMES
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextCombatHealingAbsorbSelf = {
+                        order = 23,
+                        name = "Show Absorbs (Self)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_SELF
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextCombatHealingAbsorbTarget = {
+                        order = 24,
+                        name = "Show Absorbs (Target)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_TARGET,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextDamageReduction = {
+                        order = 25,
+                        name = "Show Damage Reduction",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_RESISTANCES
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    -- Gains
+                    headerGains = {
+                        type = "header",
+                        order = 30,
+                        name = "Player Gains",
+                    },
+
+                    floatingCombatTextEnergyGains = {
+                        order = 31,
+                        name = "Show Energy",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_ENERGIZE
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextPeriodicEnergyGains = {
+                        order = 31,
+                        name = "Show Energy (Periodic)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_PERIODIC_ENERGIZE
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextComboPoints = {
+                        order = 32,
+                        name = "Show Combo Points",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBO_POINTS
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextHonorGains = {
+                        order = 33,
+                        name = "Show Honor",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_HONOR_GAINED
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextRepChanges = {
+                        order = 34,
+                        name = "Show Rep Changes",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REPUTATION
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    -- Status Effects
+                    headerStatusEffects = {
+                        type = "header",
+                        order = 40,
+                        name = "Status Effects",
+                    },
+
+                    floatingCombatTextDodgeParryMiss = {
+                        order = 41,
+                        name = "Show Miss Types",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_DODGE_PARRY_MISS,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextAuras = {
+                        order = 42,
+                        name = "Show Auras",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_AURAS
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextSpellMechanics = {
+                        order = 43,
+                        name = "Show Effects (Mine)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_TARGET_EFFECTS,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextSpellMechanicsOther = {
+                        order = 44,
+                        name = "Show Effects (Group)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextAllSpellMechanics = {
+                        order = 45,
+                        name = "Show Effects (All)",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    CombatThreatChanges = {
+                        order = 46,
+                        type = "toggle",
+                        name = "Show Threat Changes",
+                        desc = "Enable this option if you want to see threat changes.",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    -- Player's Status
+                    headerPlayerStatus = {
+                        type = "header",
+                        order = 50,
+                        name = "Player Status",
+                    },
+
+                    floatingCombatTextCombatState = {
+                        order = 52,
+                        name = "Show Combat State",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBAT_STATE
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextLowManaHealth = {
+                        order = 53,
+                        name = "Show Low HP/Mana",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_LOW_HEALTH_MANA
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+
+                    floatingCombatTextReactives = {
+                        order = 54,
+                        name = "Show Reactives",
+                        type = "toggle",
+                        desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REACTIVES
+                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                        get = get0,
+                        set = set0_update,
+                    },
+                },
+            },
+
+            advancedSettings = {
+                name = "Advanced",
+                type = "group",
+                order = 2,
+                args = {
+                    bypassCVARUpdates = {
+                        order = 4,
+                        type = "toggle",
+                        name = "Bypass CVar Updates (requires |cffFF0000/reload|r)",
+                        desc = "Allows you to bypass xCT+'s CVar engine. This option might help if you have FCT enabled, but it disappears after awhile. Once you set your FCT options, enable this.\n\n|cffFF0000Changing this requires a UI Reload!|r",
+                        width = "double",
+                        get = function()
+                            return x.db.profile.bypassCVars
+                        end,
+                        set = function(_, value)
+                            x.db.profile.bypassCVars = value
+                        end,
+                    },
+
+                    enableFCT_Header = {
+                        type = "description",
+                        order = 5,
+                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
+                        fontSize = "small",
+                        width = "normal",
+                    },
+                },
+            },
         },
-        ["DEMONHUNTER"] = {
-            [0] = 0, -- All Specs
-            [577] = 1, -- Havoc
-            [581] = 2, -- Vengeance
+    }
+
+    optionsAddon.optionsTable.args.spells = {
+        name = "Spam Merger",
+        type = "group",
+        childGroups = "tab",
+        order = 2,
+        args = {
+            explanation = {
+                type = "description",
+                order = 1,
+                name = "Normally all damage / heal events of a spell will result in one message each.\n"
+                    .. "So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\n"
+                    .. "If the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n"
+                    .. "|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\n"
+                    .. "Use an interval of 0 to disable the specific merge.",
+            },
+
+            mergeOptions = {
+                name = "Merge Options",
+                type = "group",
+                order = 11,
+                args = {
+                    enableMerger = {
+                        order = 2,
+                        type = "toggle",
+                        name = "Enable Spam Merger",
+                        get = "Options_SpamMerger_EnableSpamMerger",
+                        set = set0_1,
+                    },
+                    enableMergerDebug = {
+                        order = 3,
+                        type = "toggle",
+                        name = "Enable Debugging",
+                        desc = "Adds the spell ID to each message for this session only.",
+                        get = function()
+                            return x.enableMergerDebug or false
+                        end,
+                        set = function(_, value)
+                            x.enableMergerDebug = value
+                        end,
+                    },
+
+                    outgoingHeader = {
+                        type = "header",
+                        order = 10,
+                        name = "Outgoing Damage / Healing",
+                    },
+
+                    outgoingExplanation = {
+                        type = "description",
+                        order = 11,
+                        name = "The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs.",
+                    },
+
+                    mergeOutgoingDamageMissesInterval = {
+                        order = 23,
+                        name = "Merge-Interval Incoming Misses",
+                        desc = "The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_OutgoingDamageMissesInterval",
+                        set = set0_1,
+                    },
+
+                    mergeEverythingInterval = {
+                        order = 12,
+                        name = "Merge-Interval for other spells",
+                        desc = "The interval (seconds) in which all other spells will be merged. Certain spells have other intervals, see the tabs for them. Use 0 to disable.",
+                        type = "range",
+                        min = 0.1,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_FallbackInterval",
+                        set = set0_1,
+                    },
+
+                    incomingHeader = {
+                        type = "header",
+                        order = 20,
+                        name = "Incoming Damage / Healing",
+                    },
+
+                    mergeIncomingHealingInterval = {
+                        order = 21,
+                        name = "Merge-Interval Incoming Healing",
+                        desc = "The interval (seconds) in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_IncomingHealingInterval",
+                        set = set0_1,
+                    },
+
+                    mergeIncomingDamageInterval = {
+                        order = 22,
+                        name = "Merge-Interval Incoming Damage",
+                        desc = "The interval (seconds) in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_IncomingDamageInterval",
+                        set = set0_1,
+                    },
+
+                    mergeIncomingMissesInterval = {
+                        order = 23,
+                        name = "Merge-Interval Incoming Misses",
+                        desc = "The interval (seconds) in which incoming full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_IncomingMissesInterval",
+                        set = set0_1,
+                    },
+
+                    dispellHeader = {
+                        type = "header",
+                        order = 30,
+                        name = "Dispells",
+                    },
+
+                    mergeDispellInterval = {
+                        order = 31,
+                        name = "Merge-Interval for Dispells",
+                        desc = "The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_DispellInterval",
+                        set = set0_1,
+                    },
+
+                    petAttacksHeader = {
+                        type = "header",
+                        order = 40,
+                        name = "Pet Attacks",
+                    },
+
+                    mergePetInterval = {
+                        order = 41,
+                        name = "Merge-Interval for ALL Pet Abilities",
+                        desc = "The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable.",
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_PetAttackInterval",
+                        set = set0_1,
+                    },
+
+                    mergePetColor = {
+                        order = 42,
+                        type = "color",
+                        name = "Pet Color",
+                        desc = "Which color do you want the merged pet messages to be?",
+                        get = getColor0_1,
+                        set = setColor0_1,
+                    },
+
+                    --[[
+            spacer1 = {
+              type = "description",
+              order = 37,
+              name = "",
+              width = 'full',
+            },
+
+            mergeVehicle = {
+              order = 38,
+              type = 'toggle',
+              name = "Merge Vehicle Abilities",
+              desc = "Merges all of your vehicle abilities together.",
+              get = get0_1,
+              set = set0_1,
+            },
+
+            mergeVehicleColor = {
+              order = 39,
+              type = 'color',
+              name = "Vehicle Color",
+              get = getColor0_1,
+              set = setColor0_1,
+            },
+            ]]
+
+                    criticalHitsHeader = {
+                        type = "header",
+                        order = 50,
+                        name = "Critical Hits",
+                    },
+
+                    criticalHitsExplanation = {
+                        type = "description",
+                        order = 51,
+                        name = "Please choose one:",
+                    },
+
+                    mergeDontMergeCriticals = {
+                        order = 52,
+                        type = "toggle",
+                        name = "Don't Merge Critical Hits Together",
+                        desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
+                        get = "Options_SpamMerger_DontMergeCriticals",
+                        set = setSpecialCriticalOptions,
+                        width = "full",
+                    },
+
+                    mergeCriticalsWithOutgoing = {
+                        order = 53,
+                        type = "toggle",
+                        name = "Merge Critical Hits with Outgoing",
+                        desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
+                        get = "Options_SpamMerger_MergeCriticalsWithOutgoing",
+                        set = setSpecialCriticalOptions,
+                        width = "full",
+                    },
+
+                    mergeCriticalsByThemselves = {
+                        order = 54,
+                        type = "toggle",
+                        name = "Merge Critical Hits by Themselves",
+                        desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
+                        get = "Options_SpamMerger_MergeCriticalsByThemselves",
+                        set = setSpecialCriticalOptions,
+                        width = "full",
+                    },
+
+                    mergeHideMergedCriticals = {
+                        order = 55,
+                        type = "toggle",
+                        name = "Hide Merged Criticals",
+                        desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
+                        get = "Options_SpamMerger_HideMergedCriticals",
+                        set = setSpecialCriticalOptions,
+                        width = "full",
+                    },
+                },
+            },
+
+            classList = {
+                name = "Class Spells",
+                type = "group",
+                order = 21,
+                childGroups = "select",
+                args = {
+                    -- TODO: Add Check all and uncheck all buttons
+
+                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
+                    ["DEMONHUNTER"] = { type = "group", order = 2, name = "|cffA330C9Demon Hunter|r" },
+                    ["DRUID"] = { type = "group", order = 3, name = "|cffFF7D0ADruid|r" },
+                    ["EVOKER"] = { type = "group", order = 4, name = "|cff33937FEvoker|r" },
+                    ["HUNTER"] = { type = "group", order = 5, name = "|cffABD473Hunter|r" },
+                    ["MAGE"] = { type = "group", order = 6, name = "|cff69CCF0Mage|r" },
+                    ["MONK"] = { type = "group", order = 7, name = "|cff00FF96Monk|r" },
+                    ["PALADIN"] = { type = "group", order = 8, name = "|cffF58CBAPaladin|r" },
+                    ["PRIEST"] = { type = "group", order = 9, name = "|cffFFFFFFPriest|r" },
+                    ["ROGUE"] = { type = "group", order = 10, name = "|cffFFF569Rogue|r" },
+                    ["SHAMAN"] = { type = "group", order = 11, name = "|cff0070DEShaman|r" },
+                    ["WARLOCK"] = { type = "group", order = 12, name = "|cff9482C9Warlock|r" },
+                    ["WARRIOR"] = { type = "group", order = 13, name = "|cffC79C6EWarrior|r" },
+                },
+            },
+
+            globalList = {
+                name = "Global Spells / Items",
+                type = "group",
+                order = 22,
+                args = {},
+            },
+
+            raceList = {
+                name = "Racial Spells",
+                type = "group",
+                order = 23,
+                args = {},
+            },
         },
-        ["DRUID"] = {
-            [0] = 0, -- All Specs
-            [102] = 1, -- Balance
-            [103] = 2, -- Feral
-            [104] = 3, -- Guardian
-            [105] = 4, -- Restoration
+    }
+
+    optionsAddon.optionsTable.args.spellFilter = {
+        name = "Filters",
+        type = "group",
+        order = 3,
+        args = {
+            filterValues = {
+                name = "Minimal Value Thresholds",
+                type = "group",
+                order = 10,
+                guiInline = true,
+                args = {
+                    headerPlayerPower = {
+                        order = 0,
+                        type = "header",
+                        name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.)",
+                    },
+                    filterPowerValue = {
+                        order = 1,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of player's power required in order for it to be displayed.",
+                        get = "Options_Filter_PlayerPowerMinimumThreshold",
+                        set = setNumber2,
+                    },
+
+                    headerOutgoingDamage = {
+                        order = 10,
+                        type = "header",
+                        name = "Outgoing Damage",
+                    },
+                    filterOutgoingDamageValue = {
+                        order = 11,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of damage required in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterOutgoingDamageCritEnabled = {
+                        order = 12,
+                        type = "toggle",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for outgoing damage criticals.",
+                        get = "Options_Filter_OutgoingDamage_Critical_UseOwnThreshold",
+                        set = set0_1,
+                    },
+                    filterOutgoingDamageCritValue = {
+                        order = 13,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingDamage_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function()
+                            return not x:Options_Filter_OutgoingDamage_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerOutgoingHealing = {
+                        order = 20,
+                        type = "header",
+                        name = "Outgoing Healing",
+                    },
+                    filterOutgoingHealingValue = {
+                        order = 21,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of healing required in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterOutgoingHealingCritEnabled = {
+                        order = 22,
+                        type = "toggle",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for outgoing healing criticals.",
+                        get = "Options_Filter_OutgoingHealing_Critical_UseOwnThreshold",
+                        set = set0_1,
+                    },
+                    filterOutgoingHealingCritValue = {
+                        order = 23,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_OutgoingHealing_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function()
+                            return not x:Options_Filter_OutgoingHealing_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerIncomingDamage = {
+                        order = 30,
+                        type = "header",
+                        name = "Incoming Damage",
+                    },
+                    filterIncomingDamageValue = {
+                        order = 31,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of damage required in order for it to be displayed.",
+                        get = "Options_Filter_IncomingDamage_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterIncomingDamageCritEnabled = {
+                        order = 32,
+                        type = "toggle",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for incoming damage criticals.",
+                        get = "Options_Filter_IncomingDamage_Critical_UseOwnThreshold",
+                        set = set0_1,
+                    },
+                    filterIncomingDamageCritValue = {
+                        order = 33,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_IncomingDamage_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function()
+                            return not x:Options_Filter_IncomingDamage_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerIncomingHealing = {
+                        order = 40,
+                        type = "header",
+                        name = "Incoming Healing",
+                    },
+                    filterIncomingHealingValue = {
+                        order = 41,
+                        type = "input",
+                        name = "Minimum Threshold",
+                        desc = "The minimal amount of healing required in order for it to be displayed.",
+                        get = "Options_Filter_IncomingHealing_Noncritical_MinimumThreshold",
+                        set = setNumber2,
+                    },
+                    filterIncomingHealingCritEnabled = {
+                        order = 42,
+                        type = "toggle",
+                        name = "Use other threshold for Crits",
+                        desc = "Enable a different threshold for incoming healing criticals.",
+                        get = "Options_Filter_IncomingHealing_Critical_UseOwnThreshold",
+                        set = set0_1,
+                    },
+                    filterIncomingHealingCritValue = {
+                        order = 43,
+                        type = "input",
+                        name = "Minimum Threshold for Crits",
+                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        get = "Options_Filter_IncomingHealing_Critical_MinimumThreshold",
+                        set = setNumber2,
+                        hidden = function()
+                            return not x:Options_Filter_IncomingHealing_Critical_UseOwnThreshold()
+                        end,
+                    },
+
+                    headerSpellTracker = {
+                        order = 50,
+                        type = "header",
+                        name = "Spell History",
+                    },
+                    trackSpells = {
+                        order = 51,
+                        type = "toggle",
+                        name = "Track all Spells",
+                        desc = "Track all the spells that you've seen. This will make filtering them out easier.",
+                        get = "Options_Filter_TrackSpells",
+                        set = set0_1,
+                    },
+                },
+            },
+
+            listBuffs = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDBuffs|r",
+                type = "group",
+                order = 20,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses.",
+                    },
+                    whitelistBuffs = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist).",
+                        get = "Options_Filter_BuffWhitelist",
+                        set = set0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Buff to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetBuffHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Buff from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Buff",
+                        desc = "Remove the Buff from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listDebuffs = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDDebuffs|r",
+                type = "group",
+                order = 30,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses.",
+                    },
+                    whitelistDebuffs = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered auras gains and fades that are |cffFF1A1ADebuffs|r will be on a whitelist (opposed to a blacklist).",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Debuff to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Shadow Word: Pain').",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetDebuffHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Debuff from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Debuff",
+                        desc = "Remove the Debuff from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listProcs = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDProcs|r",
+                type = "group",
+                order = 40,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers.",
+                    },
+                    whitelistProcs = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Check for whitelist, uncheck for blacklist.",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Proc to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via Name",
+                        desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetProcHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Proc from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered proc",
+                        desc = "Remove the proc from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listSpells = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r",
+                type = "group",
+                order = 50,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does.",
+                    },
+                    whitelistSpells = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered |cff71d5ffOutgoing Spells|r will be on a whitelist (opposed to a blacklist).",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spell to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetSpellHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listItems = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDItems|r",
+                type = "group",
+                order = 60,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out |cff8020FFItems|r that your player collects.",
+                    },
+                    whitelistItems = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered |cff798BDDItems|r will be on a whitelist (opposed to a blacklist).",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Item to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The ID of the |cff798BDDItem|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetItemHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Item from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered Item",
+                        desc = "Remove the Item from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listDamage = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Damage|r",
+                type = "group",
+                order = 70,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character.",
+                    },
+                    whitelistDamage = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered |cff71d5ffIncoming Damage Spells|r will be on a whitelist (opposed to a blacklist).",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spells to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetDamageIncomingHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
+
+            listHealing = {
+                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Healing|r",
+                type = "group",
+                order = 80,
+                guiInline = false,
+                args = {
+                    description = {
+                        order = 0,
+                        type = "description",
+                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character.",
+                    },
+                    whitelistHealing = {
+                        order = 1,
+                        type = "toggle",
+                        name = "Whitelist",
+                        desc = "Filtered |cff71d5ffIncoming Healing Spells|r will be on a whitelist (opposed to a blacklist).",
+                        set = set0_1,
+                        get = get0_1,
+                    },
+
+                    headerAdd = {
+                        order = 10,
+                        type = "header",
+                        name = "Add new Spell to filter",
+                    },
+                    spellName = {
+                        order = 11,
+                        type = "input",
+                        name = "Add via ID",
+                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        set = AddFilteredSpell,
+                    },
+                    selectTracked = {
+                        order = 12,
+                        type = "select",
+                        name = "Add via History",
+                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        disabled = IsTrackSpellsDisabled,
+                        values = GetHealingIncomingHistory,
+                        set = AddFilteredSpell,
+                    },
+
+                    headerRemove = {
+                        order = 20,
+                        type = "header",
+                        name = "Remove Spell from filter",
+                    },
+                    removeSpell = {
+                        order = 21,
+                        type = "select",
+                        name = "Remove filtered spell",
+                        desc = "Remove the spell ID from the config all together.",
+                        values = getFilteredSpells,
+                        set = removeFilteredSpell,
+                    },
+                },
+            },
         },
-        ["EVOKER"] = {
-            [0] = 0, -- All Specs
-            [1467] = 1, -- Devastation
-            [1468] = 2, -- Preservation
-            [1473] = 3, -- Augmentation
+    }
+
+    optionsAddon.optionsTable.args.Colors = {
+        name = "Colors",
+        type = "group",
+        order = 4,
+        args = {
+            title_general = {
+                type = "header",
+                order = 100,
+                name = "Customize General Colors",
+            },
+            title_outgoing_damage = {
+                type = "header",
+                order = 200,
+                name = "Customize Outgoing Damage Colors",
+            },
+            title_outgoing_healing = {
+                type = "header",
+                order = 300,
+                name = "Customize Outgoing Healing Colors",
+            },
+            title_outgoing_criticals = {
+                type = "header",
+                order = 400,
+                name = "Customize Outgoing Criticals Colors",
+            },
+            title_incoming_damage = {
+                type = "header",
+                order = 500,
+                name = "Customize Incoming Damage Colors",
+            },
+            title_incoming_healing = {
+                type = "header",
+                order = 600,
+                name = "Customize Incoming Healing Colors",
+            },
+            title_class_power = {
+                type = "header",
+                order = 700,
+                name = "Customize Class Power Colors",
+            },
+            title_procs = {
+                type = "header",
+                order = 800,
+                name = "Customize Procs Colors",
+            },
+            title_loot = {
+                type = "header",
+                order = 900,
+                name = "Customize Loot, Currency & Money Colors",
+            },
         },
-        ["HUNTER"] = {
-            [0] = 0, -- All Specs
-            [253] = 1, -- Beast Mastery
-            [254] = 2, -- Marksmanship
-            [255] = 3, -- Survival
+    }
+
+    optionsAddon.optionsTable.args.SpellColors = {
+        name = "Spell School Colors",
+        type = "group",
+        order = 5,
+        args = {
+            title = {
+                type = "header",
+                order = 0,
+                name = "Customize Spell School Colors",
+            },
         },
-        ["MAGE"] = {
-            [0] = 0, -- All Specs
-            [62] = 1, -- Arcane
-            [63] = 2, -- Fire
-            [64] = 3, -- Frost
-        },
-        ["MONK"] = {
-            [0] = 0, -- All Specs
-            [268] = 1, -- Brewmaster
-            [269] = 2, -- Windwalker
-            [270] = 3, -- Mistweaver
-        },
-        ["PALADIN"] = {
-            [0] = 0, -- All Specs
-            [65] = 1, -- Holy
-            [66] = 2, -- Protection
-            [70] = 3, -- Retribution
-        },
-        ["PRIEST"] = {
-            [0] = 0, -- All Specs
-            [256] = 1, -- Discipline
-            [257] = 2, -- Holy
-            [258] = 3, -- Shadow
-        },
-        ["ROGUE"] = {
-            [0] = 0, -- All Specs
-            [259] = 1, -- Assassination
-            [260] = 2, -- Combat
-            [261] = 3, -- Subtlety
-        },
-        ["SHAMAN"] = {
-            [0] = 0, -- All Specs
-            [262] = 1, -- Elemental
-            [263] = 2, -- Enhancement
-            [264] = 3, -- Restoration
-        },
-        ["WARLOCK"] = {
-            [0] = 0, -- All Specs
-            [265] = 1, -- Affliction
-            [266] = 2, -- Demonology
-            [267] = 3, -- Destruction
-        },
-        ["WARRIOR"] = {
-            [0] = 0, -- All Specs
-            [71] = 1, -- Arms
-            [72] = 2, -- Fury
-            [73] = 3, -- Protection
+    }
+
+    optionsAddon.optionsTable.args.Credits = {
+        name = "Credits",
+        type = "group",
+        order = 6,
+        args = {
+            title = {
+                type = "header",
+                order = 0,
+                name = "Credits",
+            },
+            specialThanksTitle = {
+                type = "description",
+                order = 1,
+                name = "|cffFFFF00Special Thanks|r",
+                fontSize = "large",
+            },
+            specialThanksList = {
+                type = "description",
+                order = 2,
+                fontSize = "medium",
+                name = "  |cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
+            },
+            testerTitleSpace1 = {
+                type = "description",
+                order = 3,
+                name = " ",
+            },
+
+            testerTitle = {
+                type = "description",
+                order = 10,
+                name = "|cffFFFF00Beta Testers - Version 3.0.0|r",
+                fontSize = "large",
+            },
+            userName1 = {
+                type = "description",
+                order = 11,
+                fontSize = "medium",
+                name = " |cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
+            },
+
+            testerTitleSpace2 = {
+                type = "description",
+                order = 20,
+                name = " ",
+            },
+            curseTitle = {
+                type = "description",
+                order = 21,
+                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Curse)|r",
+                fontSize = "large",
+            },
+            userName2 = {
+                type = "description",
+                order = 22,
+                fontSize = "medium",
+                name = " |cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
+            },
+
+            testerTitleSpace3 = {
+                type = "description",
+                order = 30,
+                name = " ",
+            },
+            tukuiTitle = {
+                type = "description",
+                order = 31,
+                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Tukui)|r",
+                fontSize = "large",
+            },
+            userName3 = {
+                type = "description",
+                order = 32,
+                fontSize = "medium",
+                name = " |cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
+            },
+
+            testerTitleSpace3Legion = {
+                type = "description",
+                order = 33,
+                name = " ",
+            },
+            tukuiTitleLegion = {
+                type = "description",
+                order = 34,
+                name = "|cffFFFF00Beta Testers - Version 4.3.0+ (Legion)|r",
+                fontSize = "large",
+            },
+            userName3Legion = {
+                type = "description",
+                order = 35,
+                fontSize = "medium",
+                name = " |cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r\n",
+            },
+
+            testerTitleSpace3BFA = {
+                type = "description",
+                order = 36,
+                name = " ",
+            },
+            tukuiTitleBfA = {
+                type = "description",
+                order = 37,
+                name = "|cffFFFF00Beta Testers - Version 4.4.0+ (Battle for Azeroth)|r",
+                fontSize = "large",
+            },
+
+            userName3BfA = {
+                type = "description",
+                order = 38,
+                fontSize = "medium",
+                name = " |cffAAAAFF Toludin|r",
+            },
+
+            testerTitleSpace_SL = {
+                type = "description",
+                order = 40,
+                name = " ",
+            },
+            githubTitleSL = {
+                type = "description",
+                order = 41,
+                name = "|cffFFFF00Github Contributors|r",
+                fontSize = "large",
+            },
+            userNameSL = {
+                type = "description",
+                order = 42,
+                fontSize = "medium",
+                name = " |cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
+            },
+
+            testerTitleSpace4 = {
+                type = "description",
+                order = 45,
+                name = " ",
+            },
+
+            githubTitle = {
+                type = "description",
+                order = 46,
+                name = "|cffFFFF00Thank You Github Contributors!|r",
+                fontSize = "large",
+            },
+            userName4 = {
+                type = "description",
+                order = 47,
+                fontSize = "medium",
+                name = " |cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
+            },
+
+            testerTitleSpace5 = {
+                type = "description",
+                order = 50,
+                name = " ",
+            },
+
+            contactTitle = {
+                type = "description",
+                order = 51,
+                name = "|cffFFFF00Contact Me|r",
+                fontSize = "large",
+            },
+
+            contactStep1 = {
+                type = "description",
+                order = 52,
+                name = "1. GitHub: |cff22FF80https://github.com/dandruff/xCT|r\n\n2. Send a PM to |cffFF8000Dandruff|r at |cff6495EDhttp://tukui.org/|r",
+            },
         },
     }
 
@@ -7752,7 +7653,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
     local global = optionsAddon.optionsTable.args.spells.args.globalList.args
     local racetab = optionsAddon.optionsTable.args.spells.args.raceList.args
 
-    for class, specs in pairs(x.CLASS_NAMES) do
+    for class, specs in pairs(xo.CLASS_NAMES) do
         spells[class].args = {}
         for spec, index in pairs(specs) do
             local name, _ = "All Specializations"
@@ -7772,7 +7673,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
     local spamMergerGlobalSpellCategories = {}
     local spamMergerRacialSpellCategories = {}
     for _, entry in pairs(xCT_Plus.merges) do
-        if not x.CLASS_NAMES[entry.category] then
+        if not xo.CLASS_NAMES[entry.category] then
             if entry.desc == "Racial Spell" then
                 table.insert(
                     spamMergerRacialSpellCategories,
@@ -7831,7 +7732,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
             -- Create a useful description for the spell
             local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
             local desc = ""
-            if entry.desc and not x.CLASS_NAMES[entry.category] then
+            if entry.desc and not xo.CLASS_NAMES[entry.category] then
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
             desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
@@ -7853,8 +7754,8 @@ function xo:UpdateOptionsTableSpamMergerSpells()
             -- TODO replacement spells without explicit merging entries are not displayed here
 
             -- Add the spell to the UI
-            if x.CLASS_NAMES[entry.category] then
-                local index = x.CLASS_NAMES[entry.category][tonumber(entry.desc) or 0]
+            if xo.CLASS_NAMES[entry.category] then
+                local index = xo.CLASS_NAMES[entry.category][tonumber(entry.desc) or 0]
                 spells[entry.category].args[tostring(spellID)] = {
                     order = index * 2 + 1,
                     name = name,
@@ -8186,7 +8087,7 @@ function xo:UpdateAuraSpellFilter(specific)
 end
 
 -- compares a tables values
-local function tableCompare(t1, t2)
+local function tablesAreEqual(t1, t2)
     local equal = true
 
     -- nil check
@@ -8207,183 +8108,84 @@ local function tableCompare(t1, t2)
     return equal
 end
 
-local getColorDB = function(info)
-    local enabled = string.match(info[#info], "(.*)_enabled")
-    local color = string.match(info[#info], "(.*)_color")
-
-    if info[#info - 1] == "fontColors" then
-        if enabled then
-            return x.db.profile.frames[info[#info - 2]].colors[enabled].enabled
-        elseif color then
-            return unpack(
-                x.db.profile.frames[info[#info - 2]].colors[color].color
-                    or x.db.profile.frames[info[#info - 2]].colors[color].default
-            )
-        end
-    elseif info[#info - 2] == "fontColors" then
-        if enabled then
-            return x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[enabled].enabled
-        elseif color then
-            return unpack(
-                x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].color
-                    or x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].default
-            )
-        end
-    elseif info[#info - 3] == "fontColors" then
-        if enabled then
-            return x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[enabled].enabled
-        elseif color then
-            return unpack(
-                x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].color
-                    or x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].default
-            )
-        end
-    elseif info[#info - 1] == "SpellSchools" then
-        if enabled then
-            return x.db.profile.SpellColors[enabled].enabled
-        elseif color then
-            return unpack(x.db.profile.SpellColors[color].color or x.db.profile.SpellColors[color].default)
-        end
-    end
+local isColorOverrideEnabled = function(info)
+    local colorName = string.match(info[#info], "(.*)_enabled")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    return x.db.profile[info[#info - 1]][colorName].enabled
 end
 
-local setColorDB = function(info, r, g, b)
-    local enabled = string.match(info[#info], "(.*)_enabled")
-    local color = string.match(info[#info], "(.*)_color")
-    if info[#info - 1] == "fontColors" then
-        if enabled then
-            x.db.profile.frames[info[#info - 2]].colors[enabled].enabled = r
-        elseif color then
-            x.db.profile.frames[info[#info - 2]].colors[color].color = { r, g, b }
-        end
-    elseif info[#info - 2] == "fontColors" then
-        if enabled then
-            x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[enabled].enabled = r
-        elseif color then
-            x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].color = { r, g, b }
-        end
-    elseif info[#info - 3] == "fontColors" then
-        if enabled then
-            x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[enabled].enabled =
-                r
-        elseif color then
-            x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].color =
-                { r, g, b }
-        end
-    elseif info[#info - 1] == "SpellSchools" then
-        if enabled then
-            x.db.profile.SpellColors[enabled].enabled = r
-        elseif color then
-            x.db.profile.SpellColors[color].color = { r, g, b }
-        end
-    end
+local setColorOverrideEnabled = function(info, enabled)
+    local colorName = string.match(info[#info], "(.*)_enabled")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    x.db.profile[info[#info - 1]][colorName].enabled = enabled
 end
 
-local funcColorReset = function(info)
-    local color = string.match(info[#info], "(.*)_reset")
-    if info[#info - 1] == "fontColors" then
-        x.db.profile.frames[info[#info - 2]].colors[color].color =
-            x.db.profile.frames[info[#info - 2]].colors[color].default
-    elseif info[#info - 2] == "fontColors" then
-        x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].color =
-            x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].default
-    elseif info[#info - 3] == "fontColors" then
-        x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].color =
-            x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].default
-    elseif info[#info - 1] == "SpellSchools" then
-        x.db.profile.SpellColors[color].color = x.db.profile.SpellColors[color].default
-    end
+local getColorOverride = function(info, r, g, b)
+    local colorName = string.match(info[#info], "(.*)_color")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    return unpack(x.db.profile[info[#info - 1]][colorName].color or x.db.profile[info[#info - 1]][colorName].default)
 end
 
-local funcColorHidden = function(info)
-    local color = string.match(info[#info], "(.*)_color")
-    if info[#info - 1] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 2]].colors[color].enabled
-    elseif info[#info - 2] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].enabled
-    elseif info[#info - 3] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].enabled
-    elseif info[#info - 1] == "SpellSchools" then
-        return not x.db.profile.SpellColors[color].enabled
-    end
+local setColorOverride = function(info, r, g, b)
+    local colorName = string.match(info[#info], "(.*)_color")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    x.db.profile[info[#info - 1]][colorName].color = { r, g, b }
 end
 
-local funcColorResetHidden = function(info)
-    local color = string.match(info[#info], "(.*)_reset")
-    if info[#info - 1] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 2]].colors[color].enabled
-            or tableCompare(
-                x.db.profile.frames[info[#info - 2]].colors[color].color,
-                x.db.profile.frames[info[#info - 2]].colors[color].default
+local resetColorOverride = function(info)
+    local colorName = string.match(info[#info], "(.*)_reset")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    x.db.profile[info[#info - 1]][colorName].color = nil
+end
+
+local isColorPickerHidden = function(info)
+    local colorName = string.match(info[#info], "(.*)_color")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+    return not x.db.profile[info[#info - 1]][colorName].enabled
+end
+
+local isColorResetBtnHidden = function(info)
+    local colorName = string.match(info[#info], "(.*)_reset")
+    -- info[#info - 1] is "SpellColors" or "Colors"
+   return not x.db.profile[info[#info - 1]][colorName].enabled
+            or tablesAreEqual(
+               x.db.profile[info[#info - 1]][colorName].color,
+               x.db.profile[info[#info - 1]][colorName].default
             )
-    elseif info[#info - 2] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].enabled
-            or tableCompare(
-                x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].color,
-                x.db.profile.frames[info[#info - 3]].colors[info[#info - 1]].colors[color].default
-            )
-    elseif info[#info - 3] == "fontColors" then
-        return not x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].enabled
-            or tableCompare(
-                x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].color,
-                x.db.profile.frames[info[#info - 4]].colors[info[#info - 2]].colors[info[#info - 1]].colors[color].default
-            )
-    elseif info[#info - 1] == "SpellSchools" then
-        return not x.db.profile.SpellColors[color].enabled
-            or tableCompare(x.db.profile.SpellColors[color].color, x.db.profile.SpellColors[color].default)
-    end
 end
 
-local funcColorDisabled = function(info)
-    if info[#info - 1] == "fontColors" then
-        return x.db.profile.frames[info[#info - 2]].customColor
-    elseif info[#info - 2] == "fontColors" then
-        return x.db.profile.frames[info[#info - 3]].customColor
-    elseif info[#info - 3] == "fontColors" then
-        return x.db.profile.frames[info[#info - 4]].customColor
-    end
-end
-
-local function GenerateColorOptionsTable_Entry(colorName, settings, options, index)
-    -- Clean the DB of any old/removed values
-    if not settings.desc then
-        return
-    end
-
+local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options, index)
     -- Check for nil colors and set them to the default
-    if not settings.color or not unpack(settings.color) then
-        -- This needs to be a new table apperently
-        settings.color = { unpack(settings.default) }
+    if not colorSettings.color or not unpack(colorSettings.color) then
+        -- This needs to be a new table apparently
+        colorSettings.color = { unpack(colorSettings.default) }
     end
 
     options[colorName .. "_enabled"] = {
         order = index,
         type = "toggle",
-        name = settings.desc,
-        get = getColorDB,
-        set = setColorDB,
-        desc = "Enable a custom color for |cff798BDD" .. settings.desc .. "|r.",
-        disabled = funcColorDisabled,
+        name = colorSettings.desc,
+        get = isColorOverrideEnabled,
+        set = setColorOverrideEnabled,
+        desc = "Enable a custom color for |cff798BDD" .. colorSettings.desc .. "|r.",
     }
     options[colorName .. "_color"] = {
         order = index + 1,
         type = "color",
         name = "Color",
-        get = getColorDB,
-        set = setColorDB,
-        desc = "Change the color for |cff798BDD" .. settings.desc .. "|r.",
-        hidden = funcColorHidden,
-        disabled = funcColorDisabled,
+        get = getColorOverride,
+        set = setColorOverride,
+        desc = "Change the color for |cff798BDD" .. colorSettings.desc .. "|r.",
+        hidden = isColorPickerHidden,
     }
     options[colorName .. "_reset"] = {
-        type = "execute",
         order = index + 2,
+        type = "execute",
         name = "Reset",
         width = "half",
-        func = funcColorReset,
-        desc = "Resets |cff798BDD" .. settings.desc .. "|r back to the default color.",
-        hidden = funcColorResetHidden,
-        disabled = funcColorDisabled,
+        func = resetColorOverride,
+        desc = "Resets |cff798BDD" .. colorSettings.desc .. "|r back to the default color.",
+        hidden = isColorResetBtnHidden,
     }
     options["spacer" .. index] = {
         order = index + 3,
@@ -8394,84 +8196,43 @@ local function GenerateColorOptionsTable_Entry(colorName, settings, options, ind
     }
 end
 
-local function GenerateColorOptionsTable(colorName, settings, options, index)
-    if settings.colors then
-        -- Multiple Layers of colors on the inside
-        --[[options['spacer'..index] = {
-      type = 'description',
-      order = index,
-      name = '\n',
-      fontSize = 'small',
-    }]]
-        options[colorName] = {
-            order = index + 1,
-            type = "group",
-            guiInline = true,
-            name = settings.desc,
-            args = {},
-        }
-        index = index + 1
-
-        -- Sort the colors alphabetically
-        local sortedList = {}
-        for currentColorName in pairs(settings.colors) do
-            table.insert(sortedList, currentColorName)
-        end
-
-        table.sort(sortedList)
-
-        local currentColorSettings
-        for _, currentColorName in ipairs(sortedList) do
-            currentColorSettings = settings.colors[currentColorName]
-            GenerateColorOptionsTable_Entry(currentColorName, currentColorSettings, options[colorName].args, index)
-            index = index + 4
-        end
-    else
-        -- Just this color
-        GenerateColorOptionsTable_Entry(colorName, settings, options, index)
-        index = index + 4
-    end
-
-    return index
-end
-
 -- Generate Colors for each Frame
 function xo:GenerateColorOptions()
-    for name, settings in pairs(x.db.profile.frames) do
-        local options = optionsAddon.optionsTable.args.Frames.args[name]
-        if settings.colors then
-            local index = 10
+    local options = optionsAddon.optionsTable.args.Colors.args
+    local settings = x.db.profile.Colors
+    local orders = {
+        general = 100,
+        outgoing_damage = 200,
+        outgoing_healing = 300,
+        outgoing_criticals = 400,
+        incoming_damage = 500,
+        incoming_healing = 600,
+        class_power = 700,
+        procs = 800,
+        loot = 900,
+        other = 1000
+    }
 
-            -- Sort the colors alphabetically
-            local sortedList = {}
-            for colorName in pairs(settings.colors) do
-                table.insert(sortedList, colorName)
+    for colorName, colorSettings in pairs(settings) do
+        if colorSettings.desc then
+            if not orders[colorSettings.category] then
+                self:Print("Unknown color category", colorSettings.category)
+                colorSettings.category = "other"
             end
 
-            table.sort(sortedList)
-
-            local colorSettings
-            -- Do Single Colors First
-            for _, colorName in ipairs(sortedList) do
-                colorSettings = settings.colors[colorName]
-                if not colorSettings.colors then
-                    index = GenerateColorOptionsTable(colorName, colorSettings, options.args.fontColors.args, index) + 1
-                end
-            end
-
-            -- Then Do Color Groups with multiple settings
-            for _, colorName in ipairs(sortedList) do
-                colorSettings = settings.colors[colorName]
-                if colorSettings.colors then
-                    index = GenerateColorOptionsTable(colorName, colorSettings, options.args.fontColors.args, index) + 1
-                end
-            end
+            GenerateColorOptionsTable_Entry(
+                colorName,
+                colorSettings,
+                options,
+                orders[colorSettings.category] + 1
+            )
+            orders[colorSettings.category] = orders[colorSettings.category] + 5
         end
     end
 end
 
 function xo:GenerateSpellSchoolColors()
-    local options = optionsAddon.optionsTable.args.SpellSchools.args
+    local options = optionsAddon.optionsTable.args.SpellColors.args
     local settings = x.db.profile.SpellColors
     local index = 10
 
@@ -8482,11 +8243,13 @@ function xo:GenerateSpellSchoolColors()
 
     table.sort(sortedList)
 
-    local color
+    local colorName
+    local colorSettings
     for _, mask in ipairs(sortedList) do
-        mask = tostring(mask)
-        color = settings[mask]
-        index = GenerateColorOptionsTable(mask, color, options, index) + 1
+        colorName = tostring(mask)
+        colorSettings = settings[colorName]
+        GenerateColorOptionsTable_Entry(colorName, colorSettings, options, index)
+        index = index + 5
     end
 end
 
@@ -8613,12 +8376,11 @@ function x:UpdateComboPointOptions(force)
     -- Add "All Specializations" Entries
     for name in pairs(x.db.profile.spells.combo[myClass]) do
         if not tonumber(name) then
-            if not comboSpells.args["allSpecsHeader"] then
-                comboSpells.args["allSpecsHeader"] = {
+            if not comboSpells.args.allSpecsHeader then
+                comboSpells.args.allSpecsHeader = {
                     order = 2,
                     type = "header",
                     name = "All Specializations",
-                    width = "full",
                 }
             end
             comboSpells.args[name] = {
@@ -8644,13 +8406,12 @@ function x:UpdateComboPointOptions(force)
                     order = offset,
                     type = "header",
                     name = "Specialization: |cff798BDD" .. mySpecName .. "|r",
-                    width = "full",
                 }
                 offset = offset + 1
             end
 
             if tonumber(index) then
-                -- Class Combo Points ( UNIT_AURA Tracking)
+                -- Class Combo Points (UNIT_AURA Tracking)
                 comboSpells.args[tostring(spec) .. "," .. tostring(index)] = {
                     order = offset,
                     type = "toggle",

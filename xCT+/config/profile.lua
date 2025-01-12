@@ -304,107 +304,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    interrupts = { enabled = false, desc = "Interrupts", default = { 1.00, 0.50, 0.00 } },
-                    killingBlow = { enabled = false, desc = "Killing Blows", default = { 0.20, 1.00, 0.20 } },
-                    honorGains = { enabled = false, desc = "Honor Gained", default = { 0.10, 0.10, 1.00 } },
-
-                    auras = {
-                        enabled = false,
-                        desc = "Buffs and Debuffs",
-                        colors = {
-                            buffsGained = {
-                                enabled = false,
-                                desc = "Buffs Gained",
-                                default = { 1.00, 0.50, 0.50 },
-                            },
-                            buffsFaded = {
-                                enabled = false,
-                                desc = "Buffs Faded",
-                                default = { 0.50, 0.50, 0.50 },
-                            },
-                            debuffsGained = {
-                                enabled = false,
-                                desc = "Debuffs Gained",
-                                default = { 1.00, 0.10, 0.10 },
-                            },
-                            debuffsFaded = {
-                                enabled = false,
-                                desc = "Debuffs Faded",
-                                default = { 0.50, 0.50, 0.50 },
-                            },
-                        },
-                    },
-                    dispells = {
-                        enabled = false,
-                        desc = "Dispell Buffs and Debuffs",
-                        colors = {
-                            dispellBuffs = {
-                                enabled = false,
-                                desc = "Buffs",
-                                default = { 0.00, 1.00, 0.50 },
-                            },
-                            dispellDebuffs = {
-                                enabled = false,
-                                desc = "Debuffs",
-                                default = { 1.00, 0.00, 0.50 },
-                            },
-                            dispellStolen = {
-                                enabled = false,
-                                desc = "Spell Stolen",
-                                default = { 0.31, 0.71, 1.00 },
-                            },
-                        },
-                    },
-                    reputation = {
-                        enabled = false,
-                        desc = "Reputation",
-                        colors = {
-                            reputationGain = {
-                                enabled = false,
-                                desc = "Reputation Gained",
-                                default = { 0.10, 0.10, 1.00 },
-                            },
-                            reputationLoss = {
-                                enabled = false,
-                                desc = "Reputation Lost",
-                                default = { 1.00, 0.10, 0.10 },
-                            },
-                        },
-                    },
-                    combat = {
-                        enabled = false,
-                        desc = "Combat Status",
-                        colors = {
-                            combatEntering = {
-                                enabled = false,
-                                desc = "Entering Combat",
-                                default = { 1.00, 0.10, 0.10 },
-                            },
-                            combatLeaving = {
-                                enabled = false,
-                                desc = "Leaving Combat",
-                                default = { 0.10, 1.00, 0.10 },
-                            },
-                        },
-                    },
-                    lowResources = {
-                        enabled = false,
-                        desc = "Low Resources",
-                        colors = {
-                            lowResourcesHealth = {
-                                enabled = false,
-                                desc = "Low Health",
-                                default = { 1.00, 0.10, 0.10 },
-                            },
-                            lowResourcesMana = {
-                                enabled = false,
-                                desc = "Low Mana",
-                                default = { 1.00, 0.10, 0.10 },
-                            },
-                        },
-                    },
-                },
 
                 -- icons
                 iconsEnabled = true,
@@ -463,10 +362,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    melee = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
-                    misstypesOut = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
-                },
 
                 -- name formatting
                 names = {
@@ -590,13 +485,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    meleeCrit = {
-                        enabled = false,
-                        desc = "Auto Attack Damage (Critical)",
-                        default = { 1.00, 1.00, 0.00 },
-                    },
-                },
 
                 -- name formatting
                 names = {
@@ -705,29 +593,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    healing = {
-                        enabled = false,
-                        desc = "Healing Color Overrides",
-                        colors = {
-                            healingOut = {
-                                enabled = false,
-                                desc = "Healing",
-                                default = { 0.10, 0.75, 0.10 },
-                            },
-                            healingOutCritical = {
-                                enabled = false,
-                                desc = "Healing (Critical)",
-                                default = { 0.10, 1.00, 0.10 },
-                            },
-                            healingOutPeriodic = {
-                                enabled = false,
-                                desc = "Healing (Periodic)",
-                                default = { 0.10, 0.50, 0.10 },
-                            },
-                        },
-                    },
-                },
 
                 -- name formatting
                 names = {
@@ -851,67 +716,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    damageTaken = {
-                        enabled = false,
-                        desc = "Physical Damage",
-                        default = { 0.75, 0.10, 0.10 },
-                    },
-                    damageTakenCritical = {
-                        enabled = false,
-                        desc = "Critical Physical Damage",
-                        default = { 1.00, 0.10, 0.10 },
-                    },
-                    spellDamageTaken = {
-                        enabled = false,
-                        desc = "Spell Damage",
-                        default = { 0.75, 0.30, 0.85 },
-                    },
-                    spellDamageTakenCritical = {
-                        enabled = false,
-                        desc = "Critical Spell Damage",
-                        default = { 0.75, 0.30, 0.85 },
-                    },
-
-                    missTypesTaken = {
-                        enabled = false,
-                        desc = "Miss Types",
-                        colors = {
-                            missTypeMiss = { enabled = false, desc = "Missed", default = { 0.50, 0.50, 0.50 } },
-                            missTypeDodge = { enabled = false, desc = "Dodged", default = { 0.50, 0.50, 0.50 } },
-                            missTypeParry = { enabled = false, desc = "Parry", default = { 0.50, 0.50, 0.50 } },
-                            missTypeEvade = { enabled = false, desc = "Evade", default = { 0.50, 0.50, 0.50 } },
-                            missTypeDeflect = { enabled = false, desc = "Deflect", default = { 0.50, 0.50, 0.50 } },
-                            missTypeImmune = { enabled = false, desc = "Immune", default = { 0.50, 0.50, 0.50 } },
-                            missTypeReflect = { enabled = false, desc = "Reflect", default = { 0.50, 0.50, 0.50 } },
-                            missTypeResist = { enabled = false, desc = "Resisted", default = { 0.50, 0.50, 0.50 } },
-                            missTypeBlock = { enabled = false, desc = "Blocked", default = { 0.50, 0.50, 0.50 } },
-                            missTypeAbsorb = { enabled = false, desc = "Asorbed", default = { 0.50, 0.50, 0.50 } },
-                        },
-                    },
-
-                    missTypesTakenPartial = {
-                        enabled = false,
-                        desc = "Miss Types |cff798BDD(Partials)|r",
-                        colors = {
-                            missTypeResistPartial = {
-                                enabled = false,
-                                desc = "Resisted |cff798BDD(Partial)|r",
-                                default = { 0.75, 0.50, 0.50 },
-                            },
-                            missTypeBlockPartial = {
-                                enabled = false,
-                                desc = "Blocked |cff798BDD(Partial)|r",
-                                default = { 0.75, 0.50, 0.50 },
-                            },
-                            missTypeAbsorbPartial = {
-                                enabled = false,
-                                desc = "Asorbed |cff798BDD(Partial)|r",
-                                default = { 0.75, 0.50, 0.50 },
-                            },
-                        },
-                    },
-                },
 
                 -- critical appearance
                 critPrefix = "|cffFF0000*|r",
@@ -1035,24 +839,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    healingTaken = { enabled = false, desc = "Healing", default = { 0.10, 0.75, 0.10 } },
-                    healingTakenCritical = {
-                        enabled = false,
-                        desc = "Critical Healing",
-                        default = { 0.10, 1.00, 0.10 },
-                    },
-                    healingTakenPeriodic = {
-                        enabled = false,
-                        desc = "Periodic Healing",
-                        default = { 0.10, 0.50, 0.10 },
-                    },
-                    healingTakenPeriodicCritical = {
-                        enabled = false,
-                        desc = "Critical Periodic Healing",
-                        default = { 0.10, 0.50, 0.10 },
-                    },
-                },
 
                 -- name formatting
                 names = {
@@ -1155,10 +941,6 @@ addon.defaults = {
         -- font colors
         customColor = false,
         fontColor = { 1.00, 1.00, 1.00 },
-        colors = {
-          ['comboPoints']     = { enabled = false, desc = "Combo Points",     default = { 1.00, 0.82, 0.00 } },
-          ['comboPointsMax']  = { enabled = false, desc = "Max Combo Points", default = { 0.00, 0.82, 1.00 } },
-        },
       },]]
 
             power = {
@@ -1189,65 +971,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-
-                -- https://github.com/Gethe/wow-ui-source/blob/e337b8949ffad2876ea0489d8331db2414342d32
-                -- /AddOns/Blizzard_CombatLog/Blizzard_CombatLog.lua#L1797
-                colors = {
-                    color_MANA = { enabled = false, desc = MANA, default = { 0.00, 0.00, 1.00 } },
-                    color_RAGE = { enabled = false, desc = RAGE, default = { 1.00, 0.00, 0.00 } },
-                    color_FURY = { enabled = false, desc = FURY, default = { 0.788, 0.259, 0.992 } },
-                    color_PAIN = { enabled = false, desc = PAIN, default = { 1.000, 0.612, 0.000 } },
-
-                    color_FOCUS = { enabled = false, desc = FOCUS, default = { 1.00, 0.50, 0.25 } },
-                    color_RUNES = { enabled = false, desc = RUNES, default = { 0.50, 0.50, 0.50 } },
-                    color_ENERGY = { enabled = false, desc = ENERGY, default = { 1.00, 1.00, 0.00 } },
-
-                    color_CHI_POWER = {
-                        enabled = false,
-                        desc = CHI_POWER,
-                        default = { 0.71, 1.00, 0.92 },
-                    },
-                    color_HOLY_POWER = {
-                        enabled = false,
-                        desc = HOLY_POWER,
-                        default = { 0.95, 0.90, 0.60 },
-                    },
-                    color_RUNIC_POWER = {
-                        enabled = false,
-                        desc = RUNIC_POWER,
-                        default = { 0.00, 0.82, 1.00 },
-                    },
-                    color_SOUL_SHARDS = {
-                        enabled = false,
-                        desc = SOUL_SHARDS,
-                        default = { 0.50, 0.32, 0.55 },
-                    },
-                    color_LUNAR_POWER = {
-                        enabled = false,
-                        desc = LUNAR_POWER,
-                        default = { 0.30, 0.52, 0.90 },
-                    },
-                    color_INSANITY_POWER = {
-                        enabled = false,
-                        desc = INSANITY_POWER,
-                        default = { 0.40, 0.00, 0.80 },
-                    },
-                    color_MAELSTROM_POWER = {
-                        enabled = false,
-                        desc = MAELSTROM_POWER,
-                        default = { 0.00, 0.50, 1.00 },
-                    },
-                    color_ALTERNATE_POWER = {
-                        enabled = false,
-                        desc = ALTERNATE_POWER_TEXT,
-                        default = { 0.10, 0.10, 0.98 },
-                    },
-                    color_ARCANE_CHARGES_POWER = {
-                        enabled = false,
-                        desc = ARCANE_CHARGES_POWER,
-                        default = { 0.10, 0.10, 0.98 },
-                    },
-                },
 
                 -- scrollable
                 enableScrollable = false,
@@ -1312,10 +1035,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-                colors = {
-                    spellProc = { enabled = false, desc = "Spell Procs", default = { 1.00, 0.82, 0.00 } },
-                    spellReactive = { enabled = false, desc = "Spell Reactive", default = { 1.00, 0.82, 0.00 } },
-                },
 
                 -- icons
                 iconsEnabled = true,
@@ -1539,5 +1258,404 @@ addon.defaults = {
             filterIncomingHealingCritEnabled = false,
             filterIncomingHealingCritValue = 0,
         },
+
+        Colors = {
+            -- General
+            combatEntering = {
+                enabled = false,
+                desc = "Entering Combat",
+                category = "general",
+                default = { 1.00, 0.10, 0.10 },
+            },
+            combatLeaving = {
+                enabled = false,
+                desc = "Leaving Combat",
+                category = "general",
+                default = { 0.10, 1.00, 0.10 },
+            },
+            interrupts = {
+                enabled = false,
+                desc = "Interrupts",
+                category = "general",
+                default = { 1.00, 0.50, 0.00 }
+            },
+            killingBlow = {
+                enabled = false,
+                desc = "Killing Blows",
+                category = "general",
+                default = { 0.20, 1.00, 0.20 }
+            },
+            buffsGained = {
+                enabled = false,
+                desc = "Buffs Gained",
+                category = "general",
+                default = { 1.00, 0.50, 0.50 },
+            },
+            buffsFaded = {
+                enabled = false,
+                desc = "Buffs Faded",
+                category = "general",
+                default = { 0.50, 0.50, 0.50 },
+            },
+            debuffsGained = {
+                enabled = false,
+                desc = "Debuffs Gained",
+                category = "general",
+                default = { 1.00, 0.10, 0.10 },
+            },
+            debuffsFaded = {
+                enabled = false,
+                desc = "Debuffs Faded",
+                category = "general",
+                default = { 0.50, 0.50, 0.50 },
+            },
+            dispellBuffs = {
+                enabled = false,
+                desc = "Buffs",
+                category = "general",
+                default = { 0.00, 1.00, 0.50 },
+            },
+            dispellDebuffs = {
+                enabled = false,
+                desc = "Debuffs",
+                category = "general",
+                default = { 1.00, 0.00, 0.50 },
+            },
+            dispellStolen = {
+                enabled = false,
+                desc = "Spell Stolen",
+                category = "general",
+                default = { 0.31, 0.71, 1.00 },
+            },
+            lowResourcesHealth = {
+                enabled = false,
+                desc = "Low Health",
+                category = "general",
+                default = { 1.00, 0.10, 0.10 },
+            },
+            lowResourcesMana = {
+                enabled = false,
+                desc = "Low Mana",
+                category = "general",
+                default = { 1.00, 0.10, 0.10 },
+            },
+
+            -- Outgoing Damage
+            melee = {
+                enabled = false,
+                desc = "Auto Attack Damage",
+                category = "outgoing_damage",
+                default = { 1.00, 1.00, 1.00 }
+            },
+            misstypesOut = {
+                enabled = false,
+                desc = "Missed Attacks",
+                category = "outgoing_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+
+            -- Outgoing Healing
+            healingOut = {
+                enabled = false,
+                desc = "Healing",
+                category = "outgoing_healing",
+                default = { 0.10, 0.75, 0.10 },
+            },
+            healingOutPeriodic = {
+                enabled = false,
+                desc = "Healing (Periodic)",
+                category = "outgoing_healing",
+                default = { 0.10, 0.50, 0.10 },
+            },
+
+            -- Outgoing (Criticals)
+            meleeCrit = {
+                enabled = false,
+                desc = "Auto Attack Damage (Critical)",
+                category = "outgoing_criticals",
+                default = { 1.00, 1.00, 0.00 },
+            },
+            healingOutCritical = {
+                enabled = false,
+                desc = "Healing (Critical)",
+                category = "outgoing_criticals",
+                default = { 0.10, 1.00, 0.10 },
+            },
+
+            -- Incoming Damage
+            damageTaken = {
+                enabled = false,
+                desc = "Physical Damage",
+                category = "incoming_damage",
+                default = { 0.75, 0.10, 0.10 },
+            },
+            damageTakenCritical = {
+                enabled = false,
+                desc = "Critical Physical Damage",
+                category = "incoming_damage",
+                default = { 1.00, 0.10, 0.10 },
+            },
+            spellDamageTaken = {
+                enabled = false,
+                desc = "Spell Damage",
+                category = "incoming_damage",
+                default = { 0.75, 0.30, 0.85 },
+            },
+            spellDamageTakenCritical = {
+                enabled = false,
+                desc = "Critical Spell Damage",
+                category = "incoming_damage",
+                default = { 0.75, 0.30, 0.85 },
+            },
+            missTypeMiss = {
+                enabled = false,
+                desc = "Missed",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeDodge = {
+                enabled = false,
+                desc = "Dodged",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeParry = {
+                enabled = false,
+                desc = "Parry",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeEvade = {
+                enabled = false,
+                desc = "Evade",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeDeflect = {
+                enabled = false,
+                desc = "Deflect",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeImmune = {
+                enabled = false,
+                desc = "Immune",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeReflect = {
+                enabled = false,
+                desc = "Reflect",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeResist = {
+                enabled = false,
+                desc = "Resisted",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeBlock = {
+                enabled = false,
+                desc = "Blocked",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeAbsorb = {
+                enabled = false,
+                desc = "Asorbed",
+                category = "incoming_damage",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            missTypeResistPartial = {
+                enabled = false,
+                desc = "Resisted |cff798BDD(Partial)|r",
+                category = "incoming_damage",
+                default = { 0.75, 0.50, 0.50 },
+            },
+            missTypeBlockPartial = {
+                enabled = false,
+                desc = "Blocked |cff798BDD(Partial)|r",
+                category = "incoming_damage",
+                default = { 0.75, 0.50, 0.50 },
+            },
+            missTypeAbsorbPartial = {
+                enabled = false,
+                desc = "Asorbed |cff798BDD(Partial)|r",
+                category = "incoming_damage",
+                default = { 0.75, 0.50, 0.50 },
+            },
+
+            -- Incoming Healing
+            healingTaken = {
+                enabled = false,
+                desc = "Healing",
+                category = "incoming_healing",
+                default = { 0.10, 0.75, 0.10 }
+            },
+            healingTakenCritical = {
+                enabled = false,
+                desc = "Critical Healing",
+                category = "incoming_healing",
+                default = { 0.10, 1.00, 0.10 },
+            },
+            healingTakenPeriodic = {
+                enabled = false,
+                desc = "Periodic Healing",
+                category = "incoming_healing",
+                default = { 0.10, 0.50, 0.10 },
+            },
+            healingTakenPeriodicCritical = {
+                enabled = false,
+                desc = "Critical Periodic Healing",
+                category = "incoming_healing",
+                default = { 0.10, 0.50, 0.10 },
+            },
+
+            -- Class Power
+            -- https://github.com/Gethe/wow-ui-source/blob/e337b8949ffad2876ea0489d8331db2414342d32
+            -- /AddOns/Blizzard_CombatLog/Blizzard_CombatLog.lua#L1797
+            color_MANA = {
+                enabled = false,
+                desc = MANA,
+                category = "class_power",
+                default = { 0.00, 0.00, 1.00 }
+            },
+            color_RAGE = {
+                enabled = false,
+                desc = RAGE,
+                category = "class_power",
+                default = { 1.00, 0.00, 0.00 }
+            },
+            color_FURY = {
+                enabled = false,
+                desc = FURY,
+                category = "class_power",
+                default = { 0.788, 0.259, 0.992 }
+            },
+            color_PAIN = {
+                enabled = false,
+                desc = PAIN,
+                category = "class_power",
+                default = { 1.000, 0.612, 0.000 }
+            },
+            color_FOCUS = {
+                enabled = false,
+                desc = FOCUS,
+                category = "class_power",
+                default = { 1.00, 0.50, 0.25 }
+            },
+            color_RUNES = {
+                enabled = false,
+                desc = RUNES,
+                category = "class_power",
+                default = { 0.50, 0.50, 0.50 }
+            },
+            color_ENERGY = {
+                enabled = false,
+                desc = ENERGY,
+                category = "class_power",
+                default = { 1.00, 1.00, 0.00 }
+            },
+            color_CHI_POWER = {
+                enabled = false,
+                desc = CHI_POWER,
+                category = "class_power",
+                default = { 0.71, 1.00, 0.92 },
+            },
+            color_HOLY_POWER = {
+                enabled = false,
+                desc = HOLY_POWER,
+                category = "class_power",
+                default = { 0.95, 0.90, 0.60 },
+            },
+            color_RUNIC_POWER = {
+                enabled = false,
+                desc = RUNIC_POWER,
+                category = "class_power",
+                default = { 0.00, 0.82, 1.00 },
+            },
+            color_SOUL_SHARDS = {
+                enabled = false,
+                desc = SOUL_SHARDS,
+                category = "class_power",
+                default = { 0.50, 0.32, 0.55 },
+            },
+            color_LUNAR_POWER = {
+                enabled = false,
+                desc = LUNAR_POWER,
+                category = "class_power",
+                default = { 0.30, 0.52, 0.90 },
+            },
+            color_INSANITY_POWER = {
+                enabled = false,
+                desc = INSANITY_POWER,
+                category = "class_power",
+                default = { 0.40, 0.00, 0.80 },
+            },
+            color_MAELSTROM_POWER = {
+                enabled = false,
+                desc = MAELSTROM_POWER,
+                category = "class_power",
+                default = { 0.00, 0.50, 1.00 },
+            },
+            color_ALTERNATE_POWER = {
+                enabled = false,
+                desc = ALTERNATE_POWER_TEXT,
+                category = "class_power",
+                default = { 0.10, 0.10, 0.98 },
+            },
+            color_ARCANE_CHARGES_POWER = {
+                enabled = false,
+                desc = ARCANE_CHARGES_POWER,
+                category = "class_power",
+                default = { 0.10, 0.10, 0.98 },
+            },
+            -- TODO Vigor (Skyriding) & Evoker
+            --comboPoints = {
+            --    enabled = false,
+            --    desc = "Combo Points",
+            --    default = { 1.00, 0.82, 0.00 }
+            --},
+            --comboPointsMax = {
+            --    enabled = false,
+            --    desc = "Max Combo Points",
+            --    default = { 0.00, 0.82, 1.00 }
+            --},
+
+            -- Procs
+            spellProc = {
+                enabled = false,
+                desc = "Spell Procs",
+                category = "procs",
+                default = { 1.00, 0.82, 0.00 }
+            },
+            spellReactive = {
+                enabled = false,
+                desc = "Spell Reactive",
+                category = "procs",
+                default = { 1.00, 0.82, 0.00 }
+            },
+
+            -- Loot, Currency & Money
+            honorGains = {
+                enabled = false,
+                desc = "Honor Gained",
+                category = "loot",
+                default = { 0.10, 0.10, 1.00 }
+            },
+            reputationGain = {
+                enabled = false,
+                desc = "Reputation Gained",
+                category = "loot",
+                default = { 0.10, 0.10, 1.00 },
+            },
+            reputationLoss = {
+                enabled = false,
+                desc = "Reputation Lost",
+                category = "loot",
+                default = { 1.00, 0.10, 0.10 },
+            },
+        }
     },
 }
