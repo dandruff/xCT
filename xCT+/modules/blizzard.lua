@@ -9,7 +9,7 @@
  [=====================================]
  [  Author: Dandraffbal-Stormreaver US ]
  [  xCT+ Version 4.x.x                 ]
- [  ©2024. All Rights Reserved.        ]
+ [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
 -- TODO: Fix this up
