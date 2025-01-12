@@ -277,127 +277,127 @@ addon.defaults = {
 
         frames = {
             general = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = 0,
-                ["Y"] = 224,
-                ["Width"] = 512,
-                ["Height"] = 128,
+                X = 0,
+                Y = 224,
+                Width = 512,
+                Height = 128,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "CENTER",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "CENTER",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["interrupts"] = { enabled = false, desc = "Interrupts", default = { 1.00, 0.50, 0.00 } },
-                    ["killingBlow"] = { enabled = false, desc = "Killing Blows", default = { 0.20, 1.00, 0.20 } },
-                    ["honorGains"] = { enabled = false, desc = "Honor Gained", default = { 0.10, 0.10, 1.00 } },
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    interrupts = { enabled = false, desc = "Interrupts", default = { 1.00, 0.50, 0.00 } },
+                    killingBlow = { enabled = false, desc = "Killing Blows", default = { 0.20, 1.00, 0.20 } },
+                    honorGains = { enabled = false, desc = "Honor Gained", default = { 0.10, 0.10, 1.00 } },
 
-                    ["auras"] = {
+                    auras = {
                         enabled = false,
                         desc = "Buffs and Debuffs",
-                        ["colors"] = {
-                            ["buffsGained"] = {
+                        colors = {
+                            buffsGained = {
                                 enabled = false,
                                 desc = "Buffs Gained",
                                 default = { 1.00, 0.50, 0.50 },
                             },
-                            ["buffsFaded"] = {
+                            buffsFaded = {
                                 enabled = false,
                                 desc = "Buffs Faded",
                                 default = { 0.50, 0.50, 0.50 },
                             },
-                            ["debuffsGained"] = {
+                            debuffsGained = {
                                 enabled = false,
                                 desc = "Debuffs Gained",
                                 default = { 1.00, 0.10, 0.10 },
                             },
-                            ["debuffsFaded"] = {
+                            debuffsFaded = {
                                 enabled = false,
                                 desc = "Debuffs Faded",
                                 default = { 0.50, 0.50, 0.50 },
                             },
                         },
                     },
-                    ["dispells"] = {
+                    dispells = {
                         enabled = false,
                         desc = "Dispell Buffs and Debuffs",
-                        ["colors"] = {
-                            ["dispellBuffs"] = {
+                        colors = {
+                            dispellBuffs = {
                                 enabled = false,
                                 desc = "Buffs",
                                 default = { 0.00, 1.00, 0.50 },
                             },
-                            ["dispellDebuffs"] = {
+                            dispellDebuffs = {
                                 enabled = false,
                                 desc = "Debuffs",
                                 default = { 1.00, 0.00, 0.50 },
                             },
-                            ["dispellStolen"] = {
+                            dispellStolen = {
                                 enabled = false,
                                 desc = "Spell Stolen",
                                 default = { 0.31, 0.71, 1.00 },
                             },
                         },
                     },
-                    ["reputation"] = {
+                    reputation = {
                         enabled = false,
                         desc = "Reputation",
-                        ["colors"] = {
-                            ["reputationGain"] = {
+                        colors = {
+                            reputationGain = {
                                 enabled = false,
                                 desc = "Reputation Gained",
                                 default = { 0.10, 0.10, 1.00 },
                             },
-                            ["reputationLoss"] = {
+                            reputationLoss = {
                                 enabled = false,
                                 desc = "Reputation Lost",
                                 default = { 1.00, 0.10, 0.10 },
                             },
                         },
                     },
-                    ["combat"] = {
+                    combat = {
                         enabled = false,
                         desc = "Combat Status",
-                        ["colors"] = {
-                            ["combatEntering"] = {
+                        colors = {
+                            combatEntering = {
                                 enabled = false,
                                 desc = "Entering Combat",
                                 default = { 1.00, 0.10, 0.10 },
                             },
-                            ["combatLeaving"] = {
+                            combatLeaving = {
                                 enabled = false,
                                 desc = "Leaving Combat",
                                 default = { 0.10, 1.00, 0.10 },
                             },
                         },
                     },
-                    ["lowResources"] = {
+                    lowResources = {
                         enabled = false,
                         desc = "Low Resources",
-                        ["colors"] = {
-                            ["lowResourcesHealth"] = {
+                        colors = {
+                            lowResourcesHealth = {
                                 enabled = false,
                                 desc = "Low Health",
                                 default = { 1.00, 0.10, 0.10 },
                             },
-                            ["lowResourcesMana"] = {
+                            lowResourcesMana = {
                                 enabled = false,
                                 desc = "Low Mana",
                                 default = { 1.00, 0.10, 0.10 },
@@ -407,72 +407,72 @@ addon.defaults = {
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["showInterrupts"] = true,
-                ["showDispells"] = true,
-                ["showPartyKills"] = true,
-                ["showBuffs"] = true,
-                ["showDebuffs"] = true,
-                ["showLowManaHealth"] = true,
-                ["showCombatState"] = true,
-                ["showRepChanges"] = true,
-                ["showHonorGains"] = true,
-                ["showProfessionSkillups"] = true,
+                showInterrupts = true,
+                showDispells = true,
+                showPartyKills = true,
+                showBuffs = true,
+                showDebuffs = true,
+                showLowManaHealth = true,
+                showCombatState = true,
+                showRepChanges = true,
+                showHonorGains = true,
+                showProfessionSkillups = true,
             },
 
             outgoing = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = 400,
-                ["Y"] = 0,
-                ["Width"] = 164,
-                ["Height"] = 512,
+                X = 400,
+                Y = 0,
+                Width = 164,
+                Height = 512,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "RIGHT",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "RIGHT",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["melee"] = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
-                    ["misstypesOut"] = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    melee = { enabled = false, desc = "Auto Attack Damage", default = { 1.00, 1.00, 1.00 } },
+                    misstypesOut = { enabled = false, desc = "Missed Attacks", default = { 0.50, 0.50, 0.50 } },
                 },
 
                 -- name formatting
                 names = {
                     -- appearance
-                    ["namePrefix"] = " |cffFFFFFF<|r",
-                    ["namePostfix"] = "|cffFFFFFF>|r",
+                    namePrefix = " |cffFFFFFF<|r",
+                    namePostfix = "|cffFFFFFF>|r",
 
                     -- events from a player's character
                     PLAYER = {
@@ -482,16 +482,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true,
-                        ["removeRealmName"] = true,
-                        ["enableCustomNameColor"] = false,
-                        ["customNameColor"] = { 1, 1, 1 },
+                        enableNameColor = true,
+                        removeRealmName = true,
+                        enableCustomNameColor = false,
+                        customNameColor = { 1, 1, 1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from a npc
@@ -502,96 +502,96 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true, -- Always On (Not in Options)
-                        ["removeRealmName"] = false, -- Always Off (Not in Options)
-                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
-                        ["customNameColor"] = { 0.3, 0, 0.3 },
+                        enableNameColor = true, -- Always On (Not in Options)
+                        removeRealmName = false, -- Always Off (Not in Options)
+                        enableCustomNameColor = true, -- Always On (Not in Options)
+                        customNameColor = { 0.3, 0, 0.3 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from the envirornment
                     ENVIRONMENT = {
-                        ["nameType"] = 0,
+                        nameType = 0,
                     },
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["iconsEnabledAutoAttack"] = true,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                iconsEnabledAutoAttack = true,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["enableAutoAttack_Outgoing"] = true, -- OLD: enableAutoAttack
-                ["enablePetAutoAttack_Outgoing"] = true,
+                enableAutoAttack_Outgoing = true, -- OLD: enableAutoAttack
+                enablePetAutoAttack_Outgoing = true,
 
-                ["enableOutDmg"] = true,
-                ["enableOutHeal"] = true,
-                ["enableOutAbsorbs"] = true,
-                ["enablePetDmg"] = true,
-                ["enableVehicleDmg"] = true,
-                ["enableDotDmg"] = true,
-                ["enableHots"] = true,
-                ["enableImmunes"] = true,
-                ["enableMisses"] = true,
-                ["enableAbsorbs"] = true,
-                ["enablePartialMisses"] = false,
-                ["showHighestPartialMiss"] = false,
-                ["enableKillCommand"] = false,
+                enableOutDmg = true,
+                enableOutHeal = true,
+                enableOutAbsorbs = true,
+                enablePetDmg = true,
+                enableVehicleDmg = true,
+                enableDotDmg = true,
+                enableHots = true,
+                enableImmunes = true,
+                enableMisses = true,
+                enableAbsorbs = true,
+                enablePartialMisses = false,
+                showHighestPartialMiss = false,
+                enableKillCommand = false,
 
-                ["enableOverhealing"] = true,
-                ["enableOverhealingFormat"] = false,
-                ["enableOverhealingSubtraction"] = false,
-                ["overhealingPrefix"] = " |cffFFFFFF(O: ",
-                ["overhealingPostfix"] = ")|r",
+                enableOverhealing = true,
+                enableOverhealingFormat = false,
+                enableOverhealingSubtraction = false,
+                overhealingPrefix = " |cffFFFFFF(O: ",
+                overhealingPostfix = ")|r",
             },
 
             critical = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = 192,
-                ["Y"] = 0,
-                ["Width"] = 256,
-                ["Height"] = 140,
+                X = 192,
+                Y = 0,
+                Width = 256,
+                Height = 140,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 24,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "RIGHT",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 24,
+                fontOutline = "2OUTLINE",
+                fontJustify = "RIGHT",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["meleeCrit"] = {
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    meleeCrit = {
                         enabled = false,
                         desc = "Auto Attack Damage (Critical)",
                         default = { 1.00, 1.00, 0.00 },
@@ -602,8 +602,8 @@ addon.defaults = {
                 names = {
 
                     -- appearance
-                    ["namePrefix"] = " |cffFFFFFF<|r",
-                    ["namePostfix"] = "|cffFFFFFF>|r",
+                    namePrefix = " |cffFFFFFF<|r",
+                    namePostfix = "|cffFFFFFF>|r",
 
                     -- events from a player's character
                     PLAYER = {
@@ -613,16 +613,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true,
-                        ["removeRealmName"] = true,
-                        ["enableCustomNameColor"] = false,
-                        ["customNameColor"] = { 1, 1, 1 },
+                        enableNameColor = true,
+                        removeRealmName = true,
+                        enableCustomNameColor = false,
+                        customNameColor = { 1, 1, 1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from a npc
@@ -633,94 +633,94 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true, -- Always On (Not in Options)
-                        ["removeRealmName"] = false, -- Always Off (Not in Options)
-                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
-                        ["customNameColor"] = { 0.3, 0, 0.3 },
+                        enableNameColor = true, -- Always On (Not in Options)
+                        removeRealmName = false, -- Always Off (Not in Options)
+                        enableCustomNameColor = true, -- Always On (Not in Options)
+                        customNameColor = { 0.3, 0, 0.3 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from the envirornment
                     ENVIRONMENT = {
-                        ["nameType"] = 0, -- NOT SHOWN
+                        nameType = 0, -- NOT SHOWN
                     },
                 },
 
                 -- critical appearance
-                ["critPrefix"] = "|cffFF0000*|r",
-                ["critPostfix"] = "|cffFF0000*|r",
+                critPrefix = "|cffFF0000*|r",
+                critPostfix = "|cffFF0000*|r",
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["enableAutoAttack_Critical"] = true, -- OLD: showSwing
-                ["prefixAutoAttack_Critical"] = true, -- OLD: prefixSwing
-                ["petCrits"] = false,
+                enableAutoAttack_Critical = true, -- OLD: showSwing
+                prefixAutoAttack_Critical = true, -- OLD: prefixSwing
+                petCrits = false,
             },
 
             outgoing_healing = {
-                ["enabledFrame"] = false,
-                ["secondaryFrame"] = 2,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = false,
+                secondaryFrame = 2,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = 400,
-                ["Y"] = 0,
-                ["Width"] = 164,
-                ["Height"] = 512,
+                X = 400,
+                Y = 0,
+                Width = 164,
+                Height = 512,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "RIGHT",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "RIGHT",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["healing"] = {
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    healing = {
                         enabled = false,
                         desc = "Healing Color Overrides",
-                        ["colors"] = {
-                            ["healingOut"] = {
+                        colors = {
+                            healingOut = {
                                 enabled = false,
                                 desc = "Healing",
                                 default = { 0.10, 0.75, 0.10 },
                             },
-                            ["healingOutCritical"] = {
+                            healingOutCritical = {
                                 enabled = false,
                                 desc = "Healing (Critical)",
                                 default = { 0.10, 1.00, 0.10 },
                             },
-                            ["healingOutPeriodic"] = {
+                            healingOutPeriodic = {
                                 enabled = false,
                                 desc = "Healing (Periodic)",
                                 default = { 0.10, 0.50, 0.10 },
@@ -732,8 +732,8 @@ addon.defaults = {
                 -- name formatting
                 names = {
                     -- appearance
-                    ["namePrefix"] = " |cffFFFFFF<|r",
-                    ["namePostfix"] = "|cffFFFFFF>|r",
+                    namePrefix = " |cffFFFFFF<|r",
+                    namePostfix = "|cffFFFFFF>|r",
 
                     -- events from a player's character
                     PLAYER = {
@@ -743,16 +743,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true,
-                        ["removeRealmName"] = true,
-                        ["enableCustomNameColor"] = false,
-                        ["customNameColor"] = { 1, 1, 1 },
+                        enableNameColor = true,
+                        removeRealmName = true,
+                        enableCustomNameColor = false,
+                        customNameColor = { 1, 1, 1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from a npc
@@ -763,148 +763,148 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 0,
+                        nameType = 0,
 
-                        ["enableNameColor"] = true, -- Always On (Not in Options)
-                        ["removeRealmName"] = false, -- Always Off (Not in Options)
-                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
-                        ["customNameColor"] = { 0.3, 0, 0.3 },
+                        enableNameColor = true, -- Always On (Not in Options)
+                        removeRealmName = false, -- Always Off (Not in Options)
+                        enableCustomNameColor = true, -- Always On (Not in Options)
+                        customNameColor = { 0.3, 0, 0.3 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from the envirornment
                     ENVIRONMENT = {
-                        ["nameType"] = 0,
+                        nameType = 0,
                     },
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["iconsEnabledAutoAttack"] = true,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                iconsEnabledAutoAttack = true,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["enableAutoAttack_Outgoing"] = true, -- OLD: enableAutoAttack
-                ["enablePetAutoAttack_Outgoing"] = true,
+                enableAutoAttack_Outgoing = true, -- OLD: enableAutoAttack
+                enablePetAutoAttack_Outgoing = true,
 
-                ["enableOutDmg"] = true,
-                ["enableOutHeal"] = true,
-                ["enableOutAbsorbs"] = true,
-                ["enablePetDmg"] = true,
-                ["enableVehicleDmg"] = true,
-                ["enableDotDmg"] = true,
-                ["enableHots"] = true,
-                ["enableImmunes"] = true,
-                ["enableMisses"] = true,
-                ["enableAbsorbs"] = true,
-                ["enablePartialMisses"] = false,
-                ["showHighestPartialMiss"] = false,
-                ["enableKillCommand"] = false,
+                enableOutDmg = true,
+                enableOutHeal = true,
+                enableOutAbsorbs = true,
+                enablePetDmg = true,
+                enableVehicleDmg = true,
+                enableDotDmg = true,
+                enableHots = true,
+                enableImmunes = true,
+                enableMisses = true,
+                enableAbsorbs = true,
+                enablePartialMisses = false,
+                showHighestPartialMiss = false,
+                enableKillCommand = false,
 
-                ["enableOverhealing"] = true,
-                ["enableOverhealingFormat"] = false,
-                ["enableOverhealingSubtraction"] = false,
-                ["overhealingPrefix"] = " |cffFFFFFF(O: ",
-                ["overhealingPostfix"] = ")|r",
+                enableOverhealing = true,
+                enableOverhealingFormat = false,
+                enableOverhealingSubtraction = false,
+                overhealingPrefix = " |cffFFFFFF(O: ",
+                overhealingPostfix = ")|r",
             },
 
             damage = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "top",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "top",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = -288,
-                ["Y"] = -80,
-                ["Width"] = 448,
-                ["Height"] = 160,
+                X = -288,
+                Y = -80,
+                Width = 448,
+                Height = 160,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "LEFT",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "LEFT",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["damageTaken"] = {
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    damageTaken = {
                         enabled = false,
                         desc = "Physical Damage",
                         default = { 0.75, 0.10, 0.10 },
                     },
-                    ["damageTakenCritical"] = {
+                    damageTakenCritical = {
                         enabled = false,
                         desc = "Critical Physical Damage",
                         default = { 1.00, 0.10, 0.10 },
                     },
-                    ["spellDamageTaken"] = {
+                    spellDamageTaken = {
                         enabled = false,
                         desc = "Spell Damage",
                         default = { 0.75, 0.30, 0.85 },
                     },
-                    ["spellDamageTakenCritical"] = {
+                    spellDamageTakenCritical = {
                         enabled = false,
                         desc = "Critical Spell Damage",
                         default = { 0.75, 0.30, 0.85 },
                     },
 
-                    ["missTypesTaken"] = {
+                    missTypesTaken = {
                         enabled = false,
                         desc = "Miss Types",
-                        ["colors"] = {
-                            ["missTypeMiss"] = { enabled = false, desc = "Missed", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeDodge"] = { enabled = false, desc = "Dodged", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeParry"] = { enabled = false, desc = "Parry", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeEvade"] = { enabled = false, desc = "Evade", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeDeflect"] = { enabled = false, desc = "Deflect", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeImmune"] = { enabled = false, desc = "Immune", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeReflect"] = { enabled = false, desc = "Reflect", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeResist"] = { enabled = false, desc = "Resisted", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeBlock"] = { enabled = false, desc = "Blocked", default = { 0.50, 0.50, 0.50 } },
-                            ["missTypeAbsorb"] = { enabled = false, desc = "Asorbed", default = { 0.50, 0.50, 0.50 } },
+                        colors = {
+                            missTypeMiss = { enabled = false, desc = "Missed", default = { 0.50, 0.50, 0.50 } },
+                            missTypeDodge = { enabled = false, desc = "Dodged", default = { 0.50, 0.50, 0.50 } },
+                            missTypeParry = { enabled = false, desc = "Parry", default = { 0.50, 0.50, 0.50 } },
+                            missTypeEvade = { enabled = false, desc = "Evade", default = { 0.50, 0.50, 0.50 } },
+                            missTypeDeflect = { enabled = false, desc = "Deflect", default = { 0.50, 0.50, 0.50 } },
+                            missTypeImmune = { enabled = false, desc = "Immune", default = { 0.50, 0.50, 0.50 } },
+                            missTypeReflect = { enabled = false, desc = "Reflect", default = { 0.50, 0.50, 0.50 } },
+                            missTypeResist = { enabled = false, desc = "Resisted", default = { 0.50, 0.50, 0.50 } },
+                            missTypeBlock = { enabled = false, desc = "Blocked", default = { 0.50, 0.50, 0.50 } },
+                            missTypeAbsorb = { enabled = false, desc = "Asorbed", default = { 0.50, 0.50, 0.50 } },
                         },
                     },
 
-                    ["missTypesTakenPartial"] = {
+                    missTypesTakenPartial = {
                         enabled = false,
                         desc = "Miss Types |cff798BDD(Partials)|r",
-                        ["colors"] = {
-                            ["missTypeResistPartial"] = {
+                        colors = {
+                            missTypeResistPartial = {
                                 enabled = false,
                                 desc = "Resisted |cff798BDD(Partial)|r",
                                 default = { 0.75, 0.50, 0.50 },
                             },
-                            ["missTypeBlockPartial"] = {
+                            missTypeBlockPartial = {
                                 enabled = false,
                                 desc = "Blocked |cff798BDD(Partial)|r",
                                 default = { 0.75, 0.50, 0.50 },
                             },
-                            ["missTypeAbsorbPartial"] = {
+                            missTypeAbsorbPartial = {
                                 enabled = false,
                                 desc = "Asorbed |cff798BDD(Partial)|r",
                                 default = { 0.75, 0.50, 0.50 },
@@ -914,15 +914,15 @@ addon.defaults = {
                 },
 
                 -- critical appearance
-                ["critPrefix"] = "|cffFF0000*|r",
-                ["critPostfix"] = "|cffFF0000*|r",
+                critPrefix = "|cffFF0000*|r",
+                critPostfix = "|cffFF0000*|r",
 
                 -- name formatting
                 names = {
 
                     -- appearance
-                    ["namePrefix"] = " |cffFFFFFF<|r",
-                    ["namePostfix"] = "|cffFFFFFF>|r",
+                    namePrefix = " |cffFFFFFF<|r",
+                    namePostfix = "|cffFFFFFF>|r",
 
                     -- events from a player's character
                     PLAYER = {
@@ -932,16 +932,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 2,
+                        nameType = 2,
 
-                        ["enableNameColor"] = true,
-                        ["removeRealmName"] = true,
-                        ["enableCustomNameColor"] = false,
-                        ["customNameColor"] = { 1, 1, 1 },
+                        enableNameColor = true,
+                        removeRealmName = true,
+                        enableCustomNameColor = false,
+                        customNameColor = { 1, 1, 1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from a npc
@@ -952,16 +952,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 2,
+                        nameType = 2,
 
-                        ["enableNameColor"] = true, -- Always On (Not in Options)
-                        ["removeRealmName"] = false, -- Always Off (Not in Options)
-                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
-                        ["customNameColor"] = { 0.3, 0, 0.3 },
+                        enableNameColor = true, -- Always On (Not in Options)
+                        removeRealmName = false, -- Always Off (Not in Options)
+                        enableCustomNameColor = true, -- Always On (Not in Options)
+                        customNameColor = { 0.3, 0, 0.3 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from the envirornment
@@ -972,82 +972,82 @@ addon.defaults = {
                         --   2 = Environment Type
                         --   3 = Both ("Environment - Environment Type")
                         --   4 = Both ("Environment Type - Environment")
-                        ["nameType"] = 2,
+                        nameType = 2,
 
-                        ["enableNameColor"] = true,
-                        ["enableCustomNameColor"] = true,
-                        ["removeRealmName"] = false, -- Always Off (Not in Options)
-                        ["customNameColor"] = { 0.32, 0.317, 0.1 },
+                        enableNameColor = true,
+                        enableCustomNameColor = true,
+                        removeRealmName = false, -- Always Off (Not in Options)
+                        customNameColor = { 0.32, 0.317, 0.1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 14,
-                ["iconsEnabledAutoAttack"] = true,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 14,
+                iconsEnabledAutoAttack = true,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- Special Tweaks
-                ["showDodgeParryMiss"] = true,
-                ["showDamageReduction"] = true,
+                showDodgeParryMiss = true,
+                showDamageReduction = true,
             },
 
             healing = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- positioon
-                ["X"] = -288,
-                ["Y"] = 88,
-                ["Width"] = 448,
-                ["Height"] = 144,
+                X = -288,
+                Y = 88,
+                Width = 448,
+                Height = 144,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "LEFT",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "LEFT",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["healingTaken"] = { enabled = false, desc = "Healing", default = { 0.10, 0.75, 0.10 } },
-                    ["healingTakenCritical"] = {
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    healingTaken = { enabled = false, desc = "Healing", default = { 0.10, 0.75, 0.10 } },
+                    healingTakenCritical = {
                         enabled = false,
                         desc = "Critical Healing",
                         default = { 0.10, 1.00, 0.10 },
                     },
-                    ["healingTakenPeriodic"] = {
+                    healingTakenPeriodic = {
                         enabled = false,
                         desc = "Periodic Healing",
                         default = { 0.10, 0.50, 0.10 },
                     },
-                    ["healingTakenPeriodicCritical"] = {
+                    healingTakenPeriodicCritical = {
                         enabled = false,
                         desc = "Critical Periodic Healing",
                         default = { 0.10, 0.50, 0.10 },
@@ -1058,8 +1058,8 @@ addon.defaults = {
                 names = {
 
                     -- appearance
-                    ["namePrefix"] = " |cffFFFFFF<|r",
-                    ["namePostfix"] = "|cffFFFFFF>|r",
+                    namePrefix = " |cffFFFFFF<|r",
+                    namePostfix = "|cffFFFFFF>|r",
 
                     -- events from a player's character
                     PLAYER = {
@@ -1069,16 +1069,16 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 1,
+                        nameType = 1,
 
-                        ["enableNameColor"] = true,
-                        ["removeRealmName"] = true,
-                        ["enableCustomNameColor"] = false,
-                        ["customNameColor"] = { 1, 1, 1 },
+                        enableNameColor = true,
+                        removeRealmName = true,
+                        enableCustomNameColor = false,
+                        customNameColor = { 1, 1, 1 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from a npc
@@ -1089,160 +1089,160 @@ addon.defaults = {
                         --   2 = Spell Name
                         --   3 = Both ("Source Name - Spell Name")
                         --   4 = Both ("Spell Name - Source Name")
-                        ["nameType"] = 2,
+                        nameType = 2,
 
-                        ["enableNameColor"] = true, -- Always On (Not in Options)
-                        ["removeRealmName"] = false, -- Always On (Not in Options)
-                        ["enableCustomNameColor"] = true, -- Always On (Not in Options)
-                        ["customNameColor"] = { 0.3, 0, 0.3 },
+                        enableNameColor = true, -- Always On (Not in Options)
+                        removeRealmName = false, -- Always On (Not in Options)
+                        enableCustomNameColor = true, -- Always On (Not in Options)
+                        customNameColor = { 0.3, 0, 0.3 },
 
-                        ["enableSpellColor"] = true,
-                        ["enableCustomSpellColor"] = false,
-                        ["customSpellColor"] = { 1, 1, 1 },
+                        enableSpellColor = true,
+                        enableCustomSpellColor = false,
+                        customSpellColor = { 1, 1, 1 },
                     },
 
                     -- events from the envirornment
                     ENVIRONMENT = {
-                        ["nameType"] = 0, -- NOT SHOWN
+                        nameType = 0, -- NOT SHOWN
                     },
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["enableOverHeal"] = true,
-                ["hideAbsorbedHeals"] = false,
-                ["enableSelfAbsorbs"] = true,
-                ["showOnlyMyHeals"] = false,
-                ["showOnlyPetHeals"] = false,
+                enableOverHeal = true,
+                hideAbsorbedHeals = false,
+                enableSelfAbsorbs = true,
+                showOnlyMyHeals = false,
+                showOnlyPetHeals = false,
             },
 
             --[[class = {
-        ["enabledFrame"] = true,
-        ["alpha"] = 100,
+        enabledFrame = true,
+        alpha = 100,
 
         -- position
-        ["X"] = 0,
-        ["Y"] = 64,
-        ["Width"] = 64,
-        ["Height"] = 64,
+        X = 0,
+        Y = 64,
+        Width = 64,
+        Height = 64,
 
         -- fonts
-        ["font"] = "Condensed Bold (xCT+)",
-        ["fontSize"] = 64,
-        ["fontOutline"] = "2OUTLINE",
+        font = "Condensed Bold (xCT+)",
+        fontSize = 64,
+        fontOutline = "2OUTLINE",
 
         -- font shadow
-        ["enableFontShadow"] = true,
-        ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-        ["fontShadowOffsetX"] = 2,
-        ["fontShadowOffsetY"] = -2,
+        enableFontShadow = true,
+        fontShadowColor = { 0, 0, 0, 0.6 },
+        fontShadowOffsetX = 2,
+        fontShadowOffsetY = -2,
 
         -- font colors
-        ["customColor"] = false,
-        ["fontColor"] = { 1.00, 1.00, 1.00 },
-        ["colors"] = {
+        customColor = false,
+        fontColor = { 1.00, 1.00, 1.00 },
+        colors = {
           ['comboPoints']     = { enabled = false, desc = "Combo Points",     default = { 1.00, 0.82, 0.00 } },
           ['comboPointsMax']  = { enabled = false, desc = "Max Combo Points", default = { 0.00, 0.82, 1.00 } },
         },
       },]]
 
             power = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "bottom",
-                ["alpha"] = 100,
-                ["megaDamage"] = true,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "bottom",
+                alpha = 100,
+                megaDamage = true,
 
                 -- position
-                ["X"] = 0,
-                ["Y"] = -16,
-                ["Width"] = 128,
-                ["Height"] = 96,
+                X = 0,
+                Y = -16,
+                Width = 128,
+                Height = 96,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 17,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "CENTER",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 17,
+                fontOutline = "2OUTLINE",
+                fontJustify = "CENTER",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
 
                 -- https://github.com/Gethe/wow-ui-source/blob/e337b8949ffad2876ea0489d8331db2414342d32
                 -- /AddOns/Blizzard_CombatLog/Blizzard_CombatLog.lua#L1797
-                ["colors"] = {
-                    ["color_MANA"] = { enabled = false, desc = MANA, default = { 0.00, 0.00, 1.00 } },
-                    ["color_RAGE"] = { enabled = false, desc = RAGE, default = { 1.00, 0.00, 0.00 } },
-                    ["color_FURY"] = { enabled = false, desc = FURY, default = { 0.788, 0.259, 0.992 } },
-                    ["color_PAIN"] = { enabled = false, desc = PAIN, default = { 1.000, 0.612, 0.000 } },
+                colors = {
+                    color_MANA = { enabled = false, desc = MANA, default = { 0.00, 0.00, 1.00 } },
+                    color_RAGE = { enabled = false, desc = RAGE, default = { 1.00, 0.00, 0.00 } },
+                    color_FURY = { enabled = false, desc = FURY, default = { 0.788, 0.259, 0.992 } },
+                    color_PAIN = { enabled = false, desc = PAIN, default = { 1.000, 0.612, 0.000 } },
 
-                    ["color_FOCUS"] = { enabled = false, desc = FOCUS, default = { 1.00, 0.50, 0.25 } },
-                    ["color_RUNES"] = { enabled = false, desc = RUNES, default = { 0.50, 0.50, 0.50 } },
-                    ["color_ENERGY"] = { enabled = false, desc = ENERGY, default = { 1.00, 1.00, 0.00 } },
+                    color_FOCUS = { enabled = false, desc = FOCUS, default = { 1.00, 0.50, 0.25 } },
+                    color_RUNES = { enabled = false, desc = RUNES, default = { 0.50, 0.50, 0.50 } },
+                    color_ENERGY = { enabled = false, desc = ENERGY, default = { 1.00, 1.00, 0.00 } },
 
-                    ["color_CHI_POWER"] = {
+                    color_CHI_POWER = {
                         enabled = false,
                         desc = CHI_POWER,
                         default = { 0.71, 1.00, 0.92 },
                     },
-                    ["color_HOLY_POWER"] = {
+                    color_HOLY_POWER = {
                         enabled = false,
                         desc = HOLY_POWER,
                         default = { 0.95, 0.90, 0.60 },
                     },
-                    ["color_RUNIC_POWER"] = {
+                    color_RUNIC_POWER = {
                         enabled = false,
                         desc = RUNIC_POWER,
                         default = { 0.00, 0.82, 1.00 },
                     },
-                    ["color_SOUL_SHARDS"] = {
+                    color_SOUL_SHARDS = {
                         enabled = false,
                         desc = SOUL_SHARDS,
                         default = { 0.50, 0.32, 0.55 },
                     },
-                    ["color_LUNAR_POWER"] = {
+                    color_LUNAR_POWER = {
                         enabled = false,
                         desc = LUNAR_POWER,
                         default = { 0.30, 0.52, 0.90 },
                     },
-                    ["color_INSANITY_POWER"] = {
+                    color_INSANITY_POWER = {
                         enabled = false,
                         desc = INSANITY_POWER,
                         default = { 0.40, 0.00, 0.80 },
                     },
-                    ["color_MAELSTROM_POWER"] = {
+                    color_MAELSTROM_POWER = {
                         enabled = false,
                         desc = MAELSTROM_POWER,
                         default = { 0.00, 0.50, 1.00 },
                     },
-                    ["color_ALTERNATE_POWER"] = {
+                    color_ALTERNATE_POWER = {
                         enabled = false,
                         desc = ALTERNATE_POWER_TEXT,
                         default = { 0.10, 0.10, 0.98 },
                     },
-                    ["color_ARCANE_CHARGES_POWER"] = {
+                    color_ARCANE_CHARGES_POWER = {
                         enabled = false,
                         desc = ARCANE_CHARGES_POWER,
                         default = { 0.10, 0.10, 0.98 },
@@ -1250,144 +1250,144 @@ addon.defaults = {
                 },
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["showEnergyGains"] = true,
-                ["showEnergyType"] = true,
+                showEnergyGains = true,
+                showEnergyType = true,
 
                 -- Generated from "Blizzard Add-On's/Constants.lua"
-                ["disableResource_MANA"] = false,
-                ["disableResource_RAGE"] = false,
-                ["disableResource_FOCUS"] = false,
-                ["disableResource_ENERGY"] = false,
+                disableResource_MANA = false,
+                disableResource_RAGE = false,
+                disableResource_FOCUS = false,
+                disableResource_ENERGY = false,
 
-                ["disableResource_RUNES"] = true,
-                ["disableResource_RUNIC_POWER"] = false,
-                ["disableResource_SOUL_SHARDS"] = false,
-                ["disableResource_LUNAR_POWER"] = true,
+                disableResource_RUNES = true,
+                disableResource_RUNIC_POWER = false,
+                disableResource_SOUL_SHARDS = false,
+                disableResource_LUNAR_POWER = true,
 
-                ["disableResource_CHI_POWER"] = true,
-                ["disableResource_HOLY_POWER"] = false,
-                ["disableResource_INSANITY_POWER"] = false,
-                ["disableResource_MAELSTROM_POWER"] = true,
+                disableResource_CHI_POWER = true,
+                disableResource_HOLY_POWER = false,
+                disableResource_INSANITY_POWER = false,
+                disableResource_MAELSTROM_POWER = true,
 
-                ["disableResource_ARCANE_CHARGES"] = false,
-                ["disableResource_FURY"] = false,
-                ["disableResource_PAIN"] = false,
+                disableResource_ARCANE_CHARGES = false,
+                disableResource_FURY = false,
+                disableResource_PAIN = false,
             },
 
             procs = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "top",
-                ["alpha"] = 100,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "top",
+                alpha = 100,
 
                 -- position
-                ["X"] = 0,
-                ["Y"] = -256,
-                ["Width"] = 294,
-                ["Height"] = 64,
+                X = 0,
+                Y = -256,
+                Width = 294,
+                Height = 64,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 24,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "CENTER",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 24,
+                fontOutline = "2OUTLINE",
+                fontJustify = "CENTER",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
-                ["colors"] = {
-                    ["spellProc"] = { enabled = false, desc = "Spell Procs", default = { 1.00, 0.82, 0.00 } },
-                    ["spellReactive"] = { enabled = false, desc = "Spell Reactive", default = { 1.00, 0.82, 0.00 } },
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
+                colors = {
+                    spellProc = { enabled = false, desc = "Spell Procs", default = { 1.00, 0.82, 0.00 } },
+                    spellReactive = { enabled = false, desc = "Spell Reactive", default = { 1.00, 0.82, 0.00 } },
                 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
             },
 
             loot = {
-                ["enabledFrame"] = true,
-                ["secondaryFrame"] = 0,
-                ["insertText"] = "top",
-                ["alpha"] = 100,
+                enabledFrame = true,
+                secondaryFrame = 0,
+                insertText = "top",
+                alpha = 100,
 
                 -- position
-                ["X"] = 0,
-                ["Y"] = -352,
-                ["Width"] = 512,
-                ["Height"] = 128,
+                X = 0,
+                Y = -352,
+                Width = 512,
+                Height = 128,
 
                 -- fonts
-                ["font"] = "Condensed Bold (xCT+)",
-                ["fontSize"] = 18,
-                ["fontOutline"] = "2OUTLINE",
-                ["fontJustify"] = "CENTER",
+                font = "Condensed Bold (xCT+)",
+                fontSize = 18,
+                fontOutline = "2OUTLINE",
+                fontJustify = "CENTER",
 
                 -- font shadow
-                ["enableFontShadow"] = true,
-                ["fontShadowColor"] = { 0, 0, 0, 0.6 },
-                ["fontShadowOffsetX"] = 2,
-                ["fontShadowOffsetY"] = -2,
+                enableFontShadow = true,
+                fontShadowColor = { 0, 0, 0, 0.6 },
+                fontShadowOffsetX = 2,
+                fontShadowOffsetY = -2,
 
                 -- font colors
-                ["customColor"] = false,
-                ["fontColor"] = { 1.00, 1.00, 1.00 },
+                customColor = false,
+                fontColor = { 1.00, 1.00, 1.00 },
 
                 -- icons
-                ["iconsEnabled"] = true,
-                ["iconsSize"] = 16,
-                ["spacerIconsEnabled"] = true,
+                iconsEnabled = true,
+                iconsSize = 16,
+                spacerIconsEnabled = true,
 
                 -- scrollable
-                ["enableScrollable"] = false,
-                ["scrollableLines"] = 10,
-                ["scrollableInCombat"] = false,
+                enableScrollable = false,
+                scrollableLines = 10,
+                scrollableInCombat = false,
 
                 -- fading text
-                ["enableCustomFade"] = true,
-                ["enableFade"] = true,
-                ["fadeTime"] = 0.3,
-                ["visibilityTime"] = 5,
+                enableCustomFade = true,
+                enableFade = true,
+                fadeTime = 0.3,
+                visibilityTime = 5,
 
                 -- special tweaks
-                ["showItems"] = true,
-                ["showItemTypes"] = true,
-                ["showMoney"] = true,
-                ["showItemTotal"] = true,
-                ["showCrafted"] = true,
-                ["showQuest"] = true,
-                ["showPurchased"] = false,
-                ["colorBlindMoney"] = false,
-                ["filterItemQuality"] = 3,
+                showItems = true,
+                showItemTypes = true,
+                showMoney = true,
+                showItemTotal = true,
+                showCrafted = true,
+                showQuest = true,
+                showPurchased = false,
+                colorBlindMoney = false,
+                filterItemQuality = 3,
             },
         },
 
@@ -1415,79 +1415,79 @@ addon.defaults = {
             formatGroups = true,
 
             combo = {
-                ["DEATHKNIGHT"] = {
+                DEATHKNIGHT = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["DEMONHUNTER"] = {
+                DEMONHUNTER = {
                     [1] = {},
                     [2] = {},
                 },
 
-                ["DRUID"] = {
+                DRUID = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                     [4] = {},
                 },
 
-                ["EVOKER"] = {
+                EVOKER = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["HUNTER"] = {
+                HUNTER = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["MAGE"] = {
+                MAGE = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["MONK"] = {
+                MONK = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["PALADIN"] = {
+                PALADIN = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["PRIEST"] = {
+                PRIEST = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["ROGUE"] = {
+                ROGUE = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["SHAMAN"] = {
+                SHAMAN = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["WARLOCK"] = {
+                WARLOCK = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
                 },
 
-                ["WARRIOR"] = {
+                WARRIOR = {
                     [1] = {},
                     [2] = {},
                     [3] = {},
@@ -1503,14 +1503,14 @@ addon.defaults = {
         },
 
         spellFilter = {
-            ["whitelistBuffs"] = false,
-            ["whitelistDebuffs"] = false,
-            ["whitelistSpells"] = false,
-            ["whitelistProcs"] = false,
-            ["whitelistItems"] = false,
-            ["whitelistDamage"] = false,
-            ["whitelistHealing"] = false,
-            ["trackSpells"] = true,
+            whitelistBuffs = false,
+            whitelistDebuffs = false,
+            whitelistSpells = false,
+            whitelistProcs = false,
+            whitelistItems = false,
+            whitelistDamage = false,
+            whitelistHealing = false,
+            trackSpells = true,
 
             listSpells = {},  -- Used to filter outgoing spells        (Spell ID)
             listBuffs = {},   -- Used to filter gains/fades of buffs   (Spell Name)
