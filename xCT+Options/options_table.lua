@@ -8168,16 +8168,6 @@ local isColorPickerHidden = function(info)
     return not x.db.profile[category][colorName].enabled
 end
 
-local isColorResetBtnHidden = function(info)
-    local colorName = string.match(info[#info], "(.*)_reset")
-    local category = info[#info - 1]
-    if category ~= "SpellColors" then
-        category = "Colors"
-    end
-    return not x.db.profile[category][colorName].enabled
-        or tablesAreEqual(x.db.profile[category][colorName].color, x.db.profile[category][colorName].default)
-end
-
 local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options, index)
     -- Check for nil colors and set them to the default
     if not colorSettings.color or not unpack(colorSettings.color) then
@@ -8209,7 +8199,7 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
         width = "half",
         func = resetColorOverride,
         desc = "Resets |cff798BDD" .. colorSettings.desc .. "|r back to the default color.",
-        hidden = isColorResetBtnHidden,
+        hidden = isColorPickerHidden,
     }
     options["spacer" .. index] = {
         order = index + 3,
