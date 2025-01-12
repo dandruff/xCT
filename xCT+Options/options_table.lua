@@ -1055,6 +1055,12 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
+                            },
                         },
                     },
 
@@ -1520,6 +1526,12 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
+                            },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
                             },
                         },
                     },
@@ -2235,6 +2247,12 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
+                            },
                         },
                     },
 
@@ -2909,6 +2927,12 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
+                            },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
                             },
                         },
                     },
@@ -3591,6 +3615,12 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
+                            },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
                             },
                         },
                     },
@@ -4355,6 +4385,12 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
+                            },
                         },
                     },
 
@@ -4862,6 +4898,12 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
+                            },
                         },
                     },
                 },
@@ -5176,6 +5218,12 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
+                            },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
                             },
                         },
                     },
@@ -5693,6 +5741,12 @@ function x:InitOptionsTable()
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
                             },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
+                            },
                         },
                     },
                 },
@@ -6042,6 +6096,12 @@ function x:InitOptionsTable()
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
+                            },
+
+                            headerEventColor = {
+                                type = "header",
+                                order = 4,
+                                name = "Colors of tthe events",
                             },
                         },
                     },
@@ -7388,63 +7448,10 @@ function x:InitOptionsTable()
         },
     }
 
-    optionsAddon.optionsTable.args.Colors = {
-        name = "Colors",
-        type = "group",
-        order = 4,
-        args = {
-            title_general = {
-                type = "header",
-                order = 100,
-                name = "Customize General Colors",
-            },
-            title_outgoing_damage = {
-                type = "header",
-                order = 200,
-                name = "Customize Outgoing Damage Colors",
-            },
-            title_outgoing_healing = {
-                type = "header",
-                order = 300,
-                name = "Customize Outgoing Healing Colors",
-            },
-            title_outgoing_criticals = {
-                type = "header",
-                order = 400,
-                name = "Customize Outgoing Criticals Colors",
-            },
-            title_incoming_damage = {
-                type = "header",
-                order = 500,
-                name = "Customize Incoming Damage Colors",
-            },
-            title_incoming_healing = {
-                type = "header",
-                order = 600,
-                name = "Customize Incoming Healing Colors",
-            },
-            title_class_power = {
-                type = "header",
-                order = 700,
-                name = "Customize Class Power Colors",
-            },
-            title_procs = {
-                type = "header",
-                order = 800,
-                name = "Customize Procs Colors",
-            },
-            title_loot = {
-                type = "header",
-                order = 900,
-                name = "Customize Loot, Currency & Money Colors",
-            },
-        },
-    }
-
     optionsAddon.optionsTable.args.SpellColors = {
         name = "Spell School Colors",
         type = "group",
-        order = 5,
+        order = 4,
         args = {
             title = {
                 type = "header",
@@ -7457,7 +7464,7 @@ function x:InitOptionsTable()
     optionsAddon.optionsTable.args.Credits = {
         name = "Credits",
         type = "group",
-        order = 6,
+        order = 5,
         args = {
             title = {
                 type = "header",
@@ -8110,47 +8117,68 @@ end
 
 local isColorOverrideEnabled = function(info)
     local colorName = string.match(info[#info], "(.*)_enabled")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    return x.db.profile[info[#info - 1]][colorName].enabled
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    return x.db.profile[category][colorName].enabled
 end
 
 local setColorOverrideEnabled = function(info, enabled)
     local colorName = string.match(info[#info], "(.*)_enabled")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    x.db.profile[info[#info - 1]][colorName].enabled = enabled
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    x.db.profile[category][colorName].enabled = enabled
 end
 
 local getColorOverride = function(info, r, g, b)
     local colorName = string.match(info[#info], "(.*)_color")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    return unpack(x.db.profile[info[#info - 1]][colorName].color or x.db.profile[info[#info - 1]][colorName].default)
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    return unpack(x.db.profile[category][colorName].color or x.db.profile[category][colorName].default)
 end
 
 local setColorOverride = function(info, r, g, b)
     local colorName = string.match(info[#info], "(.*)_color")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    x.db.profile[info[#info - 1]][colorName].color = { r, g, b }
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    x.db.profile[category][colorName].color = { r, g, b }
 end
 
 local resetColorOverride = function(info)
     local colorName = string.match(info[#info], "(.*)_reset")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    x.db.profile[info[#info - 1]][colorName].color = nil
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    x.db.profile[category][colorName].color = nil
 end
 
 local isColorPickerHidden = function(info)
     local colorName = string.match(info[#info], "(.*)_color")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-    return not x.db.profile[info[#info - 1]][colorName].enabled
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    return not x.db.profile[category][colorName].enabled
 end
 
 local isColorResetBtnHidden = function(info)
     local colorName = string.match(info[#info], "(.*)_reset")
-    -- info[#info - 1] is "SpellColors" or "Colors"
-   return not x.db.profile[info[#info - 1]][colorName].enabled
+    local category = info[#info - 1]
+    if category ~= "SpellColors" then
+        category = "Colors"
+    end
+    return not x.db.profile[category][colorName].enabled
             or tablesAreEqual(
-               x.db.profile[info[#info - 1]][colorName].color,
-               x.db.profile[info[#info - 1]][colorName].default
+               x.db.profile[category][colorName].color,
+               x.db.profile[category][colorName].default
             )
 end
 
@@ -8198,35 +8226,36 @@ end
 
 -- Generate Colors for each Frame
 function xo:GenerateColorOptions()
-    local options = optionsAddon.optionsTable.args.Colors.args
-    local settings = x.db.profile.Colors
-    local orders = {
-        general = 100,
-        outgoing_damage = 200,
-        outgoing_healing = 300,
-        outgoing_criticals = 400,
-        incoming_damage = 500,
-        incoming_healing = 600,
-        class_power = 700,
-        procs = 800,
-        loot = 900,
-        other = 1000
+    local orders = {}
+    local parents = {
+        general = "general",
+        outgoing_damage = "outgoing",
+        outgoing_healing = "outgoing_healing",
+        outgoing_criticals = "critical",
+        incoming_damage = "damage",
+        incoming_healing = "healing",
+        class_power = "power",
+        procs = "procs",
+        loot = "loot"
     }
 
-    for colorName, colorSettings in pairs(settings) do
-        if colorSettings.desc then
-            if not orders[colorSettings.category] then
-                self:Print("Unknown color category", colorSettings.category)
-                colorSettings.category = "other"
-            end
+    for colorName, colorSettings in pairs(x.db.profile.Colors) do
+        if not orders[colorSettings.category] then
+            orders[colorSettings.category] = 10
+        end
 
-            GenerateColorOptionsTable_Entry(
-                colorName,
-                colorSettings,
-                options,
-                orders[colorSettings.category] + 1
-            )
-            orders[colorSettings.category] = orders[colorSettings.category] + 5
+        if colorSettings.desc then
+            if parents[colorSettings.category] then
+                GenerateColorOptionsTable_Entry(
+                    colorName,
+                    colorSettings,
+                    optionsAddon.optionsTable.args.Frames.args[parents[colorSettings.category]].args.fontColors.args,
+                    orders[colorSettings.category] + 1
+                )
+                orders[colorSettings.category] = orders[colorSettings.category] + 5
+            else
+                self:Print("Unknown color category", colorSettings.category, "for color", colorName)
+            end
         end
     end
 end
