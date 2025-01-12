@@ -16,7 +16,7 @@ local AddonName, optionsAddon = ...
 optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 -- TODO AceConsole?
 
-local x = optionsAddon.engine
+local xo = optionsAddon.engine
 
 -- Make the main Addon globally accessible
 xCT_Plus_Options = optionsAddon
@@ -27,7 +27,7 @@ local AC = LibStub("AceConfig-3.0")
 local ACD = LibStub("AceConfigDialog-3.0")
 
 -- Gets called directly after the addon is fully loaded.
-function x:OnInitialize()
+function xo:OnInitialize()
     if not xCT_Plus then
         self:Print("xCT not found. Please load it first.")
     end
@@ -46,31 +46,31 @@ end
 -- Profile Updated, need to refresh important stuff
 local function RefreshConfig()
     -- Clean up the Profile
-    x:CompatibilityLogic(true)
-
-    x:UpdateFrames()
+    xCT_Plus.engine:CompatibilityLogic(true)
+    xCT_Plus.engine:CacheColors()
+    xCT_Plus.engine:UpdateFrames()
 
     -- Will this fix the profile issue?
-    x:GenerateSpellSchoolColors()
-    x:GenerateColorOptions()
+    xo:GenerateSpellSchoolColors()
+    xo:GenerateColorOptions()
 
     -- Update combat text engine CVars
-    x:UpdateCVar(true)
+    xCT_Plus.engine:UpdateCVar(true)
+
+    collectgarbage()
+end
+
+local function ProfileReset()
+    -- Clean up the Profile
+    xCT_Plus.engine:CompatibilityLogic(false)
+    xCT_Plus.engine:CacheColors()
+    xCT_Plus.engine:UpdateFrames()
 
     collectgarbage()
 end
 
 -- Gets called during the PLAYER_LOGIN event, when most of the data provided by the game is already present.
-function x:OnEnable()
-    local function ProfileReset()
-        -- Clean up the Profile
-        xCT_Plus.engine:CompatibilityLogic(false)
-
-        xCT_Plus.engine:UpdateFrames()
-
-        collectgarbage()
-    end
-
+function xo:OnEnable()
     -- Had to pass the explicit method into here, not sure why
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileChanged", RefreshConfig)
     xCT_Plus.engine.db.RegisterCallback(self, "OnProfileCopied", RefreshConfig)
@@ -82,16 +82,11 @@ function x:OnEnable()
     self.openConfigAfterCombat = false
 end
 
--- Gets only called when your addon is manually being disabled.
-function x:OnDisable()
-
-end
-
-function x:ToggleConfigTool()
+function xo:ToggleConfigTool()
     if self.isConfigToolOpen then
-        x:HideConfigTool()
+        xo:HideConfigTool()
     else
-        x:ShowConfigTool()
+        xo:ShowConfigTool()
     end
 end
 
@@ -102,7 +97,7 @@ local function myContainer_OnRelease()
     self.isConfigToolOpen = false
 end
 
-function x:ShowConfigTool(...)
+function xo:ShowConfigTool(...)
     if self.isConfigToolOpen then
         -- Already open
         return
@@ -125,7 +120,7 @@ function x:ShowConfigTool(...)
     self.optionsFrame.frame:SetScript(
         "OnHide",
         function()
-            x:HideConfigTool()
+            xo:HideConfigTool()
         end
     )
 
@@ -136,8 +131,8 @@ function x:ShowConfigTool(...)
     self.optionsFrame:SetCallback("OnClose", myContainer_OnRelease)
 
     -- Go through and select all the groups that are relevant to the player
-    if not x.selectDefaultGroups then
-        x.selectDefaultGroups = true
+    if not xo.selectDefaultGroups then
+        xo.selectDefaultGroups = true
 
         -- Select the player's class, then go back to home
         ACD:SelectGroup(AddonName, "spells", "classList", xCT_Plus.engine.player.class)
@@ -153,7 +148,7 @@ function x:ShowConfigTool(...)
     ACD:Open(AddonName, self.optionsFrame)
 end
 
-function x:HideConfigTool(wait)
+function xo:HideConfigTool(wait)
     -- If the caller says we need to wait a bit, we'll wait!
     if wait then
         self:ScheduleTimer("HideConfigTool", 0.1)
@@ -169,16 +164,16 @@ function x:HideConfigTool(wait)
     GameTooltip:Hide()
 end
 
-function x:onEnteringCombat()
+function xo:onEnteringCombat()
     if xCT_Plus.engine.db.profile.hideConfig and self.isConfigToolOpen then
         self.openConfigAfterCombat = true
-        x:HideConfigTool()
+        xo:HideConfigTool()
     end
 end
 
-function x:onLeavingCombat()
+function xo:onLeavingCombat()
     if self.openConfigAfterCombat then
-        x:ShowConfigTool()
+        xo:ShowConfigTool()
     end
 
     self.openConfigAfterCombat = false

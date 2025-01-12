@@ -808,12 +808,12 @@ end
 
 -- DB for the colors
 -- Returns the color and if it was enabled
-function x:LookupColorByName(name)
-    if self.colorNameDB[name] then
-        if self.colorNameDB[name].enabled then
-            return self.colorNameDB[name].color or self.colorNameDB[name].default, true
+function x:LookupColorByName(colorName)
+    if self.colorNameDB[colorName] then
+        if self.colorNameDB[colorName].enabled then
+            return self.colorNameDB[colorName].color or self.colorNameDB[colorName].default, true
         end
-        return self.colorNameDB[name].default, false
+        return self.colorNameDB[colorName].default, false
     else
         return
     end

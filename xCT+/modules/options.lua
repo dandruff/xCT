@@ -477,6 +477,13 @@ function x:ShowAutoAttackIcons(frameName)
     return x.db.profile.frames[frameName] and x.db.profile.frames[frameName].iconsEnabledAutoAttack or false
 end
 
+function x:GetFrame(frameName, bypassUpdate)
+    if not bypassUpdate then
+        x:UpdateFrames(frameName)
+    end
+    return x.framesByName[frameName]
+end
+
 function x:GetFrameSettings(frameName)
     local frameSettings = x.db.profile.frames[frameName]
     if not frameSettings then

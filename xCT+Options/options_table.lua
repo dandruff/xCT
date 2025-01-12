@@ -13,7 +13,14 @@
  [====================================]]
 
 local AddonName, optionsAddon = ...
+
+-- Short handles to the xCT engine and the xCT options engine
 local x = xCT_Plus.engine
+local xo = optionsAddon.engine
+
+if not x then
+    return
+end
 
 function x:InitOptionsTable()
     -- Create the options table for AceConfig
@@ -671,19 +678,19 @@ function x:InitOptionsTable()
         x.db.profile.spellFilter[category][value] = true
 
         if category == "listBuffs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("buffs")
+            xo:UpdateAuraSpellFilter("buffs")
         elseif category == "listDebuffs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("debuffs")
+            xo:UpdateAuraSpellFilter("debuffs")
         elseif category == "listSpells" then
-            optionsAddon.engine:UpdateAuraSpellFilter("spells")
+            xo:UpdateAuraSpellFilter("spells")
         elseif category == "listProcs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("procs")
+            xo:UpdateAuraSpellFilter("procs")
         elseif category == "listItems" then
-            optionsAddon.engine:UpdateAuraSpellFilter("items")
+            xo:UpdateAuraSpellFilter("items")
         elseif category == "listDamage" then
-            optionsAddon.engine:UpdateAuraSpellFilter("damage")
+            xo:UpdateAuraSpellFilter("damage")
         elseif category == "listHealing" then
-            optionsAddon.engine:UpdateAuraSpellFilter("healing")
+            xo:UpdateAuraSpellFilter("healing")
         else
             x:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
         end
@@ -695,19 +702,19 @@ function x:InitOptionsTable()
         x.db.profile.spellFilter[category][value] = nil
 
         if category == "listBuffs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("buffs")
+            xo:UpdateAuraSpellFilter("buffs")
         elseif category == "listDebuffs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("debuffs")
+            xo:UpdateAuraSpellFilter("debuffs")
         elseif category == "listSpells" then
-            optionsAddon.engine:UpdateAuraSpellFilter("spells")
+            xo:UpdateAuraSpellFilter("spells")
         elseif category == "listProcs" then
-            optionsAddon.engine:UpdateAuraSpellFilter("procs")
+            xo:UpdateAuraSpellFilter("procs")
         elseif category == "listItems" then
-            optionsAddon.engine:UpdateAuraSpellFilter("items")
+            xo:UpdateAuraSpellFilter("items")
         elseif category == "listDamage" then
-            optionsAddon.engine:UpdateAuraSpellFilter("damage")
+            xo:UpdateAuraSpellFilter("damage")
         elseif category == "listHealing" then
-            optionsAddon.engine:UpdateAuraSpellFilter("healing")
+            xo:UpdateAuraSpellFilter("healing")
         else
             x:Print("|cffFF0000Error:|r Unknown filter type '" .. category .. "'!")
         end
@@ -7718,14 +7725,14 @@ function x:InitOptionsTable()
         },
     }
 
-    optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
-    optionsAddon.engine:UpdateAuraSpellFilter()
-    optionsAddon.engine:GenerateSpellSchoolColors()
-    optionsAddon.engine:GenerateColorOptions()
+    xo:UpdateOptionsTableSpamMergerSpells()
+    xo:UpdateAuraSpellFilter()
+    xo:GenerateSpellSchoolColors()
+    xo:GenerateColorOptions()
 end
 
 -- Gets spammy spells from the database and creates options
-function optionsAddon.engine:UpdateOptionsTableSpamMergerSpells()
+function xo:UpdateOptionsTableSpamMergerSpells()
     local function SpamMergerGetSpellInterval(info)
         local spellId = tonumber(info[#info])
         if x.db.profile.spells.merge[spellId] ~= nil and x.db.profile.spells.merge[spellId].interval ~= nil then
@@ -7900,7 +7907,7 @@ local function setIsSpellFiltered(info, value)
 end
 
 -- Update the Buff, Debuff and Spell filter list
-function optionsAddon.engine:UpdateAuraSpellFilter(specific)
+function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "buffs" then
         optionsAddon.optionsTable.args.spellFilter.args.listBuffs.args.headerFilterList = {
             order = 100,
@@ -8429,7 +8436,7 @@ local function GenerateColorOptionsTable(colorName, settings, options, index)
 end
 
 -- Generate Colors for each Frame
-function optionsAddon.engine:GenerateColorOptions()
+function xo:GenerateColorOptions()
     for name, settings in pairs(x.db.profile.frames) do
         local options = optionsAddon.optionsTable.args.Frames.args[name]
         if settings.colors then
@@ -8463,7 +8470,7 @@ function optionsAddon.engine:GenerateColorOptions()
     end
 end
 
-function optionsAddon.engine:GenerateSpellSchoolColors()
+function xo:GenerateSpellSchoolColors()
     local options = optionsAddon.optionsTable.args.SpellSchools.args
     local settings = x.db.profile.SpellColors
     local index = 10

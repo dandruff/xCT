@@ -83,13 +83,6 @@ local function Frame_SendTestMessage_OnUpdate(self, e)
     end
 end
 
-function x:GetFrame(framename, bypassUpdate)
-    if not bypassUpdate then
-        x:UpdateFrames(specificFrame)
-    end
-    return x.framesByName[framename]
-end
-
 -- =====================================================
 -- AddOn:UpdateFrames(
 --        specificFrame,    [string] - (Optional) the framename
@@ -290,15 +283,14 @@ end
 -- =====================================================
 function x:Clear(specificFrame)
     if not specificFrame then
-        for framename, settings in pairs(x.db.profile.frames) do
+        for framename in pairs(x.db.profile.frames) do
             local frame = x:GetFrame(framename)
             if frame then -- attempt to fix login 'attempt to index nil value frame' error
                 frame:Clear()
             end
         end
     else
-        local frame = x:GetFrame(specificFrame)
-        frame:Clear()
+        x:GetFrame(specificFrame):Clear()
     end
 end
 
@@ -385,17 +377,13 @@ end
 -- =====================================================
 function x:AddMessage(frameName, message, colorName)
     local frame = x:GetFrame(frameName, true)
-    local frameOptions = x.db.profile.frames[frameName]
+    local frameSettings = x.db.profile.frames[frameName]
 
     -- Make sure we have a valid frame
-    if not frameOptions or not frame then
-        x:Print("Frame not found:", frameName)
+    if not frameSettings or not frame then
+        x:Print("Frame not found", frameName)
         return
     end
-
-    local secondFrameName = x.framesById[frameOptions.secondaryFrame]
-    local secondFrame = x.framesByName[secondFrameName]
-    local secondFrameOptions = x.db.profile.frames[secondFrameName]
 
     -- Load the color
     local r, g, b = 1, 1, 1
@@ -407,28 +395,35 @@ function x:AddMessage(frameName, message, colorName)
         if color then
             r, g, b = color[1], color[2], color[3]
         else
-            x:Print("FRAME:", frameName, "  there is no color named:", colorName)
+            x:Print("There is no color named", colorName)
             error("missing color")
         end
     end
 
-    -- make sure the frame is enabled
-    if frameOptions.enabledFrame then
-        -- check for forced color
-        if frameOptions.customColor then
-            r, g, b = unpack(frameOptions.fontColor or { 1, 1, 1 })
+    if not frameSettings.enabledFrame then
+        if not frameSettings.secondaryFrame or frameSettings.secondaryFrame == 0 then
+            -- Neither the frame nor the secondary frame is enabled
+            return nil
         end
-        frame:AddMessage(message, r, g, b)
-    elseif secondFrame and secondFrameOptions.enabledFrame then
-        -- check for forced color
-        if secondFrameOptions.customColor then
-            r, g, b = unpack(secondFrameOptions.fontColor or { 1, 1, 1 })
+
+        -- Overwrite the output frame
+        frameName = x.framesById[frameSettings.secondaryFrame]
+        frameSettings = x.db.profile.frames[frameName]
+
+        if not frameSettings.enabledFrame then
+            return nil
         end
-        secondFrame:AddMessage(message, r, g, b)
+
+        frame = x:GetFrame(frameName, true)
     end
+
+    -- check for forced color
+    if frameSettings.customColor and frameSettings.fontColor then
+        r, g, b = frameSettings.fontColor[1], frameSettings.fontColor[2], frameSettings.fontColor[3]
+    end
+
+    frame:AddMessage(message, r, g, b)
 end
-
-
 
 --[=====================================================[
  AddOn:GetSpellTextureFormatted(
@@ -1398,7 +1393,7 @@ function x.ToggleTestMode(hidePopup)
             x.testing = true
 
             -- Start the Test more
-            for framename, settings in pairs(x.db.profile.frames) do
+            for framename in pairs(x.db.profile.frames) do
                 local frame = x:GetFrame(framename)
                 frame.nextUpdate = nil
                 frame.lastUpdate = 0
