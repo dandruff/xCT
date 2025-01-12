@@ -8092,28 +8092,6 @@ function xo:UpdateAuraSpellFilter(specific)
     end
 end
 
--- compares a tables values
-local function tablesAreEqual(t1, t2)
-    local equal = true
-
-    -- nil check
-    if not t1 or not t2 then
-        if not t1 and not t2 then
-            return true
-        else
-            return false
-        end
-    end
-
-    for i, v in pairs(t1) do
-        if t2[i] ~= v then
-            equal = false
-            break
-        end
-    end
-    return equal
-end
-
 local isColorOverrideEnabled = function(info)
     local colorName = string.match(info[#info], "(.*)_enabled")
     local category = info[#info - 1]
