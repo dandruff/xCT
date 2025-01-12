@@ -20,7 +20,6 @@ function x:Options_Global_ClearWhenLeavingCombat()
     return x.db.profile.frameSettings.clearLeavingCombat
 end
 
-
 -- Frame "General"
 function x:Options_General_ShowHonor()
     return x.db.profile.frames.general.showHonorGains
@@ -107,7 +106,6 @@ function x:Options_Outgoing_ShowPartialMisses()
     return x.db.profile.frames.outgoing.enablePartialMisses
 end
 
-
 -- Frame "Outgoing Damage (Criticals)"
 function x:Options_Critical_ShowAutoAttack()
     return x.db.profile.frames.outgoing.enableAutoAttack_Critical
@@ -120,7 +118,6 @@ end
 function x:Options_Critical_ShowPetCrits()
     return x.db.profile.frames.critical.petCrits
 end
-
 
 -- Frame "Outgoing Healing"
 function x:Options_OutgoingHealing_ShowHots()
@@ -145,9 +142,7 @@ function x:Options_OutgoingHealing_OverhealingPostfix()
 end
 
 function x:Options_OutgoingHealing_FormatOverhealingAmount(amount)
-    return x:Options_OutgoingHealing_OverhealingPrefix()
-        .. amount
-        .. x:Options_OutgoingHealing_OverhealingPostfix()
+    return x:Options_OutgoingHealing_OverhealingPrefix() .. amount .. x:Options_OutgoingHealing_OverhealingPostfix()
 end
 
 function x:Options_OutgoingHealing_SubtractOverhealing()
@@ -162,7 +157,6 @@ end
 function x:Options_IncomingDamage_ShowResistances()
     return x.db.profile.frames.damage.showDamageReduction
 end
-
 
 -- Frame "Incoming Healing"
 function x:Options_IncomingHealing_ShowOnlyMyHeals()
@@ -181,7 +175,6 @@ function x:Options_IncomingHealing_HideAbsorbedHealing()
     return x.db.profile.frames.healing.hideAbsorbedHeals
 end
 
-
 -- Frame "Class Power"
 function x:Options_Power_ShowGains()
     return x.db.profile.frames.power.showEnergyGains
@@ -199,12 +192,10 @@ function x:Options_Power_ShowResource(resource)
     return true
 end
 
-
 -- Frame "Special Effects (Procs)"
 function x:Options_Procs_ShowProcs()
     return x.db.profile.frames.procs.enabledFrame
 end
-
 
 -- Frame "Loot, Currency & Money"
 function x:Options_Loot_ShowItems()
@@ -258,7 +249,6 @@ end
 function x:Options_Loot_EnableSpacerIcons()
     return x.db.profile.frames.loot.spacerIconsEnabled
 end
-
 
 -- Spam Merger
 function x:Options_SpamMerger_EnableSpamMerger()
@@ -316,7 +306,6 @@ function x:Options_SpamMerger_SpellInterval(spellId)
 
     return x:Options_SpamMerger_FallbackInterval()
 end
-
 
 -- Spell Filter
 function x:Options_Filter_PlayerPowerMinimumThreshold()
@@ -466,7 +455,6 @@ function x:Options_Filter_HideIncomingHealing(spellId)
     end
     return hidden
 end
-
 
 -- Other options
 function x:CVar_BypassCVars()

@@ -198,12 +198,9 @@ function xo:ShowConfigTool(...)
 
     -- Register my AddOn for Escape keypresses
     self.optionsFrame = AceGUI:Create("Frame")
-    self.optionsFrame.frame:SetScript(
-        "OnHide",
-        function()
-            xo:HideConfigTool()
-        end
-    )
+    self.optionsFrame.frame:SetScript("OnHide", function()
+        xo:HideConfigTool()
+    end)
 
     _G.xCT_PlusConfigFrame = self.optionsFrame.frame
     table.insert(UISpecialFrames, "xCT_PlusConfigFrame")

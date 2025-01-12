@@ -26,9 +26,8 @@ local ssub, sformat, sgsub, mfloor, random, tinsert, format =
     math.random,
     table.insert,
     string.format,
-
--- Start the Random Machine!
-random(time())
+    -- Start the Random Machine!
+    random(time())
 random()
 random(time())
 
@@ -307,7 +306,6 @@ function x:Abbreviate(amount, frameName)
         return mfloor(value + 0.5)
     end
 
-
     local isNegative = amount < 0
     if isNegative then
         amount = math.abs(amount)
@@ -438,14 +436,7 @@ end
 
     Formats an icon quickly for use when outputting to a combat text frame.
 --]=====================================================]
-function x:GetSpellTextureFormatted(
-    spellId,
-    message,
-    frameSettings,
-    iconSize,
-    strColor,
-    mergeCount
-)
+function x:GetSpellTextureFormatted(spellId, message, frameSettings, iconSize, strColor, mergeCount)
     iconSize = iconSize or frameSettings.iconsEnabled and frameSettings.iconsSize or -1
     local showInvisibleIcon = frameSettings.spacerIconsEnabled
     local justify = frameSettings.fontJustify
@@ -1220,7 +1211,8 @@ function x.TestMoreUpdate(self, elapsed)
                     x:Options_SpamMerger_EnableSpamMerger()
                     and (random(3) % 3 == 0)
                     and (
-                        x:Options_SpamMerger_MergeCriticalsWithOutgoing() or x:Options_SpamMerger_MergeCriticalsByThemselves()
+                        x:Options_SpamMerger_MergeCriticalsWithOutgoing()
+                        or x:Options_SpamMerger_MergeCriticalsByThemselves()
                     )
                 then
                     mergeCount = random(17) + 1
@@ -1376,7 +1368,11 @@ function x.TestMoreUpdate(self, elapsed)
                     end
                     x:AddMessage(outputFrame, MONEY .. ": " .. message, color)
                 else
-                    x:AddMessage(outputFrame, MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)), color)
+                    x:AddMessage(
+                        outputFrame,
+                        MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)),
+                        color
+                    )
                 end
             end
         end

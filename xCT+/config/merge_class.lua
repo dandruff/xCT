@@ -22,15 +22,15 @@ do
     spell(52212, 3.0) --  Death and Decay
 
     spec(250) -- Blood
-    spell(55078,  3.0) --  Blood Plague
+    spell(55078, 3.0) --  Blood Plague
     spell(196528, 1.0) --  Talent: Bonestorm (DMG)
     spell(196545, 1.0) --  Talent: Bonestorm (Heal)
-    alias(49998,  45470)  --  Death Strike (DRW)
+    alias(49998, 45470) --  Death Strike (DRW)
     alias(383312, 383313) --  Talent: Abomination Limb
 
     spec(251) -- Frost
     spell(196771, 3.0) --  Remorseless Winter
-    spell(55095,  3.0) --  Frost Fever
+    spell(55095, 3.0) --  Frost Fever
     spell(222024, 1.0) --  Obliterate
     spell(222026, 1.0) --  Frost Strike
     spell(155166, 1.0) --  Talent: Breath of Sindragosa
@@ -42,11 +42,11 @@ do
     spell(199373, 1.0) --  Army: Claw
     spell(191587, 3.0) --  Virulent Plague (DoT)
     spell(286836, 1.0) --  Dark Transformation
-    spell(47541,  1.0) --  Death Coil
+    spell(47541, 1.0) --  Death Coil
     spell(156000, 3.0) --  Talent: Defile
     spell(115994, 1.0) --  Talent: Unholy Blight
     spell(319230, 1.0) --  Talent: Unholy Pact
-    alias(55090,  70890)  --  Scourge Strike: Merge physical + shadow portion
+    alias(55090, 70890) --  Scourge Strike: Merge physical + shadow portion
     alias(319238, 319230) --  [Cleave Merger] Unholy Pact
     alias(319236, 319230) --  [Cleave Merger] Unholy Pact
     alias(191685, 215969) --  [DD/DoT Merger] Virulent Plague Eruption
@@ -142,7 +142,7 @@ do
     spell(200389, 3.5) --  Talent: Cultivation
     spell(364686, 5.0) --  Tier[id=188849]: Renewing Bloom (every 1s)
     alias(189800, 48438) --  [HoT/Artifact Merger] Nature's Essence
-    alias(155777, 774)   --  [HoT/HoT Merger] Talent: Germination
+    alias(155777, 774) --  [HoT/HoT Merger] Talent: Germination
     alias(207386, 81269) --  [Heal/HoT Merger] Talent: Spring Blossom
 end
 
@@ -473,14 +473,14 @@ class("WARRIOR")
 do
     spec(0) -- All Specs
     spell(156287, 2.5) --  Ravager
-    spell(5308, 1.0)   --  Execute
+    spell(5308, 1.0) --  Execute
     spell(199658, 1.0) --  Whirlwind
-    alias( 44949, 199658) --  Whirlwind
+    alias(44949, 199658) --  Whirlwind
     alias(199850, 199658) --  Whirlwind
     alias(199851, 199658) --  Whirlwind
     alias(199852, 199658) --  Whirlwind
-    alias(163558, 5308)   --  Execute (OH - Fury)
-    alias(280849, 5308)   --  Execute (OH - Fury)
+    alias(163558, 5308) --  Execute (OH - Fury)
+    alias(280849, 5308) --  Execute (OH - Fury)
 
     spec(71) -- Arms
     spell(772, 3.5) --  Talent: Rend
@@ -489,11 +489,11 @@ do
     spell(262115, 3.0) --  Mastery: Deep Wounds (DoT over 6s)
 
     spec(72) -- Fury
-    spell(184367, 2.5)  --  Rampage
-    spell(96103, 1.0)   --  Raging Blow
-    spell(113344, 2.5)  --  Talent: Bloodbath
-    spell(50622, 2.5)   --  Talent: Bladestorm
-    alias(85384,  96103) --  [MH/OH] Raging Blow
+    spell(184367, 2.5) --  Rampage
+    spell(96103, 1.0) --  Raging Blow
+    spell(113344, 2.5) --  Talent: Bloodbath
+    spell(50622, 2.5) --  Talent: Bladestorm
+    alias(85384, 96103) --  [MH/OH] Raging Blow
     alias(335100, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
     alias(335098, 96103) --  Talent: Reckless Abandon (Crushing Blow merged into Raging Blow)
     alias(95738, 50622) --  [MH/OH] Bladestorm

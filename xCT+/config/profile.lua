@@ -76,37 +76,37 @@ addon.defaults = {
             [tostring(SCHOOL_MASK_PHYSICAL)] = {
                 enabled = false,
                 desc = "Physical",
-                default = { 1.00, 1.00, 1.00 }
+                default = { 1.00, 1.00, 1.00 },
             },
             [tostring(SCHOOL_MASK_HOLY)] = {
                 enabled = false,
                 desc = "Holy",
-                default = { 1.00, 1.00, 0.30 }
+                default = { 1.00, 1.00, 0.30 },
             },
             [tostring(SCHOOL_MASK_FIRE)] = {
                 enabled = false,
                 desc = "Fire",
-                default = { 1.00, 0.15, 0.18 }
+                default = { 1.00, 0.15, 0.18 },
             },
             [tostring(SCHOOL_MASK_NATURE)] = {
                 enabled = false,
                 desc = "Nature",
-                default = { 0.40, 1.00, 0.40 }
+                default = { 0.40, 1.00, 0.40 },
             },
             [tostring(SCHOOL_MASK_FROST)] = {
                 enabled = false,
                 desc = "Frost",
-                default = { 0.30, 0.30, 0.90 }
+                default = { 0.30, 0.30, 0.90 },
             },
             [tostring(SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
                 desc = "Shadow",
-                default = { 1.00, 0.70, 1.00 }
+                default = { 1.00, 0.70, 1.00 },
             },
             [tostring(SCHOOL_MASK_ARCANE)] = {
                 enabled = false,
                 desc = "Arcane",
-                default = { 0.75, 0.75, 0.75 }
+                default = { 0.75, 0.75, 0.75 },
             },
 
             -- Physical and a Magical
@@ -230,7 +230,7 @@ addon.defaults = {
             )] = {
                 enabled = false,
                 desc = "Chromatic",
-                default = { 0.69, 0.58, 0.65 }
+                default = { 0.69, 0.58, 0.65 },
             },
 
             [tostring(
@@ -243,7 +243,7 @@ addon.defaults = {
             )] = {
                 enabled = false,
                 desc = "Magic",
-                default = { 0.74, 0.65, 0.59 }
+                default = { 0.74, 0.65, 0.59 },
             },
 
             [tostring(
@@ -257,7 +257,7 @@ addon.defaults = {
             )] = {
                 enabled = false,
                 desc = "Chaos",
-                default = { 0.78, 0.70, 0.65 }
+                default = { 0.78, 0.70, 0.65 },
             },
         },
 
@@ -1231,12 +1231,12 @@ addon.defaults = {
             whitelistHealing = false,
             trackSpells = true,
 
-            listSpells = {},  -- Used to filter outgoing spells        (Spell ID)
-            listBuffs = {},   -- Used to filter gains/fades of buffs   (Spell Name)
+            listSpells = {}, -- Used to filter outgoing spells        (Spell ID)
+            listBuffs = {}, -- Used to filter gains/fades of buffs   (Spell Name)
             listDebuffs = {}, -- Used to filter gains/fades of debuffs (Spell Name)
-            listProcs = {},   -- Used to filter spell procs            (Proc Name)
-            listItems = {},   -- Used to filter Items                  (Item ID)
-            listDamage = {},  -- Used to filter incoming damage        (Spell ID)
+            listProcs = {}, -- Used to filter spell procs            (Proc Name)
+            listItems = {}, -- Used to filter Items                  (Item ID)
+            listDamage = {}, -- Used to filter incoming damage        (Spell ID)
             listHealing = {}, -- Used to filter incoming healing       (Spell ID)
 
             -- Minimal Spell Amount
@@ -1277,13 +1277,13 @@ addon.defaults = {
                 enabled = false,
                 desc = "Interrupts",
                 category = "general",
-                default = { 1.00, 0.50, 0.00 }
+                default = { 1.00, 0.50, 0.00 },
             },
             killingBlow = {
                 enabled = false,
                 desc = "Killing Blows",
                 category = "general",
-                default = { 0.20, 1.00, 0.20 }
+                default = { 0.20, 1.00, 0.20 },
             },
             buffsGained = {
                 enabled = false,
@@ -1345,13 +1345,13 @@ addon.defaults = {
                 enabled = false,
                 desc = "Auto Attack Damage",
                 category = "outgoing_damage",
-                default = { 1.00, 1.00, 1.00 }
+                default = { 1.00, 1.00, 1.00 },
             },
             misstypesOut = {
                 enabled = false,
                 desc = "Missed Attacks",
                 category = "outgoing_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
 
             -- Outgoing Healing
@@ -1411,61 +1411,61 @@ addon.defaults = {
                 enabled = false,
                 desc = "Missed",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeDodge = {
                 enabled = false,
                 desc = "Dodged",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeParry = {
                 enabled = false,
                 desc = "Parry",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeEvade = {
                 enabled = false,
                 desc = "Evade",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeDeflect = {
                 enabled = false,
                 desc = "Deflect",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeImmune = {
                 enabled = false,
                 desc = "Immune",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeReflect = {
                 enabled = false,
                 desc = "Reflect",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeResist = {
                 enabled = false,
                 desc = "Resisted",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeBlock = {
                 enabled = false,
                 desc = "Blocked",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeAbsorb = {
                 enabled = false,
                 desc = "Asorbed",
                 category = "incoming_damage",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             missTypeResistPartial = {
                 enabled = false,
@@ -1491,7 +1491,7 @@ addon.defaults = {
                 enabled = false,
                 desc = "Healing",
                 category = "incoming_healing",
-                default = { 0.10, 0.75, 0.10 }
+                default = { 0.10, 0.75, 0.10 },
             },
             healingTakenCritical = {
                 enabled = false,
@@ -1519,43 +1519,43 @@ addon.defaults = {
                 enabled = false,
                 desc = MANA,
                 category = "class_power",
-                default = { 0.00, 0.00, 1.00 }
+                default = { 0.00, 0.00, 1.00 },
             },
             color_RAGE = {
                 enabled = false,
                 desc = RAGE,
                 category = "class_power",
-                default = { 1.00, 0.00, 0.00 }
+                default = { 1.00, 0.00, 0.00 },
             },
             color_FURY = {
                 enabled = false,
                 desc = FURY,
                 category = "class_power",
-                default = { 0.788, 0.259, 0.992 }
+                default = { 0.788, 0.259, 0.992 },
             },
             color_PAIN = {
                 enabled = false,
                 desc = PAIN,
                 category = "class_power",
-                default = { 1.000, 0.612, 0.000 }
+                default = { 1.000, 0.612, 0.000 },
             },
             color_FOCUS = {
                 enabled = false,
                 desc = FOCUS,
                 category = "class_power",
-                default = { 1.00, 0.50, 0.25 }
+                default = { 1.00, 0.50, 0.25 },
             },
             color_RUNES = {
                 enabled = false,
                 desc = RUNES,
                 category = "class_power",
-                default = { 0.50, 0.50, 0.50 }
+                default = { 0.50, 0.50, 0.50 },
             },
             color_ENERGY = {
                 enabled = false,
                 desc = ENERGY,
                 category = "class_power",
-                default = { 1.00, 1.00, 0.00 }
+                default = { 1.00, 1.00, 0.00 },
             },
             color_CHI_POWER = {
                 enabled = false,
@@ -1628,13 +1628,13 @@ addon.defaults = {
                 enabled = false,
                 desc = "Spell Procs",
                 category = "procs",
-                default = { 1.00, 0.82, 0.00 }
+                default = { 1.00, 0.82, 0.00 },
             },
             spellReactive = {
                 enabled = false,
                 desc = "Spell Reactive",
                 category = "procs",
-                default = { 1.00, 0.82, 0.00 }
+                default = { 1.00, 0.82, 0.00 },
             },
 
             -- Loot, Currency & Money
@@ -1642,7 +1642,7 @@ addon.defaults = {
                 enabled = false,
                 desc = "Honor Gained",
                 category = "loot",
-                default = { 0.10, 0.10, 1.00 }
+                default = { 0.10, 0.10, 1.00 },
             },
             reputationGain = {
                 enabled = false,
@@ -1656,6 +1656,6 @@ addon.defaults = {
                 category = "loot",
                 default = { 1.00, 0.10, 0.10 },
             },
-        }
+        },
     },
 }

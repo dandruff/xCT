@@ -26,10 +26,9 @@ function x:InitOptionsTable()
     -- Create the options table for AceConfig
     optionsAddon.optionsTable = {
         -- Add a place for the user to grab
-        name = "                                                      Version: " .. (C_AddOns.GetAddOnMetadata(
-            "xCT+",
-            "Version"
-        ) or "Unknown") .. "                                                      ",
+        name = "                                                      Version: "
+            .. (C_AddOns.GetAddOnMetadata("xCT+", "Version") or "Unknown")
+            .. "                                                      ",
         handler = x,
         type = "group",
         args = {
@@ -298,7 +297,7 @@ function x:InitOptionsTable()
                 C_Spell.GetSpellTexture(i) or 0,
                 16,
                 16,
-                 C_Spell.GetSpellName(i) or UNKNOWN,
+                C_Spell.GetSpellName(i) or UNKNOWN,
                 i
             )
         end
@@ -742,7 +741,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -1199,7 +1198,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -2615,7 +2614,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -3288,7 +3287,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -4072,7 +4071,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -4949,7 +4948,7 @@ function x:InitOptionsTable()
                                     --[6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -5436,7 +5435,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     --[7] = "Special Effects (Procs)",
                                     [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -5792,7 +5791,7 @@ function x:InitOptionsTable()
                                     [6] = "Class Power",
                                     [7] = "Special Effects (Procs)",
                                     --[8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing"
+                                    [10] = "Outgoing Healing",
                                 },
                                 get = get2,
                                 set = set2,
@@ -7684,12 +7683,12 @@ function xo:UpdateOptionsTableSpamMergerSpells()
             if entry.desc == "Racial Spell" then
                 table.insert(
                     spamMergerRacialSpellCategories,
-                    {category = entry.category, order = entry.categoryOrder}
+                    { category = entry.category, order = entry.categoryOrder }
                 )
             else
                 table.insert(
                     spamMergerGlobalSpellCategories,
-                    {category = entry.category, order = entry.categoryOrder}
+                    { category = entry.category, order = entry.categoryOrder }
                 )
             end
         end
@@ -8176,10 +8175,7 @@ local isColorResetBtnHidden = function(info)
         category = "Colors"
     end
     return not x.db.profile[category][colorName].enabled
-            or tablesAreEqual(
-               x.db.profile[category][colorName].color,
-               x.db.profile[category][colorName].default
-            )
+        or tablesAreEqual(x.db.profile[category][colorName].color, x.db.profile[category][colorName].default)
 end
 
 local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options, index)
@@ -8236,7 +8232,7 @@ function xo:GenerateColorOptions()
         incoming_healing = "healing",
         class_power = "power",
         procs = "procs",
-        loot = "loot"
+        loot = "loot",
     }
 
     for colorName, colorSettings in pairs(x.db.profile.Colors) do

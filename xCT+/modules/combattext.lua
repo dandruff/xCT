@@ -169,11 +169,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellId, amount, overhealing, critica
     message = message .. x.formatName(args, frameSettings.names)
 
     -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        spellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(spellId, message, frameSettings)
 
     x:AddMessage(outputFrame, message, outputColor)
 end
@@ -203,11 +199,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellId, amount, overhealing
     message = message .. x.formatName(args, frameSettings.names)
 
     -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        spellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(spellId, message, frameSettings)
 
     x:AddMessage(outputFrame, message, outputColor)
 end
@@ -350,17 +342,10 @@ function x:AddLootMessageDelayed(item)
 
     local message = item.message
     if totalCount > 1 then
-        message = message .. string.format(
-            " |cffFFFF00(%s)|r",
-            totalCount
-        )
+        message = message .. string.format(" |cffFFFF00(%s)|r", totalCount)
     end
 
-    x:AddMessage(
-        "loot",
-        message,
-        { item.r, item.g, item.b }
-    )
+    x:AddMessage("loot", message, { item.r, item.g, item.b })
 end
 
 -- =====================================================
@@ -377,7 +362,12 @@ local function hexNameColor(t)
     elseif t.colorStr then -- Support Blizzard's raid colors
         return t.colorStr
     end
-    return string.format("ff%2X%2X%2X", math.floor(t[1] * 255 + 0.5), math.floor(t[2] * 255 + 0.5), math.floor(t[3] * 255 + 0.5))
+    return string.format(
+        "ff%2X%2X%2X",
+        math.floor(t[1] * 255 + 0.5),
+        math.floor(t[2] * 255 + 0.5),
+        math.floor(t[3] * 255 + 0.5)
+    )
 end
 
 -- Checks the options you provide and outputs the correctly formatted name
@@ -531,7 +521,8 @@ local function GetPartialMiss(args, settings, outgoingFrame)
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS[maxType] or FULL_MISS_COLORS[maxType])
             )
-            return true, string.format(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
+            return true,
+                string.format(PARTIAL_MISS_FORMATTERS[maxType], color, x:Abbreviate(args[maxType], outgoingFrame))
         end
 
         -- Show All the partial misses that exsist
@@ -540,21 +531,24 @@ local function GetPartialMiss(args, settings, outgoingFrame)
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.absorbed or FULL_MISS_COLORS.absorbed)
             )
-            message = message .. string.format(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
+            message = message
+                .. string.format(PARTIAL_MISS_FORMATTERS.absorbed, color, x:Abbreviate(absorbed, outgoingFrame))
         end
 
         if blocked > 0 then
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.blocked or FULL_MISS_COLORS.blocked)
             )
-            message = message .. string.format(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
+            message = message
+                .. string.format(PARTIAL_MISS_FORMATTERS.blocked, color, x:Abbreviate(blocked, outgoingFrame))
         end
 
         if resisted > 0 then
             color = hexNameColor(
                 x:LookupColorByName(args.amount > 0 and PARTIAL_MISS_COLORS.resisted or FULL_MISS_COLORS.resisted)
             )
-            message = message .. string.format(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
+            message = message
+                .. string.format(PARTIAL_MISS_FORMATTERS.resisted, color, x:Abbreviate(resisted, outgoingFrame))
         end
 
         return true, message
@@ -694,7 +688,15 @@ EventHandlers.HealingOutgoing = function(args)
 
     -- Format the message correctly
     if args.event == "SPELL_PERIODIC_HEAL" then
-        xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, frameSettings)
+        xCTFormat:SPELL_PERIODIC_HEAL(
+            outputFrame,
+            args.spellId,
+            amount,
+            amountOverhealing,
+            args.critical,
+            args,
+            frameSettings
+        )
     elseif args.event == "SPELL_HEAL" then
         xCTFormat:SPELL_HEAL(outputFrame, args.spellId, amount, amountOverhealing, args.critical, args, frameSettings)
     else
@@ -979,17 +981,9 @@ EventHandlers.DamageOutgoing = function(args)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
-        message = x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            frameSettings
-        )
+        message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
     else
-        message = x:GetSpellTextureFormatted(
-            nil,
-            message,
-            frameSettings
-        )
+        message = x:GetSpellTextureFormatted(nil, message, frameSettings)
     end
 
     x:AddMessage(outputFrame, message, outputColor)
@@ -1095,17 +1089,9 @@ EventHandlers.DamageIncoming = function(args)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
-        message = x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            frameSettings
-        )
+        message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
     else
-        message = x:GetSpellTextureFormatted(
-            nil,
-            message,
-            frameSettings
-        )
+        message = x:GetSpellTextureFormatted(nil, message, frameSettings)
     end
 
     -- Output message
@@ -1176,11 +1162,7 @@ EventHandlers.HealingIncoming = function(args)
         message = message .. x.formatName(args, frameSettings.names, true)
 
         -- Add the icon
-        message = x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            frameSettings
-        )
+        message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
 
         x:AddMessage(outputFrame, message, color)
     end
@@ -1226,15 +1208,7 @@ EventHandlers.AuraIncoming = function(args)
         return
     end
 
-    x:AddMessage(
-        outputFrame,
-        x:GetSpellTextureFormatted(
-            args.spellId,
-            message,
-            frameSettings
-        ),
-        color
-    )
+    x:AddMessage(outputFrame, x:GetSpellTextureFormatted(args.spellId, message, frameSettings), color)
 end
 
 EventHandlers.KilledUnit = function(args)
@@ -1269,11 +1243,7 @@ EventHandlers.InterruptedUnit = function(args)
     end
 
     -- Add the icon
-    message = x:GetSpellTextureFormatted(
-        args.extraSpellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
 
     x:AddMessage(outputFrame, message, "interrupts")
 end
@@ -1320,25 +1290,11 @@ EventHandlers.OutgoingMiss = function(args)
 
     local spamMergerInterval = x:Options_SpamMerger_OutgoingDamageMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage(
-            outputFrame,
-            message,
-            0,
-            "misstypesOut",
-            spamMergerInterval
-        )
+        x:AddSpamMessage(outputFrame, message, 0, "misstypesOut", spamMergerInterval)
         return
     end
 
-    x:AddMessage(
-        outputFrame,
-        x:GetSpellTextureFormatted(
-            spellId,
-            message,
-            frameSettings
-        ),
-        "misstypesOut"
-    )
+    x:AddMessage(outputFrame, x:GetSpellTextureFormatted(spellId, message, frameSettings), "misstypesOut")
 end
 
 EventHandlers.IncomingMiss = function(args)
@@ -1357,13 +1313,7 @@ EventHandlers.IncomingMiss = function(args)
 
     local spamMergerInterval = x:Options_SpamMerger_IncomingMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage(
-            outputFrame,
-            message,
-            0,
-            color,
-            spamMergerInterval
-        )
+        x:AddSpamMessage(outputFrame, message, 0, color, spamMergerInterval)
         return
     end
 
@@ -1374,11 +1324,7 @@ EventHandlers.IncomingMiss = function(args)
     end
 
     -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        args.spellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
 
     x:AddMessage(outputFrame, message, color)
 end
@@ -1398,11 +1344,7 @@ EventHandlers.SpellDispel = function(args)
     end
 
     -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        args.extraSpellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
 
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
@@ -1426,11 +1368,7 @@ EventHandlers.SpellStolen = function(args)
     end
 
     -- Add Icons
-    message = x:GetSpellTextureFormatted(
-        args.extraSpellId,
-        message,
-        frameSettings
-    )
+    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
 
     x:AddMessage(outputFrame, message, "dispellStolen")
 end
@@ -1573,14 +1511,12 @@ EventHandlers.CHAT_MSG_SKILL = function(_, msg)
         return
     end
 
-    x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", {0, 0.44, 0.87})
+    x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", { 0, 0.44, 0.87 })
 end
 
 EventHandlers.CHAT_MSG_LOOT = function(_, msg)
-    local preMessage, linkColor, itemString, itemName, amount = string.match(
-        msg,
-        "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)"
-    )
+    local preMessage, linkColor, itemString, itemName, amount =
+        string.match(msg, "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)")
 
     if not preMessage or preMessage == "" then
         local format_getCraftedItemString = ""
@@ -1588,10 +1524,7 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
             format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
         end
 
-        linkColor, itemString, itemName, preMessage = string.match(
-            msg,
-            format_getCraftedItemString
-        )
+        linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
     end
 
     if not itemString or itemString == "" then
@@ -1659,7 +1592,8 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
 
             local icon = ""
             if x:Options_Loot_ShowIcons() then
-                icon = string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+                icon =
+                    string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
             end
 
             local itemQualityText = ""
@@ -1690,24 +1624,16 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
 
             if x:Options_Loot_ShowItemTotals() then
                 -- We have to delay the message in order to get correct "totals".
-                x:ScheduleTimer(
-                    "AddLootMessageDelayed",
-                    0.5,
-                    {
-                        id = linkID,
-                        message = message,
-                        r = itemQualityColor.r,
-                        g = itemQualityColor.g,
-                        b = itemQualityColor.b,
-                    }
-                )
+                x:ScheduleTimer("AddLootMessageDelayed", 0.5, {
+                    id = linkID,
+                    message = message,
+                    r = itemQualityColor.r,
+                    g = itemQualityColor.g,
+                    b = itemQualityColor.b,
+                })
             else
                 -- Display the message directly
-                x:AddMessage(
-                    "loot",
-                    message,
-                    { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b }
-                )
+                x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b })
             end
         end
     end
@@ -1731,41 +1657,28 @@ EventHandlers.CHAT_MSG_CURRENCY = function(_, msg)
 
     local icon = ""
     if x:Options_Loot_ShowIcons() then
-        icon = string.format(format_loot_icon, currencyInfo.iconFileID, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+        icon = string.format(
+            format_loot_icon,
+            currencyInfo.iconFileID,
+            x:Options_Loot_IconSize(),
+            x:Options_Loot_IconSize()
+        )
     end
 
     local message
     if tonumber(amountGained) > 1 then
-        message = string.format(
-            "%s: |cff798BDD+%s|r %s %s",
-            _G.CURRENCY,
-            amountGained,
-            icon,
-            currencyInfo.name
-        )
+        message = string.format("%s: |cff798BDD+%s|r %s %s", _G.CURRENCY, amountGained, icon, currencyInfo.name)
     else
-        message = string.format(
-            "%s: %s %s",
-            _G.CURRENCY,
-            icon,
-            currencyInfo.name
-        )
+        message = string.format("%s: %s %s", _G.CURRENCY, icon, currencyInfo.name)
     end
 
     if currencyInfo.quantity > 1 then
-        message = message .. string.format(
-            " |cffFFFF00(%s)|r",
-            currencyInfo.quantity
-        )
+        message = message .. string.format(" |cffFFFF00(%s)|r", currencyInfo.quantity)
     end
 
     local qualityColor = ITEM_QUALITY_COLORS[currencyInfo.quality]
 
-    x:AddMessage(
-        "loot",
-        message,
-        { qualityColor.r, qualityColor.g, qualityColor.b, }
-    )
+    x:AddMessage("loot", message, { qualityColor.r, qualityColor.g, qualityColor.b })
 end
 
 EventHandlers.CHAT_MSG_MONEY = function(_, msg)
@@ -1876,12 +1789,8 @@ CombatTextUpdateHandlers.SPELL_ACTIVE = function(spellName)
 
     -- Add Icons
     if icon and x.db.profile.frames.procs.iconsEnabled then
-        local iconStr = string.format(
-            "|T%s:%d:%d:0:0:64:64:5:59:5:59|t",
-            icon,
-            frameSettings.iconsSize,
-            frameSettings.iconsSize
-        )
+        local iconStr =
+            string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, frameSettings.iconsSize, frameSettings.iconsSize)
 
         if x.db.profile.frames.procs.fontJustify == "LEFT" then
             message = iconStr .. "  " .. message
@@ -1908,15 +1817,7 @@ CombatTextUpdateHandlers.HONOR_GAINED = function()
     local amount = GetCurrentCombatTextEventInfo()
     local num = math.floor(tonumber(amount) or 0)
     if num > 0 then
-        x:AddMessage(
-            "general",
-            string.format(
-                format_honor,
-                _G.HONOR,
-                x:Abbreviate(amount, "general")
-            ),
-            "honorGains"
-        )
+        x:AddMessage("general", string.format(format_honor, _G.HONOR, x:Abbreviate(amount, "general")), "honorGains")
     end
 end
 
@@ -1932,23 +1833,13 @@ CombatTextUpdateHandlers.FACTION = function()
     if num > 0 then
         x:AddMessage(
             "general",
-            string.format(
-                "%s: +%s %s",
-                _G.REPUTATION,
-                x:Abbreviate(amount, "general"),
-                faction
-            ),
+            string.format("%s: +%s %s", _G.REPUTATION, x:Abbreviate(amount, "general"), faction),
             "reputationGain"
         )
     elseif num < 0 then
         x:AddMessage(
             "general",
-            string.format(
-                "%s: -%s %s",
-                _G.REPUTATION,
-                x:Abbreviate(amount, "general"),
-                faction
-            ),
+            string.format("%s: -%s %s", _G.REPUTATION, x:Abbreviate(amount, "general"), faction),
             "reputationLoss"
         )
     end
@@ -2012,11 +1903,7 @@ function x.onCombatLogEvent(args)
                 local outputFrame = "general"
                 local frameSettings = x:GetFrameSettings(outputFrame)
                 if frameSettings then
-                    message = x:GetSpellTextureFormatted(
-                        args.extraSpellId,
-                        message,
-                        frameSettings
-                    )
+                    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
 
                     x:AddMessage(outputFrame, message, "dispellDebuffs")
                 end
@@ -2050,7 +1937,7 @@ function x:RegisterCombatEvents()
     self:RegisterEvent("CHAT_MSG_MONEY", EventHandlers.CHAT_MSG_MONEY)
 
     -- Class combo points / runes / ...
-    if x.player.class == 'DEATHKNIGHT' then
+    if x.player.class == "DEATHKNIGHT" then
         self:RegisterEvent("RUNE_POWER_UPDATE", EventHandlers.RUNE_POWER_UPDATE)
     end
 

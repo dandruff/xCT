@@ -63,7 +63,7 @@ function x:OnInitialize()
         [7] = "procs",
         [8] = "loot",
         --[9] = "class",    -- this is not used by redirection
-        [10] = "outgoing_healing"
+        [10] = "outgoing_healing",
     }
 
     x.frameTitles = {
@@ -76,7 +76,7 @@ function x:OnInitialize()
         --["class"]        = "Combo",
         ["procs"] = "Special Effects (Procs)",
         ["loot"] = "Loot & Money",
-        ["outgoing_healing"] = "Outgoing Healing"
+        ["outgoing_healing"] = "Outgoing Healing",
     }
 
     x.spamMergerHeap, x.spamMergerStack = {}, {}
@@ -125,14 +125,13 @@ function x:OnEnable()
     x:UpdateFrames()
     x:UpdateCVar()
 
-    self:Print("Version 4.9.0 added a new Frame: 'Outgoing Healing'. The default is set to merge with 'Outgoing Damage' but you may want to change that!")
+    self:Print(
+        "Version 4.9.0 added a new Frame: 'Outgoing Healing'. The default is set to merge with 'Outgoing Damage' but you may want to change that!"
+    )
 end
 
 -- Gets only called when your addon is manually being disabled.
-function x:OnDisable()
-
-end
-
+function x:OnDisable() end
 
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
