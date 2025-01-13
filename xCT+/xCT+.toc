@@ -8,23 +8,6 @@
 ## SavedVariables: xCTSavedDB
 ## X-Curse-Project-ID: 35541
 
-init.lua
-
-config\merge_helpers.lua
-config\merge_class.lua
-
-# The order here is relevant!
-config\merge_basic_spells.lua
-config\merge_dragonflight.lua
-config\merge_shadowlands.lua
-config\merge_bfa.lua
-config\merge_legion.lua
-config\merge_wod.lua
-config\merge_mop.lua
-
-config\merge_race.lua
-config\profile.lua
-
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
@@ -41,6 +24,23 @@ libs\LibSharedMedia-3.0\lib.xml
 libs\AceGUI-3.0\AceGUI-3.0.xml
 libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
 #@end-no-lib-strip@
+
+init.lua
+
+config\merge_helpers.lua
+config\merge_class.lua
+
+# The order here is relevant!
+config\merge_basic_spells.lua
+config\merge_dragonflight.lua
+config\merge_shadowlands.lua
+config\merge_bfa.lua
+config\merge_legion.lua
+config\merge_wod.lua
+config\merge_mop.lua
+
+config\merge_race.lua
+config\profile.lua
 
 libs\UTF8\include.xml
 libs\xCombatParser-1.0\xCombatParser-1.0.lua
