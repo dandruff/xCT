@@ -17,37 +17,15 @@ local ADDON_NAME, addon = ...
 
 local LSM = LibStub("LibSharedMedia-3.0")
 
--- Setup up values
-local ssub, sformat, sgsub, mfloor, random, tinsert, format =
-    string.sub,
-    string.format,
-    string.gsub,
-    math.floor,
-    math.random,
-    table.insert,
-    string.format,
-    -- Start the Random Machine!
-    random(time())
-random()
-random(time())
+-- Start the Random Machine!
+math.random(time())
+math.random()
+math.random(time())
 
 -- Shorten my handle
 local x = addon.engine
 
 local now = 0
-
-local function autoClearFrame_OnUpdate(self, elasped)
-    if not self.last then
-        self.last = 0
-    end
-    self.last = self.last + elasped
-
-    if self.last > 4 then
-        x:Clear(self.name)
-        self:SetScript("OnUpdate", nil)
-        self.f.timer = nil
-    end
-end
 
 -- Function to allow users to scroll a frame with mouseover
 local function Frame_OnMouseWheel(self, delta)
@@ -55,30 +33,6 @@ local function Frame_OnMouseWheel(self, delta)
         self:ScrollUp()
     elseif delta < 0 then
         self:ScrollDown()
-    end
-end
-
-local function Frame_SendTestMessage_OnUpdate(self, e)
-    if self.frameName == "class" then
-        x:AddMessage(self.frameName, "0", self.settings.fontColor or { 1, 1, 0 })
-
-        if not self.timer then
-            self.timer = CreateFrame("FRAME")
-            self.timer.name = self.frameName
-            self.timer.f = self
-            self.timer:SetScript("OnUpdate", autoClearFrame_OnUpdate)
-        else
-            self.timer.last = 0
-        end
-    else
-        x:AddMessage(self.frameName, self.frameName .. " test message", self.settings.fontColor or { 1, 1, 1 })
-    end
-
-    if x.testing then
-        self.lastUpdate = 0
-        self:SetScript("OnUpdate", x.TestMoreUpdate)
-    else
-        self:SetScript("OnUpdate", nil)
     end
 end
 
@@ -92,17 +46,17 @@ end
 -- =====================================================
 function x:UpdateFrames(specificFrame)
     -- Update the frames
-    for framename, settings in pairs(x.db.profile.frames) do
-        if specificFrame and specificFrame == framename or not specificFrame then
+    for frameName, frameSettings in pairs(x.db.profile.frames) do
+        if specificFrame and specificFrame == frameName or not specificFrame then
             local f = nil
 
             -- Create the frame (or retrieve it)
-            if x.framesByName[framename] then
-                f = x.framesByName[framename]
+            if x.framesByName[frameName] then
+                f = x.framesByName[frameName]
             else
                 f = CreateFrame(
                     "ScrollingMessageFrame",
-                    "xCT_Plus" .. framename .. "Frame",
+                    "xCT_Plus" .. frameName .. "Frame",
                     UIParent,
                     "BackdropTemplate"
                 )
@@ -115,37 +69,37 @@ function x:UpdateFrames(specificFrame)
                 f:SetClampedToScreen(true)
                 f:SetShadowColor(0, 0, 0, 0)
 
-                f.sizing = CreateFrame("Frame", "xCT_Plus" .. framename .. "SizingFrame", f)
+                f.sizing = CreateFrame("Frame", "xCT_Plus" .. frameName .. "SizingFrame", f)
                 f.sizing.parent = f
                 f.sizing:SetHeight(16)
                 f.sizing:SetWidth(16)
                 f.sizing:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -1, 1)
                 f.sizing:Hide()
 
-                f.moving = CreateFrame("Frame", "xCT_Plus" .. framename .. "MovingFrame", f)
+                f.moving = CreateFrame("Frame", "xCT_Plus" .. frameName .. "MovingFrame", f)
                 f.moving.parent = f
                 f.moving:SetPoint("TOPLEFT", f, "TOPLEFT", 1, -1)
                 f.moving:SetPoint("TOPRIGHT", f, "TOPRIGHT", -1, -21)
                 f.moving:SetHeight(20)
                 f.moving:Hide()
 
-                x.framesByName[framename] = f
+                x.framesByName[frameName] = f
             end
 
-            f.frameName = framename
-            f.settings = settings
+            f.frameName = frameName
+            f.settings = frameSettings
 
             -- Frame Strata
             if x.configuring then
                 f:SetFrameStrata("FULLSCREEN_DIALOG")
             else
-                f:SetFrameStrata(ssub(x.db.profile.frameSettings.frameStrata, 2))
+                f:SetFrameStrata(string.sub(x.db.profile.frameSettings.frameStrata, 2))
             end
 
             -- Set the position
-            if settings.enabledFrame then
-                f:SetWidth(settings.Width)
-                f:SetHeight(settings.Height)
+            if frameSettings.enabledFrame then
+                f:SetWidth(frameSettings.Width)
+                f:SetHeight(frameSettings.Height)
 
                 -- WoW's default movement from changing the anchor
                 local point, relativeTo, relativePoint, xOfs, yOfs =
@@ -158,17 +112,17 @@ function x:UpdateFrames(specificFrame)
                     local midX, midY = ResX / 2, ResY / 2
 
                     -- Calculate the Top/Left of a frame relative to the center
-                    local left, top = mfloor(f:GetLeft() - midX + 0.5), mfloor(f:GetTop() - midY + 0.5)
+                    local left, top = math.floor(f:GetLeft() - midX + 0.5), math.floor(f:GetTop() - midY + 0.5)
 
                     -- Calculate get the center of the screen from the left/top
-                    local x = mfloor(left + (f:GetWidth() / 2) + 0.5)
-                    local y = mfloor(top - (f:GetHeight() / 2) + 0.5)
+                    local x = math.floor(left + (f:GetWidth() / 2) + 0.5)
+                    local y = math.floor(top - (f:GetHeight() / 2) + 0.5)
 
                     f:ClearAllPoints()
                     f:SetPoint("CENTER", x, y)
                 else
                     f:ClearAllPoints()
-                    f:SetPoint("CENTER", settings.X, settings.Y)
+                    f:SetPoint("CENTER", frameSettings.X, frameSettings.Y)
                 end
             end
 
@@ -184,72 +138,67 @@ function x:UpdateFrames(specificFrame)
             -- when we are configuring.
 
             -- Insert Direction
-            if settings.insertText then
+            if frameSettings.insertText then
                 f:SetInsertMode(
-                    settings.insertText == "top" and SCROLLING_MESSAGE_FRAME_INSERT_MODE_TOP
+                    frameSettings.insertText == "top" and SCROLLING_MESSAGE_FRAME_INSERT_MODE_TOP
                         or SCROLLING_MESSAGE_FRAME_INSERT_MODE_BOTTOM
                 )
             end
 
             -- Font Template
-            local outline = ssub(settings.fontOutline, 2)
+            local outline = string.sub(frameSettings.fontOutline, 2)
 
             if outline == "NONE" then
-                f:SetFont(LSM:Fetch("font", settings.font), settings.fontSize, "")
+                f:SetFont(LSM:Fetch("font", frameSettings.font), frameSettings.fontSize, "")
             else
-                f:SetFont(LSM:Fetch("font", settings.font), settings.fontSize, outline)
+                f:SetFont(LSM:Fetch("font", frameSettings.font), frameSettings.fontSize, outline)
             end
 
-            if settings.fontJustify then
-                f:SetJustifyH(settings.fontJustify)
+            if frameSettings.fontJustify then
+                f:SetJustifyH(frameSettings.fontJustify)
             end
 
             -- Special Cases
-            if framename == "class" then
+            if frameName == "class" then
                 f:SetMaxLines(1)
                 f:SetFading(false)
             else
                 -- scrolling
-                if settings.enableScrollable then
-                    f:SetMaxLines(settings.scrollableLines)
-                    if not settings.scrollableInCombat then
+                if frameSettings.enableScrollable then
+                    f:SetMaxLines(frameSettings.scrollableLines)
+                    if not frameSettings.scrollableInCombat then
                         if InCombatLockdown() then
-                            x:DisableFrameScrolling(framename)
+                            x:DisableFrameScrolling(frameName)
                         else
-                            x:EnableFrameScrolling(framename)
+                            x:EnableFrameScrolling(frameName)
                         end
                     else
-                        x:EnableFrameScrolling(framename)
+                        x:EnableFrameScrolling(frameName)
                     end
                 else
-                    f:SetMaxLines(math.max(1, mfloor(settings.Height / settings.fontSize) - 1)) --- shhhhhhhhhhhhhhhhhhhh
-                    x:DisableFrameScrolling(framename)
+                    f:SetMaxLines(math.max(1, math.floor(frameSettings.Height / frameSettings.fontSize) - 1)) --- shhhhhhhhhhhhhhhhhhhh
+                    x:DisableFrameScrolling(frameName)
                 end
             end
 
             -- fading
-            if settings.enableCustomFade then
-                f:SetFading(settings.enableFade)
-                f:SetFadeDuration(settings.fadeTime)
-                f:SetTimeVisible(settings.visibilityTime)
+            if frameSettings.enableCustomFade then
+                f:SetFading(frameSettings.enableFade)
+                f:SetFadeDuration(frameSettings.fadeTime)
+                f:SetTimeVisible(frameSettings.visibilityTime)
             else
                 f:SetFading(true)
                 f:SetTimeVisible(3)
             end
 
-            if settings.enableFontShadow then
-                f:SetShadowColor(unpack(settings.fontShadowColor))
-                f:SetShadowOffset(settings.fontShadowOffsetX, settings.fontShadowOffsetY)
+            if frameSettings.enableFontShadow then
+                f:SetShadowColor(unpack(frameSettings.fontShadowColor))
+                f:SetShadowOffset(frameSettings.fontShadowOffsetX, frameSettings.fontShadowOffsetY)
             else
                 f:SetShadowColor(0, 0, 0, 0)
             end
 
-            -- Send a Test message
-            if specificFrame then
-                f:SetScript("OnUpdate", Frame_SendTestMessage_OnUpdate)
-            end
-
-            if settings.enabledFrame then
+            if frameSettings.enabledFrame then
                 f:Show()
             else
                 f:Hide()
@@ -260,14 +209,12 @@ end
 
 function x:EnableFrameScrolling(framename)
     local f = x.framesByName[framename]
-    local settings = x.db.profile.frames[framename]
     f:EnableMouseWheel(true)
     f:SetScript("OnMouseWheel", Frame_OnMouseWheel)
 end
 
 function x:DisableFrameScrolling(framename)
     local f = x.framesByName[framename]
-    local settings = x.db.profile.frames[framename]
     f:EnableMouseWheel(false)
     f:SetScript("OnMouseWheel", nil)
 end
@@ -303,7 +250,7 @@ end
 -- =====================================================
 function x:Abbreviate(amount, frameName)
     local roundNumber = function(value)
-        return mfloor(value + 0.5)
+        return math.floor(value + 0.5)
     end
 
     local isNegative = amount < 0
@@ -348,7 +295,7 @@ function x:Abbreviate(amount, frameName)
         else
             local k
             while true do
-                message, k = sgsub(message, "^(-?%d+)(%d%d%d)", "%1,%2")
+                message, k = string.gsub(message, "^(-?%d+)(%d%d%d)", "%1,%2")
                 if k == 0 then
                     break
                 end
@@ -483,7 +430,7 @@ end
 -- We have to do it on a font string level
 local ScrollingMessageFrame_OverrideAlpha_Worker = CreateFrame("FRAME")
 ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
-    local now, alpha, scale = GetTime()
+    local now2, alpha, scale = GetTime()
     for _, frame in pairs(x.framesByName) do
         alpha = frame.settings.alpha / 100
 
@@ -494,7 +441,7 @@ ScrollingMessageFrame_OverrideAlpha_Worker:SetScript("OnUpdate", function()
                 if visibleLine.messageInfo then -- Check for valid font strings (not released)
                     -- Keep the default fading, we will use their value to scale the custom alpha
                     scale = frame:CalculateLineAlphaValueFromTimestamp(
-                        now,
+                        now2,
                         math.max(visibleLine.messageInfo.timestamp, frame.overrideFadeTimestamp)
                     )
 
@@ -583,7 +530,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
             heap[mergeID][select(i, ...)] = select(i + 1, ...)
         end
         -- Insert into the stack - thats our queue for the display!
-        tinsert(stack, mergeID)
+        table.insert(stack, mergeID)
     end
 end
 
@@ -711,7 +658,7 @@ do
                     -- Add critical Prefix and Postfix
                     if frameName == "outgoing" or frameName == "critical" then
                         if frameName == "critical" then
-                            message = format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
+                            message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                         end
                         if frameSettings.names[item.destinationController].nameType == 2 then
                             if item.auto then
@@ -744,7 +691,7 @@ do
                                 message = "+" .. message .. x.formatName(fakeArgs, frameSettings.names, true)
                             end
                         else
-                            message = sformat("+%s", message)
+                            message = string.format("+%s", message)
                         end
                     end
 
@@ -784,20 +731,20 @@ end
 
 local function Frame_Sizing_OnUpdate(self, e)
     local settings = self.parent.settings
-    local width, height = mfloor(self.parent:GetWidth() + 0.5), mfloor(self.parent:GetHeight() + 0.5)
+    local width, height = math.floor(self.parent:GetWidth() + 0.5), math.floor(self.parent:GetHeight() + 0.5)
     self.parent.width:SetText(width)
     self.parent.height:SetText(height)
 
-    self.parent:SetMaxLines(mfloor(height / settings.fontSize) - 1)
+    self.parent:SetMaxLines(math.floor(height / settings.fontSize) - 1)
 end
 
-local function Frame_Moving_OnUpdate(self, e)
+local function Frame_Moving_OnUpdate(self)
     -- Calculate get the center of the screen from the left/top
-    local posX = mfloor(mfloor(self.parent:GetLeft() - GetScreenWidth() / 2 + 0.5))
-    local posY = mfloor(mfloor(self.parent:GetTop() - GetScreenHeight() / 2 + 0.5))
+    local posX = math.floor(math.floor(self.parent:GetLeft() - GetScreenWidth() / 2 + 0.5))
+    local posY = math.floor(math.floor(self.parent:GetTop() - GetScreenHeight() / 2 + 0.5))
 
     -- Set the position of the frame
-    self.parent.position:SetText(sformat("%d, %d", posX, posY))
+    self.parent.position:SetText(string.format("%d, %d", posX, posY))
 end
 
 local function Frame_Sizing_OnMouseDown(self, button)
@@ -893,26 +840,26 @@ function x.StartConfigMode()
             f.width:SetTextColor(0.47, 0.55, 0.87, 1)
             f.width:SetPoint("TOP", f, "BOTTOM", 0, -2)
             f.width:SetFont(LSM:Fetch("font", "Condensed Bold (xCT+)"), 18, "OUTLINE")
-            f.width:SetText(mfloor(f:GetWidth() + 0.5))
+            f.width:SetText(math.floor(f:GetWidth() + 0.5))
             f.width:Hide()
 
             f.height = f:CreateFontString(nil, "OVERLAY")
             f.height:SetTextColor(0.47, 0.55, 0.87, 1)
             f.height:SetPoint("LEFT", f, "RIGHT", 4, 0)
             f.height:SetFont(LSM:Fetch("font", "Condensed Bold (xCT+)"), 18, "OUTLINE")
-            f.height:SetText(mfloor(f:GetHeight() + 0.5))
+            f.height:SetText(math.floor(f:GetHeight() + 0.5))
             f.height:Hide()
 
             -- Calculate get the center of the screen from the left/top
-            local posX = mfloor(mfloor(f:GetLeft() - GetScreenWidth() / 2 + 0.5))
-            local posY = mfloor(mfloor(f:GetTop() - GetScreenHeight() / 2 + 0.5))
+            local posX = math.floor(math.floor(f:GetLeft() - GetScreenWidth() / 2 + 0.5))
+            local posY = math.floor(math.floor(f:GetTop() - GetScreenHeight() / 2 + 0.5))
 
             -- Position Text
             f.position = f:CreateFontString(nil, "OVERLAY")
             f.position:SetTextColor(1, 1, 0, 1)
             f.position:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 0, 4)
             f.position:SetFont(LSM:Fetch("font", "Condensed Bold (xCT+)"), 18, "OUTLINE")
-            f.position:SetText(sformat("%d, %d", posX, posY))
+            f.position:SetText(string.format("%d, %d", posX, posY))
             f.position:Hide()
 
             f.moving.d = f:CreateTexture(nil, "OVERLAY")
@@ -1032,7 +979,7 @@ function x:EndConfigMode()
             f.moving:Hide()
 
             -- Set the Frame Strata
-            f:SetFrameStrata(ssub(x.db.profile.frameSettings.frameStrata, 2))
+            f:SetFrameStrata(string.sub(x.db.profile.frameSettings.frameStrata, 2))
         end
     end
 
@@ -1073,19 +1020,19 @@ function x:SaveAllFrames()
             local width = frame:GetWidth()
             local height = frame:GetHeight()
 
-            settings.Width = mfloor(width + 0.5)
-            settings.Height = mfloor(height + 0.5)
+            settings.Width = math.floor(width + 0.5)
+            settings.Height = math.floor(height + 0.5)
 
             -- Calculate the center of the screen
             local ResX, ResY = GetScreenWidth(), GetScreenHeight()
             local midX, midY = ResX / 2, ResY / 2
 
             -- Calculate the Top/Left of a frame relative to the center
-            local left, top = mfloor(frame:GetLeft() - midX + 0.5), mfloor(frame:GetTop() - midY + 0.5)
+            local left, top = math.floor(frame:GetLeft() - midX + 0.5), math.floor(frame:GetTop() - midY + 0.5)
 
             -- Calculate get the center of the screen from the left/top
-            settings.X = mfloor(left + (width / 2) + 0.5)
-            settings.Y = mfloor(top - (height / 2) + 0.5)
+            settings.X = math.floor(left + (width / 2) + 0.5)
+            settings.Y = math.floor(top - (height / 2) + 0.5)
         end
     end
 end
@@ -1100,7 +1047,7 @@ end
 local function GetRandomSpellID()
     local icon, spellID
     repeat
-        spellID = random(100, 80000)
+        spellID = math.random(100, 80000)
         icon = C_Spell.GetSpellTexture(spellID)
     until icon and icon ~= 136243
     return spellID
@@ -1113,15 +1060,15 @@ function x.TestMoreUpdate(self, elapsed)
         self.lastUpdate = self.lastUpdate + elapsed
 
         if not self.nextUpdate then
-            self.nextUpdate = random(80, 600) / 1000
+            self.nextUpdate = math.random(80, 600) / 1000
         end
 
         if self.nextUpdate < self.lastUpdate then
             self.nextUpdate = nil
             self.lastUpdate = 0
 
-            if self == x.framesByName.general and random(3) % 3 == 0 then
-                local outputFrame, color = "general", { random(255) / 255, random(255) / 255, random(255) / 255 }
+            if self == x.framesByName.general and math.random(3) % 3 == 0 then
+                local outputFrame, color = "general", { math.random(255) / 255, math.random(255) / 255, math.random(255) / 255 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
@@ -1144,11 +1091,11 @@ function x.TestMoreUpdate(self, elapsed)
                         return
                     end
                 end
-                local message = x:Abbreviate(random(60000), outputFrame)
+                local message = x:Abbreviate(math.random(60000), outputFrame)
 
                 local mergeCount = 0
-                if x.db.profile.spells.enableMerger and random(3) % 3 == 0 then
-                    mergeCount = random(17) + 1
+                if x.db.profile.spells.enableMerger and math.random(3) % 3 == 0 then
+                    mergeCount = math.random(17) + 1
                 end
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
@@ -1173,11 +1120,11 @@ function x.TestMoreUpdate(self, elapsed)
                         return
                     end
                 end
-                local message = x:Abbreviate(random(60000), outputFrame)
+                local message = x:Abbreviate(math.random(60000), outputFrame)
 
                 local mergeCount = 0
-                if x.db.profile.spells.enableMerger and random(3) % 3 == 0 then
-                    mergeCount = random(17) + 1
+                if x.db.profile.spells.enableMerger and math.random(3) % 3 == 0 then
+                    mergeCount = math.random(17) + 1
                 end
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
@@ -1192,7 +1139,7 @@ function x.TestMoreUpdate(self, elapsed)
                     mergeCount -- entries
                 )
                 x:AddMessage(outputFrame, message, color)
-            elseif self == x.framesByName.critical and random(2) % 2 == 0 then
+            elseif self == x.framesByName.critical and math.random(2) % 2 == 0 then
                 local outputFrame, color = "critical", GetRandomSpellColor()
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
@@ -1203,19 +1150,19 @@ function x.TestMoreUpdate(self, elapsed)
                     end
                 end
                 local message = x.db.profile.frames.critical.critPrefix
-                    .. x:Abbreviate(random(60000), outputFrame)
+                    .. x:Abbreviate(math.random(60000), outputFrame)
                     .. x.db.profile.frames.critical.critPostfix
 
                 local mergeCount = 0
                 if
                     x:Options_SpamMerger_EnableSpamMerger()
-                    and (random(3) % 3 == 0)
+                    and (math.random(3) % 3 == 0)
                     and (
                         x:Options_SpamMerger_MergeCriticalsWithOutgoing()
                         or x:Options_SpamMerger_MergeCriticalsByThemselves()
                     )
                 then
-                    mergeCount = random(17) + 1
+                    mergeCount = math.random(17) + 1
                 end
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
@@ -1229,8 +1176,8 @@ function x.TestMoreUpdate(self, elapsed)
                     mergeCount -- entries
                 )
                 x:AddMessage(outputFrame, message, color)
-            elseif self == x.framesByName.damage and random(2) % 2 == 0 then
-                local outputFrame, color = "damage", { 1, random(100) / 255, random(100) / 255 }
+            elseif self == x.framesByName.damage and math.random(2) % 2 == 0 then
+                local outputFrame, color = "damage", { 1, math.random(100) / 255, math.random(100) / 255 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
@@ -1242,9 +1189,9 @@ function x.TestMoreUpdate(self, elapsed)
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(outputFrame, "-" .. x:Abbreviate(random(100000), "damage"), color)
-            elseif self == x.framesByName.healing and random(2) % 2 == 0 then
-                local outputFrame, color = "healing", { 0.1, ((random(3) + 1) * 63) / 255, 0.1 }
+                x:AddMessage(outputFrame, "-" .. x:Abbreviate(math.random(100000), "damage"), color)
+            elseif self == x.framesByName.healing and math.random(2) % 2 == 0 then
+                local outputFrame, color = "healing", { 0.1, ((math.random(3) + 1) * 63) / 255, 0.1 }
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
                     if x.db.profile.frames[outputFrame].secondaryFrame ~= 0 then
@@ -1263,21 +1210,21 @@ function x.TestMoreUpdate(self, elapsed)
                         realm = "-" .. GetRealmName()
                     end
                     if x.db.profile.frames.healing.enableClassNames then
-                        message = sformat(
+                        message = string.format(
                             "|c%s%s%s|r",
                             RAID_CLASS_COLORS[select(2, UnitClass("player"))].colorStr,
                             message,
                             realm
                         )
                     end
-                    if x.db.profile.spells.mergeHealing and random(2) % 2 == 0 then
-                        message = sformat("%s |cffFFFF00x%s|r", message, random(17) + 1)
+                    if x.db.profile.spells.mergeHealing and math.random(2) % 2 == 0 then
+                        message = string.format("%s |cffFFFF00x%s|r", message, math.random(17) + 1)
                     end
-                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(90000), "healing") .. " " .. message, color)
+                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(math.random(90000), "healing") .. " " .. message, color)
                 else
-                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(90000), "healing"), color)
+                    x:AddMessage(outputFrame, "+" .. x:Abbreviate(math.random(90000), "healing"), color)
                 end
-            elseif self == x.framesByName.power and random(4) % 4 == 0 then
+            elseif self == x.framesByName.power and math.random(4) % 4 == 0 then
                 local outputFrame = "power"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
@@ -1292,8 +1239,8 @@ function x.TestMoreUpdate(self, elapsed)
                 if x.db.profile.frames[outputFrame].customColor then
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
-                x:AddMessage(outputFrame, "+" .. x:Abbreviate(random(5000), "power") .. " " .. _G[powerToken], color)
-            elseif self == x.framesByName.class and random(4) % 4 == 0 then
+                x:AddMessage(outputFrame, "+" .. x:Abbreviate(math.random(5000), "power") .. " " .. _G[powerToken], color)
+            elseif self == x.framesByName.class and math.random(4) % 4 == 0 then
                 local outputFrame = "class"
                 if not x.db.profile.frames.class.enabledFrame then
                     x:Clear(outputFrame)
@@ -1311,7 +1258,7 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames.class.fontColor
                 end
                 x:AddMessage(outputFrame, tostring(self.testCombo), color)
-            elseif self == x.framesByName.procs and random(8) % 8 == 0 then
+            elseif self == x.framesByName.procs and math.random(8) % 8 == 0 then
                 local outputFrame = "procs"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
@@ -1326,7 +1273,7 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, ERR_SPELL_COOLDOWN, color)
-            elseif self == x.framesByName.loot and random(8) % 8 == 0 then
+            elseif self == x.framesByName.loot and math.random(8) % 8 == 0 then
                 local outputFrame = "loot"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
                     x:Clear(outputFrame)
@@ -1342,9 +1289,9 @@ function x.TestMoreUpdate(self, elapsed)
                 end
                 if x.db.profile.frames[outputFrame].colorBlindMoney then
                     local g, s, c, message =
-                        random(100) % 10 ~= 0 and random(100) or nil,
-                        random(100) % 10 ~= 0 and random(100) or nil,
-                        random(100) % 10 ~= 0 and random(100) or nil,
+                        math.random(100) % 10 ~= 0 and math.random(100) or nil,
+                        math.random(100) % 10 ~= 0 and math.random(100) or nil,
+                        math.random(100) % 10 ~= 0 and math.random(100) or nil,
                         ""
                     if g then
                         message = tostring(g) .. "|cffFFD700g|r"
@@ -1370,7 +1317,7 @@ function x.TestMoreUpdate(self, elapsed)
                 else
                     x:AddMessage(
                         outputFrame,
-                        MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(random(1000000)),
+                        MONEY .. ": " .. C_CurrencyInfo.GetCoinTextureString(math.random(1000000)),
                         color
                     )
                 end
