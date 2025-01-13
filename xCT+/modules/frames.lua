@@ -312,9 +312,9 @@ end
 
 -- =====================================================
 -- AddOn:AddMessage(
---        framename,  [string] - the framename
+--        frameName,  [string] - the framename
 --        message,    [string] - the pre-formatted message to be sent
---        colorname,  [string or table] - the name of the color OR a
+--        colorName,  [string or table] - the name of the color OR a
 --                                        table containing the color
 --                                        e.g. colorname={1,2,3} --r=1,g=2,b=3
 --    )
