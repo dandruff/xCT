@@ -69,4 +69,4 @@ Feel free to try the alpha and beta versions and provide feedback in Github!
 Feel free to use the comments below for quick and dirty questions. If you think that you have a question that is more 
 involved, you should create a ticket on the [GitHub issue tracker](https://github.com/dandruff/xCT/issues/new).
 
-All contributions (pull requests, testing, ...) are welcome!
+All contributions (pull requests, testing, bug reports, ...) are welcome!
