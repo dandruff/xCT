@@ -14,6 +14,7 @@ libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 
 libs\AceAddon-3.0\AceAddon-3.0.xml
 libs\AceConsole-3.0\AceConsole-3.0.xml
+Libs\AceLocale-3.0\AceLocale-3.0.xml
 libs\AceDB-3.0\AceDB-3.0.xml
 libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
 libs\AceTimer-3.0\AceTimer-3.0.xml

@@ -17,6 +17,7 @@ local AddonName, optionsAddon = ...
 -- Short handles to the xCT engine and the xCT options engine
 local x = xCT_Plus.engine
 local xo = optionsAddon.engine
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
 
 if not x then
     return
@@ -26,9 +27,10 @@ function x:InitOptionsTable()
     -- Create the options table for AceConfig
     optionsAddon.optionsTable = {
         -- Add a place for the user to grab
-        name = "                                                      Version: "
-            .. (C_AddOns.GetAddOnMetadata("xCT+", "Version") or "Unknown")
-            .. "                                                      ",
+        name = string.format(
+            L["                                                      Version: %s                                                      "],
+            C_AddOns.GetAddOnMetadata("xCT+", "Version") or L["Unknown"]
+        ),
         handler = x,
         type = "group",
         args = {
@@ -36,14 +38,14 @@ function x:InitOptionsTable()
                 order = 0,
                 type = "description",
                 fontSize = "large",
-                name = "|cffFF0000x|rCT|cffFFFF00+|r |cff798BDDConfiguration Tool|r\n",
+                name = L["|cffFF0000x|rCT|cffFFFF00+|r |cff798BDDConfiguration Tool|r\n"],
                 width = "double",
             },
 
             spacer0 = {
                 order = 1,
                 type = "description",
-                name = "|cffFFFF00Helpful Tips:|r\n\n",
+                name = L["|cffFFFF00Helpful Tips:|r\n\n"],
                 width = "half",
             },
 
@@ -51,7 +53,7 @@ function x:InitOptionsTable()
                 order = 2,
                 type = "description",
                 fontSize = "medium",
-                name = "On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options.",
+                name = L["On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options."],
                 width = "double",
             },
 
@@ -65,8 +67,8 @@ function x:InitOptionsTable()
             hideConfig = {
                 order = 12,
                 type = "toggle",
-                name = "Hide Config in Combat",
-                desc = "This option helps prevent UI taints by closing the config when you enter combat.\n\n|cffFF8000Highly Recommended Enabled|r",
+                name = L["Hide Config in Combat"],
+                desc = L["This option helps prevent UI taints by closing the config when you enter combat.\n\n|cffFF8000Highly Recommended Enabled|r"],
                 get = function()
                     return x.db.profile.hideConfig
                 end,
@@ -104,16 +106,16 @@ function x:InitOptionsTable()
             ToggleTestMode = {
                 order = 31,
                 type = "execute",
-                name = "Test",
-                desc = "Allows you to preview xCT+ in order to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'",
+                name = L["Test"],
+                desc = L["Allows you to preview xCT+ in order to tweak settings outside of combat.\n\nYou can also type: '|cffFF0000/xct test|r'"],
                 width = "half",
                 func = x.ToggleTestMode,
             },
             ToggleFrames = {
                 order = 32,
                 type = "execute",
-                name = "Move",
-                desc = "Allows you to adjust the position of all the xCT+ frames on your screen.\n\nYou can also type: '|cffFF0000/xct lock|r'",
+                name = L["Move"],
+                desc = L["Allows you to adjust the position of all the xCT+ frames on your screen.\n\nYou can also type: '|cffFF0000/xct lock|r'"],
                 width = "half",
                 func = x.ToggleConfigMode,
             },
@@ -442,25 +444,25 @@ function x:InitOptionsTable()
         args = {
             frameSettings = {
                 order = 1,
-                name = "Frame Settings ",
+                name = L["Frame Settings"],
                 type = "group",
                 guiInline = true,
                 args = {
                     frameStrata = {
                         order = 1,
                         type = "select",
-                        name = "Frame Strata",
-                        desc = "The Z-Layer to place the |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames onto. If you find that another addon is in front of |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames, try increasing the Frame Strata.",
+                        name = L["Frame Strata"],
+                        desc = L["The Z-Layer to place the |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames onto. If you find that another addon is in front of |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames, try increasing the Frame Strata."],
                         values = {
-                            --["1PARENT"]             = "Parent |cffFF0000(Lowest)|r",
-                            ["2BACKGROUND"] = "Background |cffFF0000(Lowest)|r",
-                            ["3LOW"] = "Low",
-                            ["4MEDIUM"] = "Medium",
-                            ["5HIGH"] = "High |cffFFFF00(Default)|r",
-                            ["6DIALOG"] = "Dialog",
-                            ["7FULLSCREEN"] = "Fullscreen",
-                            ["8FULLSCREEN_DIALOG"] = "Fullscreen Dialog",
-                            ["9TOOLTIP"] = "ToolTip |cffAAFF80(Highest)|r",
+                            --["1PARENT"]             = L["Parent |cffFF0000(Lowest)|r"],
+                            ["2BACKGROUND"] = L["Background |cffFF0000(Lowest)|r"],
+                            ["3LOW"] = L["Low"],
+                            ["4MEDIUM"] = L["Medium"],
+                            ["5HIGH"] = L["High |cffFFFF00(Default)|r"],
+                            ["6DIALOG"] = L["Dialog"],
+                            ["7FULLSCREEN"] = L["Fullscreen"],
+                            ["8FULLSCREEN_DIALOG"] = L["Fullscreen Dialog"],
+                            ["9TOOLTIP"] = L["ToolTip |cffAAFF80(Highest)|r"],
                         },
                         get = get0,
                         set = set0_update,
@@ -468,8 +470,8 @@ function x:InitOptionsTable()
                     clearLeavingCombat = {
                         order = 2,
                         type = "toggle",
-                        name = "Clear Frames when leaving combat",
-                        desc = "Enable this option if you have problems with 'floating' icons.",
+                        name = L["Clear Frames when leaving combat"],
+                        desc = L["Enable this option if you have problems with 'floating' icons."],
                         width = "full",
                         get = get0,
                         set = set0,
@@ -478,21 +480,21 @@ function x:InitOptionsTable()
                     whenMovingFrames = {
                         order = 10,
                         type = "header",
-                        name = "When moving the Frames",
+                        name = L["When moving the Frames"],
                     },
                     showGrid = {
                         order = 11,
                         type = "toggle",
-                        name = "Show Align Grid",
-                        desc = "Shows a grid after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
+                        name = L["Show Align Grid"],
+                        desc = L["Shows a grid after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better."],
                         get = get0,
                         set = set0,
                     },
                     showPositions = {
                         order = 12,
                         type = "toggle",
-                        name = "Show Positions",
-                        desc = "Shows the locations and sizes of your frames after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better.",
+                        name = L["Show Positions"],
+                        desc = L["Shows the locations and sizes of your frames after you |cffFFFF00Toggle Frames|r to help you align |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames better."],
                         get = get0,
                         set = set0,
                     },
@@ -500,48 +502,48 @@ function x:InitOptionsTable()
             },
 
             spacer1 = {
+                order = 2,
                 type = "description",
                 name = "\n",
-                order = 2,
             },
 
             megaDamage = {
-                name = "Number Format Settings",
-                type = "group",
                 order = 3,
+                name = L["Number Format Settings"],
+                type = "group",
                 guiInline = true,
                 args = {
                     formatNumberHeader = {
                         order = 0,
                         type = "header",
-                        name = "Format Numbers in the Frames (Choose one)",
+                        name = L["Format Numbers in the Frames (Choose one)"],
                     },
                     abbreviateExplanation = {
                         order = 1,
                         type = "description",
-                        name = "|cffFFFF00PLEASE NOTE|r |cffAAAAAAFormat settings need to be independently enabled on each frame through its respective settings page.|r\n",
+                        name = L["|cffFFFF00PLEASE NOTE|r |cffAAAAAAFormat settings need to be independently enabled on each frame through its respective settings page.|r\n"],
                         fontSize = "small",
                     },
                     formatAbbreviate = {
                         order = 2,
                         type = "toggle",
-                        name = "Abbreviate Numbers",
+                        name = L["Abbreviate Numbers"],
                         set = setFormatting,
                         get = getDBSpells,
                     },
                     formatGroups = {
                         order = 3,
                         type = "toggle",
-                        name = "Decimal Marks",
-                        desc = "Groups decimals and separates them by commas; this allows for better responsiveness when reading numbers.\n\n|cffFF0000EXAMPLE|r |cff798BDD12,890|r",
+                        name = L["Decimal Marks"],
+                        desc = L["Groups decimals and separates them by commas; this allows for better responsiveness when reading numbers.\n\n|cffFF0000EXAMPLE|r |cff798BDD12,890|r"],
                         set = setFormatting,
                         get = getDBSpells,
                     },
                     decimalPoint = {
                         order = 4,
                         type = "toggle",
-                        name = "Single Decimal Precision",
-                        desc = "Shows a single digit of precision when abbreviating the value (e.g. will show |cff798BDD5.9K|r instead of |cff798BDD6K|r).",
+                        name = L["Single Decimal Precision"],
+                        desc = L["Shows a single digit of precision when abbreviating the value (e.g. will show |cff798BDD5.9K|r instead of |cff798BDD6K|r)."],
                         get = get0,
                         set = set0,
                     },
@@ -549,24 +551,24 @@ function x:InitOptionsTable()
                     thousandSymbol = {
                         order = 5,
                         type = "input",
-                        name = "Thousand Symbol",
-                        desc = "Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r",
+                        name = L["Thousand Symbol"],
+                        desc = L["Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r"],
                         get = getTextIn0,
                         set = setTextIn0,
                     },
                     millionSymbol = {
                         order = 6,
                         type = "input",
-                        name = "Million Symbol",
-                        desc = "Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r",
+                        name = L["Million Symbol"],
+                        desc = L["Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r"],
                         get = getTextIn0,
                         set = setTextIn0,
                     },
                     billionSymbol = {
                         order = 7,
                         type = "input",
-                        name = "Billion Symbol",
-                        desc = "Symbol for: |cffFF0000Billions|r |cff798BDD(10e+9)|r",
+                        name = L["Billion Symbol"],
+                        desc = L["Symbol for: |cffFF0000Billions|r |cff798BDD(10e+9)|r"],
                         get = getTextIn0,
                         set = setTextIn0,
                     },
