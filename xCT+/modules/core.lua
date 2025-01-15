@@ -435,7 +435,7 @@ function x:EnableLibSinkSupport()
         "xCT+",
         "Created for optimal performance in the toughest fights, this rugged combat text add-on is ready to be put to the test!",
 
-        function(sinkAddon, text, r, g, b, font, size, outline, sticky, location, icon)
+        function(_, text, r, g, b, _, _, _, _, location, icon)
             local settings = x.db.profile.frames[location or "general"]
             if settings.iconsEnabled and icon then
                 if settings.fontJustify == "LEFT" then

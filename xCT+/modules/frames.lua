@@ -48,7 +48,7 @@ function x:UpdateFrames(specificFrame)
     -- Update the frames
     for frameName, frameSettings in pairs(x.db.profile.frames) do
         if specificFrame and specificFrame == frameName or not specificFrame then
-            local f = nil
+            local f
 
             -- Create the frame (or retrieve it)
             if x.framesByName[frameName] then
@@ -115,11 +115,11 @@ function x:UpdateFrames(specificFrame)
                     local left, top = math.floor(f:GetLeft() - midX + 0.5), math.floor(f:GetTop() - midY + 0.5)
 
                     -- Calculate get the center of the screen from the left/top
-                    local x = math.floor(left + (f:GetWidth() / 2) + 0.5)
-                    local y = math.floor(top - (f:GetHeight() / 2) + 0.5)
+                    local pointX = math.floor(left + (f:GetWidth() / 2) + 0.5)
+                    local pointY = math.floor(top - (f:GetHeight() / 2) + 0.5)
 
                     f:ClearAllPoints()
-                    f:SetPoint("CENTER", x, y)
+                    f:SetPoint("CENTER", pointX, pointY)
                 else
                     f:ClearAllPoints()
                     f:SetPoint("CENTER", frameSettings.X, frameSettings.Y)
@@ -729,7 +729,7 @@ do
     x.spamMergerFrame:SetScript("OnUpdate", x.OnSpamUpdate)
 end
 
-local function Frame_Sizing_OnUpdate(self, e)
+local function Frame_Sizing_OnUpdate(self)
     local settings = self.parent.settings
     local width, height = math.floor(self.parent:GetWidth() + 0.5), math.floor(self.parent:GetHeight() + 0.5)
     self.parent.width:SetText(width)
@@ -1015,8 +1015,6 @@ function x:SaveAllFrames()
         local frame = x.framesByName[framename]
         -- If frame is disabled, trying to calculate position will fail
         if settings.enabledFrame then
-            local x_old, y_old, width_old, height_old = settings.X, settings.Y, settings.Width, settings.Height
-
             local width = frame:GetWidth()
             local height = frame:GetHeight()
 
