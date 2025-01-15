@@ -12,6 +12,8 @@ move-folders:
   xCT+/xCT+: xCT+
   xCT+/xCT+Options: xCT+Options
 
+enable-nolib-creation: no
+
 externals:
     xCT+/libs/AceAddon-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceAddon-3.0
     xCT+/libs/AceConfig-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
