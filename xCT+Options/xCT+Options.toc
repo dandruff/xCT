@@ -1,4 +1,4 @@
-## Interface: 110007
+## Interface: 110007, 111000
 ## Title: xCT+Options
 ## Notes: Options for xCT+
 ## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
