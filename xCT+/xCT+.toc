@@ -8,6 +8,7 @@
 ## SavedVariables: xCTSavedDB
 ## X-Curse-Project-ID: 35541
 
+#@no-lib-strip@
 libs\LibStub\LibStub.lua
 libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 
@@ -23,6 +24,7 @@ libs\AceGUI-3.0\AceGUI-3.0.xml
 libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
 
 libs\AceConfig-3.0\AceConfig-3.0.xml
+#@end-no-lib-strip@
 
 init.lua
 
