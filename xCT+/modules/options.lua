@@ -45,6 +45,10 @@ function x:Options_General_ShowDispells()
     return x.db.profile.frames.general.showDispells
 end
 
+function x:Options_General_ShowIncomingDispells()
+    return x.db.profile.frames.general.showIncomingDispells
+end
+
 function x:Options_General_ShowPartyKill()
     return x.db.profile.frames.general.showPartyKills
 end

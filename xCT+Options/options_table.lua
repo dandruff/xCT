@@ -1084,13 +1084,21 @@ function x:InitOptionsTable()
                             showDispells = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Dispell/Steal",
+                                name = "Your Dispells / Spell Steals",
                                 desc = "Show the spell that you dispelled or stole.",
                                 get = "Options_General_ShowDispells",
                                 set = set2,
                             },
-                            showPartyKills = {
+                            showIncomingDispells = {
                                 order = 3,
+                                type = "toggle",
+                                name = "Incoming Dispells / Spell Steals",
+                                desc = "Show the spell that somebody else dispelled on you or stole a buff/debuff from you.",
+                                get = "Options_General_ShowIncomingDispells",
+                                set = set2,
+                            },
+                            showPartyKills = {
+                                order = 4,
                                 type = "toggle",
                                 name = "Unit Killed",
                                 desc = "Display unit that was killed by your final blow.",
@@ -1098,7 +1106,7 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
                             showBuffs = {
-                                order = 4,
+                                order = 5,
                                 type = "toggle",
                                 name = "Buff Gains/Fades",
                                 desc = "Display the names of helpful auras |cff00FF00(Buffs)|r that you gain and lose.",
@@ -1106,7 +1114,7 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
                             showDebuffs = {
-                                order = 5,
+                                order = 6,
                                 type = "toggle",
                                 name = "Debuff Gains/Fades",
                                 desc = "Display the names of harmful auras |cffFF0000(Debuffs)|r that you gain and lose.",
@@ -1114,7 +1122,7 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
                             showLowManaHealth = {
-                                order = 6,
+                                order = 7,
                                 type = "toggle",
                                 name = "Low Mana/Health",
                                 desc = "Displays 'Low Health/Mana' when your health/mana reaches the low threshold.",
@@ -1122,7 +1130,7 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
                             showCombatState = {
-                                order = 7,
+                                order = 8,
                                 type = "toggle",
                                 name = "Leave/Enter Combat",
                                 desc = "Displays when the player is leaving or entering combat.",
@@ -1130,23 +1138,23 @@ function x:InitOptionsTable()
                                 set = set2,
                             },
                             showRepChanges = {
-                                order = 8,
+                                order = 9,
                                 type = "toggle",
-                                name = "Show Reputation",
+                                name = "Reputation Gains/Losses",
                                 desc = "Displays your player's reputation gains and losses.",
                                 get = "Options_General_ShowReputationChanges",
                                 set = set2,
                             },
                             showHonorGains = {
-                                order = 9,
+                                order = 10,
                                 type = "toggle",
-                                name = "Show Honor",
+                                name = "Honor Gains",
                                 desc = "Displays your player's honor gains.",
                                 get = "Options_General_ShowHonor",
                                 set = set2,
                             },
                             showProfessionSkillups = {
-                                order = 10,
+                                order = 11,
                                 type = "toggle",
                                 name = "Profession skillup",
                                 desc = "Displays your skill ups in professions.",

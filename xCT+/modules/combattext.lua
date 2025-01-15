@@ -74,7 +74,6 @@ local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATT
 
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
 local format_crit = "%s%s%s"
-local format_dispell = "%s: %s"
 local format_quality = "ITEM_QUALITY%s_DESC"
 local format_remove_realm = "(.*)-.*"
 
@@ -1224,7 +1223,7 @@ EventHandlers.KilledUnit = function(args)
         end
     end
 
-    x:AddMessage("general", string.format(format_dispell, XCT_KILLED, args.destName), color)
+    x:AddMessage("general", string.format("%s: %s", XCT_KILLED, args.destName), color)
 end
 
 EventHandlers.InterruptedUnit = function(args)
@@ -1233,7 +1232,7 @@ EventHandlers.InterruptedUnit = function(args)
     end
 
     -- Create and format the message
-    local message = string.format(format_dispell, INTERRUPTED, args.extraSpellName)
+    local message = string.format("%s: %s", INTERRUPTED, args.extraSpellName)
 
     local outputFrame = "general"
     local frameSettings = x:GetFrameSettings(outputFrame)
@@ -1329,13 +1328,12 @@ EventHandlers.IncomingMiss = function(args)
     x:AddMessage(outputFrame, message, color)
 end
 
+-- Outgoing dispel
 EventHandlers.SpellDispel = function(args)
     if not x:Options_General_ShowDispells() then
         return
     end
 
-    local color = args.auraType == "BUFF" and "dispellBuffs" or "dispellDebuffs"
-    local message = string.format(format_dispell, XCT_DISPELLED, args.extraSpellName)
     local outputFrame = "general"
     local frameSettings = x:GetFrameSettings(outputFrame)
     if not frameSettings then
@@ -1343,8 +1341,19 @@ EventHandlers.SpellDispel = function(args)
         return
     end
 
-    -- Add Icons
-    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
+    local color = args.auraType == "BUFF" and "dispellBuffs" or "dispellDebuffs"
+    local message = x:GetSpellTextureFormatted(args.extraSpellId, args.extraSpellName, frameSettings)
+    local sourceName = args.sourceName
+    if args.isPlayer then
+        sourceName = "You"
+    end
+
+    local destName = args.destName
+    if args.atPlayer then
+        destName = "you"
+    end
+
+    message = sourceName .. " dispelled " .. message .. " on " .. destName
 
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
@@ -1354,12 +1363,45 @@ EventHandlers.SpellDispel = function(args)
     end
 end
 
+EventHandlers.IncomingSpellDispel = function (args)
+    if not x:Options_General_ShowIncomingDispells() then
+        return
+    end
+
+    if args.isPlayer and args.atPlayer and x:Options_General_ShowDispells() then
+        -- Its a self-dispel and outgoing dispells are enabled too. Skip here so we dont display the same message twice.
+        return
+    end
+
+    local outputFrame = "general"
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
+    local message = x:GetSpellTextureFormatted(args.extraSpellId, args.extraSpellName, frameSettings)
+    local sourceName = args.sourceName
+    if args.isPlayer then
+        sourceName = "You"
+    end
+
+    local destName = args.destName
+    if args.atPlayer then
+        destName = "you"
+    end
+
+    message = sourceName .. " dispelled " .. message .. " on " .. destName
+
+    x:AddMessage(outputFrame, message, "dispellDebuffs")
+end
+
 EventHandlers.SpellStolen = function(args)
     if not x:Options_General_ShowDispells() then
         return
     end
 
-    local message = string.format(format_dispell, XCT_STOLE, args.extraSpellName)
+    local message = string.format("%s: %s", XCT_STOLE, args.extraSpellName)
     local outputFrame = "general"
     local frameSettings = x:GetFrameSettings(outputFrame)
     if not frameSettings then
@@ -1891,23 +1933,7 @@ function x.onCombatLogEvent(args)
         elseif args.suffix == "_MISSED" then
             EventHandlers.IncomingMiss(args)
         elseif args.event == "SPELL_DISPEL" then
-            if x:Options_General_ShowDispells() then
-                local message
-
-                if x.locale == "koKR" then
-                    message = args.sourceName .. " 무효화:"
-                else
-                    message = args.sourceName .. " dispelled:"
-                end
-
-                local outputFrame = "general"
-                local frameSettings = x:GetFrameSettings(outputFrame)
-                if frameSettings then
-                    message = x:GetSpellTextureFormatted(args.extraSpellId, message, frameSettings)
-
-                    x:AddMessage(outputFrame, message, "dispellDebuffs")
-                end
-            end
+            EventHandlers.IncomingSpellDispel(args)
         end
     end
 

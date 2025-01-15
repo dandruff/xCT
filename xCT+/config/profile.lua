@@ -324,6 +324,7 @@ addon.defaults = {
                 -- special tweaks
                 showInterrupts = true,
                 showDispells = true,
+                showIncomingDispells = true,
                 showPartyKills = true,
                 showBuffs = true,
                 showDebuffs = true,
