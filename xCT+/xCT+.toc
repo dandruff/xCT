@@ -1,0 +1,57 @@
+## Interface: 110007, 111000
+## Title: xCT+
+## Notes: An Add-On that can out-perform or enhance the default Floating Combat Text!
+## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
+## Version: @project-version@
+## RequiredDeps: Blizzard_CombatText
+## OptionalDeps: LibSink-2.0
+## SavedVariables: xCTSavedDB
+## X-Curse-Project-ID: 35541
+
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceTimer-3.0\AceTimer-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+
+libs\LibSharedMedia-3.0\lib.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+
+libs\AceConfig-3.0\AceConfig-3.0.xml
+#@end-no-lib-strip@
+
+init.lua
+
+config\merge_helpers.lua
+config\merge_class.lua
+
+# The order here is relevant!
+config\merge_basic_spells.lua
+config\merge_dragonflight.lua
+config\merge_shadowlands.lua
+config\merge_bfa.lua
+config\merge_legion.lua
+config\merge_wod.lua
+config\merge_mop.lua
+
+config\merge_race.lua
+config\profile.lua
+
+libs\UTF8\include.xml
+libs\xCombatParser-1.0\xCombatParser-1.0.lua
+
+media\media.lua
+media\pet_icons.lua
+
+modules\blizzard.lua
+modules\frames.lua
+modules\combattext.lua
+modules\options.lua
+modules\grid.lua
+modules\core.lua
