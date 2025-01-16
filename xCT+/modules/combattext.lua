@@ -1348,18 +1348,17 @@ EventHandlers.SpellDispel = function(args)
         sourceName = "You"
     end
 
-    local destName = args.destName
-    if args.atPlayer then
-        destName = "you"
-    end
-
-    message = sourceName .. " dispelled " .. message .. " on " .. destName
+    message = sourceName .. " dispelled " .. message
 
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         x:AddSpamMessage(outputFrame, args.extraSpellName, message, color, spamMergerInterval)
     else
-        x:AddMessage(outputFrame, message, color)
+        local destName = args.destName
+        if args.atPlayer then
+            destName = "you"
+        end
+        x:AddMessage(outputFrame, message .. " on " .. destName, color)
     end
 end
 
