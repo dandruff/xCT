@@ -10,6 +10,7 @@
 # Locales first
 # enUS first (because its the default!)
 locales\enUS.lua
+locales\ruRU.lua
 
 init.lua
 options_table.lua
