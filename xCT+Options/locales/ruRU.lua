@@ -18,7 +18,7 @@ local L = LibStub:GetLibrary("AceLocale-3.0"):NewLocale(AddonName, "ruRU", true,
 if not L then return end
 
 L["                                                      Version: %s                                                      "] = "                                                      Версия: %s                                                      "
-L["Unknown"] = true
+L["Unknown"] = "Неизвестно"
 L["|cffFF0000x|rCT|cffFFFF00+|r |cff798BDDConfiguration Tool|r\n"] = "|cffFF0000x|rCT|cffFFFF00+|r |cff798BDDИнструмент конфигурации|r\n"
 L["|cffFFFF00Helpful Tips:|r\n\n"] = "|cffFFFF00Полезные советы:|r\n\n"
 L["On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options."] = "В левом списке под флажком |cffFFFF00Стартовое сообщение|r Вы можете нажать на кнопку |cff798BDD+ Кнопки|r (плюс), чтобы отобразить дополнительные параметры."
