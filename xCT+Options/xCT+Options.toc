@@ -1,6 +1,7 @@
-## Interface: 110007, 111000
+## Interface: 110007, 110100
 ## Title: xCT+Options
 ## Notes: Options for xCT+
+## Notes-ruRU: Настройки для xCT+
 ## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
 ## Version: @project-version@
 ## LoadOnDemand: 1
