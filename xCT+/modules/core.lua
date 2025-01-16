@@ -266,7 +266,7 @@ function x:CompatibilityLogic(existing)
                     "|cff798BDDSpell School Colors|r (|cffFFFF00From: Config Tool->Frames->Outgoing|r | |cff00FF00To: Config Tool->Spell School Colors|r)"
                 )
             end
-            if x.db.profile.frames.outgoing.colors.spellSchools then
+            if x.db.profile.frames.outgoing.colors and x.db.profile.frames.outgoing.colors.spellSchools then
                 local oldDB = x.db.profile.frames.outgoing.colors.spellSchools.colors
                 local newDB = x.db.profile.SpellColors
                 local keys = {
