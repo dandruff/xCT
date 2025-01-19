@@ -818,9 +818,49 @@ EventHandlers.DamageOutgoing = function(args)
     local outputColor = x.GetSpellSchoolColor(args.spellSchool, outputColorType)
 
     local spamMergerInterval = x:Options_SpamMerger_SpellInterval(spellId)
-    if (isSwing or isAutoShot) and x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        if outputFrame == "critical" then
-            if x:Options_SpamMerger_MergeCriticalsByThemselves() then
+    if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
+        if isSwing or isAutoShot then
+            if outputFrame == "critical" then
+                if x:Options_SpamMerger_MergeCriticalsByThemselves() then
+                    x:AddSpamMessage(
+                        outputFrame,
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "auto",
+                        L_AUTOATTACK,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                    return
+                elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
+                    x:AddSpamMessage(
+                        "outgoing",
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "auto",
+                        L_AUTOATTACK,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                elseif x:Options_SpamMerger_HideMergedCriticals() then
+                    x:AddSpamMessage(
+                        "outgoing",
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "auto",
+                        L_AUTOATTACK,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                    return
+                end
+            else
                 x:AddSpamMessage(
                     outputFrame,
                     spellId,
@@ -833,49 +873,56 @@ EventHandlers.DamageOutgoing = function(args)
                     args:GetDestinationController()
                 )
                 return
-            elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
-                x:AddSpamMessage(
-                    "outgoing",
-                    spellId,
-                    amount,
-                    outputColor,
-                    spamMergerInterval,
-                    "auto",
-                    L_AUTOATTACK,
-                    "destinationController",
-                    args:GetDestinationController()
-                )
-            elseif x:Options_SpamMerger_HideMergedCriticals() then
-                x:AddSpamMessage(
-                    "outgoing",
-                    spellId,
-                    amount,
-                    outputColor,
-                    spamMergerInterval,
-                    "auto",
-                    L_AUTOATTACK,
-                    "destinationController",
-                    args:GetDestinationController()
-                )
-                return
             end
-        else
-            x:AddSpamMessage(
-                outputFrame,
-                spellId,
-                amount,
-                outputColor,
-                spamMergerInterval,
-                "auto",
-                L_AUTOATTACK,
-                "destinationController",
-                args:GetDestinationController()
-            )
-            return
-        end
-    elseif not isSwing and not isAutoShot and spamMergerInterval > 0 then
-        if args.critical then
-            if x:Options_SpamMerger_MergeCriticalsByThemselves() then
+        elseif not isSwing and not isAutoShot then
+            if args.critical then
+                if x:Options_SpamMerger_MergeCriticalsByThemselves() then
+                    x:AddSpamMessage(
+                        outputFrame,
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "spellName",
+                        args.spellName,
+                        "spellSchool",
+                        args.spellSchool,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                    return
+                elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
+                    x:AddSpamMessage(
+                        "outgoing",
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "spellName",
+                        args.spellName,
+                        "spellSchool",
+                        args.spellSchool,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                elseif x:Options_SpamMerger_HideMergedCriticals() then
+                    x:AddSpamMessage(
+                        "outgoing",
+                        spellId,
+                        amount,
+                        outputColor,
+                        spamMergerInterval,
+                        "spellName",
+                        args.spellName,
+                        "spellSchool",
+                        args.spellSchool,
+                        "destinationController",
+                        args:GetDestinationController()
+                    )
+                    return
+                end
+            else
+                -- args:GetSourceController() / args:GetDestinationController()
                 x:AddSpamMessage(
                     outputFrame,
                     spellId,
@@ -890,52 +937,7 @@ EventHandlers.DamageOutgoing = function(args)
                     args:GetDestinationController()
                 )
                 return
-            elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
-                x:AddSpamMessage(
-                    "outgoing",
-                    spellId,
-                    amount,
-                    outputColor,
-                    spamMergerInterval,
-                    "spellName",
-                    args.spellName,
-                    "spellSchool",
-                    args.spellSchool,
-                    "destinationController",
-                    args:GetDestinationController()
-                )
-            elseif x:Options_SpamMerger_HideMergedCriticals() then
-                x:AddSpamMessage(
-                    "outgoing",
-                    spellId,
-                    amount,
-                    outputColor,
-                    spamMergerInterval,
-                    "spellName",
-                    args.spellName,
-                    "spellSchool",
-                    args.spellSchool,
-                    "destinationController",
-                    args:GetDestinationController()
-                )
-                return
             end
-        else
-            -- args:GetSourceController() / args:GetDestinationController()
-            x:AddSpamMessage(
-                outputFrame,
-                spellId,
-                amount,
-                outputColor,
-                spamMergerInterval,
-                "spellName",
-                args.spellName,
-                "spellSchool",
-                args.spellSchool,
-                "destinationController",
-                args:GetDestinationController()
-            )
-            return
         end
     end
 
