@@ -1148,25 +1148,26 @@ EventHandlers.HealingIncoming = function(args)
             "sourceController",
             args:GetSourceController()
         )
-    else
-        if x:Options_Filter_IncomingHealing_HideEvent(amount, args.critical) then
-            return
-        end
-
-        local frameSettings = x:GetFrameSettings(outputFrame)
-        if not frameSettings then
-            -- Frame is disabled and the secondary frame is disabled too or not chosen
-            return
-        end
-
-        -- Add names
-        message = message .. x.formatName(args, frameSettings.names, true)
-
-        -- Add the icon
-        message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
-
-        x:AddMessage(outputFrame, message, color)
+        return
     end
+
+    if x:Options_Filter_IncomingHealing_HideEvent(amount, args.critical) then
+        return
+    end
+
+    local frameSettings = x:GetFrameSettings(outputFrame)
+    if not frameSettings then
+        -- Frame is disabled and the secondary frame is disabled too or not chosen
+        return
+    end
+
+    -- Add names
+    message = message .. x.formatName(args, frameSettings.names, true)
+
+    -- Add the icon
+    message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
+
+    x:AddMessage(outputFrame, message, color)
 end
 
 EventHandlers.AuraIncoming = function(args)
@@ -1355,13 +1356,14 @@ EventHandlers.SpellDispel = function(args)
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
         x:AddSpamMessage(outputFrame, args.extraSpellName, message, color, spamMergerInterval)
-    else
-        local destName = args.destName
-        if args.atPlayer then
-            destName = "you"
-        end
-        x:AddMessage(outputFrame, message .. " on " .. destName, color)
+        return
     end
+
+    local destName = args.destName
+    if args.atPlayer then
+        destName = "you"
+    end
+    x:AddMessage(outputFrame, message .. " on " .. destName, color)
 end
 
 EventHandlers.IncomingSpellDispel = function (args)

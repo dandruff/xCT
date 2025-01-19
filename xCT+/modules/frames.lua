@@ -656,19 +656,22 @@ do
                     local strColor = "ffffff"
 
                     -- Add critical Prefix and Postfix
+                    if frameName == "critical" then
+                        message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
+                    end
+
                     if frameName == "outgoing" or frameName == "critical" then
-                        if frameName == "critical" then
-                            message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
-                        end
-                        if frameSettings.names[item.destinationController].nameType == 2 then
+
+                        if frameSettings.names[item.destinationController].nameType > 0 then
                             if item.auto then
+                                -- Auto attack / pet auto attack
                                 fakeArgs.spellName = item.auto
                                 fakeArgs.spellSchool = 1 -- physical
                             else
                                 fakeArgs.spellName = item.spellName
                                 fakeArgs.spellSchool = item.spellSchool
                             end
-                            --fakeArgs.fake_sourceController = item.sourceController
+                            fakeArgs.fake_sourceController = item.sourceController
                             fakeArgs.fake_destinationController = item.destinationController
                             if frameSettings.fontJustify == "RIGHT" then
                                 message = x.formatName(fakeArgs, frameSettings.names) .. " " .. message
@@ -681,10 +684,12 @@ do
                     elseif frameName == "healing" then
                         strColor = "ffff00"
 
-                        if frameSettings.names[item.sourceController].nameType == 1 then
+                        if frameSettings.names[item.sourceController].nameType > 0 then
                             fakeArgs.sourceName = mergeId
                             fakeArgs.sourceGUID = item.sourceGUID
+                            fakeArgs.spellName = item.spellName
                             fakeArgs.fake_sourceController = item.sourceController
+                            fakeArgs.fake_destinationController = item.destinationController
                             if frameSettings.fontJustify == "RIGHT" then
                                 message = x.formatName(fakeArgs, frameSettings.names, true) .. " +" .. message
                             else
