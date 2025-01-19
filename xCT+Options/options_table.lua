@@ -60,7 +60,7 @@ function x:InitOptionsTable()
             space1 = {
                 order = 10,
                 type = "description",
-                name = L["\n"],
+                name = "\n",
                 width = "full",
             },
 
@@ -88,19 +88,19 @@ function x:InitOptionsTable()
             space2 = {
                 order = 20,
                 type = "description",
-                name = L[""],
+                name = "",
                 width = "half",
             },
             space3 = {
                 order = 30,
                 type = "description",
-                name = L[""],
+                name = "",
                 width = "half",
             },
             space4 = {
                 order = 30,
                 type = "description",
-                name = L[""],
+                name = "",
                 width = "half",
             },
             ToggleTestMode = {
@@ -504,7 +504,7 @@ function x:InitOptionsTable()
             spacer1 = {
                 order = 2,
                 type = "description",
-                name = L["\n"],
+                name = "\n",
             },
 
             megaDamage = {
@@ -577,7 +577,7 @@ function x:InitOptionsTable()
 
             spacer2 = {
                 type = "description",
-                name = L["\n"],
+                name = "\n",
                 order = 4,
             },
 
@@ -624,7 +624,7 @@ function x:InitOptionsTable()
                     spacer1 = {
                         order = 54,
                         type = "description",
-                        name = L[""],
+                        name = "",
                     },
 
                     fontOutline = {
@@ -633,13 +633,13 @@ function x:InitOptionsTable()
                         name = L["Font Outline"],
                         desc = L["Set the font outline."],
                         values = {
-                            ["1NONE"] = "None",
-                            ["2OUTLINE"] = "OUTLINE",
+                            ["1NONE"] = L["None"],
+                            ["2OUTLINE"] = L["Outline"],
                             -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                             -- http://us.battle.net/wow/en/forum/topic/6470967362
-                            ["3MONOCHROME"] = "MONOCHROME",
-                            ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                            ["5THICKOUTLINE"] = "THICKOUTLINE",
+                            ["3MONOCHROME"] = L["Monochrome"],
+                            ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                            ["5THICKOUTLINE"] = L["Thick Outline"],
                         },
                         get = function()
                             return miscFontOutline
@@ -667,7 +667,7 @@ function x:InitOptionsTable()
                     spacer2 = {
                         order = 57,
                         type = "description",
-                        name = L[""],
+                        name = "",
                     },
 
                     customFade = {
@@ -734,16 +734,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    --[1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    --[1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -755,8 +755,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -906,13 +906,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -924,9 +924,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -1199,16 +1199,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    --[2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    --[2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -1220,8 +1220,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -1371,13 +1371,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -1389,9 +1389,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -1513,8 +1513,8 @@ function x:InitOptionsTable()
                         name = L["Colors"],
                         args = {
                             customColors_label = {
-                                type = "header",
                                 order = 0,
+                                type = "header",
                                 name = L["Custom Colors"],
                             },
 
@@ -1646,7 +1646,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -1671,7 +1671,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
@@ -1682,11 +1682,11 @@ function x:InitOptionsTable()
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
+                                            [0] = L["None"],
+                                            [1] = L["Player Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (Player Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - Player Name)"],
                                         },
                                     },
                                 },
@@ -1698,8 +1698,8 @@ function x:InitOptionsTable()
                                 name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
-                                        type = "description",
                                         order = 1,
+                                        type = "description",
                                         name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
@@ -1729,7 +1729,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -1753,7 +1753,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
@@ -1764,11 +1764,11 @@ function x:InitOptionsTable()
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
+                                            [0] = L["None"],
+                                            [1] = L["NPC's Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (NPC Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - NPC Name)"],
                                         },
                                     },
                                 },
@@ -1934,16 +1934,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    --[10] = "Outgoing Healing"
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    --[10] = L["Outgoing Healing"]
                                 },
                                 get = get2,
                                 set = set2,
@@ -1955,8 +1955,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -2106,13 +2106,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -2124,9 +2124,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -2366,7 +2366,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -2391,7 +2391,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
@@ -2402,11 +2402,11 @@ function x:InitOptionsTable()
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
+                                            [0] = L["None"],
+                                            [1] = L["Player Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (Player Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - Player Name)"],
                                         },
                                     },
                                 },
@@ -2449,7 +2449,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -2473,7 +2473,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
@@ -2484,11 +2484,11 @@ function x:InitOptionsTable()
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
+                                            [0] = L["None"],
+                                            [1] = L["NPC's Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (NPC Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - NPC Name)"],
                                         },
                                     },
                                 },
@@ -2615,16 +2615,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    --[3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    --[3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -2636,8 +2636,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -2787,13 +2787,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -2805,9 +2805,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -3047,7 +3047,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3072,22 +3072,22 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
+                                            [0] = L["None"],
+                                            [1] = L["Player Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (Player Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - Player Name)"],
                                         },
                                     },
                                 },
@@ -3130,7 +3130,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3154,22 +3154,22 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
+                                            [0] = L["None"],
+                                            [1] = L["NPC's Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (NPC Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - NPC Name)"],
                                         },
                                     },
                                 },
@@ -3224,7 +3224,6 @@ function x:InitOptionsTable()
                                 desc = L["Prefix this value to the beginning when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
-                                --disabled = isFrameItemDisabled,
                             },
                             critPostfix = {
                                 order = 12,
@@ -3233,7 +3232,6 @@ function x:InitOptionsTable()
                                 desc = L["Postfix this value to the end when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
-                                --disabled = isFrameItemDisabled,
                             },
                             critPostPreReset = {
                                 order = 13,
@@ -3288,16 +3286,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    --[4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    --[4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -3309,8 +3307,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -3460,13 +3458,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -3478,9 +3476,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -3735,7 +3733,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3760,22 +3758,22 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
+                                            [0] = L["None"],
+                                            [1] = L["Player Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (Player Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - Player Name)"],
                                         },
                                     },
                                 },
@@ -3818,7 +3816,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3842,22 +3840,22 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
+                                            [0] = L["None"],
+                                            [1] = L["NPC's Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (NPC Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - NPC Name)"],
                                         },
                                     },
                                 },
@@ -3871,21 +3869,21 @@ function x:InitOptionsTable()
                                     environmentNames = {
                                         type = "description",
                                         order = 1,
-                                        name = '|cff798BDD"Environment" Format Settings|r:',
+                                        name = L["|cff798BDDEnvironment Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = 'Color "Environment"',
+                                        name = L["Color Environment"],
                                         desc = L["The name will be colored according to it's environmental type."],
                                     },
 
                                     environmentNames_Spacer1 = {
                                         type = "description",
                                         order = 3,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3922,7 +3920,7 @@ function x:InitOptionsTable()
                                     environmentNames_Spacer2 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -3945,7 +3943,7 @@ function x:InitOptionsTable()
                                     environmentNames_Spacer3 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
@@ -3974,11 +3972,11 @@ function x:InitOptionsTable()
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = '"Environment"',
-                                            [2] = "Environmental Damage Type",
-                                            [3] = 'Both ("Environment" - Type)',
-                                            [4] = 'Both (Type - "Environment")',
+                                            [0] = L["None"],
+                                            [1] = L["Environment"],
+                                            [2] = L["Environmental Damage Type"],
+                                            [3] = L["Both (Environment - Type)"],
+                                            [4] = L["Both (Type - Environment)"],
                                         },
                                     },
                                 },
@@ -4072,16 +4070,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    --[5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    --[5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -4093,8 +4091,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -4244,13 +4242,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -4262,9 +4260,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -4504,7 +4502,7 @@ function x:InitOptionsTable()
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -4529,22 +4527,22 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "Player Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (Player Name - Spell Name)",
-                                            [4] = "Both (Spell Name - Player Name)",
+                                            [0] = L["None"],
+                                            [1] = L["Player Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (Player Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - Player Name)"],
                                         },
                                     },
                                 },
@@ -4587,7 +4585,7 @@ function x:InitOptionsTable()
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = L[""],
+                                        name = "",
                                         width = "normal",
                                     },
 
@@ -4611,22 +4609,22 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = L[""],
+                                        name = "",
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
-                                        desc = L[""],
+                                        desc = "",
                                         width = "double",
                                         style = "radio",
                                         values = {
-                                            [0] = "None",
-                                            [1] = "NPC's Name",
-                                            [2] = "Spell Name",
-                                            [3] = "Both (NPC Name - Spell Name)",
-                                            [4] = "Both (Spell Name - NPC Name)",
+                                            [0] = L["None"],
+                                            [1] = L["NPC's Name"],
+                                            [2] = L["Spell Name"],
+                                            [3] = L["Both (NPC Name - Spell Name)"],
+                                            [4] = L["Both (Spell Name - NPC Name)"],
                                         },
                                     },
                                 },
@@ -4693,7 +4691,7 @@ function x:InitOptionsTable()
             },
 
             class = {
-                name = L["|cff808080Class Combo Points (Disabled)|r"],
+                name = L["|cff808080Class Combo Points|r"],
                 type = "group",
                 order = 17,
                 childGroups = "tab",
@@ -4813,13 +4811,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -4949,16 +4947,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    --[6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    --[6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -4970,8 +4968,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5121,13 +5119,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5139,9 +5137,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5280,7 +5278,7 @@ function x:InitOptionsTable()
                             disableResource_MANA = {
                                 order = 100,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. MANA .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. MANA .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5288,7 +5286,7 @@ function x:InitOptionsTable()
                             disableResource_RAGE = {
                                 order = 101,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. RAGE .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. RAGE .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5296,7 +5294,7 @@ function x:InitOptionsTable()
                             disableResource_FOCUS = {
                                 order = 102,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. FOCUS .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. FOCUS .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5304,7 +5302,7 @@ function x:InitOptionsTable()
                             disableResource_ENERGY = {
                                 order = 103,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. ENERGY .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. ENERGY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5313,7 +5311,7 @@ function x:InitOptionsTable()
                             disableResource_RUNES = {
                                 order = 104,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. RUNES .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. RUNES .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5321,7 +5319,7 @@ function x:InitOptionsTable()
                             disableResource_RUNIC_POWER = {
                                 order = 105,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. RUNIC_POWER .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. RUNIC_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5329,7 +5327,7 @@ function x:InitOptionsTable()
                             disableResource_SOUL_SHARDS = {
                                 order = 106,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. SOUL_SHARDS .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. SOUL_SHARDS .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5337,7 +5335,7 @@ function x:InitOptionsTable()
                             disableResource_LUNAR_POWER = {
                                 order = 107,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. LUNAR_POWER .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. LUNAR_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5346,7 +5344,7 @@ function x:InitOptionsTable()
                             disableResource_CHI = {
                                 order = 108,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. CHI .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. CHI .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5354,7 +5352,7 @@ function x:InitOptionsTable()
                             disableResource_HOLY_POWER = {
                                 order = 109,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. HOLY_POWER .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. HOLY_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5362,7 +5360,7 @@ function x:InitOptionsTable()
                             disableResource_INSANITY_POWER = {
                                 order = 110,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. INSANITY .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. INSANITY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5370,7 +5368,7 @@ function x:InitOptionsTable()
                             disableResource_MAELSTROM_POWER = {
                                 order = 111,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. MAELSTROM_POWER .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. MAELSTROM_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5379,7 +5377,7 @@ function x:InitOptionsTable()
                             disableResource_ARCANE_CHARGES = {
                                 order = 112,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. ARCANE_CHARGES .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. ARCANE_CHARGES .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5387,7 +5385,7 @@ function x:InitOptionsTable()
                             disableResource_FURY = {
                                 order = 113,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. FURY .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. FURY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5395,7 +5393,7 @@ function x:InitOptionsTable()
                             disableResource_PAIN = {
                                 order = 114,
                                 type = "toggle",
-                                name = L["Disable |cff798BDD"] .. PAIN .. "|r",
+                                name = L["Disable"] .. " |cff798BDD" .. PAIN .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5436,16 +5434,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    --[7] = "Special Effects (Procs)",
-                                    [8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    --[7] = L["Special Effects (Procs)"],
+                                    [8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -5457,8 +5455,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5600,13 +5598,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5618,9 +5616,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5792,16 +5790,16 @@ function x:InitOptionsTable()
                                 name = L["Secondary Frame"],
                                 desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
-                                    [0] = "None",
-                                    [1] = "General",
-                                    [2] = "Outgoing Damage",
-                                    [3] = "Outgoing Damage (Criticals)",
-                                    [4] = "Incoming Damage",
-                                    [5] = "Incoming Healing",
-                                    [6] = "Class Power",
-                                    [7] = "Special Effects (Procs)",
-                                    --[8] = "Loot, Currency & Money",
-                                    [10] = "Outgoing Healing",
+                                    [0] = L["None"],
+                                    [1] = L["General"],
+                                    [2] = L["Outgoing Damage"],
+                                    [3] = L["Outgoing Damage (Criticals)"],
+                                    [4] = L["Incoming Damage"],
+                                    [5] = L["Incoming Healing"],
+                                    [6] = L["Class Power"],
+                                    [7] = L["Special Effects (Procs)"],
+                                    --[8] = L["Loot, Currency & Money"],
+                                    [10] = L["Outgoing Healing"],
                                 },
                                 get = get2,
                                 set = set2,
@@ -5813,8 +5811,8 @@ function x:InitOptionsTable()
                                 name = L["Text Direction"],
                                 desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
-                                    ["top"] = "Down",
-                                    ["bottom"] = "Up",
+                                    ["top"] = L["Down"],
+                                    ["bottom"] = L["Up"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5956,13 +5954,13 @@ function x:InitOptionsTable()
                                 name = L["Font Outline"],
                                 desc = L["Set the font outline."],
                                 values = {
-                                    ["1NONE"] = "None",
-                                    ["2OUTLINE"] = "OUTLINE",
+                                    ["1NONE"] = L["None"],
+                                    ["2OUTLINE"] = L["Outline"],
                                     -- BUG: Setting font to monochrome AND above size 16 will crash WoW
                                     -- http://us.battle.net/wow/en/forum/topic/6470967362
-                                    ["3MONOCHROME"] = "MONOCHROME",
-                                    ["4MONOCHROMEOUTLINE"] = "MONOCHROMEOUTLINE",
-                                    ["5THICKOUTLINE"] = "THICKOUTLINE",
+                                    ["3MONOCHROME"] = L["Monochrome"],
+                                    ["4MONOCHROMEOUTLINE"] = L["Monochrome Outline"],
+                                    ["5THICKOUTLINE"] = L["Thick Outline"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -5974,9 +5972,9 @@ function x:InitOptionsTable()
                                 name = L["Justification"],
                                 desc = L["Justifies the output to a side."],
                                 values = {
-                                    ["RIGHT"] = "Right",
-                                    ["LEFT"] = "Left",
-                                    ["CENTER"] = "Center",
+                                    ["RIGHT"] = L["Right"],
+                                    ["LEFT"] = L["Left"],
+                                    ["CENTER"] = L["Center"],
                                 },
                                 get = get2,
                                 set = set2_update,
@@ -6261,7 +6259,7 @@ function x:InitOptionsTable()
                     enableFCT_Spacer = {
                         type = "description",
                         order = 3,
-                        name = L["\n"],
+                        name = "\n",
                         fontSize = "small",
                         width = "normal",
                     },
@@ -6369,7 +6367,7 @@ function x:InitOptionsTable()
                         name = L["Show Friendly Healers"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_FRIENDLY_NAMES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6379,7 +6377,7 @@ function x:InitOptionsTable()
                         name = L["Show Absorbs (Self)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_SELF
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6398,7 +6396,7 @@ function x:InitOptionsTable()
                         name = L["Show Damage Reduction"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_RESISTANCES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6415,7 +6413,7 @@ function x:InitOptionsTable()
                         name = L["Show Energy"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_ENERGIZE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6425,7 +6423,7 @@ function x:InitOptionsTable()
                         name = L["Show Energy (Periodic)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_PERIODIC_ENERGIZE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6435,7 +6433,7 @@ function x:InitOptionsTable()
                         name = L["Show Combo Points"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBO_POINTS
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6445,7 +6443,7 @@ function x:InitOptionsTable()
                         name = L["Show Honor"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_HONOR_GAINED
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6455,7 +6453,7 @@ function x:InitOptionsTable()
                         name = L["Show Rep Changes"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REPUTATION
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6481,7 +6479,7 @@ function x:InitOptionsTable()
                         name = L["Show Auras"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_AURAS
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6534,7 +6532,7 @@ function x:InitOptionsTable()
                         name = L["Show Combat State"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBAT_STATE
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6544,7 +6542,7 @@ function x:InitOptionsTable()
                         name = L["Show Low HP/Mana"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_LOW_HEALTH_MANA
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6554,7 +6552,7 @@ function x:InitOptionsTable()
                         name = L["Show Reactives"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REACTIVES
-                            .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
+                            .. L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"],
                         get = get0,
                         set = set0_update,
                     },
@@ -6601,11 +6599,7 @@ function x:InitOptionsTable()
             explanation = {
                 type = "description",
                 order = 1,
-                name = L["Normally all damage / heal events of a spell will result in one message each.\n"]
-                    .. "So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\n"
-                    .. "If the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n"
-                    .. "|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\n"
-                    .. "Use an interval of 0 to disable the specific merge.",
+                name = L["Normally all damage / heal events of a spell will result in one message each.\nSo AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\nIf the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\nUse an interval of 0 to disable the specific merge."],
             },
 
             mergeOptions = {
@@ -6760,7 +6754,7 @@ function x:InitOptionsTable()
             spacer1 = {
               type = "description",
               order = 37,
-              name = L[""],
+              name = "",
               width = 'full',
             },
 
@@ -6937,7 +6931,7 @@ function x:InitOptionsTable()
                     headerOutgoingHealing = {
                         order = 20,
                         type = "header",
-                        name = L["Outgoing Healing"],
+                        name = L[L["Outgoing Healing"]],
                     },
                     filterOutgoingHealingValue = {
                         order = 21,
@@ -7658,6 +7652,8 @@ function xo:UpdateOptionsTableSpamMergerSpells()
     for i, category in pairs(spamMergerGlobalSpellCategories) do
         local currentIndex = i * 1000
 
+        -- TODO localization for category.category?
+
         -- Create the Category Header
         global[category.category] = {
             type = "header",
@@ -7670,6 +7666,8 @@ function xo:UpdateOptionsTableSpamMergerSpells()
     local spamMergerRacialSpellOrders = {}
     for i, rcategory in pairs(spamMergerRacialSpellCategories) do
         local rcurrentIndex = i * 1000
+
+        -- TODO localization for rcategory.category?
 
         -- Create the Category Header
         racetab[rcategory.category] = {
@@ -7688,18 +7686,19 @@ function xo:UpdateOptionsTableSpamMergerSpells()
         if name then
             --TODO better code when i understand more the code
             -- Create a useful description for the spell
-            local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
-            local desc = L[""]
+            local spellDesc = C_Spell.GetSpellDescription(spellID) or L["No Description"]
+            local desc = ""
             if entry.desc and not xo.CLASS_NAMES[entry.category] then
+                -- TODO localization for entry.desc
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
-            desc = desc .. spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r"
+            desc = desc .. spellDesc .. "\n\n|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. spellID .. "|r"
 
             local firstSecondaryIdFound = true
             for originalSpellId, replaceSpellId in pairs(xCT_Plus.replaceSpellId) do
                 if replaceSpellId == spellID then
                     if firstSecondaryIdFound then
-                        desc = desc .. "\n|cffFF0000Secondary ID(s)|r |cff798BDD" .. originalSpellId
+                        desc = desc .. "\n|cffFF0000" .. L["Secondary ID(s)"] .. "|r |cff798BDD" .. originalSpellId
                         firstSecondaryIdFound = false
                     else
                         desc = desc .. ", " .. originalSpellId
@@ -7775,7 +7774,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listBuffs.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7811,7 +7810,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listDebuffs.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7847,7 +7846,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listProcs.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7857,6 +7856,7 @@ function xo:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for name in pairs(x.db.profile.spellFilter.listProcs) do
+            -- TODO localization for name
             updated = true
             procs[name] = {
                 name = name,
@@ -7883,7 +7883,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listSpells.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7900,7 +7900,7 @@ function xo:UpdateAuraSpellFilter(specific)
                 updated = true
                 spells[id] = {
                     name = spellName,
-                    desc = spellDesc .. "\n\n|cffFF0000ID|r |cff798BDD" .. spellID .. "|r",
+                    desc = spellDesc .. "\n\n|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. spellID .. "|r",
                     type = "toggle",
                     get = isSpellFiltered,
                     set = setIsSpellFiltered,
@@ -7927,7 +7927,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listItems.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7940,11 +7940,11 @@ function xo:UpdateAuraSpellFilter(specific)
             local spellID = tonumber(string.match(id, "%d+"))
             local name = C_Item.GetItemNameByID(spellID or id)
             local texture = C_Item.GetItemIconByID(spellID or id)
-            name = name or "Unknown Item"
+            name = name or L["Unknown Item"]
             updated = true
             spells[id] = {
                 name = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture or x.BLANK_ICON, 16, 16, name),
-                desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
+                desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
                 type = "toggle",
                 get = isSpellFiltered,
                 set = setIsSpellFiltered,
@@ -7967,7 +7967,7 @@ function xo:UpdateAuraSpellFilter(specific)
         }
         optionsAddon.optionsTable.args.spellFilter.args.listDamage.args.list = {
             order = 101,
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             args = {},
@@ -7983,7 +7983,7 @@ function xo:UpdateAuraSpellFilter(specific)
                 updated = true
                 spells[id] = {
                     name = spellName,
-                    desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
+                    desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
                     type = "toggle",
                     get = isSpellFiltered,
                     set = setIsSpellFiltered,
@@ -8008,7 +8008,7 @@ function xo:UpdateAuraSpellFilter(specific)
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listHealing.args.list = {
-            name = L[""],
+            name = "",
             type = "group",
             guiInline = true,
             order = 101,
@@ -8025,7 +8025,7 @@ function xo:UpdateAuraSpellFilter(specific)
                 updated = true
                 spells[id] = {
                     name = spellName,
-                    desc = "|cffFF0000ID|r |cff798BDD" .. id .. "|r\n",
+                    desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
                     type = "toggle",
                     get = isSpellFiltered,
                     set = setIsSpellFiltered,
@@ -8108,6 +8108,7 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
     options[colorName .. "_enabled"] = {
         order = index,
         type = "toggle",
+        -- TODO localization for colorSettings.desc
         name = colorSettings.desc,
         get = isColorOverrideEnabled,
         set = setColorOverrideEnabled,
@@ -8134,7 +8135,6 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
         name = L["Reset"],
         width = "half",
         func = resetColorOverride,
-        desc = L["Resets |cff798BDD" .. colorSettings.desc .. "|r back to the default color."],
         desc = string.format(
             L["Resets |cff798BDD%s|r back to the default color."],
             colorSettings.desc
@@ -8146,7 +8146,7 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
         type = "description",
         fontSize = "small",
         width = "full",
-        name = L[""],
+        name = "",
     }
 end
 
@@ -8210,14 +8210,14 @@ end
 
 -- A helpful set of tips
 local tips = {
-    "On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options.",
-    "If you want to |cff798BDDCombine Frame Outputs|r, disable one of the frames and use the |cffFFFF00Secondary Frame|r option on that frame.",
-    "Only the |cffFFFF00General|r, |cffFF8000Outgoing|r, |cffFFFF00Outgoing (Crits)|r, |cffFF8000Incoming Damage|r and |cffFFFF00Healing|r, and |cffFF8000Class Power|r frames can be abbreviated.",
-    "The |cffFFFF00Hide Config in Combat|r option was added to prevent |cffFFFF00xCT+|r from tainting your UI. It is highly recommended left enabled.",
-    "|cffFFFF00xCT+|r has several different ways it will merge critical hits. You can check them out in the |cffFFFF00Spam Merger|r section.",
-    "Each frame has a |cffFFFF00Misc|r section; select a frame and select the drop-down box to find it.",
-    "If there is a certain |cff798BDDSpell|r, |cff798BDDBuff|r, or |cff798BDDDebuff|r that you don't want to see, consider adding it to a |cff798BDDFilter|r.",
-    "You can change how |cffFFFF00xCT+|r shows you names in the |cffFFFF00Names|r section of most frames.",
+    L["On the left list, under the |cffFFFF00Startup Message|r checkbox, you can click on the |cff798BDD+ Buttons|r (plus) to show more options."],
+    L["If you want to |cff798BDDCombine Frame Outputs|r, disable one of the frames and use the |cffFFFF00Secondary Frame|r option on that frame."],
+    L["Only the |cffFFFF00General|r, |cffFF8000Outgoing|r, |cffFFFF00Outgoing (Crits)|r, |cffFF8000Incoming Damage|r and |cffFFFF00Healing|r, and |cffFF8000Class Power|r frames can be abbreviated."],
+    L["The |cffFFFF00Hide Config in Combat|r option was added to prevent |cffFFFF00xCT+|r from tainting your UI. It is highly recommended left enabled."],
+    L["|cffFFFF00xCT+|r has several different ways it will merge critical hits. You can check them out in the |cffFFFF00Spam Merger|r section."],
+    L["Each frame has a |cffFFFF00Misc|r section; select a frame and select the drop-down box to find it."],
+    L["If there is a certain |cff798BDDSpell|r, |cff798BDDBuff|r, or |cff798BDDDebuff|r that you don't want to see, consider adding it to a |cff798BDDFilter|r."],
+    L["You can change how |cffFFFF00xCT+|r shows you names in the |cffFFFF00Names|r section of most frames."],
 }
 
 local helpfulList = {}
@@ -8337,7 +8337,7 @@ function x:UpdateComboPointOptions(force)
                     type = "header",
                     name = L["All Specializations"],
                 }
-            end
+            end-- TODO localization for name
             comboSpells.args[name] = {
                 order = offset,
                 type = "toggle",
