@@ -60,7 +60,7 @@ function x:InitOptionsTable()
             space1 = {
                 order = 10,
                 type = "description",
-                name = "\n",
+                name = L["\n"],
                 width = "full",
             },
 
@@ -82,25 +82,25 @@ function x:InitOptionsTable()
             --[==[RestoreDefaults = {
           order = 3,
           type = 'execute',
-          name = "Restore Defaults",
+          name = L["Restore Defaults"],
           func = x.RestoreAllDefaults,
         },]==]
             space2 = {
                 order = 20,
                 type = "description",
-                name = " ",
+                name = L[""],
                 width = "half",
             },
             space3 = {
                 order = 30,
                 type = "description",
-                name = " ",
+                name = L[""],
                 width = "half",
             },
             space4 = {
                 order = 30,
                 type = "description",
-                name = " ",
+                name = L[""],
                 width = "half",
             },
             ToggleTestMode = {
@@ -438,7 +438,7 @@ function x:InitOptionsTable()
     local miscFont, miscFontOutline, miscEnableCustomFade
 
     optionsAddon.optionsTable.args.Frames = {
-        name = "Frames",
+        name = L["Frames"],
         type = "group",
         order = 0,
         args = {
@@ -504,7 +504,7 @@ function x:InitOptionsTable()
             spacer1 = {
                 order = 2,
                 type = "description",
-                name = "\n",
+                name = L["\n"],
             },
 
             megaDamage = {
@@ -577,7 +577,7 @@ function x:InitOptionsTable()
 
             spacer2 = {
                 type = "description",
-                name = "\n",
+                name = L["\n"],
                 order = 4,
             },
 
@@ -585,19 +585,19 @@ function x:InitOptionsTable()
                 order = 5,
                 type = "group",
                 guiInline = true,
-                name = "Global Frame Settings |cffFFFFFF(Experimental)|r",
+                name = L["Global Frame Settings |cffFFFFFF(Experimental)|r"],
                 args = {
                     miscDesc = {
                         order = 51,
                         type = "description",
-                        name = "The following settings are marked as experimental. They should all work, but they might not be very useful. Expect chanrges or updates to these in the near future.\n\nClick |cffFFFF00Set All|r to apply setting to all |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames.\n",
+                        name = L["The following settings are marked as experimental. They should all work, but they might not be very useful. Expect chanrges or updates to these in the near future.\n\nClick |cffFFFF00Set All|r to apply setting to all |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames.\n"],
                     },
                     font = {
                         order = 52,
                         type = "select",
                         dialogControl = "LSM30_Font",
-                        name = "Font",
-                        desc = "Set the font of the frame.",
+                        name = L["Font"],
+                        desc = L["Set the font of the frame."],
                         values = AceGUIWidgetLSMlists.font,
                         get = function()
                             return miscFont
@@ -609,7 +609,7 @@ function x:InitOptionsTable()
                     applyFont = {
                         order = 53,
                         type = "execute",
-                        name = "Set All",
+                        name = L["Set All"],
                         width = "half",
                         func = function()
                             if miscFont then
@@ -624,14 +624,14 @@ function x:InitOptionsTable()
                     spacer1 = {
                         order = 54,
                         type = "description",
-                        name = "",
+                        name = L[""],
                     },
 
                     fontOutline = {
                         order = 55,
                         type = "select",
-                        name = "Font Outline",
-                        desc = "Set the font outline.",
+                        name = L["Font Outline"],
+                        desc = L["Set the font outline."],
                         values = {
                             ["1NONE"] = "None",
                             ["2OUTLINE"] = "OUTLINE",
@@ -652,7 +652,7 @@ function x:InitOptionsTable()
                     applyFontOutline = {
                         order = 56,
                         type = "execute",
-                        name = "Set All",
+                        name = L["Set All"],
                         width = "half",
                         func = function()
                             if miscFontOutline then
@@ -667,14 +667,14 @@ function x:InitOptionsTable()
                     spacer2 = {
                         order = 57,
                         type = "description",
-                        name = "",
+                        name = L[""],
                     },
 
                     customFade = {
                         order = 58,
                         type = "toggle",
-                        name = "Use Custom Fade",
-                        desc = "Allows you to customize the fade time of each frame.",
+                        name = L["Use Custom Fade"],
+                        desc = L["Allows you to customize the fade time of each frame."],
                         get = function()
                             return miscEnableCustomFade
                         end,
@@ -686,7 +686,7 @@ function x:InitOptionsTable()
                     applyCustomFade = {
                         order = 59,
                         type = "execute",
-                        name = "Set All",
+                        name = L["Set All"],
                         width = "half",
                         func = function()
                             if miscEnableCustomFade ~= nil then
@@ -704,7 +704,7 @@ function x:InitOptionsTable()
 
             --[[ XCT+ The Frames: ]]
             general = {
-                name = "|cffFFFFFFGeneral|r",
+                name = L["|cffFFFFFFGeneral|r"],
                 type = "group",
                 order = 11,
                 childGroups = "tab",
@@ -713,17 +713,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -731,8 +731,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     --[1] = "General",
@@ -752,8 +752,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -764,8 +764,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -777,8 +777,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -786,19 +786,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -810,7 +810,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -819,12 +819,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 20,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -833,8 +833,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -842,8 +842,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 23,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -854,8 +854,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 24,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -870,19 +870,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -890,8 +890,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -903,8 +903,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -921,8 +921,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -935,14 +935,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -952,7 +952,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -960,7 +960,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -972,7 +972,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -987,26 +987,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -1018,8 +1018,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -1030,20 +1030,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -1051,7 +1051,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -1060,106 +1060,106 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
 
                     specialTweaks = {
                         order = 50,
-                        name = "Misc",
+                        name = L["Misc"],
                         type = "group",
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             showInterrupts = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Interrupts",
-                                desc = "Display the spell you successfully interrupted.",
+                                name = L["Interrupts"],
+                                desc = L["Display the spell you successfully interrupted."],
                                 get = "Options_General_ShowInterrupts",
                                 set = set2,
                             },
                             showDispells = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Your Dispells / Spell Steals",
-                                desc = "Show the spell that you dispelled or stole.",
+                                name = L["Your Dispells / Spell Steals"],
+                                desc = L["Show the spell that you dispelled or stole."],
                                 get = "Options_General_ShowDispells",
                                 set = set2,
                             },
                             showIncomingDispells = {
                                 order = 3,
                                 type = "toggle",
-                                name = "Incoming Dispells / Spell Steals",
-                                desc = "Show the spell that somebody else dispelled on you or stole a buff/debuff from you.",
+                                name = L["Incoming Dispells / Spell Steals"],
+                                desc = L["Show the spell that somebody else dispelled on you or stole a buff/debuff from you."],
                                 get = "Options_General_ShowIncomingDispells",
                                 set = set2,
                             },
                             showPartyKills = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Unit Killed",
-                                desc = "Display unit that was killed by your final blow.",
+                                name = L["Unit Killed"],
+                                desc = L["Display unit that was killed by your final blow."],
                                 get = "Options_General_ShowPartyKill",
                                 set = set2,
                             },
                             showBuffs = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Buff Gains/Fades",
-                                desc = "Display the names of helpful auras |cff00FF00(Buffs)|r that you gain and lose.",
+                                name = L["Buff Gains/Fades"],
+                                desc = L["Display the names of helpful auras |cff00FF00(Buffs)|r that you gain and lose."],
                                 get = "Options_General_ShowBuffGainsAndFades",
                                 set = set2,
                             },
                             showDebuffs = {
                                 order = 6,
                                 type = "toggle",
-                                name = "Debuff Gains/Fades",
-                                desc = "Display the names of harmful auras |cffFF0000(Debuffs)|r that you gain and lose.",
+                                name = L["Debuff Gains/Fades"],
+                                desc = L["Display the names of harmful auras |cffFF0000(Debuffs)|r that you gain and lose."],
                                 get = "Options_General_ShowDebuffGainsAndFades",
                                 set = set2,
                             },
                             showLowManaHealth = {
                                 order = 7,
                                 type = "toggle",
-                                name = "Low Mana/Health",
-                                desc = "Displays 'Low Health/Mana' when your health/mana reaches the low threshold.",
+                                name = L["Low Mana/Health"],
+                                desc = L["Displays 'Low Health/Mana' when your health/mana reaches the low threshold."],
                                 get = "Options_General_ShowLowManaAndHealth",
                                 set = set2,
                             },
                             showCombatState = {
                                 order = 8,
                                 type = "toggle",
-                                name = "Leave/Enter Combat",
-                                desc = "Displays when the player is leaving or entering combat.",
+                                name = L["Leave/Enter Combat"],
+                                desc = L["Displays when the player is leaving or entering combat."],
                                 get = "Options_General_ShowCombatState",
                                 set = set2,
                             },
                             showRepChanges = {
                                 order = 9,
                                 type = "toggle",
-                                name = "Reputation Gains/Losses",
-                                desc = "Displays your player's reputation gains and losses.",
+                                name = L["Reputation Gains/Losses"],
+                                desc = L["Displays your player's reputation gains and losses."],
                                 get = "Options_General_ShowReputationChanges",
                                 set = set2,
                             },
                             showHonorGains = {
                                 order = 10,
                                 type = "toggle",
-                                name = "Honor Gains",
-                                desc = "Displays your player's honor gains.",
+                                name = L["Honor Gains"],
+                                desc = L["Displays your player's honor gains."],
                                 get = "Options_General_ShowHonor",
                                 set = set2,
                             },
                             showProfessionSkillups = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Profession skillup",
-                                desc = "Displays your skill ups in professions.",
+                                name = L["Profession skillup"],
+                                desc = L["Displays your skill ups in professions."],
                                 get = "Options_General_ShowProfessionSkillups",
                                 set = set2,
                             },
@@ -1169,7 +1169,7 @@ function x:InitOptionsTable()
             },
 
             outgoing = {
-                name = "|cffFFFFFFOutgoing Damage|r",
+                name = L["|cffFFFFFFOutgoing Damage|r"],
                 type = "group",
                 order = 12,
                 childGroups = "tab",
@@ -1178,17 +1178,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -1196,8 +1196,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -1217,8 +1217,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -1229,8 +1229,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -1242,8 +1242,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -1251,19 +1251,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -1275,7 +1275,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -1284,12 +1284,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 30,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 31,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -1298,8 +1298,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 32,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -1307,8 +1307,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 33,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -1319,8 +1319,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 34,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -1335,19 +1335,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -1355,8 +1355,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -1368,8 +1368,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -1386,8 +1386,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -1400,14 +1400,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -1417,7 +1417,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -1425,7 +1425,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -1437,7 +1437,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -1452,26 +1452,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -1483,8 +1483,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -1493,13 +1493,13 @@ function x:InitOptionsTable()
                             headerAdditionalSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Additional Settings",
+                                name = L["Additional Settings"],
                             },
                             iconsEnabledAutoAttack = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Show Auto Attack Icon",
-                                desc = "Show icons from Auto Attacks.",
+                                name = L["Show Auto Attack Icon"],
+                                desc = L["Show icons from Auto Attacks."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
@@ -1510,20 +1510,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -1531,7 +1531,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -1540,7 +1540,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -1548,7 +1548,7 @@ function x:InitOptionsTable()
                     names = {
                         order = 50,
                         type = "group",
-                        name = "Names",
+                        name = L["Names"],
                         childGroups = "select",
                         get = getNameFormat,
                         set = setNameFormat,
@@ -1556,14 +1556,14 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
                                 fontSize = "small",
                             },
 
                             nameAppearance = {
                                 type = "description",
                                 order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
+                                name = L["|cff798BDDName Appearance|r:\n\n"],
                                 fontSize = "large",
                                 width = "normal",
                             },
@@ -1571,8 +1571,8 @@ function x:InitOptionsTable()
                             namePrefix = {
                                 order = 3,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -1580,8 +1580,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -1589,41 +1589,41 @@ function x:InitOptionsTable()
                             PLAYER = {
                                 order = 10,
                                 type = "group",
-                                name = "Events to a Player",
+                                name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                        name = L["Color Player Name"],
+                                        desc = L["If the player's class is known (e.g. is a raid member), it will be colored."],
                                     },
 
                                     removeRealmName = {
                                         order = 3,
                                         type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                        name = L["Remove Realm Name"],
+                                        desc = L["If the player has a realm name attached to her name, it will be removed."],
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                         width = "half",
@@ -1632,36 +1632,36 @@ function x:InitOptionsTable()
                                     playerSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -1671,14 +1671,14 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
-                                        name = "Display Player Name",
-                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player",
+                                        name = L["Display Player Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player"],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -1695,19 +1695,19 @@ function x:InitOptionsTable()
                             NPC = {
                                 order = 20,
                                 type = "group",
-                                name = "Events to a NPC",
+                                name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = "NPC Name's Color",
+                                        name = L["NPC Name's Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
@@ -1715,36 +1715,36 @@ function x:InitOptionsTable()
                                     npcSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -1753,14 +1753,14 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target",
+                                        name = L["Display NPC Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target"],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -1779,42 +1779,42 @@ function x:InitOptionsTable()
                     specialTweaks = {
                         order = 60,
                         type = "group",
-                        name = "Misc",
+                        name = L["Misc"],
                         args = {
                             specialTweaksPlayer = {
                                 type = "header",
                                 order = 0,
-                                name = "Player Damage Settings",
+                                name = L["Player Damage Settings"],
                             },
                             enableOutDmg = {
                                 order = 10,
                                 type = "toggle",
-                                name = "Show Outgoing Damage",
-                                desc = "Show damage you do.",
+                                name = L["Show Outgoing Damage"],
+                                desc = L["Show damage you do."],
                                 get = "Options_Outgoing_ShowDamage",
                                 set = set2,
                             },
                             enableDotDmg = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Show DoTs",
-                                desc = "Show your Damage-Over-Time (DOT) damage. (|cffFF0000Requires:|r Outgoing Damage)",
+                                name = L["Show DoTs"],
+                                desc = L["Show your Damage-Over-Time (DOT) damage. (|cffFF0000Requires:|r Outgoing Damage)"],
                                 get = "Options_Outgoing_ShowDots",
                                 set = set2,
                             },
                             enableAutoAttack_Outgoing = {
                                 order = 12,
                                 type = "toggle",
-                                name = "Show Auto Attack",
-                                desc = "Show your non-critical, auto attack damage.",
+                                name = L["Show Auto Attack"],
+                                desc = L["Show your non-critical, auto attack damage."],
                                 get = "Options_Outgoing_ShowAutoAttack",
                                 set = set2,
                             },
                             enableAbsorbs = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Show Absorbs as damage",
-                                desc = "Display partially or fully absorbed damage as regular damage.",
+                                name = L["Show Absorbs as damage"],
+                                desc = L["Display partially or fully absorbed damage as regular damage."],
                                 get = "Options_Outgoing_ShowAbsorbedDamageAsNormalDamage",
                                 set = set2,
                             },
@@ -1822,30 +1822,30 @@ function x:InitOptionsTable()
                             specialTweaksPet = {
                                 type = "header",
                                 order = 20,
-                                name = "Pet and Vehicle Damage Settings",
+                                name = L["Pet and Vehicle Damage Settings"],
                             },
 
                             enablePetDmg = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Show Pet Damage",
-                                desc = "Show your pet's damage. Beast Mastery hunters should also look at vehicle damage.",
+                                name = L["Show Pet Damage"],
+                                desc = L["Show your pet's damage. Beast Mastery hunters should also look at vehicle damage."],
                                 get = "Options_Outgoing_ShowPetDamage",
                                 set = set2,
                             },
                             enablePetAutoAttack_Outgoing = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Pet Auto Attacks",
-                                desc = "Show your pet's non-critical, auto attacks.",
+                                name = L["Pet Auto Attacks"],
+                                desc = L["Show your pet's non-critical, auto attacks."],
                                 get = "Options_Outgoing_ShowPetAutoAttack",
                                 set = set2,
                             },
                             enableKillCommand = {
                                 order = 23,
                                 type = "toggle",
-                                name = "Show Kill Command",
-                                desc = "Change the source of |cff798BDDKill Command|r to be the |cffFF8000Player|r. This is helpful when you to turn off |cffFF8000Pet|r damage.",
+                                name = L["Show Kill Command"],
+                                desc = L["Change the source of |cff798BDDKill Command|r to be the |cffFF8000Player|r. This is helpful when you to turn off |cffFF8000Pet|r damage."],
                                 get = "Options_Outgoing_ShowKillCommandAsPlayerDamage",
                                 set = set2,
                                 hidden = function()
@@ -1855,8 +1855,8 @@ function x:InitOptionsTable()
                             enableVehicleDmg = {
                                 order = 24,
                                 type = "toggle",
-                                name = "Show Vehicle Damage",
-                                desc = "Show damage that your vehicle does. This can be anything from a vehicle you are controlling to Hati, the beast mastery pet.",
+                                name = L["Show Vehicle Damage"],
+                                desc = L["Show damage that your vehicle does. This can be anything from a vehicle you are controlling to Hati, the beast mastery pet."],
                                 get = "Options_Outgoing_ShowVehicleDamage",
                                 set = set2,
                             },
@@ -1864,37 +1864,37 @@ function x:InitOptionsTable()
                             missTypeSettings = {
                                 type = "header",
                                 order = 50,
-                                name = "Miss Type Settings",
+                                name = L["Miss Type Settings"],
                             },
                             enableImmunes = {
                                 order = 51,
                                 type = "toggle",
-                                name = "Show Immunes",
-                                desc = "Display 'Immune' when your target cannot take damage.",
+                                name = L["Show Immunes"],
+                                desc = L["Display 'Immune' when your target cannot take damage."],
                                 get = "Options_Outgoing_ShowImmunes",
                                 set = set2,
                             },
                             enableMisses = {
                                 order = 52,
                                 type = "toggle",
-                                name = "Show Misses, Dodges, Parries",
-                                desc = "Display 'Miss', 'Dodge', 'Parry' when you miss your target.",
+                                name = L["Show Misses, Dodges, Parries"],
+                                desc = L["Display 'Miss', 'Dodge', 'Parry' when you miss your target."],
                                 get = "Options_Outgoing_ShowMisses",
                                 set = set2,
                             },
                             enablePartialMisses = {
                                 order = 54,
                                 type = "toggle",
-                                name = "Show partial Misses, Dodges, Parries",
-                                desc = "Show when your target takes only a percentage of your damage because it was partially absorbed, resisted, or blocked.\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells.",
+                                name = L["Show partial Misses, Dodges, Parries"],
+                                desc = L["Show when your target takes only a percentage of your damage because it was partially absorbed, resisted, or blocked.\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells."],
                                 get = "Options_Outgoing_ShowPartialMisses",
                                 set = set2,
                             },
                             showHighestPartialMiss = {
                                 order = 55,
                                 type = "toggle",
-                                name = "Show the Highest Partial Miss",
-                                desc = "Only show the highest partial miss, instead of all the misses. (Rare, but less spammy)\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells.",
+                                name = L["Show the Highest Partial Miss"],
+                                desc = L["Only show the highest partial miss, instead of all the misses. (Rare, but less spammy)\n\n|cffFF0000PLEASE NOTE:|r Only works if the spell is not merged. Turn off the Spell Merger to see all spells."],
                                 get = get2,
                                 set = set2,
                             },
@@ -1904,7 +1904,7 @@ function x:InitOptionsTable()
             },
 
             outgoing_healing = {
-                name = "|cffFFFFFFOutgoing Healing|r",
+                name = L["|cffFFFFFFOutgoing Healing|r"],
                 type = "group",
                 order = 13,
                 childGroups = "tab",
@@ -1913,17 +1913,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -1931,8 +1931,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -1952,8 +1952,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -1964,8 +1964,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -1977,8 +1977,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -1986,19 +1986,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -2010,7 +2010,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -2019,12 +2019,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 30,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 31,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -2033,8 +2033,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 32,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -2042,8 +2042,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 33,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -2054,8 +2054,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 34,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -2070,19 +2070,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -2090,8 +2090,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -2103,8 +2103,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -2121,8 +2121,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -2135,14 +2135,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -2152,7 +2152,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -2160,7 +2160,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2172,7 +2172,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2187,26 +2187,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -2218,8 +2218,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -2230,20 +2230,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -2251,7 +2251,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -2260,7 +2260,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -2268,7 +2268,7 @@ function x:InitOptionsTable()
                     names = {
                         order = 50,
                         type = "group",
-                        name = "Names",
+                        name = L["Names"],
                         childGroups = "select",
                         get = getNameFormat,
                         set = setNameFormat,
@@ -2276,14 +2276,14 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
                                 fontSize = "small",
                             },
 
                             nameAppearance = {
                                 type = "description",
                                 order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
+                                name = L["|cff798BDDName Appearance|r:\n\n"],
                                 fontSize = "large",
                                 width = "normal",
                             },
@@ -2291,8 +2291,8 @@ function x:InitOptionsTable()
                             namePrefix = {
                                 order = 3,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2300,8 +2300,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2309,41 +2309,41 @@ function x:InitOptionsTable()
                             PLAYER = {
                                 order = 10,
                                 type = "group",
-                                name = "Events to a Player",
+                                name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                        name = L["Color Player Name"],
+                                        desc = L["If the player's class is known (e.g. is a raid member), it will be colored."],
                                     },
 
                                     removeRealmName = {
                                         order = 3,
                                         type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                        name = L["Remove Realm Name"],
+                                        desc = L["If the player has a realm name attached to her name, it will be removed."],
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                         width = "half",
@@ -2352,36 +2352,36 @@ function x:InitOptionsTable()
                                     playerSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -2391,14 +2391,14 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
-                                        name = "Display Player Name",
-                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player",
+                                        name = L["Display Player Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player"],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -2415,19 +2415,19 @@ function x:InitOptionsTable()
                             NPC = {
                                 order = 20,
                                 type = "group",
-                                name = "Events to a NPC",
+                                name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = "NPC Name's Color",
+                                        name = L["NPC Name's Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
@@ -2435,36 +2435,36 @@ function x:InitOptionsTable()
                                     npcSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -2473,14 +2473,14 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target",
+                                        name = L["Display NPC Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target"],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -2499,18 +2499,18 @@ function x:InitOptionsTable()
                     specialTweaks = {
                         order = 60,
                         type = "group",
-                        name = "Misc",
+                        name = L["Misc"],
                         args = {
                             headerHots = {
                                 order = 1,
                                 type = "header",
-                                name = "HoTs",
+                                name = L["HoTs"],
                             },
                             enableHots = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Show HoTs",
-                                desc = "Show your Heal-Over-Time (HOT) healing.",
+                                name = L["Show HoTs"],
+                                desc = L["Show your Heal-Over-Time (HOT) healing."],
                                 get = "Options_OutgoingHealing_ShowHots",
                                 set = set2,
                             },
@@ -2518,13 +2518,13 @@ function x:InitOptionsTable()
                             headerOverhealing = {
                                 order = 10,
                                 type = "header",
-                                name = "Overhealing",
+                                name = L["Overhealing"],
                             },
                             enableOverhealing = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Show Overhealing",
-                                desc = "Displays overhealing.",
+                                name = L["Show Overhealing"],
+                                desc = L["Displays overhealing."],
                                 get = "Options_OutgoingHealing_ShowOverhealing",
                                 set = set2,
                                 disabled = isFrameItemDisabled,
@@ -2532,8 +2532,8 @@ function x:InitOptionsTable()
                             enableOverhealingSubtraction = {
                                 order = 12,
                                 type = "toggle",
-                                name = "Subtract Overhealing",
-                                desc = "Subtract the overhealed amount from the Total Amount",
+                                name = L["Subtract Overhealing"],
+                                desc = L["Subtract the overhealed amount from the Total Amount"],
                                 get = "Options_OutgoingHealing_SubtractOverhealing",
                                 set = set2,
                                 disabled = function()
@@ -2544,8 +2544,8 @@ function x:InitOptionsTable()
                             enableOverhealingFormat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Format Overhealing",
-                                desc = "Splits overhealing into its own section. Example: +43,000 (O: 12,000)",
+                                name = L["Format Overhealing"],
+                                desc = L["Splits overhealing into its own section. Example: +43,000 (O: 12,000)"],
                                 get = "Options_OutgoingHealing_FormatOverhealing",
                                 set = set2,
                                 disabled = function()
@@ -2556,8 +2556,8 @@ function x:InitOptionsTable()
                             overhealingPrefix = {
                                 order = 14,
                                 type = "input",
-                                name = "Overhealing Prefix",
-                                desc = "Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
+                                name = L["Overhealing Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r"],
                                 get = "Options_OutgoingHealing_OverhealingPrefix",
                                 set = setTextIn2,
                                 disabled = function()
@@ -2569,8 +2569,8 @@ function x:InitOptionsTable()
                             overhealingPostfix = {
                                 order = 15,
                                 type = "input",
-                                name = "Overhealing Postfix",
-                                desc = "Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r",
+                                name = L["Overhealing Postfix"],
+                                desc = L["Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r"],
                                 get = "Options_OutgoingHealing_OverhealingPostfix",
                                 set = setTextIn2,
                                 disabled = function()
@@ -2585,7 +2585,7 @@ function x:InitOptionsTable()
             },
 
             critical = {
-                name = "|cffFFFFFFOutgoing|r |cff798BDD(Criticals)|r",
+                name = L["|cffFFFFFFOutgoing|r |cff798BDD(Criticals)|r"],
                 type = "group",
                 order = 14,
                 childGroups = "tab",
@@ -2594,17 +2594,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -2612,8 +2612,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -2633,8 +2633,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -2645,8 +2645,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -2658,8 +2658,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -2667,19 +2667,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -2691,7 +2691,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -2700,12 +2700,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 30,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 31,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -2714,8 +2714,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 32,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -2723,8 +2723,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 33,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -2735,8 +2735,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 34,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -2751,19 +2751,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -2771,8 +2771,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -2784,8 +2784,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -2802,8 +2802,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -2816,14 +2816,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -2833,7 +2833,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -2841,7 +2841,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2853,7 +2853,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2868,26 +2868,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -2899,8 +2899,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -2911,20 +2911,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -2932,7 +2932,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -2941,7 +2941,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -2949,7 +2949,7 @@ function x:InitOptionsTable()
                     names = {
                         order = 50,
                         type = "group",
-                        name = "Names",
+                        name = L["Names"],
                         childGroups = "select",
                         get = getNameFormat,
                         set = setNameFormat,
@@ -2957,14 +2957,14 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
                                 fontSize = "small",
                             },
 
                             nameAppearance = {
                                 type = "description",
                                 order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
+                                name = L["|cff798BDDName Appearance|r:\n\n"],
                                 fontSize = "large",
                                 width = "normal",
                             },
@@ -2972,8 +2972,8 @@ function x:InitOptionsTable()
                             namePrefix = {
                                 order = 3,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2981,8 +2981,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2990,41 +2990,41 @@ function x:InitOptionsTable()
                             PLAYER = {
                                 order = 10,
                                 type = "group",
-                                name = "Events to a Player",
+                                name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                        name = L["Color Player Name"],
+                                        desc = L["If the player's class is known (e.g. is a raid member), it will be colored."],
                                     },
 
                                     removeRealmName = {
                                         order = 3,
                                         type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                        name = L["Remove Realm Name"],
+                                        desc = L["If the player has a realm name attached to her name, it will be removed."],
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                         width = "half",
@@ -3033,36 +3033,36 @@ function x:InitOptionsTable()
                                     playerSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3072,14 +3072,14 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
-                                        name = "Display Player Name",
-                                        desc = "",
+                                        name = L["Display Player Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3096,19 +3096,19 @@ function x:InitOptionsTable()
                             NPC = {
                                 order = 20,
                                 type = "group",
-                                name = "Events to a NPC",
+                                name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = "NPC Name's Color",
+                                        name = L["NPC Name's Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
@@ -3116,36 +3116,36 @@ function x:InitOptionsTable()
                                     npcSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3154,14 +3154,14 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "",
+                                        name = L["Display NPC Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3180,34 +3180,34 @@ function x:InitOptionsTable()
                     specialTweaks = {
                         order = 60,
                         type = "group",
-                        name = "Misc",
+                        name = L["Misc"],
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             enableAutoAttack_Critical = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Show Auto Attacks",
-                                desc = "Show criticals from Auto Attack and Swings. If disabled, they will be displayed as non-critical auto attacks. They will be merged into the Outgoing frame.",
+                                name = L["Show Auto Attacks"],
+                                desc = L["Show criticals from Auto Attack and Swings. If disabled, they will be displayed as non-critical auto attacks. They will be merged into the Outgoing frame."],
                                 get = "Options_Critical_ShowAutoAttack",
                                 set = set2,
                             },
                             prefixAutoAttack_Critical = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Show Auto Attacks (Pre)Postfix",
-                                desc = "Make Auto Attack and Swing criticals more visible by adding the prefix and postfix.",
+                                name = L["Show Auto Attacks (Pre)Postfix"],
+                                desc = L["Make Auto Attack and Swing criticals more visible by adding the prefix and postfix."],
                                 get = "Options_Critical_PrefixAutoAttack",
                                 set = set2,
                             },
                             petCrits = {
                                 order = 3,
                                 type = "toggle",
-                                name = "Allow Pet Crits",
-                                desc = "Enable this to see when your pet's abilities critical strike, otherwise disable for less combat text spam.",
+                                name = L["Allow Pet Crits"],
+                                desc = L["Enable this to see when your pet's abilities critical strike, otherwise disable for less combat text spam."],
                                 get = "Options_Critical_ShowPetCrits",
                                 set = set2,
                             },
@@ -3215,13 +3215,13 @@ function x:InitOptionsTable()
                             criticalAppearance = {
                                 type = "header",
                                 order = 10,
-                                name = "Critical Appearance",
+                                name = L["Critical Appearance"],
                             },
                             critPrefix = {
                                 order = 11,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying a critical amount.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 --disabled = isFrameItemDisabled,
@@ -3229,8 +3229,8 @@ function x:InitOptionsTable()
                             critPostfix = {
                                 order = 12,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying a critical amount.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 --disabled = isFrameItemDisabled,
@@ -3238,8 +3238,8 @@ function x:InitOptionsTable()
                             critPostPreReset = {
                                 order = 13,
                                 type = "execute",
-                                name = "Reset",
-                                desc = "Reset Prefix and Postfix to their default setting.",
+                                name = L["Reset"],
+                                desc = L["Reset Prefix and Postfix to their default setting."],
                                 func = function()
                                     local critical = x.db.profile.frames.critical
                                     critical.critPrefix = "|cffFF0000*|r"
@@ -3258,7 +3258,7 @@ function x:InitOptionsTable()
             },
 
             damage = {
-                name = "|cffFFFFFFIncoming Damage|r",
+                name = L["|cffFFFFFFIncoming Damage|r"],
                 type = "group",
                 order = 15,
                 childGroups = "tab",
@@ -3267,17 +3267,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -3285,8 +3285,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -3306,8 +3306,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -3318,8 +3318,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -3331,8 +3331,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -3340,19 +3340,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -3364,7 +3364,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -3373,12 +3373,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 20,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -3387,8 +3387,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -3396,8 +3396,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 23,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -3408,8 +3408,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 24,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -3424,19 +3424,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -3444,8 +3444,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -3457,8 +3457,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -3475,8 +3475,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -3489,14 +3489,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -3506,7 +3506,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -3514,7 +3514,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -3526,7 +3526,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -3541,26 +3541,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -3572,8 +3572,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -3582,13 +3582,13 @@ function x:InitOptionsTable()
                             headerAdditionalSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Additional Settings",
+                                name = L["Additional Settings"],
                             },
                             iconsEnabledAutoAttack = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Show Auto Attack Icon",
-                                desc = "Show icons from Auto Attacks.",
+                                name = L["Show Auto Attack Icon"],
+                                desc = L["Show icons from Auto Attacks."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
@@ -3599,20 +3599,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -3620,7 +3620,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -3629,7 +3629,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -3637,7 +3637,7 @@ function x:InitOptionsTable()
                     names = {
                         order = 50,
                         type = "group",
-                        name = "Names",
+                        name = L["Names"],
                         childGroups = "select",
                         get = getNameFormat,
                         set = setNameFormat,
@@ -3645,14 +3645,14 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
                                 fontSize = "small",
                             },
 
                             nameAppearance = {
                                 type = "description",
                                 order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
+                                name = L["|cff798BDDName Appearance|r:\n\n"],
                                 fontSize = "large",
                                 width = "normal",
                             },
@@ -3660,8 +3660,8 @@ function x:InitOptionsTable()
                             namePrefix = {
                                 order = 3,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -3669,8 +3669,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -3678,41 +3678,41 @@ function x:InitOptionsTable()
                             PLAYER = {
                                 order = 10,
                                 type = "group",
-                                name = "Events from a Player",
+                                name = L["Events from a Player"],
                                 args = {
                                     playerNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                        name = L["Color Player Name"],
+                                        desc = L["If the player's class is known (e.g. is a raid member), it will be colored."],
                                     },
 
                                     removeRealmName = {
                                         order = 3,
                                         type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                        name = L["Remove Realm Name"],
+                                        desc = L["If the player has a realm name attached to her name, it will be removed."],
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                         width = "half",
@@ -3721,36 +3721,36 @@ function x:InitOptionsTable()
                                     playerSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3760,14 +3760,14 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
-                                        name = "Display Player Name",
-                                        desc = "",
+                                        name = L["Display Player Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3784,19 +3784,19 @@ function x:InitOptionsTable()
                             NPC = {
                                 order = 20,
                                 type = "group",
-                                name = "Events from a NPC",
+                                name = L["Events from a NPC"],
                                 args = {
                                     npcNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = "NPC Name's Color",
+                                        name = L["NPC Name's Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
@@ -3804,36 +3804,36 @@ function x:InitOptionsTable()
                                     npcSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3842,14 +3842,14 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "",
+                                        name = L["Display NPC Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3866,7 +3866,7 @@ function x:InitOptionsTable()
                             ENVIRONMENT = {
                                 order = 30,
                                 type = "group",
-                                name = "Events from the Environment",
+                                name = L["Events from the Environment"],
                                 args = {
                                     environmentNames = {
                                         type = "description",
@@ -3879,27 +3879,27 @@ function x:InitOptionsTable()
                                         order = 2,
                                         type = "toggle",
                                         name = 'Color "Environment"',
-                                        desc = "The name will be colored according to it's environmental type.",
+                                        desc = L["The name will be colored according to it's environmental type."],
                                     },
 
                                     environmentNames_Spacer1 = {
                                         type = "description",
                                         order = 3,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
+                                        name = L["Custom"],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3908,35 +3908,35 @@ function x:InitOptionsTable()
                                     environmentSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Type",
-                                        desc = "The type will be colored according to it's environmental type.",
+                                        name = L["Color Type"],
+                                        desc = L["The type will be colored according to it's environmental type."],
                                     },
 
                                     environmentNames_Spacer2 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
+                                        name = L["Custom"],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -3945,14 +3945,14 @@ function x:InitOptionsTable()
                                     environmentNames_Spacer3 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display Environment Name",
-                                        desc = "Environment Damage Types:"
+                                        name = L["Display Environment Name"],
+                                        desc = L["Environment Damage Types:"]
                                             .. "\n|cffFFFF00"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_DROWNING
                                             .. "|r,"
@@ -3988,27 +3988,27 @@ function x:InitOptionsTable()
 
                     specialTweaks = {
                         order = 60,
-                        name = "Misc",
+                        name = L["Misc"],
                         type = "group",
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             showDodgeParryMiss = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Show Misses, Dodges, Parries",
-                                desc = "Displays Dodge, Parry, or Miss when you miss incoming damage.",
+                                name = L["Show Misses, Dodges, Parries"],
+                                desc = L["Displays Dodge, Parry, or Miss when you miss incoming damage."],
                                 get = "Options_IncomingDamage_ShowMissTypes",
                                 set = set2,
                             },
                             showDamageReduction = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Show Reductions",
-                                desc = "Formats incoming damage to show how much was absorbed.",
+                                name = L["Show Reductions"],
+                                desc = L["Formats incoming damage to show how much was absorbed."],
                                 get = "Options_IncomingDamage_ShowResistances",
                                 set = set2,
                             },
@@ -4016,13 +4016,13 @@ function x:InitOptionsTable()
                             criticalAppearance = {
                                 type = "header",
                                 order = 10,
-                                name = "Critical Appearance",
+                                name = L["Critical Appearance"],
                             },
                             critPrefix = {
                                 order = 11,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying a critical amount.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 disabled = isFrameItemDisabled,
@@ -4030,8 +4030,8 @@ function x:InitOptionsTable()
                             critPostfix = {
                                 order = 12,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying a critical amount.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying a critical amount."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 disabled = isFrameItemDisabled,
@@ -4042,7 +4042,7 @@ function x:InitOptionsTable()
             },
 
             healing = {
-                name = "|cffFFFFFFIncoming Healing|r",
+                name = L["|cffFFFFFFIncoming Healing|r"],
                 type = "group",
                 order = 16,
                 childGroups = "tab",
@@ -4051,17 +4051,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -4069,8 +4069,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -4090,8 +4090,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -4102,8 +4102,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -4115,8 +4115,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -4124,19 +4124,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -4148,7 +4148,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -4157,12 +4157,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 20,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -4171,8 +4171,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -4180,8 +4180,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 23,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -4192,8 +4192,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 24,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -4208,19 +4208,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -4228,8 +4228,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -4241,8 +4241,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -4259,8 +4259,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -4273,14 +4273,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -4290,7 +4290,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -4298,7 +4298,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -4310,7 +4310,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -4325,26 +4325,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -4356,8 +4356,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -4368,20 +4368,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -4389,7 +4389,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -4398,7 +4398,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -4406,7 +4406,7 @@ function x:InitOptionsTable()
                     names = {
                         order = 50,
                         type = "group",
-                        name = "Names",
+                        name = L["Names"],
                         childGroups = "select",
                         get = getNameFormat,
                         set = setNameFormat,
@@ -4414,14 +4414,14 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = "The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting.",
+                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
                                 fontSize = "small",
                             },
 
                             nameAppearance = {
                                 type = "description",
                                 order = 2,
-                                name = "|cff798BDDName Appearance|r:\n\n",
+                                name = L["|cff798BDDName Appearance|r:\n\n"],
                                 fontSize = "large",
                                 width = "normal",
                             },
@@ -4429,8 +4429,8 @@ function x:InitOptionsTable()
                             namePrefix = {
                                 order = 3,
                                 type = "input",
-                                name = "Prefix",
-                                desc = "Prefix this value to the beginning when displaying the name.",
+                                name = L["Prefix"],
+                                desc = L["Prefix this value to the beginning when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -4438,8 +4438,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = "Postfix",
-                                desc = "Postfix this value to the end when displaying the name.",
+                                name = L["Postfix"],
+                                desc = L["Postfix this value to the end when displaying the name."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -4447,41 +4447,41 @@ function x:InitOptionsTable()
                             PLAYER = {
                                 order = 10,
                                 type = "group",
-                                name = "Events from a Player",
+                                name = L["Events from a Player"],
                                 args = {
                                     playerNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDPlayer Name Format Settings|r:",
+                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
-                                        name = "Color Player Name",
-                                        desc = "If the player's class is known (e.g. is a raid member), it will be colored.",
+                                        name = L["Color Player Name"],
+                                        desc = L["If the player's class is known (e.g. is a raid member), it will be colored."],
                                     },
 
                                     removeRealmName = {
                                         order = 3,
                                         type = "toggle",
-                                        name = "Remove Realm Name",
-                                        desc = "If the player has a realm name attatched to her name, it will be removed.",
+                                        name = L["Remove Realm Name"],
+                                        desc = L["If the player has a realm name attached to her name, it will be removed."],
                                     },
 
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                         width = "half",
@@ -4490,36 +4490,36 @@ function x:InitOptionsTable()
                                     playerSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     playerNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -4529,14 +4529,14 @@ function x:InitOptionsTable()
                                     playerNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 30,
-                                        name = "Display Player Name",
-                                        desc = "",
+                                        name = L["Display Player Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -4553,19 +4553,19 @@ function x:InitOptionsTable()
                             NPC = {
                                 order = 20,
                                 type = "group",
-                                name = "Events from a NPC",
+                                name = L["Events from a NPC"],
                                 args = {
                                     npcNames = {
                                         type = "description",
                                         order = 1,
-                                        name = "|cff798BDDNPC Name Format Settings|r:",
+                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = "NPC Name's Color",
+                                        name = L["NPC Name's Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
@@ -4573,36 +4573,36 @@ function x:InitOptionsTable()
                                     npcSpellNames = {
                                         type = "description",
                                         order = 10,
-                                        name = "\n|cff798BDDSpell Name Format Settings|r:",
+                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
                                         fontSize = "large",
                                     },
 
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
-                                        name = "Color Spell Name",
-                                        desc = "The spell name will be colored according to it's spell school.",
+                                        name = L["Color Spell Name"],
+                                        desc = L["The spell name will be colored according to it's spell school."],
                                     },
 
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
-                                        name = "",
+                                        name = L[""],
                                         width = "normal",
                                     },
 
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
-                                        name = "Custom",
-                                        desc = "Preempt an automatic color with a custom one.",
+                                        name = L["Custom"],
+                                        desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
 
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
-                                        name = "Color",
+                                        name = L["Color"],
                                         width = "half",
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
@@ -4611,14 +4611,14 @@ function x:InitOptionsTable()
                                     npcNames_Spacer2 = {
                                         type = "description",
                                         order = 20,
-                                        name = "",
+                                        name = L[""],
                                     },
 
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = "Display NPC Name",
-                                        desc = "",
+                                        name = L["Display NPC Name"],
+                                        desc = L[""],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -4636,51 +4636,51 @@ function x:InitOptionsTable()
 
                     specialTweaks = {
                         order = 60,
-                        name = "Misc",
+                        name = L["Misc"],
                         type = "group",
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             enableOverHeal = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Overheals",
-                                desc = "Show the overhealing you receive from other players.",
+                                name = L["Show Overheals"],
+                                desc = L["Show the overhealing you receive from other players."],
                                 get = "Options_IncomingHealing_ShowOverHealing",
                                 set = set2,
                             },
                             hideAbsorbedHeals = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Hide Absorbed Heals",
-                                desc = "If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total.",
+                                name = L["Hide Absorbed Heals"],
+                                desc = L["If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total."],
                                 get = "Options_IncomingHealing_HideAbsorbedHealing",
                                 set = set2,
                             },
                             enableSelfAbsorbs = {
                                 order = 6,
                                 type = "toggle",
-                                name = "Show Absorbs",
-                                desc = "Shows absorbs you gain from other players.",
+                                name = L["Show Absorbs"],
+                                desc = L["Shows absorbs you gain from other players."],
                                 get = get2,
                                 set = set2,
                             },
                             showOnlyMyHeals = {
                                 order = 7,
                                 type = "toggle",
-                                name = "Show My Heals Only",
-                                desc = "Shows only the player's healing done to himself or herself.",
+                                name = L["Show My Heals Only"],
+                                desc = L["Shows only the player's healing done to himself or herself."],
                                 get = "Options_IncomingHealing_ShowOnlyMyHeals",
                                 set = set2,
                             },
                             showOnlyPetHeals = {
                                 order = 7,
                                 type = "toggle",
-                                name = "Show Pet Heals Too",
-                                desc = "Will also attempt to show the player pet's healing.",
+                                name = L["Show Pet Heals Too"],
+                                desc = L["Will also attempt to show the player pet's healing."],
                                 get = "Options_IncomingHealing_ShowOnlyMyPetsHeals",
                                 set = set2,
                                 disabled = function()
@@ -4693,7 +4693,7 @@ function x:InitOptionsTable()
             },
 
             class = {
-                name = "|cff808080Class Combo Points (Disabled)|r",
+                name = L["|cff808080Class Combo Points (Disabled)|r"],
                 type = "group",
                 order = 17,
                 childGroups = "tab",
@@ -4706,17 +4706,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -4724,13 +4724,13 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "description",
                                 order = 2,
-                                name = "\n|cffFF0000Secondary Frame Not Available|r - |cffFFFFFFThis frame cannot output to another frame when it is disabled.\n\n",
+                                name = L["\n|cffFF0000Secondary Frame Not Available|r - |cffFFFFFFThis frame cannot output to another frame when it is disabled.\n\n"],
                                 width = "double",
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -4743,20 +4743,20 @@ function x:InitOptionsTable()
                             --[[frameScrolling = {
                   type = 'description',
                   order = 10,
-                  name = "\n|cff798BDDScrollable Frame Settings|r:",
+                  name = L["\n|cff798BDDScrollable Frame Settings|r:"],
                   fontSize = 'large',
                 },
                 enableScrollable = {
                   order = 11,
                   type = 'toggle',
-                  name = "Enabled",
+                  name = L["Enabled"],
                   get = get2,
                   set = set2_update,
                   disabled = isFrameItemDisabled,
                 },
                 scrollableLines = {
                   order = 12,
-                  name = "Number of Lines",
+                  name = L["Number of Lines"],
                   type = 'range',
                   min = 10, max = 60, step = 1,
                   get = get2,
@@ -4766,7 +4766,7 @@ function x:InitOptionsTable()
                 scrollableInCombat = {
                   order = 13,
                   type = 'toggle',
-                  name = "Disable in Combat",
+                  name = L["Disable in Combat"],
                   get = get2,
                   set = set2_update,
                   disabled = isFrameItemDisabled,
@@ -4777,19 +4777,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -4797,8 +4797,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -4810,8 +4810,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -4829,14 +4829,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -4846,7 +4846,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -4854,7 +4854,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -4866,7 +4866,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -4881,20 +4881,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -4902,7 +4902,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -4911,7 +4911,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -4919,7 +4919,7 @@ function x:InitOptionsTable()
             },
 
             power = {
-                name = "|cffFFFFFFClass Power|r",
+                name = L["|cffFFFFFFClass Power|r"],
                 type = "group",
                 order = 18,
                 childGroups = "tab",
@@ -4928,17 +4928,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -4946,8 +4946,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -4967,8 +4967,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -4979,8 +4979,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -4992,8 +4992,8 @@ function x:InitOptionsTable()
                             megaDamage = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Number Formatting",
-                                desc = "Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. ",
+                                name = L["Number Formatting"],
+                                desc = L["Enables number formatting. This option can be customized in the main |cff00FF00Frames|r options page to be either |cff798BDDAbbreviation|r or |cff798BDDDecimal Marks|r. "],
                                 get = get2,
                                 set = set2,
                             },
@@ -5001,19 +5001,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -5025,7 +5025,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -5034,12 +5034,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 20,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -5048,8 +5048,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -5057,8 +5057,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 23,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -5069,8 +5069,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 24,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -5085,19 +5085,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -5105,8 +5105,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -5118,8 +5118,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -5136,8 +5136,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -5150,14 +5150,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -5167,7 +5167,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -5175,7 +5175,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5187,7 +5187,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5202,20 +5202,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -5223,7 +5223,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -5232,34 +5232,34 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
 
                     specialTweaks = {
                         order = 50,
-                        name = "Misc",
+                        name = L["Misc"],
                         type = "group",
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             showEnergyGains = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Show Gains",
-                                desc = "Show instant gains of class resources (e. g. energy, runic power, ...).",
+                                name = L["Show Gains"],
+                                desc = L["Show instant gains of class resources (e. g. energy, runic power, ...)."],
                                 get = get2,
                                 set = set2,
                             },
                             showEnergyType = {
                                 order = 3,
                                 type = "toggle",
-                                name = "Show Energy Type",
-                                desc = "Show the type of energy that you are gaining.",
+                                name = L["Show Energy Type"],
+                                desc = L["Show the type of energy that you are gaining."],
                                 get = "Options_Power_ShowEnergyTypes",
                                 set = set2,
                             },
@@ -5267,12 +5267,12 @@ function x:InitOptionsTable()
                             title1 = {
                                 type = "header",
                                 order = 10,
-                                name = "Filter Resources",
+                                name = L["Filter Resources"],
                             },
                             title2 = {
                                 type = "description",
                                 order = 11,
-                                name = "Check the resources that you do not wish to be displayed for your character:",
+                                name = L["Check the resources that you do not wish to be displayed for your character:"],
                                 fontSize = "small",
                             },
 
@@ -5280,7 +5280,7 @@ function x:InitOptionsTable()
                             disableResource_MANA = {
                                 order = 100,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. MANA,
+                                name = L["Disable |cff798BDD"] .. MANA .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5288,7 +5288,7 @@ function x:InitOptionsTable()
                             disableResource_RAGE = {
                                 order = 101,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. RAGE,
+                                name = L["Disable |cff798BDD"] .. RAGE .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5296,7 +5296,7 @@ function x:InitOptionsTable()
                             disableResource_FOCUS = {
                                 order = 102,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. FOCUS,
+                                name = L["Disable |cff798BDD"] .. FOCUS .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5304,7 +5304,7 @@ function x:InitOptionsTable()
                             disableResource_ENERGY = {
                                 order = 103,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. ENERGY,
+                                name = L["Disable |cff798BDD"] .. ENERGY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5313,7 +5313,7 @@ function x:InitOptionsTable()
                             disableResource_RUNES = {
                                 order = 104,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. RUNES,
+                                name = L["Disable |cff798BDD"] .. RUNES .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5321,7 +5321,7 @@ function x:InitOptionsTable()
                             disableResource_RUNIC_POWER = {
                                 order = 105,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. RUNIC_POWER,
+                                name = L["Disable |cff798BDD"] .. RUNIC_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5329,7 +5329,7 @@ function x:InitOptionsTable()
                             disableResource_SOUL_SHARDS = {
                                 order = 106,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. SOUL_SHARDS,
+                                name = L["Disable |cff798BDD"] .. SOUL_SHARDS .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5337,7 +5337,7 @@ function x:InitOptionsTable()
                             disableResource_LUNAR_POWER = {
                                 order = 107,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. LUNAR_POWER,
+                                name = L["Disable |cff798BDD"] .. LUNAR_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5346,7 +5346,7 @@ function x:InitOptionsTable()
                             disableResource_CHI = {
                                 order = 108,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. CHI,
+                                name = L["Disable |cff798BDD"] .. CHI .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5354,7 +5354,7 @@ function x:InitOptionsTable()
                             disableResource_HOLY_POWER = {
                                 order = 109,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. HOLY_POWER,
+                                name = L["Disable |cff798BDD"] .. HOLY_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5362,15 +5362,15 @@ function x:InitOptionsTable()
                             disableResource_INSANITY_POWER = {
                                 order = 110,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. INSANITY,
+                                name = L["Disable |cff798BDD"] .. INSANITY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
                             },
-                            disableResource_MAELSTROM_POWER = { -- Add in Maelstrom to resources
+                            disableResource_MAELSTROM_POWER = {
                                 order = 111,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. MAELSTROM_POWER,
+                                name = L["Disable |cff798BDD"] .. MAELSTROM_POWER .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5379,7 +5379,7 @@ function x:InitOptionsTable()
                             disableResource_ARCANE_CHARGES = {
                                 order = 112,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. ARCANE_CHARGES,
+                                name = L["Disable |cff798BDD"] .. ARCANE_CHARGES .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5387,7 +5387,7 @@ function x:InitOptionsTable()
                             disableResource_FURY = {
                                 order = 113,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. FURY,
+                                name = L["Disable |cff798BDD"] .. FURY .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5395,7 +5395,7 @@ function x:InitOptionsTable()
                             disableResource_PAIN = {
                                 order = 114,
                                 type = "toggle",
-                                name = "Disable |cff798BDD" .. PAIN,
+                                name = L["Disable |cff798BDD"] .. PAIN .. "|r",
                                 get = get2,
                                 set = set2,
                                 width = "normal",
@@ -5406,7 +5406,7 @@ function x:InitOptionsTable()
             },
 
             procs = {
-                name = "|cffFFFFFFSpecial Effects|r |cff798BDD(Procs)|r",
+                name = L["|cffFFFFFFSpecial Effects|r |cff798BDD(Procs)|r"],
                 type = "group",
                 order = 19,
                 childGroups = "tab",
@@ -5415,17 +5415,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = "Options_Procs_ShowProcs",
                                 set = set2_update,
@@ -5433,8 +5433,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -5454,8 +5454,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -5466,8 +5466,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -5480,19 +5480,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -5504,7 +5504,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -5513,12 +5513,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 20,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 21,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -5527,8 +5527,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 22,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -5536,8 +5536,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 23,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -5548,8 +5548,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 24,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -5564,19 +5564,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -5584,8 +5584,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -5597,8 +5597,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -5615,8 +5615,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -5629,14 +5629,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -5646,7 +5646,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -5654,7 +5654,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5666,7 +5666,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5681,26 +5681,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons next to your damage.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons next to your damage."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -5712,8 +5712,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = get2,
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -5724,20 +5724,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -5745,7 +5745,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -5754,7 +5754,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -5762,7 +5762,7 @@ function x:InitOptionsTable()
             },
 
             loot = {
-                name = "|cffFFFFFFLoot, Currency & Money|r",
+                name = L["|cffFFFFFFLoot, Currency & Money|r"],
                 type = "group",
                 order = 20,
                 childGroups = "tab",
@@ -5771,17 +5771,17 @@ function x:InitOptionsTable()
                     frameSettings = {
                         order = 10,
                         type = "group",
-                        name = "Frame",
+                        name = L["Frame"],
                         args = {
                             headerFrameSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Frame Settings",
+                                name = L["Frame Settings"],
                             },
                             enabledFrame = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Enable",
+                                name = L["Enable"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -5789,8 +5789,8 @@ function x:InitOptionsTable()
                             secondaryFrame = {
                                 type = "select",
                                 order = 2,
-                                name = "Secondary Frame",
-                                desc = "A frame to forward messages to when this frame is disabled.",
+                                name = L["Secondary Frame"],
+                                desc = L["A frame to forward messages to when this frame is disabled."],
                                 values = {
                                     [0] = "None",
                                     [1] = "General",
@@ -5810,8 +5810,8 @@ function x:InitOptionsTable()
                             insertText = {
                                 type = "select",
                                 order = 3,
-                                name = "Text Direction",
-                                desc = "Changes the direction that the text travels in the frame.",
+                                name = L["Text Direction"],
+                                desc = L["Changes the direction that the text travels in the frame."],
                                 values = {
                                     ["top"] = "Down",
                                     ["bottom"] = "Up",
@@ -5822,8 +5822,8 @@ function x:InitOptionsTable()
                             },
                             alpha = {
                                 order = 4,
-                                name = "Frame Alpha",
-                                desc = "Sets the alpha of the frame.",
+                                name = L["Frame Alpha"],
+                                desc = L["Sets the alpha of the frame."],
                                 type = "range",
                                 min = 0,
                                 max = 100,
@@ -5836,19 +5836,19 @@ function x:InitOptionsTable()
                             frameScrolling = {
                                 type = "header",
                                 order = 10,
-                                name = "Scrollable Frame Settings",
+                                name = L["Scrollable Frame Settings"],
                             },
                             enableScrollable = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enabled",
+                                name = L["Enabled"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
                             },
                             scrollableLines = {
                                 order = 12,
-                                name = "Number of Lines",
+                                name = L["Number of Lines"],
                                 type = "range",
                                 min = 10,
                                 max = 60,
@@ -5860,7 +5860,7 @@ function x:InitOptionsTable()
                             scrollableInCombat = {
                                 order = 13,
                                 type = "toggle",
-                                name = "Disable in Combat",
+                                name = L["Disable in Combat"],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -5869,12 +5869,12 @@ function x:InitOptionsTable()
                             frameFading = {
                                 type = "header",
                                 order = 30,
-                                name = "Fading Text Settings",
+                                name = L["Fading Text Settings"],
                             },
                             enableCustomFade = {
                                 order = 31,
                                 type = "toggle",
-                                name = "Use Custom Fade",
+                                name = L["Use Custom Fade"],
                                 width = "full",
                                 get = get2,
                                 set = set2_update,
@@ -5883,8 +5883,8 @@ function x:InitOptionsTable()
                             enableFade = {
                                 order = 32,
                                 type = "toggle",
-                                name = "Enable",
-                                desc = "Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Enable"],
+                                desc = L["Turn off to disable fading all together.\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 width = "half",
                                 get = get2,
                                 set = set2_update,
@@ -5892,8 +5892,8 @@ function x:InitOptionsTable()
                             },
                             fadeTime = {
                                 order = 33,
-                                name = "Fade Out Duration",
-                                desc = "The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Fade Out Duration"],
+                                desc = L["The duration of the fade out animation. |cffFFFF00(Default: |cff798BDD0.3|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 0,
                                 max = 2,
@@ -5904,8 +5904,8 @@ function x:InitOptionsTable()
                             },
                             visibilityTime = {
                                 order = 34,
-                                name = "Visibility Duration",
-                                desc = "The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r",
+                                name = L["Visibility Duration"],
+                                desc = L["The duration that the text is shown in the frame. |cffFFFF00(Default: |cff798BDD5|r)|r\n\n|cffFF0000Requires:|r |cffFFFF00Use Custom Fade|r"],
                                 type = "range",
                                 min = 2,
                                 max = 15,
@@ -5920,19 +5920,19 @@ function x:InitOptionsTable()
                     fonts = {
                         order = 20,
                         type = "group",
-                        name = "Font",
+                        name = L["Font"],
                         args = {
                             fontSettings = {
                                 type = "header",
                                 order = 0,
-                                name = "Font Settings",
+                                name = L["Font Settings"],
                             },
                             font = {
                                 type = "select",
                                 dialogControl = "LSM30_Font",
                                 order = 1,
-                                name = "Font",
-                                desc = "Set the font of the frame.",
+                                name = L["Font"],
+                                desc = L["Set the font of the frame."],
                                 values = AceGUIWidgetLSMlists.font,
                                 get = get2,
                                 set = set2_update,
@@ -5940,8 +5940,8 @@ function x:InitOptionsTable()
                             },
                             fontSize = {
                                 order = 2,
-                                name = "Font Size",
-                                desc = "Set the font size of the frame.",
+                                name = L["Font Size"],
+                                desc = L["Set the font size of the frame."],
                                 type = "range",
                                 min = 6,
                                 max = 64,
@@ -5953,8 +5953,8 @@ function x:InitOptionsTable()
                             fontOutline = {
                                 type = "select",
                                 order = 3,
-                                name = "Font Outline",
-                                desc = "Set the font outline.",
+                                name = L["Font Outline"],
+                                desc = L["Set the font outline."],
                                 values = {
                                     ["1NONE"] = "None",
                                     ["2OUTLINE"] = "OUTLINE",
@@ -5971,8 +5971,8 @@ function x:InitOptionsTable()
                             fontJustify = {
                                 type = "select",
                                 order = 4,
-                                name = "Justification",
-                                desc = "Justifies the output to a side.",
+                                name = L["Justification"],
+                                desc = L["Justifies the output to a side."],
                                 values = {
                                     ["RIGHT"] = "Right",
                                     ["LEFT"] = "Left",
@@ -5985,14 +5985,14 @@ function x:InitOptionsTable()
                             fontShadowSettings = {
                                 type = "header",
                                 order = 10,
-                                name = "Font Shadow Settings",
+                                name = L["Font Shadow Settings"],
                             },
 
                             enableFontShadow = {
                                 order = 11,
                                 type = "toggle",
-                                name = "Enable Font Shadow",
-                                desc = "Shows a shadow behind the combat text fonts.",
+                                name = L["Enable Font Shadow"],
+                                desc = L["Shows a shadow behind the combat text fonts."],
                                 get = get2,
                                 set = set2_update,
                                 disabled = isFrameItemDisabled,
@@ -6002,7 +6002,7 @@ function x:InitOptionsTable()
                                 order = 12,
                                 type = "color",
                                 hasAlpha = true,
-                                name = "Font Shadow Color",
+                                name = L["Font Shadow Color"],
                                 get = getColor2,
                                 set = setColor2_alpha,
                                 disabled = isFrameFontShadowDisabled,
@@ -6010,7 +6010,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = "Horizonal Offset",
+                                name = L["Horizonal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -6022,7 +6022,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetY = {
                                 order = 14,
-                                name = "Vertical Offset",
+                                name = L["Vertical Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -6037,26 +6037,26 @@ function x:InitOptionsTable()
                     icons = {
                         order = 30,
                         type = "group",
-                        name = "Icons",
+                        name = L["Icons"],
                         args = {
                             headerIconSettings = {
                                 type = "header",
                                 order = 1,
-                                name = "Icon Settings",
+                                name = L["Icon Settings"],
                             },
                             iconsEnabled = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Enable Icons",
-                                desc = "Show icons.",
+                                name = L["Enable Icons"],
+                                desc = L["Show icons."],
                                 get = "Options_Loot_ShowIcons",
                                 set = set2,
                                 disabled = isFrameItemDisabled,
                             },
                             iconsSize = {
                                 order = 3,
-                                name = "Size",
-                                desc = "Set the icon size. (Recommended value: 16)",
+                                name = L["Size"],
+                                desc = L["Set the icon size. (Recommended value: 16)"],
                                 type = "range",
                                 min = 6,
                                 max = 22,
@@ -6068,8 +6068,8 @@ function x:InitOptionsTable()
                             spacerIconsEnabled = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Invisible Icons",
-                                desc = "When icons are disabled, you can still enable invisible icons to line up text.",
+                                name = L["Show Invisible Icons"],
+                                desc = L["When icons are disabled, you can still enable invisible icons to line up text."],
                                 get = "Options_Loot_EnableSpacerIcons",
                                 set = set2,
                                 disabled = isFrameIconSpacerDisabled,
@@ -6080,20 +6080,20 @@ function x:InitOptionsTable()
                     fontColors = {
                         order = 40,
                         type = "group",
-                        name = "Colors",
+                        name = L["Colors"],
                         args = {
                             customColors_label = {
                                 type = "header",
                                 order = 0,
-                                name = "Custom Colors",
+                                name = L["Custom Colors"],
                             },
 
                             customColor = {
                                 order = 2,
                                 type = "toggle",
-                                name = "All Text One Color (Override Color Settings)",
+                                name = L["All Text One Color (Override Color Settings)"],
                                 width = "double",
-                                desc = "Change all the text in this frame to a specific color.",
+                                desc = L["Change all the text in this frame to a specific color."],
                                 get = get2,
                                 set = set2,
                             },
@@ -6101,7 +6101,7 @@ function x:InitOptionsTable()
                             fontColor = {
                                 order = 3,
                                 type = "color",
-                                name = "Color",
+                                name = L["Color"],
                                 get = getColor2,
                                 set = setColor2,
                                 hidden = isFrameCustomColorDisabled,
@@ -6110,7 +6110,7 @@ function x:InitOptionsTable()
                             headerEventColor = {
                                 type = "header",
                                 order = 4,
-                                name = "Colors of tthe events",
+                                name = L["Colors of the events"],
                             },
                         },
                     },
@@ -6118,90 +6118,90 @@ function x:InitOptionsTable()
                     specialTweaks = {
                         order = 50,
                         type = "group",
-                        name = "Misc",
+                        name = L["Misc"],
                         args = {
                             specialTweaks = {
                                 type = "header",
                                 order = 0,
-                                name = "Miscellaneous Settings",
+                                name = L["Miscellaneous Settings"],
                             },
                             showMoney = {
                                 order = 1,
                                 type = "toggle",
-                                name = "Looted Money",
-                                desc = "Displays money that you pick up.",
+                                name = L["Looted Money"],
+                                desc = L["Displays money that you pick up."],
                                 get = "Options_Loot_ShowMoney",
                                 set = set2,
                             },
                             showItems = {
                                 order = 2,
                                 type = "toggle",
-                                name = "Looted Items",
-                                desc = "Displays items that you pick up.",
+                                name = L["Looted Items"],
+                                desc = L["Displays items that you pick up."],
                                 get = "Options_Loot_ShowItems",
                                 set = set2,
                             },
                             showCurrency = {
                                 order = 3,
                                 type = "toggle",
-                                name = "Gained Currency",
-                                desc = "Displays currecy that you gain.",
+                                name = L["Gained Currency"],
+                                desc = L["Displays currecy that you gain."],
                                 get = "Options_Loot_ShowCurency",
                                 set = set2,
                             },
                             showItemTypes = {
                                 order = 4,
                                 type = "toggle",
-                                name = "Show Item Types",
-                                desc = "Formats the looted message to also include the type of item (e.g. Trade Goods, Armor, Junk, etc.).",
+                                name = L["Show Item Types"],
+                                desc = L["Formats the looted message to also include the type of item (e.g. Trade Goods, Armor, Junk, etc.)."],
                                 get = "Options_Loot_ShowItemTypes",
                                 set = set2,
                             },
                             showItemTotal = {
                                 order = 5,
                                 type = "toggle",
-                                name = "Total Items",
-                                desc = "Displays how many items you have in your bag.",
+                                name = L["Total Items"],
+                                desc = L["Displays how many items you have in your bag."],
                                 get = "Options_Loot_ShowItemTotals",
                                 set = set2,
                             },
                             showCrafted = {
                                 order = 6,
                                 type = "toggle",
-                                name = "Crafted Items",
-                                desc = "Displays items that you crafted.",
+                                name = L["Crafted Items"],
+                                desc = L["Displays items that you crafted."],
                                 get = "Options_Loot_ShowCraftedItems",
                                 set = set2,
                             },
                             showQuest = {
                                 order = 7,
                                 type = "toggle",
-                                name = "Quest Items",
-                                desc = "Displays items that pertain to a quest.",
+                                name = L["Quest Items"],
+                                desc = L["Displays items that pertain to a quest."],
                                 get = "Options_Loot_ShowQuestItems",
                                 set = set2,
                             },
                             showPurchased = {
                                 order = 8,
                                 type = "toggle",
-                                name = "Purchased Items",
-                                desc = "Displays items that were purchased from a vendor.",
+                                name = L["Purchased Items"],
+                                desc = L["Displays items that were purchased from a vendor."],
                                 get = "Options_Loot_ShowPurchasedItems",
                                 set = set2,
                             },
                             colorBlindMoney = {
                                 order = 9,
                                 type = "toggle",
-                                name = "Color Blind Mode",
-                                desc = "Displays money using letters G, S, and C instead of icons.",
+                                name = L["Color Blind Mode"],
+                                desc = L["Displays money using letters G, S, and C instead of icons."],
                                 get = "Options_Loot_ShowColorBlindMoney",
                                 set = set2,
                             },
                             filterItemQuality = {
                                 order = 10,
                                 type = "select",
-                                name = "Filter Item Quality",
-                                desc = "Will not display any items that are below this quality (does not filter Quest or Crafted items).",
+                                name = L["Filter Item Quality"],
+                                desc = L["Will not display any items that are below this quality (does not filter Quest or Crafted items)."],
                                 values = {
                                     [0] = "1. |cff9d9d9d" .. ITEM_QUALITY0_DESC .. "|r", -- Poor
                                     [1] = "2. |cffffffff" .. ITEM_QUALITY1_DESC .. "|r", -- Common
@@ -6223,7 +6223,7 @@ function x:InitOptionsTable()
     }
 
     optionsAddon.optionsTable.args.FloatingCombatText = {
-        name = "Floating Combat Text",
+        name = L["Floating Combat Text"],
         type = "group",
         order = 1,
         childGroups = "tab",
@@ -6231,20 +6231,20 @@ function x:InitOptionsTable()
             title2 = {
                 order = 0,
                 type = "description",
-                name = "The following settings allow you to tweak Blizzard's Floating Combat Text.",
+                name = L["The following settings allow you to tweak Blizzard's Floating Combat Text."],
             },
 
             blizzardFCT = {
-                name = "General",
+                name = L["General"],
                 type = "group",
                 order = 1,
                 disabled = "CVar_BypassCVars",
                 args = {
                     enableFloatingCombatText = {
                         order = 1,
-                        name = "Enable Scrolling Combat Text (Self)",
+                        name = L["Enable Scrolling Combat Text (Self)"],
                         type = "toggle",
-                        desc = "Shows incoming damage and healing done to you. It is also required for a lot of the other events to work (as noted in their descriptions).\n\n|cffFF0000Changing this requires a UI Reload!|r",
+                        desc = L["Shows incoming damage and healing done to you. It is also required for a lot of the other events to work (as noted in their descriptions).\n\n|cffFF0000Changing this requires a UI Reload!|r"],
                         width = "double",
                         get = get0,
                         set = set0_update,
@@ -6253,7 +6253,7 @@ function x:InitOptionsTable()
                     enableFCT_Header = {
                         type = "description",
                         order = 2,
-                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
+                        name = L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"],
                         fontSize = "small",
                         width = "normal",
                     },
@@ -6261,7 +6261,7 @@ function x:InitOptionsTable()
                     enableFCT_Spacer = {
                         type = "description",
                         order = 3,
-                        name = "\n",
+                        name = L["\n"],
                         fontSize = "small",
                         width = "normal",
                     },
@@ -6269,13 +6269,13 @@ function x:InitOptionsTable()
                     headerAppearance = {
                         type = "header",
                         order = 4,
-                        name = "Appearance",
+                        name = L["Appearance"],
                     },
 
                     floatingCombatTextCombatDamageDirectionalOffset = {
                         order = 5,
-                        name = "Direction Offset",
-                        desc = "The amount to offset the vertical origin of the directional damage numbers when they appear. (e.g. move them up and down)\n\n0 = Default",
+                        name = L["Direction Offset"],
+                        desc = L["The amount to offset the vertical origin of the directional damage numbers when they appear. (e.g. move them up and down)\n\n0 = Default"],
                         type = "range",
                         min = -20,
                         max = 20,
@@ -6286,8 +6286,8 @@ function x:InitOptionsTable()
 
                     floatingCombatTextCombatDamageDirectionalScale = {
                         order = 6,
-                        name = "Direction Scale",
-                        desc = "The amount to scale the distance that directional damage numbers will move as they appear. Damage numbers will just scroll up if this is disabled.\n\n0 = Disabled\n1 = Default\n3.6 = Recommended",
+                        name = L["Direction Scale"],
+                        desc = L["The amount to scale the distance that directional damage numbers will move as they appear. Damage numbers will just scroll up if this is disabled.\n\n0 = Disabled\n1 = Default\n3.6 = Recommended"],
                         type = "range",
                         min = -5,
                         max = 5,
@@ -6300,12 +6300,12 @@ function x:InitOptionsTable()
                     headerDamage = {
                         type = "header",
                         order = 10,
-                        name = "Damage",
+                        name = L["Damage"],
                     },
 
                     floatingCombatTextCombatDamage = {
                         order = 11,
-                        name = "Show Damage",
+                        name = L["Show Damage"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_DAMAGE,
                         get = get0,
@@ -6314,7 +6314,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextCombatLogPeriodicSpells = {
                         order = 12,
-                        name = "Show DoTs",
+                        name = L["Show DoTs"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_LOG_PERIODIC_EFFECTS,
                         get = get0,
@@ -6323,16 +6323,16 @@ function x:InitOptionsTable()
 
                     floatingCombatTextCombatDamageAllAutos = {
                         order = 13,
-                        name = "Show Auto Attacks",
+                        name = L["Show Auto Attacks"],
                         type = "toggle",
-                        desc = "Enable this option if you want to see all auto-attacks.",
+                        desc = L["Enable this option if you want to see all auto-attacks."],
                         get = get0,
                         set = set0_update,
                     },
 
                     floatingCombatTextPetMeleeDamage = {
                         order = 14,
-                        name = "Show Pet Melee",
+                        name = L["Show Pet Melee"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
                         get = get0,
@@ -6341,7 +6341,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextPetSpellDamage = {
                         order = 15,
-                        name = "Show Pet Spells",
+                        name = L["Show Pet Spells"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_PET_MELEE_DAMAGE,
                         get = get0,
@@ -6352,12 +6352,12 @@ function x:InitOptionsTable()
                     headerHealingAbsorbs = {
                         type = "header",
                         order = 20,
-                        name = "Healing and Absorbs",
+                        name = L["Healing and Absorbs"],
                     },
 
                     floatingCombatTextCombatHealing = {
                         order = 21,
-                        name = "Show Healing",
+                        name = L["Show Healing"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING,
                         get = get0,
@@ -6366,7 +6366,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextFriendlyHealers = {
                         order = 22,
-                        name = "Show Friendly Healers",
+                        name = L["Show Friendly Healers"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_FRIENDLY_NAMES
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6376,7 +6376,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextCombatHealingAbsorbSelf = {
                         order = 23,
-                        name = "Show Absorbs (Self)",
+                        name = L["Show Absorbs (Self)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_SELF
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6386,7 +6386,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextCombatHealingAbsorbTarget = {
                         order = 24,
-                        name = "Show Absorbs (Target)",
+                        name = L["Show Absorbs (Target)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_COMBAT_HEALING_ABSORB_TARGET,
                         get = get0,
@@ -6395,7 +6395,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextDamageReduction = {
                         order = 25,
-                        name = "Show Damage Reduction",
+                        name = L["Show Damage Reduction"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_RESISTANCES
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6407,12 +6407,12 @@ function x:InitOptionsTable()
                     headerGains = {
                         type = "header",
                         order = 30,
-                        name = "Player Gains",
+                        name = L["Player Gains"],
                     },
 
                     floatingCombatTextEnergyGains = {
                         order = 31,
-                        name = "Show Energy",
+                        name = L["Show Energy"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_ENERGIZE
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6422,7 +6422,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextPeriodicEnergyGains = {
                         order = 31,
-                        name = "Show Energy (Periodic)",
+                        name = L["Show Energy (Periodic)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_PERIODIC_ENERGIZE
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6432,7 +6432,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextComboPoints = {
                         order = 32,
-                        name = "Show Combo Points",
+                        name = L["Show Combo Points"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBO_POINTS
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6442,7 +6442,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextHonorGains = {
                         order = 33,
-                        name = "Show Honor",
+                        name = L["Show Honor"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_HONOR_GAINED
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6452,7 +6452,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextRepChanges = {
                         order = 34,
-                        name = "Show Rep Changes",
+                        name = L["Show Rep Changes"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REPUTATION
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6464,12 +6464,12 @@ function x:InitOptionsTable()
                     headerStatusEffects = {
                         type = "header",
                         order = 40,
-                        name = "Status Effects",
+                        name = L["Status Effects"],
                     },
 
                     floatingCombatTextDodgeParryMiss = {
                         order = 41,
-                        name = "Show Miss Types",
+                        name = L["Show Miss Types"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_DODGE_PARRY_MISS,
                         get = get0,
@@ -6478,7 +6478,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextAuras = {
                         order = 42,
-                        name = "Show Auras",
+                        name = L["Show Auras"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_AURAS
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6488,7 +6488,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextSpellMechanics = {
                         order = 43,
-                        name = "Show Effects (Mine)",
+                        name = L["Show Effects (Mine)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_TARGET_EFFECTS,
                         get = get0,
@@ -6497,7 +6497,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextSpellMechanicsOther = {
                         order = 44,
-                        name = "Show Effects (Group)",
+                        name = L["Show Effects (Group)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
                         get = get0,
@@ -6506,7 +6506,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextAllSpellMechanics = {
                         order = 45,
-                        name = "Show Effects (All)",
+                        name = L["Show Effects (All)"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_SHOW_OTHER_TARGET_EFFECTS,
                         get = get0,
@@ -6516,8 +6516,8 @@ function x:InitOptionsTable()
                     CombatThreatChanges = {
                         order = 46,
                         type = "toggle",
-                        name = "Show Threat Changes",
-                        desc = "Enable this option if you want to see threat changes.",
+                        name = L["Show Threat Changes"],
+                        desc = L["Enable this option if you want to see threat changes."],
                         get = get0,
                         set = set0_update,
                     },
@@ -6526,12 +6526,12 @@ function x:InitOptionsTable()
                     headerPlayerStatus = {
                         type = "header",
                         order = 50,
-                        name = "Player Status",
+                        name = L["Player Status"],
                     },
 
                     floatingCombatTextCombatState = {
                         order = 52,
-                        name = "Show Combat State",
+                        name = L["Show Combat State"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_COMBAT_STATE
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6541,7 +6541,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextLowManaHealth = {
                         order = 53,
-                        name = "Show Low HP/Mana",
+                        name = L["Show Low HP/Mana"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_LOW_HEALTH_MANA
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6551,7 +6551,7 @@ function x:InitOptionsTable()
 
                     floatingCombatTextReactives = {
                         order = 54,
-                        name = "Show Reactives",
+                        name = L["Show Reactives"],
                         type = "toggle",
                         desc = OPTION_TOOLTIP_COMBAT_TEXT_SHOW_REACTIVES
                             .. "\n\n|cffFF0000Requires Self Scrolling Combat Text|r",
@@ -6562,15 +6562,15 @@ function x:InitOptionsTable()
             },
 
             advancedSettings = {
-                name = "Advanced",
+                name = L["Advanced"],
                 type = "group",
                 order = 2,
                 args = {
                     bypassCVARUpdates = {
                         order = 4,
                         type = "toggle",
-                        name = "Bypass CVar Updates (requires |cffFF0000/reload|r)",
-                        desc = "Allows you to bypass xCT+'s CVar engine. This option might help if you have FCT enabled, but it disappears after awhile. Once you set your FCT options, enable this.\n\n|cffFF0000Changing this requires a UI Reload!|r",
+                        name = L["Bypass CVar Updates (requires |cffFF0000/reload|r)"],
+                        desc = L["Allows you to bypass xCT+'s CVar engine. This option might help if you have FCT enabled, but it disappears after awhile. Once you set your FCT options, enable this.\n\n|cffFF0000Changing this requires a UI Reload!|r"],
                         width = "double",
                         get = function()
                             return x.db.profile.bypassCVars
@@ -6583,7 +6583,7 @@ function x:InitOptionsTable()
                     enableFCT_Header = {
                         type = "description",
                         order = 5,
-                        name = "|CffFF0000Requires:|r |cff00FF33/reload|r after change",
+                        name = L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"],
                         fontSize = "small",
                         width = "normal",
                     },
@@ -6593,7 +6593,7 @@ function x:InitOptionsTable()
     }
 
     optionsAddon.optionsTable.args.spells = {
-        name = "Spam Merger",
+        name = L["Spam Merger"],
         type = "group",
         childGroups = "tab",
         order = 2,
@@ -6601,7 +6601,7 @@ function x:InitOptionsTable()
             explanation = {
                 type = "description",
                 order = 1,
-                name = "Normally all damage / heal events of a spell will result in one message each.\n"
+                name = L["Normally all damage / heal events of a spell will result in one message each.\n"]
                     .. "So AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\n"
                     .. "If the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n"
                     .. "|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\n"
@@ -6609,22 +6609,22 @@ function x:InitOptionsTable()
             },
 
             mergeOptions = {
-                name = "Merge Options",
+                name = L["Merge Options"],
                 type = "group",
                 order = 11,
                 args = {
                     enableMerger = {
                         order = 2,
                         type = "toggle",
-                        name = "Enable Spam Merger",
+                        name = L["Enable Spam Merger"],
                         get = "Options_SpamMerger_EnableSpamMerger",
                         set = set0_1,
                     },
                     enableMergerDebug = {
                         order = 3,
                         type = "toggle",
-                        name = "Enable Debugging",
-                        desc = "Adds the spell ID to each message for this session only.",
+                        name = L["Enable Debugging"],
+                        desc = L["Adds the spell ID to each message for this session only."],
                         get = function()
                             return x.enableMergerDebug or false
                         end,
@@ -6636,19 +6636,19 @@ function x:InitOptionsTable()
                     outgoingHeader = {
                         type = "header",
                         order = 10,
-                        name = "Outgoing Damage / Healing",
+                        name = L["Outgoing Damage / Healing"],
                     },
 
                     outgoingExplanation = {
                         type = "description",
                         order = 11,
-                        name = "The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs.",
+                        name = L["The merge interval for a lot of spells can be set via the 'Class Spells', 'Global Spells/Items' and 'Racial Spells' tabs."],
                     },
 
                     mergeOutgoingDamageMissesInterval = {
                         order = 23,
-                        name = "Merge-Interval Incoming Misses",
-                        desc = "The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        name = L["Merge-Interval Incoming Misses"],
+                        desc = L["The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6659,8 +6659,8 @@ function x:InitOptionsTable()
 
                     mergeEverythingInterval = {
                         order = 12,
-                        name = "Merge-Interval for other spells",
-                        desc = "The interval (seconds) in which all other spells will be merged. Certain spells have other intervals, see the tabs for them. Use 0 to disable.",
+                        name = L["Merge-Interval for other spells"],
+                        desc = L["The interval (seconds) in which all other spells will be merged. Certain spells have other intervals, see the tabs for them. Use 0 to disable."],
                         type = "range",
                         min = 0.1,
                         max = 5,
@@ -6672,13 +6672,13 @@ function x:InitOptionsTable()
                     incomingHeader = {
                         type = "header",
                         order = 20,
-                        name = "Incoming Damage / Healing",
+                        name = L["Incoming Damage / Healing"],
                     },
 
                     mergeIncomingHealingInterval = {
                         order = 21,
-                        name = "Merge-Interval Incoming Healing",
-                        desc = "The interval (seconds) in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable.",
+                        name = L["Merge-Interval Incoming Healing"],
+                        desc = L["The interval (seconds) in which incoming healing will be merged. All healing done by the same person will be merged together! Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6689,8 +6689,8 @@ function x:InitOptionsTable()
 
                     mergeIncomingDamageInterval = {
                         order = 22,
-                        name = "Merge-Interval Incoming Damage",
-                        desc = "The interval (seconds) in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable.",
+                        name = L["Merge-Interval Incoming Damage"],
+                        desc = L["The interval (seconds) in which incoming damage will be merged. Different messages will still be displayed for different spells. Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6701,8 +6701,8 @@ function x:InitOptionsTable()
 
                     mergeIncomingMissesInterval = {
                         order = 23,
-                        name = "Merge-Interval Incoming Misses",
-                        desc = "The interval (seconds) in which incoming full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable.",
+                        name = L["Merge-Interval Incoming Misses"],
+                        desc = L["The interval (seconds) in which incoming full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6714,13 +6714,13 @@ function x:InitOptionsTable()
                     dispellHeader = {
                         type = "header",
                         order = 30,
-                        name = "Dispells",
+                        name = L["Dispells"],
                     },
 
                     mergeDispellInterval = {
                         order = 31,
-                        name = "Merge-Interval for Dispells",
-                        desc = "The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable.",
+                        name = L["Merge-Interval for Dispells"],
+                        desc = L["The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6732,13 +6732,13 @@ function x:InitOptionsTable()
                     petAttacksHeader = {
                         type = "header",
                         order = 40,
-                        name = "Pet Attacks",
+                        name = L["Pet Attacks"],
                     },
 
                     mergePetInterval = {
                         order = 41,
-                        name = "Merge-Interval for ALL Pet Abilities",
-                        desc = "The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable.",
+                        name = L["Merge-Interval for ALL Pet Abilities"],
+                        desc = L["The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable."],
                         type = "range",
                         min = 0,
                         max = 5,
@@ -6750,8 +6750,8 @@ function x:InitOptionsTable()
                     mergePetColor = {
                         order = 42,
                         type = "color",
-                        name = "Pet Color",
-                        desc = "Which color do you want the merged pet messages to be?",
+                        name = L["Pet Color"],
+                        desc = L["Which color do you want the merged pet messages to be?"],
                         get = getColor0_1,
                         set = setColor0_1,
                     },
@@ -6760,15 +6760,15 @@ function x:InitOptionsTable()
             spacer1 = {
               type = "description",
               order = 37,
-              name = "",
+              name = L[""],
               width = 'full',
             },
 
             mergeVehicle = {
               order = 38,
               type = 'toggle',
-              name = "Merge Vehicle Abilities",
-              desc = "Merges all of your vehicle abilities together.",
+              name = L["Merge Vehicle Abilities"],
+              desc = L["Merges all of your vehicle abilities together."],
               get = get0_1,
               set = set0_1,
             },
@@ -6776,7 +6776,7 @@ function x:InitOptionsTable()
             mergeVehicleColor = {
               order = 39,
               type = 'color',
-              name = "Vehicle Color",
+              name = L["Vehicle Color"],
               get = getColor0_1,
               set = setColor0_1,
             },
@@ -6785,20 +6785,20 @@ function x:InitOptionsTable()
                     criticalHitsHeader = {
                         type = "header",
                         order = 50,
-                        name = "Critical Hits",
+                        name = L["Critical Hits"],
                     },
 
                     criticalHitsExplanation = {
                         type = "description",
                         order = 51,
-                        name = "Please choose one:",
+                        name = L["Please choose one:"],
                     },
 
                     mergeDontMergeCriticals = {
                         order = 52,
                         type = "toggle",
-                        name = "Don't Merge Critical Hits Together",
-                        desc = "Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r",
+                        name = L["Don't Merge Critical Hits Together"],
+                        desc = L["Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r"],
                         get = "Options_SpamMerger_DontMergeCriticals",
                         set = setSpecialCriticalOptions,
                         width = "full",
@@ -6807,8 +6807,8 @@ function x:InitOptionsTable()
                     mergeCriticalsWithOutgoing = {
                         order = 53,
                         type = "toggle",
-                        name = "Merge Critical Hits with Outgoing",
-                        desc = "Crits will be merged, but the total merged amount in the outgoing frame includes crits.",
+                        name = L["Merge Critical Hits with Outgoing"],
+                        desc = L["Crits will be merged, but the total merged amount in the outgoing frame includes crits."],
                         get = "Options_SpamMerger_MergeCriticalsWithOutgoing",
                         set = setSpecialCriticalOptions,
                         width = "full",
@@ -6817,8 +6817,8 @@ function x:InitOptionsTable()
                     mergeCriticalsByThemselves = {
                         order = 54,
                         type = "toggle",
-                        name = "Merge Critical Hits by Themselves",
-                        desc = "Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits.",
+                        name = L["Merge Critical Hits by Themselves"],
+                        desc = L["Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits."],
                         get = "Options_SpamMerger_MergeCriticalsByThemselves",
                         set = setSpecialCriticalOptions,
                         width = "full",
@@ -6827,8 +6827,8 @@ function x:InitOptionsTable()
                     mergeHideMergedCriticals = {
                         order = 55,
                         type = "toggle",
-                        name = "Hide Merged Criticals",
-                        desc = "Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame",
+                        name = L["Hide Merged Criticals"],
+                        desc = L["Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame"],
                         get = "Options_SpamMerger_HideMergedCriticals",
                         set = setSpecialCriticalOptions,
                         width = "full",
@@ -6837,38 +6837,38 @@ function x:InitOptionsTable()
             },
 
             classList = {
-                name = "Class Spells",
+                name = L["Class Spells"],
                 type = "group",
                 order = 21,
                 childGroups = "select",
                 args = {
                     -- TODO: Add Check all and uncheck all buttons
 
-                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = "|cffC41F3BDeath Knight|r" },
-                    ["DEMONHUNTER"] = { type = "group", order = 2, name = "|cffA330C9Demon Hunter|r" },
-                    ["DRUID"] = { type = "group", order = 3, name = "|cffFF7D0ADruid|r" },
-                    ["EVOKER"] = { type = "group", order = 4, name = "|cff33937FEvoker|r" },
-                    ["HUNTER"] = { type = "group", order = 5, name = "|cffABD473Hunter|r" },
-                    ["MAGE"] = { type = "group", order = 6, name = "|cff69CCF0Mage|r" },
-                    ["MONK"] = { type = "group", order = 7, name = "|cff00FF96Monk|r" },
-                    ["PALADIN"] = { type = "group", order = 8, name = "|cffF58CBAPaladin|r" },
-                    ["PRIEST"] = { type = "group", order = 9, name = "|cffFFFFFFPriest|r" },
-                    ["ROGUE"] = { type = "group", order = 10, name = "|cffFFF569Rogue|r" },
-                    ["SHAMAN"] = { type = "group", order = 11, name = "|cff0070DEShaman|r" },
-                    ["WARLOCK"] = { type = "group", order = 12, name = "|cff9482C9Warlock|r" },
-                    ["WARRIOR"] = { type = "group", order = 13, name = "|cffC79C6EWarrior|r" },
+                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = L["|cffC41F3BDeath Knight|r"] },
+                    ["DEMONHUNTER"] = { type = "group", order = 2, name = L["|cffA330C9Demon Hunter|r"] },
+                    ["DRUID"] = { type = "group", order = 3, name = L["|cffFF7D0ADruid|r"] },
+                    ["EVOKER"] = { type = "group", order = 4, name = L["|cff33937FEvoker|r"] },
+                    ["HUNTER"] = { type = "group", order = 5, name = L["|cffABD473Hunter|r"] },
+                    ["MAGE"] = { type = "group", order = 6, name = L["|cff69CCF0Mage|r"] },
+                    ["MONK"] = { type = "group", order = 7, name = L["|cff00FF96Monk|r"] },
+                    ["PALADIN"] = { type = "group", order = 8, name = L["|cffF58CBAPaladin|r"] },
+                    ["PRIEST"] = { type = "group", order = 9, name = L["|cffFFFFFFPriest|r"] },
+                    ["ROGUE"] = { type = "group", order = 10, name = L["|cffFFF569Rogue|r"] },
+                    ["SHAMAN"] = { type = "group", order = 11, name = L["|cff0070DEShaman|r"] },
+                    ["WARLOCK"] = { type = "group", order = 12, name = L["|cff9482C9Warlock|r"] },
+                    ["WARRIOR"] = { type = "group", order = 13, name = L["|cffC79C6EWarrior|r"] },
                 },
             },
 
             globalList = {
-                name = "Global Spells / Items",
+                name = L["Global Spells / Items"],
                 type = "group",
                 order = 22,
                 args = {},
             },
 
             raceList = {
-                name = "Racial Spells",
+                name = L["Racial Spells"],
                 type = "group",
                 order = 23,
                 args = {},
@@ -6877,12 +6877,12 @@ function x:InitOptionsTable()
     }
 
     optionsAddon.optionsTable.args.spellFilter = {
-        name = "Filters",
+        name = L["Filters"],
         type = "group",
         order = 3,
         args = {
             filterValues = {
-                name = "Minimal Value Thresholds",
+                name = L["Minimal Value Thresholds"],
                 type = "group",
                 order = 10,
                 guiInline = true,
@@ -6890,13 +6890,13 @@ function x:InitOptionsTable()
                     headerPlayerPower = {
                         order = 0,
                         type = "header",
-                        name = "Incoming Player Power Threshold (Mana, Rage, Energy, etc.)",
+                        name = L["Incoming Player Power Threshold (Mana, Rage, Energy, etc.)"],
                     },
                     filterPowerValue = {
                         order = 1,
                         type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of player's power required in order for it to be displayed.",
+                        name = L["Minimum Threshold"],
+                        desc = L["The minimal amount of player's power required in order for it to be displayed."],
                         get = "Options_Filter_PlayerPowerMinimumThreshold",
                         set = setNumber2,
                     },
@@ -6904,29 +6904,29 @@ function x:InitOptionsTable()
                     headerOutgoingDamage = {
                         order = 10,
                         type = "header",
-                        name = "Outgoing Damage",
+                        name = L["Outgoing Damage"],
                     },
                     filterOutgoingDamageValue = {
                         order = 11,
                         type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of damage required in order for it to be displayed.",
+                        name = L["Minimum Threshold"],
+                        desc = L["The minimal amount of damage required in order for it to be displayed."],
                         get = "Options_Filter_OutgoingDamage_Noncritical_MinimumThreshold",
                         set = setNumber2,
                     },
                     filterOutgoingDamageCritEnabled = {
                         order = 12,
                         type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for outgoing damage criticals.",
+                        name = L["Use other threshold for Crits"],
+                        desc = L["Enable a different threshold for outgoing damage criticals."],
                         get = "Options_Filter_OutgoingDamage_Critical_UseOwnThreshold",
                         set = set0_1,
                     },
                     filterOutgoingDamageCritValue = {
                         order = 13,
                         type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        name = L["Minimum Threshold for Crits"],
+                        desc = L["The minimal amount of damage required for a critical in order for it to be displayed."],
                         get = "Options_Filter_OutgoingDamage_Critical_MinimumThreshold",
                         set = setNumber2,
                         hidden = function()
@@ -6937,29 +6937,29 @@ function x:InitOptionsTable()
                     headerOutgoingHealing = {
                         order = 20,
                         type = "header",
-                        name = "Outgoing Healing",
+                        name = L["Outgoing Healing"],
                     },
                     filterOutgoingHealingValue = {
                         order = 21,
                         type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of healing required in order for it to be displayed.",
+                        name = L["Minimum Threshold"],
+                        desc = L["The minimal amount of healing required in order for it to be displayed."],
                         get = "Options_Filter_OutgoingHealing_Noncritical_MinimumThreshold",
                         set = setNumber2,
                     },
                     filterOutgoingHealingCritEnabled = {
                         order = 22,
                         type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for outgoing healing criticals.",
+                        name = L["Use other threshold for Crits"],
+                        desc = L["Enable a different threshold for outgoing healing criticals."],
                         get = "Options_Filter_OutgoingHealing_Critical_UseOwnThreshold",
                         set = set0_1,
                     },
                     filterOutgoingHealingCritValue = {
                         order = 23,
                         type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        name = L["Minimum Threshold for Crits"],
+                        desc = L["The minimal amount of healing required for a critical in order for it to be displayed."],
                         get = "Options_Filter_OutgoingHealing_Critical_MinimumThreshold",
                         set = setNumber2,
                         hidden = function()
@@ -6970,29 +6970,29 @@ function x:InitOptionsTable()
                     headerIncomingDamage = {
                         order = 30,
                         type = "header",
-                        name = "Incoming Damage",
+                        name = L["Incoming Damage"],
                     },
                     filterIncomingDamageValue = {
                         order = 31,
                         type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of damage required in order for it to be displayed.",
+                        name = L["Minimum Threshold"],
+                        desc = L["The minimal amount of damage required in order for it to be displayed."],
                         get = "Options_Filter_IncomingDamage_Noncritical_MinimumThreshold",
                         set = setNumber2,
                     },
                     filterIncomingDamageCritEnabled = {
                         order = 32,
                         type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for incoming damage criticals.",
+                        name = L["Use other threshold for Crits"],
+                        desc = L["Enable a different threshold for incoming damage criticals."],
                         get = "Options_Filter_IncomingDamage_Critical_UseOwnThreshold",
                         set = set0_1,
                     },
                     filterIncomingDamageCritValue = {
                         order = 33,
                         type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of damage required for a critical in order for it to be displayed.",
+                        name = L["Minimum Threshold for Crits"],
+                        desc = L["The minimal amount of damage required for a critical in order for it to be displayed."],
                         get = "Options_Filter_IncomingDamage_Critical_MinimumThreshold",
                         set = setNumber2,
                         hidden = function()
@@ -7003,29 +7003,29 @@ function x:InitOptionsTable()
                     headerIncomingHealing = {
                         order = 40,
                         type = "header",
-                        name = "Incoming Healing",
+                        name = L["Incoming Healing"],
                     },
                     filterIncomingHealingValue = {
                         order = 41,
                         type = "input",
-                        name = "Minimum Threshold",
-                        desc = "The minimal amount of healing required in order for it to be displayed.",
+                        name = L["Minimum Threshold"],
+                        desc = L["The minimal amount of healing required in order for it to be displayed."],
                         get = "Options_Filter_IncomingHealing_Noncritical_MinimumThreshold",
                         set = setNumber2,
                     },
                     filterIncomingHealingCritEnabled = {
                         order = 42,
                         type = "toggle",
-                        name = "Use other threshold for Crits",
-                        desc = "Enable a different threshold for incoming healing criticals.",
+                        name = L["Use other threshold for Crits"],
+                        desc = L["Enable a different threshold for incoming healing criticals."],
                         get = "Options_Filter_IncomingHealing_Critical_UseOwnThreshold",
                         set = set0_1,
                     },
                     filterIncomingHealingCritValue = {
                         order = 43,
                         type = "input",
-                        name = "Minimum Threshold for Crits",
-                        desc = "The minimal amount of healing required for a critical in order for it to be displayed.",
+                        name = L["Minimum Threshold for Crits"],
+                        desc = L["The minimal amount of healing required for a critical in order for it to be displayed."],
                         get = "Options_Filter_IncomingHealing_Critical_MinimumThreshold",
                         set = setNumber2,
                         hidden = function()
@@ -7036,13 +7036,13 @@ function x:InitOptionsTable()
                     headerSpellTracker = {
                         order = 50,
                         type = "header",
-                        name = "Spell History",
+                        name = L["Spell History"],
                     },
                     trackSpells = {
                         order = 51,
                         type = "toggle",
-                        name = "Track all Spells",
-                        desc = "Track all the spells that you've seen. This will make filtering them out easier.",
+                        name = L["Track all Spells"],
+                        desc = L["Track all the spells that you've seen. This will make filtering them out easier."],
                         get = "Options_Filter_TrackSpells",
                         set = set0_1,
                     },
@@ -7050,7 +7050,7 @@ function x:InitOptionsTable()
             },
 
             listBuffs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDBuffs|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDBuffs|r"],
                 type = "group",
                 order = 20,
                 guiInline = false,
@@ -7058,13 +7058,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses.",
+                        name = L["These options allow you to filter out |cff1AFF1ABuff|r auras that your player gains or loses."],
                     },
                     whitelistBuffs = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered auras gains and fades that are |cff1AFF1ABuffs|r will be on a whitelist (opposed to a blacklist)."],
                         get = "Options_Filter_BuffWhitelist",
                         set = set0_1,
                     },
@@ -7072,20 +7072,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Buff to filter",
+                        name = L["Add new Buff to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        name = L["Add via Name"],
+                        desc = L["The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Power Word: Fortitude')."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetBuffHistory,
                         set = AddFilteredSpell,
@@ -7094,13 +7094,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Buff from filter",
+                        name = L["Remove Buff from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered Buff",
-                        desc = "Remove the Buff from the config all together.",
+                        name = L["Remove filtered Buff"],
+                        desc = L["Remove the Buff from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7108,7 +7108,7 @@ function x:InitOptionsTable()
             },
 
             listDebuffs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDDebuffs|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDDebuffs|r"],
                 type = "group",
                 order = 30,
                 guiInline = false,
@@ -7116,13 +7116,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses.",
+                        name = L["These options allow you to filter out |cffFF1A1ADebuff|r auras that your player gains or loses."],
                     },
                     whitelistDebuffs = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered auras gains and fades that are |cffFF1A1ADebuffs|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered auras gains and fades that are |cffFF1A1ADebuffs|r will be on a whitelist (opposed to a blacklist)."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7130,20 +7130,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Debuff to filter",
+                        name = L["Add new Debuff to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Shadow Word: Pain').",
+                        name = L["Add via Name"],
+                        desc = L["The full, case-sensitive name of the |cff1AFF1ABuff|r you want to filter (e.g. 'Shadow Word: Pain')."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetDebuffHistory,
                         set = AddFilteredSpell,
@@ -7152,13 +7152,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Debuff from filter",
+                        name = L["Remove Debuff from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered Debuff",
-                        desc = "Remove the Debuff from the config all together.",
+                        name = L["Remove filtered Debuff"],
+                        desc = L["Remove the Debuff from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7166,7 +7166,7 @@ function x:InitOptionsTable()
             },
 
             listProcs = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDProcs|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDProcs|r"],
                 type = "group",
                 order = 40,
                 guiInline = false,
@@ -7174,13 +7174,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers.",
+                        name = L["These options allow you to filter out spell |cffFFFF00Procs|r that your player triggers."],
                     },
                     whitelistProcs = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Check for whitelist, uncheck for blacklist.",
+                        name = L["Whitelist"],
+                        desc = L["Check for whitelist, uncheck for blacklist."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7188,20 +7188,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Proc to filter",
+                        name = L["Add new Proc to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via Name",
-                        desc = "The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter (e.g. 'Power Word: Fortitude').",
+                        name = L["Add via Name"],
+                        desc = L["The full, case-sensitive name of the |cff1AFF1AProc|r you want to filter (e.g. 'Power Word: Fortitude')."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetProcHistory,
                         set = AddFilteredSpell,
@@ -7210,13 +7210,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Proc from filter",
+                        name = L["Remove Proc from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered proc",
-                        desc = "Remove the proc from the config all together.",
+                        name = L["Remove filtered proc"],
+                        desc = L["Remove the proc from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7224,7 +7224,7 @@ function x:InitOptionsTable()
             },
 
             listSpells = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDOutgoing Spells|r"],
                 type = "group",
                 order = 50,
                 guiInline = false,
@@ -7232,13 +7232,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does.",
+                        name = L["These options allow you to filter |cff71d5ffOutgoing Spells|r that your player does."],
                     },
                     whitelistSpells = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffOutgoing Spells|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered |cff71d5ffOutgoing Spells|r will be on a whitelist (opposed to a blacklist)."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7246,20 +7246,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Spell to filter",
+                        name = L["Add new Spell to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via ID",
-                        desc = "The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter.",
+                        name = L["Add via ID"],
+                        desc = L["The spell ID of the |cff71d5ffOutgoing Spell|r you want to filter."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetSpellHistory,
                         set = AddFilteredSpell,
@@ -7268,13 +7268,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Spell from filter",
+                        name = L["Remove Spell from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
+                        name = L["Remove filtered spell"],
+                        desc = L["Remove the spell ID from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7282,7 +7282,7 @@ function x:InitOptionsTable()
             },
 
             listItems = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDItems|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDItems|r"],
                 type = "group",
                 order = 60,
                 guiInline = false,
@@ -7290,13 +7290,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out |cff8020FFItems|r that your player collects.",
+                        name = L["These options allow you to filter out |cff8020FFItems|r that your player collects."],
                     },
                     whitelistItems = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff798BDDItems|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered |cff798BDDItems|r will be on a whitelist (opposed to a blacklist)."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7304,20 +7304,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Item to filter",
+                        name = L["Add new Item to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via ID",
-                        desc = "The ID of the |cff798BDDItem|r you want to filter.",
+                        name = L["Add via ID"],
+                        desc = L["The ID of the |cff798BDDItem|r you want to filter."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetItemHistory,
                         set = AddFilteredSpell,
@@ -7326,13 +7326,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Item from filter",
+                        name = L["Remove Item from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered Item",
-                        desc = "Remove the Item from the config all together.",
+                        name = L["Remove filtered Item"],
+                        desc = L["Remove the Item from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7340,7 +7340,7 @@ function x:InitOptionsTable()
             },
 
             listDamage = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Damage|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDIncoming Damage|r"],
                 type = "group",
                 order = 70,
                 guiInline = false,
@@ -7348,13 +7348,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character.",
+                        name = L["These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Damage|r to your character."],
                     },
                     whitelistDamage = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffIncoming Damage Spells|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered |cff71d5ffIncoming Damage Spells|r will be on a whitelist (opposed to a blacklist)."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7362,20 +7362,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Spells to filter",
+                        name = L["Add new Spell to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        name = L["Add via ID"],
+                        desc = L["The Spell ID of the |cff798BDDSpell|r you want to filter."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetDamageIncomingHistory,
                         set = AddFilteredSpell,
@@ -7384,13 +7384,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Spell from filter",
+                        name = L["Remove Spell from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
+                        name = L["Remove filtered spell"],
+                        desc = L["Remove the spell ID from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7398,7 +7398,7 @@ function x:InitOptionsTable()
             },
 
             listHealing = {
-                name = "|cffFFFFFFFilter:|r |cff798BDDIncoming Healing|r",
+                name = L["|cffFFFFFFFilter:|r |cff798BDDIncoming Healing|r"],
                 type = "group",
                 order = 80,
                 guiInline = false,
@@ -7406,13 +7406,13 @@ function x:InitOptionsTable()
                     description = {
                         order = 0,
                         type = "description",
-                        name = "These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character.",
+                        name = L["These options allow you to filter out certain |cffFFFF00Spell ID|rs from |cff798BDDIncoming Healing|r to your character."],
                     },
                     whitelistHealing = {
                         order = 1,
                         type = "toggle",
-                        name = "Whitelist",
-                        desc = "Filtered |cff71d5ffIncoming Healing Spells|r will be on a whitelist (opposed to a blacklist).",
+                        name = L["Whitelist"],
+                        desc = L["Filtered |cff71d5ffIncoming Healing Spells|r will be on a whitelist (opposed to a blacklist)."],
                         set = set0_1,
                         get = get0_1,
                     },
@@ -7420,20 +7420,20 @@ function x:InitOptionsTable()
                     headerAdd = {
                         order = 10,
                         type = "header",
-                        name = "Add new Spell to filter",
+                        name = L["Add new Spell to filter"],
                     },
                     spellName = {
                         order = 11,
                         type = "input",
-                        name = "Add via ID",
-                        desc = "The Spell ID of the |cff798BDDSpell|r you want to filter.",
+                        name = L["Add via ID"],
+                        desc = L["The Spell ID of the |cff798BDDSpell|r you want to filter."],
                         set = AddFilteredSpell,
                     },
                     selectTracked = {
                         order = 12,
                         type = "select",
-                        name = "Add via History",
-                        desc = "A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r",
+                        name = L["Add via History"],
+                        desc = L["A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetHealingIncomingHistory,
                         set = AddFilteredSpell,
@@ -7442,13 +7442,13 @@ function x:InitOptionsTable()
                     headerRemove = {
                         order = 20,
                         type = "header",
-                        name = "Remove Spell from filter",
+                        name = L["Remove Spell from filter"],
                     },
                     removeSpell = {
                         order = 21,
                         type = "select",
-                        name = "Remove filtered spell",
-                        desc = "Remove the spell ID from the config all together.",
+                        name = L["Remove filtered spell"],
+                        desc = L["Remove the spell ID from the config all together."],
                         values = getFilteredSpells,
                         set = removeFilteredSpell,
                     },
@@ -7458,186 +7458,128 @@ function x:InitOptionsTable()
     }
 
     optionsAddon.optionsTable.args.SpellColors = {
-        name = "Spell School Colors",
+        name = L["Spell School Colors"],
         type = "group",
         order = 4,
         args = {
             title = {
                 type = "header",
                 order = 0,
-                name = "Customize Spell School Colors",
+                name = L["Customize Spell School Colors"],
             },
         },
     }
 
     optionsAddon.optionsTable.args.Credits = {
-        name = "Credits",
+        name = L["Credits"],
         type = "group",
         order = 5,
         args = {
             title = {
                 type = "header",
                 order = 0,
-                name = "Credits",
-            },
-            specialThanksTitle = {
-                type = "description",
-                order = 1,
-                name = "|cffFFFF00Special Thanks|r",
-                fontSize = "large",
+                name = L["Special Thanks"],
             },
             specialThanksList = {
+                order = 1,
                 type = "description",
-                order = 2,
                 fontSize = "medium",
-                name = "  |cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
-            },
-            testerTitleSpace1 = {
-                type = "description",
-                order = 3,
-                name = " ",
+                name = "|cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
             },
 
             testerTitle = {
-                type = "description",
                 order = 10,
-                name = "|cffFFFF00Beta Testers - Version 3.0.0|r",
-                fontSize = "large",
+                type = "header",
+                name = L["Beta Testers - Version 3.0.0"],
             },
             userName1 = {
                 type = "description",
                 order = 11,
                 fontSize = "medium",
-                name = " |cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
+                name = "|cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
             },
 
-            testerTitleSpace2 = {
-                type = "description",
-                order = 20,
-                name = " ",
-            },
             curseTitle = {
-                type = "description",
-                order = 21,
-                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Curse)|r",
-                fontSize = "large",
+                order = 20,
+                type = "header",
+                name = L["Beta Testers - Version 4.0.0 (Curse)"],
             },
             userName2 = {
+                order = 21,
                 type = "description",
-                order = 22,
                 fontSize = "medium",
-                name = " |cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
+                name = "|cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
             },
 
-            testerTitleSpace3 = {
-                type = "description",
-                order = 30,
-                name = " ",
-            },
             tukuiTitle = {
-                type = "description",
-                order = 31,
-                name = "|cffFFFF00Beta Testers - Version 4.0.0 (Tukui)|r",
-                fontSize = "large",
+                order = 30,
+                type = "header",
+                name = L["Beta Testers - Version 4.0.0 (Tukui)"],
             },
             userName3 = {
+                order = 31,
                 type = "description",
-                order = 32,
                 fontSize = "medium",
-                name = " |cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
+                name = "|cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
             },
 
-            testerTitleSpace3Legion = {
-                type = "description",
-                order = 33,
-                name = " ",
-            },
             tukuiTitleLegion = {
-                type = "description",
-                order = 34,
-                name = "|cffFFFF00Beta Testers - Version 4.3.0+ (Legion)|r",
-                fontSize = "large",
+                order = 40,
+                type = "header",
+                name = L["Beta Testers - Version 4.3.0+ (Legion)"],
             },
             userName3Legion = {
-                type = "description",
-                order = 35,
-                fontSize = "medium",
-                name = " |cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r\n",
-            },
-
-            testerTitleSpace3BFA = {
-                type = "description",
-                order = 36,
-                name = " ",
-            },
-            tukuiTitleBfA = {
-                type = "description",
-                order = 37,
-                name = "|cffFFFF00Beta Testers - Version 4.4.0+ (Battle for Azeroth)|r",
-                fontSize = "large",
-            },
-
-            userName3BfA = {
-                type = "description",
-                order = 38,
-                fontSize = "medium",
-                name = " |cffAAAAFF Toludin|r",
-            },
-
-            testerTitleSpace_SL = {
-                type = "description",
-                order = 40,
-                name = " ",
-            },
-            githubTitleSL = {
-                type = "description",
                 order = 41,
-                name = "|cffFFFF00Github Contributors|r",
-                fontSize = "large",
+                type = "description",
+                fontSize = "medium",
+                name = "|cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r",
+            },
+
+            tukuiTitleBfA = {
+                order = 50,
+                type = "header",
+                name = L["Beta Testers - Version 4.4.0+ (Battle for Azeroth)"],
+            },
+            userName3BfA = {
+                order = 51,
+                type = "description",
+                fontSize = "medium",
+                name = "|cffAAAAFF Toludin|r",
+            },
+
+            githubTitleSL = {
+                type = "header",
+                order = 60,
+                name = L["Github Contributors"],
             },
             userNameSL = {
                 type = "description",
-                order = 42,
+                order = 61,
                 fontSize = "medium",
-                name = " |cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
-            },
-
-            testerTitleSpace4 = {
-                type = "description",
-                order = 45,
-                name = " ",
+                name = "|cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
             },
 
             githubTitle = {
-                type = "description",
-                order = 46,
-                name = "|cffFFFF00Thank You Github Contributors!|r",
-                fontSize = "large",
+                type = "header",
+                order = 70,
+                name = L["|cffFFFF00Thank You Github Contributors!|r"],
             },
             userName4 = {
+                order = 71,
                 type = "description",
-                order = 47,
                 fontSize = "medium",
-                name = " |cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
-            },
-
-            testerTitleSpace5 = {
-                type = "description",
-                order = 50,
-                name = " ",
+                name = "|cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
             },
 
             contactTitle = {
-                type = "description",
-                order = 51,
-                name = "|cffFFFF00Contact Me|r",
-                fontSize = "large",
+                order = 80,
+                type = "header",
+                name = L["Contact Me"],
             },
-
             contactStep1 = {
                 type = "description",
-                order = 52,
-                name = "1. GitHub: |cff22FF80https://github.com/dandruff/xCT|r\n\n2. Send a PM to |cffFF8000Dandruff|r at |cff6495EDhttp://tukui.org/|r",
+                order = 81,
+                name = "|cff22FF80https://github.com/dandruff/xCT|r",
             },
         },
     }
@@ -7747,7 +7689,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
             --TODO better code when i understand more the code
             -- Create a useful description for the spell
             local spellDesc = C_Spell.GetSpellDescription(spellID) or "No Description"
-            local desc = ""
+            local desc = L[""]
             if entry.desc and not xo.CLASS_NAMES[entry.category] then
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
@@ -7828,12 +7770,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "buffs" then
         optionsAddon.optionsTable.args.spellFilter.args.listBuffs.args.headerFilterList = {
             order = 100,
-            name = "Filtered Buffs |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Buffs |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listBuffs.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -7855,7 +7797,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             buffs.noSpells = {
-                name = "No buffs have been added to this list yet.",
+                name = L["No buffs have been added to this list yet."],
                 type = "description",
             }
         end
@@ -7864,12 +7806,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "debuffs" then
         optionsAddon.optionsTable.args.spellFilter.args.listDebuffs.args.headerFilterList = {
             order = 100,
-            name = "Filtered Debuffs |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Debuffs |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listDebuffs.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -7890,7 +7832,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             debuffs.noSpells = {
-                name = "No debuffs have been added to this list yet.",
+                name = L["No debuffs have been added to this list yet."],
                 type = "description",
             }
         end
@@ -7900,12 +7842,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "procs" then
         optionsAddon.optionsTable.args.spellFilter.args.listProcs.args.headerFilterList = {
             order = 100,
-            name = "Filtered Procs |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Procs |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listProcs.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -7926,7 +7868,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             procs.noSpells = {
-                name = "No procs have been added to this list yet.",
+                name = L["No procs have been added to this list yet."],
                 type = "description",
             }
         end
@@ -7936,12 +7878,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "spells" then
         optionsAddon.optionsTable.args.spellFilter.args.listSpells.args.headerFilterList = {
             order = 100,
-            name = "Filtered Spells |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Spells |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listSpells.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -7970,7 +7912,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                name = "No spells have been added to this list yet.",
+                name = L["No spells have been added to this list yet."],
                 type = "description",
             }
         end
@@ -7980,12 +7922,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "items" then
         optionsAddon.optionsTable.args.spellFilter.args.listItems.args.headerFilterList = {
             order = 100,
-            name = "Filtered Items |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Items |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listItems.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -8011,7 +7953,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                name = "No items have been added to this list yet.",
+                name = L["No items have been added to this list yet."],
                 type = "description",
             }
         end
@@ -8020,12 +7962,12 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "damage" then
         optionsAddon.optionsTable.args.spellFilter.args.listDamage.args.headerFilterList = {
             order = 100,
-            name = "Filtered Incoming Damage |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Incoming Damage |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listDamage.args.list = {
             order = 101,
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             args = {},
@@ -8053,7 +7995,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                name = "No spells have been added to this list yet.",
+                name = L["No spells have been added to this list yet."],
                 type = "description",
             }
         end
@@ -8062,11 +8004,11 @@ function xo:UpdateAuraSpellFilter(specific)
     if not specific or specific == "healing" then
         optionsAddon.optionsTable.args.spellFilter.args.listHealing.args.headerFilterList = {
             order = 100,
-            name = "Filtered Incoming Healing |cff798BDD(Uncheck to disable)|r",
+            name = L["Filtered Incoming Healing |cff798BDD(Uncheck to disable)|r"],
             type = "header",
         }
         optionsAddon.optionsTable.args.spellFilter.args.listHealing.args.list = {
-            name = "",
+            name = L[""],
             type = "group",
             guiInline = true,
             order = 101,
@@ -8095,7 +8037,7 @@ function xo:UpdateAuraSpellFilter(specific)
 
         if not updated then
             spells.noSpells = {
-                name = "No spells have been added to this list yet.",
+                name = L["No spells have been added to this list yet."],
                 type = "description",
             }
         end
@@ -8169,24 +8111,34 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
         name = colorSettings.desc,
         get = isColorOverrideEnabled,
         set = setColorOverrideEnabled,
-        desc = "Enable a custom color for |cff798BDD" .. colorSettings.desc .. "|r.",
+        desc = string.format(
+            L["Enable a custom color for |cff798BDD%s|r."],
+            colorSettings.desc
+        ),
     }
     options[colorName .. "_color"] = {
         order = index + 1,
         type = "color",
-        name = "Color",
+        name = L["Color"],
         get = getColorOverride,
         set = setColorOverride,
-        desc = "Change the color for |cff798BDD" .. colorSettings.desc .. "|r.",
+        desc = string.format(
+            L["Change the color for |cff798BDD%s|r."],
+            colorSettings.desc
+        ),
         hidden = isColorPickerHidden,
     }
     options[colorName .. "_reset"] = {
         order = index + 2,
         type = "execute",
-        name = "Reset",
+        name = L["Reset"],
         width = "half",
         func = resetColorOverride,
-        desc = "Resets |cff798BDD" .. colorSettings.desc .. "|r back to the default color.",
+        desc = L["Resets |cff798BDD" .. colorSettings.desc .. "|r back to the default color."],
+        desc = string.format(
+            L["Resets |cff798BDD%s|r back to the default color."],
+            colorSettings.desc
+        ),
         hidden = isColorPickerHidden,
     }
     options["spacer" .. index] = {
@@ -8194,7 +8146,7 @@ local function GenerateColorOptionsTable_Entry(colorName, colorSettings, options
         type = "description",
         fontSize = "small",
         width = "full",
-        name = "",
+        name = L[""],
     }
 end
 
@@ -8358,19 +8310,19 @@ function x:UpdateComboPointOptions(force)
 
     local comboSpells = {
         order = 100,
-        name = "Misc",
+        name = L["Misc"],
         type = "group",
         args = {
             specialTweaks = {
                 type = "description",
                 order = 0,
-                name = "|cff798BDDMiscellaneous Settings|r:",
+                name = L["|cff798BDDMiscellaneous Settings|r:"],
                 fontSize = "large",
             },
             specialTweaksDesc = {
                 type = "description",
                 order = 1,
-                name = "|cffFFFFFF(Choose one per specialization)|r\n",
+                name = L["|cffFFFFFF(Choose one per specialization)|r\n"],
                 fontSize = "small",
             },
         },
@@ -8383,7 +8335,7 @@ function x:UpdateComboPointOptions(force)
                 comboSpells.args.allSpecsHeader = {
                     order = 2,
                     type = "header",
-                    name = "All Specializations",
+                    name = L["All Specializations"],
                 }
             end
             comboSpells.args[name] = {
@@ -8408,7 +8360,7 @@ function x:UpdateComboPointOptions(force)
                 comboSpells.args["title" .. tostring(spec)] = {
                     order = offset,
                     type = "header",
-                    name = "Specialization: |cff798BDD" .. mySpecName .. "|r",
+                    name = L["Specialization:"] .. "|cff798BDD" .. mySpecName .. "|r",
                 }
                 offset = offset + 1
             end
@@ -8419,7 +8371,11 @@ function x:UpdateComboPointOptions(force)
                     order = offset,
                     type = "toggle",
                     name = C_Spell.GetSpellName(entry.id),
-                    desc = "Unit to track: |cffFF0000" .. entry.unit .. "|r\nSpell ID: |cffFF0000" .. entry.id .. "|r",
+                    desc = string.format(
+                        L["Unit to track: |cffFF0000%s|r\nSpell ID: |cffFF0000%s|r"],
+                        entry.unit,
+                        entry.id
+                    ),
                     get = getCP_2,
                     set = setCP_2,
                 }
@@ -8429,7 +8385,7 @@ function x:UpdateComboPointOptions(force)
                     order = offset,
                     type = "toggle",
                     name = index,
-                    desc = "Unit Power",
+                    desc = L["Unit Power"],
                     get = getCP_2,
                     set = setCP_2,
                 }
