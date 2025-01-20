@@ -23,6 +23,7 @@ function x:CheckExistingProfile()
     return xCTSavedDB
         and xCTSavedDB.profileKeys
         and xCTSavedDB.profileKeys[key]
+        and xCTSavedDB.profiles
         and xCTSavedDB.profiles[xCTSavedDB.profileKeys[key]]
 end
 
