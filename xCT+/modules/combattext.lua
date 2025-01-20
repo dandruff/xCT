@@ -1281,7 +1281,7 @@ EventHandlers.OutgoingMiss = function(args)
         return
     end
 
-    local outputFrame = "general"
+    local outputFrame = "outgoing"
     local frameSettings = x:GetFrameSettings(outputFrame)
     if not frameSettings then
         -- Frame is disabled and the secondary frame is disabled too or not chosen
