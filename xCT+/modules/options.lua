@@ -158,7 +158,7 @@ function x:Options_IncomingDamage_ShowMissTypes()
     return x.db.profile.frames.damage.showDodgeParryMiss
 end
 
-function x:Options_IncomingDamage_ShowResistances()
+function x:Options_IncomingDamage_ShowReductions()
     return x.db.profile.frames.damage.showDamageReduction
 end
 

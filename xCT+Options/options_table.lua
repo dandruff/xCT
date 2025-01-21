@@ -4008,8 +4008,8 @@ function x:InitOptionsTable()
                                 order = 2,
                                 type = "toggle",
                                 name = L["Show Reductions"],
-                                desc = L["Formats incoming damage to show how much was absorbed."],
-                                get = "Options_IncomingDamage_ShowResistances",
+                                desc = L["Formats incoming damage to show how much was absorbed. The spam merger hides these reduction and effectivly disables this option though."],
+                                get = "Options_IncomingDamage_ShowReductions",
                                 set = set2,
                             },
 
@@ -8093,7 +8093,7 @@ local resetColorOverride = function(info)
 end
 
 local isColorPickerHidden = function(info)
-    local colorName = string.match(info[#info], "(.*)_color")
+    local colorName = string.match(info[#info], "(.*)_color") or string.match(info[#info], "(.*)_reset")
     local category = info[#info - 1]
     if category ~= "SpellColors" then
         category = "Colors"

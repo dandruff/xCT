@@ -1028,37 +1028,6 @@ EventHandlers.IncomingDamage = function(args)
 
     local outputFrame = "damage"
     local amount = args.amount
-    local message
-
-    -- Check for resists
-    if x:Options_IncomingDamage_ShowResistances() then
-        local resistedAmount = (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)
-        if resistedAmount > 0 then
-            local resistType, color
-
-            -- Check for resists (full and partials)
-            if (args.resisted or 0) > (args.blocked or 0) and (args.resisted or 0) > (args.absorbed or 0) then
-                resistType = RESIST
-                color = amount > 0 and "missTypeResist" or "missTypeResistPartial"
-            elseif (args.blocked or 0) > (args.resisted or 0) and (args.blocked or 0) > (args.absorbed or 0) then
-                resistType = BLOCK
-                color = amount > 0 and "missTypeBlock" or "missTypeBlockPartial"
-            elseif (args.absorbed or 0) > (args.resisted or 0) and (args.absorbed or 0) > (args.blocked or 0) then
-                resistType = ABSORB
-                color = amount > 0 and "missTypeAbsorb" or "missTypeAbsorbPartial"
-            end
-
-            amount = amount + resistedAmount
-            color = hexNameColor(x:LookupColorByName(color))
-            message = string.format(
-                "-%s |c%s(%s %s)|r",
-                x:Abbreviate(amount, outputFrame),
-                color,
-                resistType,
-                x:Abbreviate(resistedAmount, outputFrame)
-            )
-        end
-    end
 
     local colorOverride
     if args.spellSchool == 1 then
@@ -1083,6 +1052,36 @@ EventHandlers.IncomingDamage = function(args)
             args:GetSourceController()
         )
         return
+    end
+
+    local message
+    -- Check for partial resists / absorbs / ...
+    if x:Options_IncomingDamage_ShowReductions() then
+        local resistedAmount = (args.resisted or 0) + (args.blocked or 0) + (args.absorbed or 0)
+        if resistedAmount > 0 then
+            local resistType, color
+
+            if (args.resisted or 0) > (args.blocked or 0) and (args.resisted or 0) > (args.absorbed or 0) then
+                resistType = RESIST
+                color = amount > 0 and "missTypeResist" or "missTypeResistPartial"
+            elseif (args.blocked or 0) > (args.resisted or 0) and (args.blocked or 0) > (args.absorbed or 0) then
+                resistType = BLOCK
+                color = amount > 0 and "missTypeBlock" or "missTypeBlockPartial"
+            elseif (args.absorbed or 0) > (args.resisted or 0) and (args.absorbed or 0) > (args.blocked or 0) then
+                resistType = ABSORB
+                color = amount > 0 and "missTypeAbsorb" or "missTypeAbsorbPartial"
+            end
+
+            amount = amount + resistedAmount
+            color = hexNameColor(x:LookupColorByName(color))
+            message = string.format(
+                "-%s |c%s(%s %s)|r",
+                x:Abbreviate(amount, outputFrame),
+                color,
+                resistType,
+                x:Abbreviate(resistedAmount, outputFrame)
+            )
+        end
     end
 
     if x:Options_Filter_IncomingDamage_HideEvent(amount, args.critical) then
