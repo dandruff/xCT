@@ -165,7 +165,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellId, amount, overhealing, critica
     end
 
     -- Add names
-    message = message .. x.formatName(args, frameSettings.names)
+    message = message .. x:formatName(args, frameSettings.names)
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(spellId, message, frameSettings)
@@ -195,7 +195,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellId, amount, overhealing
     end
 
     -- Add names
-    message = message .. x.formatName(args, frameSettings.names)
+    message = message .. x:formatName(args, frameSettings.names)
 
     -- Add Icons
     message = x:GetSpellTextureFormatted(spellId, message, frameSettings)
@@ -382,9 +382,10 @@ end
 
 -- Format Handlers for name
 local formatNameTypes = {
-    function(args, settings, isSource) -- [1] = Source/Destination Name
+    function(args, settings, useSourceController) -- [1] = Source/Destination Name
         local guid, name, color =
-            isSource and args.sourceGUID or args.destGUID, isSource and args.sourceName or args.destName
+            useSourceController and args.sourceGUID or args.destGUID,
+            useSourceController and args.sourceName or args.destName
 
         if settings.removeRealmName then
             name = string.match(name, format_remove_realm) or name
@@ -410,7 +411,7 @@ local formatNameTypes = {
         )
     end,
 
-    function(args, settings, isSource) -- [2] = Spell Name
+    function(args, settings, useSourceController) -- [2] = Spell Name
         local color
         if settings.enableNameColor and not settings.enableCustomNameColor then
             -- NOTE: I don't think we want the spell school of the spell
@@ -431,38 +432,40 @@ local formatNameTypes = {
         )
     end,
 
-    function(args, settings, isSource) -- [3] = Source Name - Spell Name
+    function(args, settings, useSourceController) -- [3] = Source Name - Spell Name
         if args.hideCaster then
-            return formatNameTypes[2](args, settings, isSource)
+            return formatNameTypes[2](args, settings, useSourceController)
         end
 
-        return formatNameTypes[1](args, settings, isSource) .. " - " .. formatNameTypes[2](args, settings, isSource)
+        return formatNameTypes[1](args, settings, useSourceController) .. " - " .. formatNameTypes[2](args, settings, useSourceController)
     end,
 
-    function(args, settings, isSource) -- [4] = Spell Name - Source Name
+    function(args, settings, useSourceController) -- [4] = Spell Name - Source Name
         if args.hideCaster then
-            return formatNameTypes[2](args, settings, isSource)
+            return formatNameTypes[2](args, settings, useSourceController)
         end
 
-        return formatNameTypes[2](args, settings, isSource) .. " - " .. formatNameTypes[1](args, settings, isSource)
+        return formatNameTypes[2](args, settings, useSourceController) .. " - " .. formatNameTypes[1](args, settings, useSourceController)
     end,
 }
 
 -- Check to see if the name needs for be formatted, if so, handle all the logistics
-function x.formatName(args, settings, isSource)
+function x:formatName(args, frameNameSettings, useSourceController)
     -- Event Type helper
-    local index = isSource and (args.fake_sourceController or args:GetSourceController())
-        or (args.fake_destinationController or args:GetDestinationController())
+    local index = args.fake_controller
+            or useSourceController and args:GetSourceController()
+            or args:GetDestinationController()
 
-    local eventType = settings[index]
+    local eventType = frameNameSettings[index]
 
     -- If we have a valid event type that we can handle
     if eventType and eventType.nameType > 0 then
-        return settings.namePrefix
-            .. formatNameTypes[eventType.nameType](args, eventType, isSource)
-            .. settings.namePostfix
+        return frameNameSettings.namePrefix
+            .. formatNameTypes[eventType.nameType](args, eventType, useSourceController)
+            .. frameNameSettings.namePostfix
     end
-    return "" -- Names not supported
+
+    return ""
 end
 
 -- =====================================================
@@ -622,7 +625,7 @@ EventHandlers.HealingOutgoing = function(args)
                     args.spellName,
                     "spellSchool",
                     args.spellSchool,
-                    "destinationController",
+                    "controller",
                     args:GetDestinationController()
                 )
                 return
@@ -637,7 +640,7 @@ EventHandlers.HealingOutgoing = function(args)
                     args.spellName,
                     "spellSchool",
                     args.spellSchool,
-                    "destinationController",
+                    "controller",
                     args:GetDestinationController()
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -651,7 +654,7 @@ EventHandlers.HealingOutgoing = function(args)
                     args.spellName,
                     "spellSchool",
                     args.spellSchool,
-                    "destinationController",
+                    "controller",
                     args:GetDestinationController()
                 )
                 return
@@ -667,7 +670,7 @@ EventHandlers.HealingOutgoing = function(args)
                 args.spellName,
                 "spellSchool",
                 args.spellSchool,
-                "destinationController",
+                "controller",
                 args:GetDestinationController()
             )
             return
@@ -770,7 +773,7 @@ EventHandlers.DamageOutgoing = function(args)
                 spamMergerInterval,
                 "auto",
                 spellId == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
-                "destinationController",
+                "controller",
                 args:GetDestinationController()
             )
             return
@@ -830,7 +833,7 @@ EventHandlers.DamageOutgoing = function(args)
                         spamMergerInterval,
                         "auto",
                         L_AUTOATTACK,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                     return
@@ -843,7 +846,7 @@ EventHandlers.DamageOutgoing = function(args)
                         spamMergerInterval,
                         "auto",
                         L_AUTOATTACK,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -855,7 +858,7 @@ EventHandlers.DamageOutgoing = function(args)
                         spamMergerInterval,
                         "auto",
                         L_AUTOATTACK,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                     return
@@ -869,7 +872,7 @@ EventHandlers.DamageOutgoing = function(args)
                     spamMergerInterval,
                     "auto",
                     L_AUTOATTACK,
-                    "destinationController",
+                    "controller",
                     args:GetDestinationController()
                 )
                 return
@@ -887,7 +890,7 @@ EventHandlers.DamageOutgoing = function(args)
                         args.spellName,
                         "spellSchool",
                         args.spellSchool,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                     return
@@ -902,7 +905,7 @@ EventHandlers.DamageOutgoing = function(args)
                         args.spellName,
                         "spellSchool",
                         args.spellSchool,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -916,13 +919,12 @@ EventHandlers.DamageOutgoing = function(args)
                         args.spellName,
                         "spellSchool",
                         args.spellSchool,
-                        "destinationController",
+                        "controller",
                         args:GetDestinationController()
                     )
                     return
                 end
             else
-                -- args:GetSourceController() / args:GetDestinationController()
                 x:AddSpamMessage(
                     outputFrame,
                     spellId,
@@ -933,7 +935,7 @@ EventHandlers.DamageOutgoing = function(args)
                     args.spellName,
                     "spellSchool",
                     args.spellSchool,
-                    "destinationController",
+                    "controller",
                     args:GetDestinationController()
                 )
                 return
@@ -978,7 +980,7 @@ EventHandlers.DamageOutgoing = function(args)
     end
 
     -- Add names
-    message = message .. x.formatName(args, frameSettings.names)
+    message = message .. x:formatName(args, frameSettings.names)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
@@ -991,7 +993,7 @@ EventHandlers.DamageOutgoing = function(args)
 end
 
 -- Incoming damage
-EventHandlers.DamageIncoming = function(args)
+EventHandlers.IncomingDamage = function(args)
     -- Keep track of spells that go by
     if args.spellId and x:Options_Filter_TrackSpells() then
         x.spellCache.damage[args.spellId] = true
@@ -1054,7 +1056,7 @@ EventHandlers.DamageIncoming = function(args)
             args.spellName,
             "spellSchool",
             args.spellSchool,
-            "sourceController",
+            "controller",
             args:GetSourceController()
         )
         return
@@ -1086,7 +1088,7 @@ EventHandlers.DamageIncoming = function(args)
     end
 
     -- Add names
-    message = message .. x.formatName(args, frameSettings.names, true)
+    message = message .. x:formatName(args, frameSettings.names, true)
 
     -- Add Icons (Hide Auto Attack icons)
     if args.prefix ~= "SWING" or x:ShowAutoAttackIcons(outputFrame) then
@@ -1099,7 +1101,7 @@ EventHandlers.DamageIncoming = function(args)
     x:AddMessage(outputFrame, message, x.GetSpellSchoolColor(args.spellSchool, colorOverride))
 end
 
-EventHandlers.HealingIncoming = function(args)
+EventHandlers.IncomingHealing = function(args)
     if x:Options_Filter_TrackSpells() then
         x.spellCache.healing[args.spellId] = true
     end
@@ -1145,7 +1147,7 @@ EventHandlers.HealingIncoming = function(args)
             spamMergerInterval,
             "sourceGUID",
             args.sourceGUID,
-            "sourceController",
+            "controller",
             args:GetSourceController()
         )
         return
@@ -1162,7 +1164,7 @@ EventHandlers.HealingIncoming = function(args)
     end
 
     -- Add names
-    message = message .. x.formatName(args, frameSettings.names, true)
+    message = message .. x:formatName(args, frameSettings.names, true)
 
     -- Add the icon
     message = x:GetSpellTextureFormatted(args.spellId, message, frameSettings)
@@ -1930,9 +1932,9 @@ function x.onCombatLogEvent(args)
     -- Is the destination someone we care about?
     if args.atPlayer or args:IsDestinationMyVehicle() then
         if args.suffix == "_HEAL" then
-            EventHandlers.HealingIncoming(args)
+            EventHandlers.IncomingHealing(args)
         elseif args.suffix == "_DAMAGE" then
-            EventHandlers.DamageIncoming(args)
+            EventHandlers.IncomingDamage(args)
         elseif args.suffix == "_MISSED" then
             EventHandlers.IncomingMiss(args)
         elseif args.event == "SPELL_DISPEL" then

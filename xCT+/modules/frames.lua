@@ -660,9 +660,10 @@ do
                         message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                     end
 
-                    if frameName == "outgoing" or frameName == "critical" then
+                    if item.controller and frameSettings.names[item.controller].nameType > 0 then
+                        if frameName == "outgoing" or frameName == "critical" then
+                            -- Outgoing damage / criticals: Show target name / spell name
 
-                        if frameSettings.names[item.destinationController].nameType > 0 then
                             if item.auto then
                                 -- Auto attack / pet auto attack
                                 fakeArgs.spellName = item.auto
@@ -671,32 +672,57 @@ do
                                 fakeArgs.spellName = item.spellName
                                 fakeArgs.spellSchool = item.spellSchool
                             end
-                            fakeArgs.fake_sourceController = item.sourceController
-                            fakeArgs.fake_destinationController = item.destinationController
+                            fakeArgs.fake_controller = item.controller
                             if frameSettings.fontJustify == "RIGHT" then
-                                message = x.formatName(fakeArgs, frameSettings.names) .. " " .. message
+                                message = x:formatName(fakeArgs, frameSettings.names) .. " " .. message
                             else
-                                message = message .. x.formatName(fakeArgs, frameSettings.names)
+                                message = message .. x:formatName(fakeArgs, frameSettings.names)
                             end
-                        end
 
-                    -- Show healer name (colored)
-                    elseif frameName == "healing" then
-                        strColor = "ffff00"
+                        elseif frameName == "damage" then
+                            -- Incoming damage: Show damager name / spell name
 
-                        if frameSettings.names[item.sourceController].nameType > 0 then
+                            if item.auto then
+                                -- Auto attack / pet auto attack
+                                fakeArgs.spellName = item.auto
+                                fakeArgs.spellSchool = 1 -- physical
+                            else
+                                fakeArgs.spellName = item.spellName
+                                fakeArgs.spellSchool = item.spellSchool
+                            end
+                            fakeArgs.fake_controller = item.controller
+                            if frameSettings.fontJustify == "RIGHT" then
+                                message = x:formatName(fakeArgs, frameSettings.names, true) .. " " .. message
+                            else
+                                message = message .. x:formatName(fakeArgs, frameSettings.names, true)
+                            end
+
+                        elseif frameName == "healing" then
+                            -- Incoming healing: Show healer name / spell name (colored)
+                            strColor = "ffff00"
+
                             fakeArgs.sourceName = mergeId
                             fakeArgs.sourceGUID = item.sourceGUID
                             fakeArgs.spellName = item.spellName
-                            fakeArgs.fake_sourceController = item.sourceController
-                            fakeArgs.fake_destinationController = item.destinationController
+                            fakeArgs.fake_controller = item.controller
                             if frameSettings.fontJustify == "RIGHT" then
-                                message = x.formatName(fakeArgs, frameSettings.names, true) .. " +" .. message
+                                message = x:formatName(fakeArgs, frameSettings.names, true) .. " " .. message
                             else
-                                message = "+" .. message .. x.formatName(fakeArgs, frameSettings.names, true)
+                                message = message .. x:formatName(fakeArgs, frameSettings.names, true)
                             end
-                        else
-                            message = string.format("+%s", message)
+                        elseif frameName == "outgoing_healing" then
+                            -- Outgoing healing: Show target name / spell name (colored)
+                            strColor = "ffff00"
+
+                            fakeArgs.sourceName = mergeId
+                            fakeArgs.sourceGUID = item.sourceGUID
+                            fakeArgs.spellName = item.spellName
+                            fakeArgs.fake_controller = item.controller
+                            if frameSettings.fontJustify == "RIGHT" then
+                                message = x:formatName(fakeArgs, frameSettings.names) .. " " .. message
+                            else
+                                message = message .. x:formatName(fakeArgs, frameSettings.names)
+                            end
                         end
                     end
 
