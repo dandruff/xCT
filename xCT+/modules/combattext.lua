@@ -483,7 +483,9 @@ function x:formatName(args, frameNameSettings, useSourceController)
             return ""
         end
 
-        return frameNameSettings.namePrefix .. message .. frameNameSettings.namePostfix
+        if message and message ~= "" then
+            return frameNameSettings.namePrefix .. message .. frameNameSettings.namePostfix
+        end
     end
 
     return ""
