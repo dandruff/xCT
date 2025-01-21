@@ -370,31 +370,35 @@ local function hexNameColor(t)
 end
 
 -- Checks the options you provide and outputs the correctly formatted name
-local function formatNameHelper(name, enableColor, color, enableCustomColor, customColor)
-    if enableColor then
-        if enableCustomColor then
-            return "|c" .. hexNameColor(customColor) .. name .. "|r"
-        end
+local function formatNameHelper(name, color)
+    if color then
         return "|c" .. hexNameColor(color) .. name .. "|r"
     end
+
     return "|cffFFFFFF" .. name .. "|r"
 end
 
 -- Format Handlers for name
 local formatNameTypes = {
     function(args, settings, useSourceController) -- [1] = Source/Destination Name
-        local guid, name, color =
-            useSourceController and args.sourceGUID or args.destGUID,
-            useSourceController and args.sourceName or args.destName
+        local name = useSourceController and args.sourceName or args.destName
+
+        if not name then
+            return ""
+        end
 
         if settings.removeRealmName then
             name = string.match(name, format_remove_realm) or name
         end
 
-        if settings.enableNameColor and not settings.enableCustomNameColor then
-            if args.prefix == "ENVIRONMENTAL" then
+        local color
+        if settings.enableNameColor then
+            if settings.enableCustomNameColor then
+                color = settings.customNameColor
+            elseif args.prefix == "ENVIRONMENTAL" then
                 color = x.spellColors[args.school or args.spellSchool or 1]
             else
+                local guid = useSourceController and args.sourceGUID or args.destGUID
                 if string.match(guid, "^Player") then
                     local _, class = GetPlayerInfoByGUID(guid)
                     color = RAID_CLASS_COLORS[class or 0]
@@ -402,34 +406,30 @@ local formatNameTypes = {
             end
         end
 
-        return formatNameHelper(
-            name,
-            settings.enableNameColor,
-            color,
-            settings.enableCustomNameColor,
-            settings.customNameColor
-        )
+        return formatNameHelper(name, color)
     end,
 
     function(args, settings, useSourceController) -- [2] = Spell Name
-        local color
-        if settings.enableNameColor and not settings.enableCustomNameColor then
-            -- NOTE: I don't think we want the spell school of the spell
-            --       being cast. We want the spell school of the damage
-            --       being done. That said, if you want to change it so
-            --       that the spell name matches the type of spell it
-            --       is, and not the type of damage it does, change
-            --       "args.school" to "args.spellSchool".
-            color = x.GetSpellSchoolColor(args.school or args.spellSchool)
+        if not args.spellName then
+            return ""
         end
 
-        return formatNameHelper(
-            args.spellName,
-            settings.enableSpellColor,
-            color,
-            settings.enableCustomSpellColor,
-            settings.customSpellColor
-        )
+        local color
+        if settings.enableNameColor then
+            if settings.enableCustomNameColor then
+                color = settings.customNameColor
+            else
+                -- NOTE: I don't think we want the spell school of the spell
+                --       being cast. We want the spell school of the damage
+                --       being done. That said, if you want to change it so
+                --       that the spell name matches the type of spell it
+                --       is, and not the type of damage it does, change
+                --       "args.school" to "args.spellSchool".
+                color = x.GetSpellSchoolColor(args.school or args.spellSchool)
+            end
+        end
+
+        return formatNameHelper(args.spellName, color)
     end,
 
     function(args, settings, useSourceController) -- [3] = Source Name - Spell Name
