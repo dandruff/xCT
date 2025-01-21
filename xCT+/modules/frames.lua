@@ -471,7 +471,7 @@ end)
 -- )
 -- Sends a message to the framename specified.
 -- =====================================================
-function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
+function x:AddSpamMessage(frameName, mergeID, message, colorName, interval, ...)
     -- Check for a Secondary Spell ID
     mergeID = addon.replaceSpellId[mergeID] or mergeID
 
@@ -480,9 +480,9 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
     -- How many seconds are we delaying the output / merging the events?
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
-    local heap, stack = x.spamMergerHeap[framename], x.spamMergerStack[framename]
+    local heap, stack = x.spamMergerHeap[frameName], x.spamMergerStack[frameName]
     if heap[mergeID] then
-        heap[mergeID].color = colorname
+        heap[mergeID].color = colorName
         heap[mergeID].update = interval
 
         if tonumber(message) then
@@ -509,7 +509,7 @@ function x:AddSpamMessage(framename, mergeID, message, colorname, interval, ...)
             mergedCount = 1,
 
             -- color
-            color = colorname,
+            color = colorName,
         }
 
         if tonumber(message) then
@@ -612,7 +612,7 @@ do
                     DevTools_Dump(item)
                 elseif frameName == "outgoing" or frameName == "outgoing_healing" then
                     -- Outgoing damage
-                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
+                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -620,7 +620,7 @@ do
                     end
                 elseif frameName == "critical" then
                     -- Outgoing damage and healing crits
-                    if x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -628,7 +628,7 @@ do
                     end
                 elseif frameName == "healing" then
                     -- Incoming healing
-                    if x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -636,7 +636,7 @@ do
                     end
                 elseif frameName == "damage" then
                     -- Incoming damage
-                    if x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, true) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0

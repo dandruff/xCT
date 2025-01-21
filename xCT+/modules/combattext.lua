@@ -1317,7 +1317,7 @@ EventHandlers.OutgoingMiss = function(args)
 
     local spamMergerInterval = x:Options_SpamMerger_OutgoingDamageMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage(outputFrame, message, 0, "misstypesOut", spamMergerInterval)
+        x:AddSpamMessage(outputFrame, args.missType, message, "misstypesOut", spamMergerInterval)
         return
     end
 
@@ -1340,7 +1340,7 @@ EventHandlers.IncomingMiss = function(args)
 
     local spamMergerInterval = x:Options_SpamMerger_IncomingMissesInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage(outputFrame, message, 0, color, spamMergerInterval)
+        x:AddSpamMessage(outputFrame, args.missType, message, color, spamMergerInterval)
         return
     end
 
