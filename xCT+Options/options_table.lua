@@ -1678,7 +1678,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -1760,7 +1760,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -2398,7 +2398,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -2480,7 +2480,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3079,7 +3079,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = "",
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3161,6 +3161,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
                                         desc = "",
                                         width = "double",
                                         style = "radio",
@@ -3765,7 +3766,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = "",
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -3847,6 +3848,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
                                         desc = "",
                                         width = "double",
                                         style = "radio",
@@ -4534,7 +4536,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 30,
                                         name = L["Display Player Name"],
-                                        desc = "",
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
                                         width = "double",
                                         style = "radio",
                                         values = {
@@ -4616,6 +4618,7 @@ function x:InitOptionsTable()
                                         type = "select",
                                         order = 21,
                                         name = L["Display NPC Name"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
                                         desc = "",
                                         width = "double",
                                         style = "radio",

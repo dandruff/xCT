@@ -379,90 +379,111 @@ local function formatNameHelper(name, color)
 end
 
 -- Format Handlers for name
-local formatNameTypes = {
-    function(args, settings, useSourceController) -- [1] = Source/Destination Name
-        local name = useSourceController and args.sourceName or args.destName
+local nameFormatter = {}
+nameFormatter.controllerName = function(args, settings, useSourceController)
+    -- [1] = Source/Destination Name
+    local name = useSourceController and args.sourceName or args.destName
 
-        if not name then
-            return ""
-        end
+    if not name then
+        return ""
+    end
 
-        if settings.removeRealmName then
-            name = string.match(name, format_remove_realm) or name
-        end
+    if settings.removeRealmName then
+        name = string.match(name, format_remove_realm) or name
+    end
 
-        local color
-        if settings.enableNameColor then
-            if settings.enableCustomNameColor then
-                color = settings.customNameColor
-            elseif args.prefix == "ENVIRONMENTAL" then
-                color = x.spellColors[args.school or args.spellSchool or 1]
-            else
-                local guid = useSourceController and args.sourceGUID or args.destGUID
-                if string.match(guid, "^Player") then
-                    local _, class = GetPlayerInfoByGUID(guid)
-                    color = RAID_CLASS_COLORS[class or 0]
-                end
+    local color
+    if settings.enableNameColor then
+        if settings.enableCustomNameColor then
+            color = settings.customNameColor
+        elseif args.prefix == "ENVIRONMENTAL" then
+            color = x.spellColors[args.school or args.spellSchool or 1]
+        else
+            local guid = useSourceController and args.sourceGUID or args.destGUID
+            if string.match(guid, "^Player") then
+                local _, class = GetPlayerInfoByGUID(guid)
+                color = RAID_CLASS_COLORS[class or 0]
             end
         end
+    end
 
-        return formatNameHelper(name, color)
-    end,
+    return formatNameHelper(name, color)
+end
 
-    function(args, settings, useSourceController) -- [2] = Spell Name
-        if not args.spellName then
-            return ""
+nameFormatter.spellName = function(args, settings, useSourceController)
+    -- [2] = Spell Name
+    if not args.spellName then
+        return ""
+    end
+
+    local color
+    if settings.enableNameColor then
+        if settings.enableCustomNameColor then
+            color = settings.customNameColor
+        else
+            -- NOTE: I don't think we want the spell school of the spell
+            --       being cast. We want the spell school of the damage
+            --       being done. That said, if you want to change it so
+            --       that the spell name matches the type of spell it
+            --       is, and not the type of damage it does, change
+            --       "args.school" to "args.spellSchool".
+            color = x.GetSpellSchoolColor(args.school or args.spellSchool)
         end
+    end
 
-        local color
-        if settings.enableNameColor then
-            if settings.enableCustomNameColor then
-                color = settings.customNameColor
-            else
-                -- NOTE: I don't think we want the spell school of the spell
-                --       being cast. We want the spell school of the damage
-                --       being done. That said, if you want to change it so
-                --       that the spell name matches the type of spell it
-                --       is, and not the type of damage it does, change
-                --       "args.school" to "args.spellSchool".
-                color = x.GetSpellSchoolColor(args.school or args.spellSchool)
-            end
+    return formatNameHelper(args.spellName, color)
+end
+
+nameFormatter.controllerNameSpellName = function(args, settings, useSourceController)
+    -- [3] = Source/Destination Name - Spell Name
+    if not args.hideCaster then
+        local controllerName = nameFormatter.controllerName(args, settings, useSourceController)
+        if controllerName and controllerName ~= "" then
+            return controllerName .. " - " .. nameFormatter.spellName(args, settings, useSourceController)
         end
+    end
 
-        return formatNameHelper(args.spellName, color)
-    end,
+    return nameFormatter.spellName(args, settings, useSourceController)
+end
 
-    function(args, settings, useSourceController) -- [3] = Source Name - Spell Name
-        if args.hideCaster then
-            return formatNameTypes[2](args, settings, useSourceController)
+nameFormatter.spellNameControllerName = function(args, settings, useSourceController)
+    -- [4] = Spell Name - Source/Destination Name
+    if not args.hideCaster then
+        local controllerName = nameFormatter.controllerName(args, settings, useSourceController)
+        if controllerName and controllerName ~= "" then
+            return nameFormatter.spellName(args, settings, useSourceController) .. " - " .. controllerName
         end
+    end
 
-        return formatNameTypes[1](args, settings, useSourceController) .. " - " .. formatNameTypes[2](args, settings, useSourceController)
-    end,
-
-    function(args, settings, useSourceController) -- [4] = Spell Name - Source Name
-        if args.hideCaster then
-            return formatNameTypes[2](args, settings, useSourceController)
-        end
-
-        return formatNameTypes[2](args, settings, useSourceController) .. " - " .. formatNameTypes[1](args, settings, useSourceController)
-    end,
-}
+    return nameFormatter.spellName(args, settings, useSourceController)
+end
 
 -- Check to see if the name needs for be formatted, if so, handle all the logistics
 function x:formatName(args, frameNameSettings, useSourceController)
-    -- Event Type helper
-    local index = args.fake_controller
+    -- "PLAYER", "ENVIRONMENT", "NPC", ...
+    local controller = args.fake_controller
             or useSourceController and args:GetSourceController()
             or args:GetDestinationController()
 
-    local eventType = frameNameSettings[index]
+    local eventType = frameNameSettings[controller]
 
     -- If we have a valid event type that we can handle
     if eventType and eventType.nameType > 0 then
-        return frameNameSettings.namePrefix
-            .. formatNameTypes[eventType.nameType](args, eventType, useSourceController)
-            .. frameNameSettings.namePostfix
+        local message
+
+        if eventType.nameType == 1 then
+            message = nameFormatter.controllerName(args, eventType, useSourceController)
+        elseif eventType.nameType == 2 then
+            message = nameFormatter.spellName(args, eventType, useSourceController)
+        elseif eventType.nameType == 3 then
+            message = nameFormatter.controllerNameSpellName(args, eventType, useSourceController)
+        elseif eventType.nameType == 4 then
+            message = nameFormatter.spellNameControllerName(args, eventType, useSourceController)
+        else
+            return ""
+        end
+
+        return frameNameSettings.namePrefix .. message .. frameNameSettings.namePostfix
     end
 
     return ""
