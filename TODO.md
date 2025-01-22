@@ -4,3 +4,5 @@
   - allow X frames and let the user decide which event type goes to which frame
 - Spell reflection is missing
 - localization!
+- Can I display the NPC name / player name if the spam merger is on but ONLY one NPC / player is hitting me / getting hit?
+- Show abbreviated spell name (Blood Boil => BB?)
