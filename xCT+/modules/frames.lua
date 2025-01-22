@@ -461,43 +461,48 @@ end)
 
 -- =====================================================
 -- AddOn:AddSpamMessage(
---     framename, [string]              - the framename
---     mergeID,   [number or string]    - identity items to merge, if number then it HAS TO BE the valid spell ID
---     message,   [number or string]    - the pre-formatted message to be sent, if its not a number, then only the
---                                        first 'message' value that is sent this mergeID will be used.
---     colorname, [string or table]     - the name of the color OR a table containing the color (e.g.
---                                        colorname={1,2,3} -- r=1, b=2, g=3)
---     interval,  [number]              - the merge interval
+--     framename,      [string]              - the frame's name
+--     mergeId,        [number or string]    - identity items to merge, if number then it HAS TO BE the valid spell ID
+--     message,        [number or string]    - the pre-formatted message to be sent, if its not a number, then only the
+--                                             first 'message' value that is sent this mergeId will be used.
+--     colorName,      [string or table]     - the name of the color OR a table containing the color
+--                                             (e.g. {1,2,3} -- r=1, b=2, g=3)
+--     interval,       [number]              - the merge interval
+--     additionalInfo, [nil or table]        - additional infos for this message
 -- )
 -- Sends a message to the framename specified.
 -- =====================================================
-function x:AddSpamMessage(frameName, mergeID, message, colorName, interval, ...)
+function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, additionalInfo)
     -- Check for a Secondary Spell ID
-    mergeID = addon.replaceSpellId[mergeID] or mergeID
+    mergeId = addon.replaceSpellId[mergeId] or mergeId
 
-    local db = addon.merges[mergeID]
+    local db = addon.merges[mergeId]
 
     -- How many seconds are we delaying the output / merging the events?
     interval = interval or (db and db.interval) or x.db.profile.spells.mergeEverythingInterval
 
     local heap, stack = x.spamMergerHeap[frameName], x.spamMergerStack[frameName]
-    if heap[mergeID] then
-        heap[mergeID].color = colorName
-        heap[mergeID].update = interval
+    if heap[mergeId] then
+        heap[mergeId].color = colorName
+        heap[mergeId].update = interval
 
         if tonumber(message) then
-            heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
+            heap[mergeId].mergedAmount = heap[mergeId].mergedAmount + tonumber(message)
         else
-            heap[mergeID].message = message
+            heap[mergeId].message = message
         end
 
-        heap[mergeID].mergedCount = heap[mergeID].mergedCount + 1
+        heap[mergeId].mergedCount = heap[mergeId].mergedCount + 1
 
-        if heap[mergeID].displayTime <= now then
-            heap[mergeID].displayTime = now + interval
+        if heap[mergeId].displayTime <= now then
+            heap[mergeId].displayTime = now + interval
+        end
+
+        if additionalInfo then
+            heap[mergeId].args = additionalInfo
         end
     else
-        heap[mergeID] = {
+        heap[mergeId] = {
             -- after this time we display it on the frame
             displayTime = now + interval,
 
@@ -513,24 +518,17 @@ function x:AddSpamMessage(frameName, mergeID, message, colorName, interval, ...)
         }
 
         if tonumber(message) then
-            heap[mergeID].mergedAmount = heap[mergeID].mergedAmount + tonumber(message)
+            heap[mergeId].mergedAmount = heap[mergeId].mergedAmount + tonumber(message)
         else
-            heap[mergeID].message = message
+            heap[mergeId].message = message
         end
 
-        if select("#", ...) % 2 ~= 0 then
-            error("an even amount of extra args are required to add an entry to merge")
+        if additionalInfo then
+            heap[mergeId].args = additionalInfo
         end
-        --x:Print("extra args pairs:", select("#", ...)/2)
-        for i = 1, select("#", ...), 2 do
-            if heap[mergeID][select(i, ...)] then
-                error("reserved keyword in entry added to merge: '" .. tostring(select(i, ...)) .. "'")
-            end
-            --x:Print(" -->", select(i, ...), "=", select(i+1, ...))
-            heap[mergeID][select(i, ...)] = select(i + 1, ...)
-        end
+
         -- Insert into the stack - thats our queue for the display!
-        table.insert(stack, mergeID)
+        table.insert(stack, mergeId)
     end
 end
 
@@ -568,7 +566,6 @@ end
 do
     -- We want to display messages for one frame on each update
     local currentFrameId = 1
-    local fakeArgs = {}
 
     function x.OnSpamUpdate(_, elapsed)
         if not x.db then
@@ -605,11 +602,13 @@ do
 
                 if not item.mergedAmount and not item.message then
                     -- How did this happen?!
+                    x:Print("Empty item in the spam merger", mergeId)
+                    DevTools_Dump(item)
+
                     item.mergedCount = 0
                     item.mergedAmount = 0
                     item.message = ""
-                    x:Print("Empty item in the spam merger", mergeId)
-                    DevTools_Dump(item)
+                    item.args = nil
                 elseif frameName == "outgoing" or frameName == "outgoing_healing" then
                     -- Outgoing damage
                     if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
@@ -617,6 +616,7 @@ do
                         item.mergedCount = 0
                         item.mergedAmount = 0
                         item.message = ""
+                        item.args = nil
                     end
                 elseif frameName == "critical" then
                     -- Outgoing damage and healing crits
@@ -625,6 +625,7 @@ do
                         item.mergedCount = 0
                         item.mergedAmount = 0
                         item.message = ""
+                        item.args = nil
                     end
                 elseif frameName == "healing" then
                     -- Incoming healing
@@ -633,6 +634,7 @@ do
                         item.mergedCount = 0
                         item.mergedAmount = 0
                         item.message = ""
+                        item.args = nil
                     end
                 elseif frameName == "damage" then
                     -- Incoming damage
@@ -641,6 +643,7 @@ do
                         item.mergedCount = 0
                         item.mergedAmount = 0
                         item.message = ""
+                        item.args = nil
                     end
                 end
 
@@ -654,75 +657,20 @@ do
                     end
 
                     local strColor = "ffffff"
+                    if frameName == "healing" or frameName == "outgoing_healing" then
+                        strColor = "ffff00"
+                    end
 
                     -- Add critical Prefix and Postfix
                     if frameName == "critical" then
                         message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                     end
 
-                    if item.controller and frameSettings.names[item.controller].nameType > 0 then
-                        if frameName == "outgoing" or frameName == "critical" then
-                            -- Outgoing damage / criticals: Show target name / spell name
-
-                            if item.auto then
-                                -- Auto attack / pet auto attack
-                                fakeArgs.spellName = item.auto
-                                fakeArgs.spellSchool = 1 -- physical
-                            else
-                                fakeArgs.spellName = item.spellName
-                                fakeArgs.spellSchool = item.spellSchool
-                            end
-                            fakeArgs.fake_controller = item.controller
-                            if frameSettings.fontJustify == "RIGHT" then
-                                message = x:formatName(fakeArgs, frameSettings.names) .. " " .. message
-                            else
-                                message = message .. x:formatName(fakeArgs, frameSettings.names)
-                            end
-
-                        elseif frameName == "damage" then
-                            -- Incoming damage: Show damager name / spell name
-
-                            if item.auto then
-                                -- Auto attack / pet auto attack
-                                fakeArgs.spellName = item.auto
-                                fakeArgs.spellSchool = 1 -- physical
-                            else
-                                fakeArgs.spellName = item.spellName
-                                fakeArgs.spellSchool = item.spellSchool
-                            end
-                            fakeArgs.fake_controller = item.controller
-                            if frameSettings.fontJustify == "RIGHT" then
-                                message = x:formatName(fakeArgs, frameSettings.names, true) .. " " .. message
-                            else
-                                message = message .. x:formatName(fakeArgs, frameSettings.names, true)
-                            end
-
-                        elseif frameName == "healing" then
-                            -- Incoming healing: Show healer name / spell name (colored)
-                            strColor = "ffff00"
-
-                            fakeArgs.sourceName = mergeId
-                            fakeArgs.sourceGUID = item.sourceGUID
-                            fakeArgs.spellName = item.spellName
-                            fakeArgs.fake_controller = item.controller
-                            if frameSettings.fontJustify == "RIGHT" then
-                                message = x:formatName(fakeArgs, frameSettings.names, true) .. " " .. message
-                            else
-                                message = message .. x:formatName(fakeArgs, frameSettings.names, true)
-                            end
-                        elseif frameName == "outgoing_healing" then
-                            -- Outgoing healing: Show target name / spell name (colored)
-                            strColor = "ffff00"
-
-                            fakeArgs.sourceName = mergeId
-                            fakeArgs.sourceGUID = item.sourceGUID
-                            fakeArgs.spellName = item.spellName
-                            fakeArgs.fake_controller = item.controller
-                            if frameSettings.fontJustify == "RIGHT" then
-                                message = x:formatName(fakeArgs, frameSettings.names) .. " " .. message
-                            else
-                                message = message .. x:formatName(fakeArgs, frameSettings.names)
-                            end
+                    if item.args and item.args.controller and frameSettings.names[item.args.controller].nameType > 0 then
+                        if frameSettings.fontJustify == "RIGHT" then
+                            message = x:formatName(item.args, frameSettings.names, item.args.useSource) .. " " .. message
+                        else
+                            message = message .. x:formatName(item.args, frameSettings.names, item.args.useSource)
                         end
                     end
 
@@ -748,6 +696,7 @@ do
                     item.mergedCount = 0
                     item.mergedAmount = 0
                     item.message = ""
+                    item.args = nil
                 end
             end
         end
