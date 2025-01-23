@@ -618,7 +618,11 @@ EventHandlers.HealingOutgoing = function(args)
         amountOverhealing = 0
     end
 
-    if amount < 0 then
+    if x:Options_OutgoingHealing_ShowOverhealing() and args.absorbed and args.absorbed > 0 then
+        amount = amount + args.absorbed
+    end
+
+    if amount <= 0 then
         return
     end
 

@@ -473,6 +473,11 @@ end)
 -- Sends a message to the framename specified.
 -- =====================================================
 function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, additionalInfo)
+    if message == 0 or message == "" then
+        self:Print("AddSpamMessage(): empty message for frame", frameName, "mergeId", mergeId, "message", message)
+        return
+    end
+
     -- Check for a Secondary Spell ID
     mergeId = addon.replaceSpellId[mergeId] or mergeId
 
@@ -609,9 +614,18 @@ do
                     item.mergedAmount = 0
                     item.message = ""
                     item.args = nil
-                elseif frameName == "outgoing" or frameName == "outgoing_healing" then
+                elseif frameName == "outgoing" then
                     -- Outgoing damage
                     if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
+                        -- not enough to display
+                        item.mergedCount = 0
+                        item.mergedAmount = 0
+                        item.message = ""
+                        item.args = nil
+                    end
+                elseif frameName == "outgoing_healing" then
+                    -- Outgoing healing
+                    if not item.message and x:Options_Filter_OutgoingHealing_HideEvent(item.mergedAmount) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0

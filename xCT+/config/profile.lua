@@ -438,24 +438,15 @@ addon.defaults = {
                 enablePetAutoAttack_Outgoing = true,
 
                 enableOutDmg = true,
-                enableOutHeal = true,
-                enableOutAbsorbs = true,
                 enablePetDmg = true,
                 enableVehicleDmg = true,
                 enableDotDmg = true,
-                enableHots = true,
                 enableImmunes = true,
                 enableMisses = true,
                 enableAbsorbs = true,
                 enablePartialMisses = false,
                 showHighestPartialMiss = false,
                 enableKillCommand = false,
-
-                enableOverhealing = true,
-                enableOverhealingFormat = false,
-                enableOverhealingSubtraction = false,
-                overhealingPrefix = " |cffFFFFFF(O: ",
-                overhealingPostfix = ")|r",
             },
 
             critical = {
@@ -668,25 +659,17 @@ addon.defaults = {
                 enableAutoAttack_Outgoing = true, -- OLD: enableAutoAttack
                 enablePetAutoAttack_Outgoing = true,
 
-                enableOutDmg = true,
                 enableOutHeal = true,
-                enableOutAbsorbs = true,
-                enablePetDmg = true,
-                enableVehicleDmg = true,
-                enableDotDmg = true,
                 enableHots = true,
                 enableImmunes = true,
                 enableMisses = true,
-                enableAbsorbs = true,
-                enablePartialMisses = false,
-                showHighestPartialMiss = false,
-                enableKillCommand = false,
 
                 enableOverhealing = true,
                 enableOverhealingFormat = false,
                 enableOverhealingSubtraction = false,
                 overhealingPrefix = " |cffFFFFFF(O: ",
                 overhealingPostfix = ")|r",
+                enableAbsorbedHealing = true,
             },
 
             damage = {

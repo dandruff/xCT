@@ -2527,7 +2527,6 @@ function x:InitOptionsTable()
                                 desc = L["Displays overhealing."],
                                 get = "Options_OutgoingHealing_ShowOverhealing",
                                 set = set2,
-                                disabled = isFrameItemDisabled,
                             },
                             enableOverhealingSubtraction = {
                                 order = 12,
@@ -2537,8 +2536,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_SubtractOverhealing",
                                 set = set2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                 end,
                             },
                             enableOverhealingFormat = {
@@ -2549,8 +2547,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_FormatOverhealing",
                                 set = set2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                 end,
                             },
                             overhealingPrefix = {
@@ -2561,8 +2558,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_OverhealingPrefix",
                                 set = setTextIn2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
                                 end,
                             },
@@ -2574,10 +2570,23 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_OverhealingPostfix",
                                 set = setTextIn2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
                                 end,
+                            },
+
+                            headerAbsorbedHealing = {
+                                order = 20,
+                                type = "header",
+                                name = L["Absorbed Healing"],
+                            },
+                            enableAbsorbedHealing = {
+                                order = 21,
+                                type = "toggle",
+                                name = L["Show absorbed Healing"],
+                                desc = L["Displays absorbed healing."],
+                                get = "Options_OutgoingHealing_ShowOverhealing",
+                                set = set2,
                             },
                         },
                     },
