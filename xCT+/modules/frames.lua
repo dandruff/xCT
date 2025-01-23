@@ -629,7 +629,7 @@ do
                     end
                 elseif frameName == "healing" then
                     -- Incoming healing
-                    if not item.message and x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -638,7 +638,7 @@ do
                     end
                 elseif frameName == "damage" then
                     -- Incoming damage
-                    if not item.message and x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
