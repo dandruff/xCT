@@ -2580,12 +2580,12 @@ function x:InitOptionsTable()
                                 type = "header",
                                 name = L["Absorbed Healing"],
                             },
-                            enableAbsorbedHealing = {
+                            hideAbsorbedOutgoingHeals = {
                                 order = 21,
                                 type = "toggle",
-                                name = L["Show absorbed Healing"],
-                                desc = L["Displays absorbed healing."],
-                                get = "Options_OutgoingHealing_ShowOverhealing",
+                                name = L["Hide Absorbed Heals"],
+                                desc = L["If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total."],
+                                get = "Options_OutgoingHealing_HideAbsorbedHealing",
                                 set = set2,
                             },
                         },

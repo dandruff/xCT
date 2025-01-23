@@ -669,7 +669,7 @@ addon.defaults = {
                 enableOverhealingSubtraction = false,
                 overhealingPrefix = " |cffFFFFFF(O: ",
                 overhealingPostfix = ")|r",
-                enableAbsorbedHealing = true,
+                hideAbsorbedOutgoingHeals = false,
             },
 
             damage = {

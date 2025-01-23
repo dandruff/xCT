@@ -618,7 +618,7 @@ EventHandlers.HealingOutgoing = function(args)
         amountOverhealing = 0
     end
 
-    if x:Options_OutgoingHealing_ShowOverhealing() and args.absorbed and args.absorbed > 0 then
+    if not x:Options_OutgoingHealing_HideAbsorbedHealing() and args.absorbed and args.absorbed > 0 then
         amount = amount + args.absorbed
     end
 
@@ -1156,9 +1156,8 @@ EventHandlers.IncomingHealing = function(args)
         amount = amount - args.overhealing
     end
 
-    -- Don't show healing that gets absorbed by a debuff or mechanic
-    if x:Options_IncomingHealing_HideAbsorbedHealing() then
-        amount = amount - args.absorbed
+    if not x:Options_IncomingHealing_HideAbsorbedHealing() and args.absorbed and args.absorbed > 0 then
+        amount = amount + args.absorbed
     end
 
     if amount <= 0 then
