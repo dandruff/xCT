@@ -2504,7 +2504,7 @@ function x:InitOptionsTable()
                             headerHots = {
                                 order = 1,
                                 type = "header",
-                                name = L["HoTs"],
+                                name = L["Miscellaneous Settings"],
                             },
                             enableHots = {
                                 order = 2,
@@ -2512,6 +2512,14 @@ function x:InitOptionsTable()
                                 name = L["Show HoTs"],
                                 desc = L["Show your Heal-Over-Time (HOT) healing."],
                                 get = "Options_OutgoingHealing_ShowHots",
+                                set = set2,
+                            },
+                            hideAbsorbedOutgoingHeals = {
+                                order = 3,
+                                type = "toggle",
+                                name = L["Hide Absorbed Heals"],
+                                desc = L["If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total."],
+                                get = "Options_OutgoingHealing_HideAbsorbedHealing",
                                 set = set2,
                             },
 
@@ -2573,20 +2581,6 @@ function x:InitOptionsTable()
                                     return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
                                 end,
-                            },
-
-                            headerAbsorbedHealing = {
-                                order = 20,
-                                type = "header",
-                                name = L["Absorbed Healing"],
-                            },
-                            hideAbsorbedOutgoingHeals = {
-                                order = 21,
-                                type = "toggle",
-                                name = L["Hide Absorbed Heals"],
-                                desc = L["If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total."],
-                                get = "Options_OutgoingHealing_HideAbsorbedHealing",
-                                set = set2,
                             },
                         },
                     },
