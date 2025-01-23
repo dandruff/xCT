@@ -616,9 +616,10 @@ EventHandlers.HealingOutgoing = function(args)
     else
         amount = amount - amountOverhealing
         amountOverhealing = 0
-        if amount < 1 then
-            return
-        end
+    end
+
+    if amount < 0 then
+        return
     end
 
     -- Figure out which frame and color to output

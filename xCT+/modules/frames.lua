@@ -600,7 +600,7 @@ do
             if item and item.displayTime <= now and item.mergedCount > 0 then
                 item.displayTime = now
 
-                if not item.mergedAmount and not item.message then
+                if item.mergedAmount == 0 and item.message == "" then
                     -- How did this happen?!
                     x:Print("Empty item in the spam merger", mergeId)
                     DevTools_Dump(item)
