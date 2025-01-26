@@ -140,18 +140,15 @@ local function VersionToTable(version)
     major, minor, iteration = tonumber(major) or 0, tonumber(minor) or 0, tonumber(iteration) or 0
     local isAlpha, isBeta =
         string.find(releaseMsg, "alpha") and true or false, string.find(releaseMsg, "beta") and true or false
-    local t = {}
-    t.major = major
-    t.minor = minor
-    t.iteration = iteration
-    t.isAlpha = isAlpha
-    t.isBeta = isBeta
-    t.isRelease = not (isAlpha or isBeta)
 
-    if not t.isReleased then
-        t.devBuild = tonumber(string.match(releaseMsg, "(%d+)")) or 1
-    end
-    return t
+    return {
+        major = major,
+        minor = minor,
+        iteration = iteration,
+        isAlpha = isAlpha,
+        isBeta = isBeta,
+        isRelease = not (isAlpha or isBeta)
+    }
 end
 
 local function CompareVersions(a, b, debug)
@@ -246,12 +243,7 @@ end
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic(existing)
     local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
-    local currentVersion = VersionToTable(addonVersionString)
     local previousVersion = VersionToTable(self.db.profile.dbVersion or "4.3.0 Beta 2")
-
-    if not currentVersion.devBuild and UnitName("player") == "Dandraffbal" then
-        currentVersion.devBuild = 1
-    end
 
     if existing then
         -- Pre-Legion Requires Complete Reset
@@ -262,11 +254,6 @@ function x:CompatibilityLogic(existing)
 
         -- 4.3.0 Beta 3 -> Removes Spell School Colors from Outgoing fraame settings
         if CompareVersions(VersionToTable("4.3.0 Beta 3"), previousVersion) > 0 then
-            if currentVersion.devBuild then
-                x.MigratePrint(
-                    "|cff798BDDSpell School Colors|r (|cffFFFF00From: Config Tool->Frames->Outgoing|r | |cff00FF00To: Config Tool->Spell School Colors|r)"
-                )
-            end
             if x.db.profile.frames.outgoing.colors and x.db.profile.frames.outgoing.colors.spellSchools then
                 local oldDB = x.db.profile.frames.outgoing.colors.spellSchools.colors
                 local newDB = x.db.profile.SpellColors
@@ -291,9 +278,6 @@ function x:CompatibilityLogic(existing)
 
         -- 4.3.0 Beta 4 -> Remove redundant Merge Entries from the Config
         if CompareVersions(VersionToTable("4.3.0 Beta 5"), previousVersion) > 0 then
-            if currentVersion.devBuild then
-                x.MigratePrint("|cff798BDDMerge Entries:|r (|cffFFFF00Optimizing SavedVars|r)")
-            end
             local merge = x.db.profile.spells.merge
             for id, entry in pairs(merge) do
                 merge[id] = nil
@@ -305,11 +289,6 @@ function x:CompatibilityLogic(existing)
 
         -- Clean up colors names in the database
         if CompareVersions(VersionToTable("4.3.3 Beta 1"), previousVersion) > 0 then
-            if currentVersion.devBuild then --currentVersion.devBuild then
-                x.MigratePrint(
-                    "|cff798BDDCustom Colors|r (|cffFFFF00From: Config Tool->Frames-> All Frames ->Colors|r) Removing old options."
-                )
-            end
             for name, settings in pairs(x.db.profile.frames) do
                 if settings.colors then
                     for exists in pairs(settings.colors) do
@@ -326,14 +305,10 @@ function x:CompatibilityLogic(existing)
 
         -- Clean up class frame from database
         if CompareVersions(VersionToTable("4.5.1-beta5"), previousVersion) > 0 then
-            if currentVersion.devBuild then --currentVersion.devBuild then
-                x.MigratePrint("|cffFFFF00Cleaning Frame DB (Removing Class)|r")
-            end
             self.db.profile.frames.class = nil
         end
-    else
-        -- Created New: Dont need to do anything right now
     end
+
     self.db.profile.dbVersion = addonVersionString
 
     return true
