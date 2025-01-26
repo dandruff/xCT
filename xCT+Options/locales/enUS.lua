@@ -14,7 +14,9 @@
 
 local AddonName = ...
 
-local L = LibStub:GetLibrary("AceLocale-3.0"):NewLocale(AddonName, "enUS", true, false)
+-- 3rd param: isDefault
+-- 4th param: silent
+local L = LibStub:GetLibrary("AceLocale-3.0"):NewLocale(AddonName, "enUS", true, true)
 if not L then return end
 
 L["                                                      Version: %s                                                      "] = true
@@ -76,8 +78,9 @@ L["Color Type"] = true
 L["Color"] = true
 L["Colors of the events"] = true
 L["Colors"] = true
-L["Contact Me"] = true
 L["Crafted Items"] = true
+L["Create a comment on Curseforge:"] = true
+L["Create an issue at github:"] = true
 L["Credits"] = true
 L["Critical Format"] = true
 L["Critical Hits"] = true
@@ -203,6 +206,7 @@ L["High |cffFFFF00(Default)|r"] = true
 L["HoTs"] = true
 L["Honor Gains"] = true
 L["Horizonal Offset"] = true
+L["How to contact Me"] = true
 L["ID"] = true
 L["Icon Settings"] = true
 L["Icons"] = true
@@ -421,7 +425,6 @@ L["Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r"] = true
 L["Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r"] = true
 L["Test"] = true
 L["Text Direction"] = true
-L["Thank You Github Contributors!"] = true
 L["The ID of the |cff798BDDItem|r you want to filter."] = true
 L["The Spell ID of the |cff798BDDSpell|r you want to filter."] = true
 L["The Spell ID of the |cff798BDDSpell|r you want to filter."] = true
@@ -486,11 +489,13 @@ L["Which color do you want the merged pet messages to be?"] = true
 L["Whitelist"] = true
 L["Will also attempt to show the player pet's healing."] = true
 L["Will not display any items that are below this quality (does not filter Quest or Crafted items)."] = true
+L["Write me a PM on Curseforge:"] = true
 L["You can change how |cffFFFF00xCT+|r shows you names in the |cffFFFF00Names|r section of most frames."] = true
 L["Your Dispells / Spell Steals"] = true
 L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"] = true
 L["\n|cff798BDDScrollable Frame Settings|r:"] = true
 L["\n|cffFF0000Secondary Frame Not Available|r - |cffFFFFFFThis frame cannot output to another frame when it is disabled.\n\n"] = true
+L["zhCN Translators"] = true
 L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"] = true
 L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"] = true
 L["|cff0070DEShaman|r"] = true

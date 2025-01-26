@@ -7369,7 +7369,7 @@ function x:InitOptionsTable()
                 order = 1,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
+                name = "|cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, Toludin, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile",
             },
 
             testerTitle = {
@@ -7381,7 +7381,7 @@ function x:InitOptionsTable()
                 type = "description",
                 order = 11,
                 fontSize = "medium",
-                name = "|cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
+                name = "Alex, BuG, Kkthnxbye, Azilroka, Prizma, schmeebs, Pat, hgwells, Jaron, Fitzbattleaxe, Nihan, Jaxo, Schaduw, sylenced, kaleidoscope, Killatones, Trokko, Yperia, Edoc, Cazart, Nevah, Refrakt, Thakah, johnis007, Sgt, NitZo, cptblackgb, pollyzoid",
             },
 
             curseTitle = {
@@ -7393,7 +7393,7 @@ function x:InitOptionsTable()
                 order = 21,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
+                name = "CadjieBOOM, Mokal, ShadoFall, alloman, chhld, chizzlestick, egreym, nukme, razrwolf, star182, zacheklund",
             },
 
             tukuiTitle = {
@@ -7405,7 +7405,7 @@ function x:InitOptionsTable()
                 order = 31,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
+                name = "Affiniti, Badinfluence, BuG, Curdi, Dorkie, Galadeon, HarryDotter, Joebacsi21, Kuron, Mabb22, Narlya, Nihan, Verdell, arzelia, blessed, djouga, fakemessiah, faze, firewall, jatha86, jaydogg10, jlor, lunariongames, stoankold",
             },
 
             tukuiTitleLegion = {
@@ -7417,7 +7417,7 @@ function x:InitOptionsTable()
                 order = 41,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r",
+                name = "Azazu, Broni, CursedBunny, Daemios, Dajova, Delerionn, dunger, feetss, gesuntight, Homaxz, karamei, Merathilis, re1jo, sammael666, scathee, Tonyleila, Torch, WetU, Znuff, Zylos",
             },
 
             tukuiTitleBfA = {
@@ -7429,43 +7429,53 @@ function x:InitOptionsTable()
                 order = 51,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Toludin|r",
-            },
-
-            githubTitleSL = {
-                type = "header",
-                order = 60,
-                name = L["Github Contributors"],
-            },
-            userNameSL = {
-                type = "description",
-                order = 61,
-                fontSize = "medium",
-                name = "|cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
+                name = "Toludin",
             },
 
             githubTitle = {
                 type = "header",
                 order = 70,
-                name = L["|cffFFFF00Thank You Github Contributors!|r"],
+                name = L["Github Contributors"],
             },
-            userName4 = {
+            githubUsers = {
                 order = 71,
                 type = "description",
                 fontSize = "medium",
-                name = "|cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
+                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!)",
             },
 
-            contactTitle = {
-                order = 80,
+            translatorsTitle = {
                 type = "header",
-                name = L["Contact Me"],
+                order = 80,
+                name = L["zhCN Translators"],
             },
-            contactStep1 = {
-                type = "description",
+            gitHubUsers = {
                 order = 81,
-                name = "|cff22FF80https://github.com/dandruff/xCT|r",
+                type = "description",
+                fontSize = "medium",
+                name = "萌丶汉丶纸 (on CurseForge)",
             },
+
+            contactMeTitle = {
+                order = 90,
+                type = "header",
+                name = L["How to contact Me"],
+            },
+            contactMeGithub = {
+                order = 91,
+                type = "description",
+                name = L["Create an issue at github:"] .. " https://github.com/dandruff/xCT",
+            },
+            contactMeCurseforgeComment = {
+                order = 93,
+                type = "description",
+                name = L["Create a comment on Curseforge:"] .. " https://www.curseforge.com/wow/addons/xct-plus/comments"
+            },
+            contactMeCurseforgePm = {
+                order = 93,
+                type = "description",
+                name = L["Write me a PM on Curseforge:"] .. " https://www.curseforge.com/members/redaces"
+            }
         },
     }
 
