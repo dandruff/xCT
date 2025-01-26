@@ -399,6 +399,7 @@ nameFormatter.controllerName = function(args, settings, useSource)
         if settings.enableCustomNameColor then
             color = settings.customNameColor
         elseif args.prefix == "ENVIRONMENTAL" then
+            -- todo spam merger
             color = x.spellColors[args.school or args.spellSchool or 1]
         else
             -- todo guid in the spam merger
