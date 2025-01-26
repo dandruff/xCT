@@ -7459,7 +7459,7 @@ function x:InitOptionsTable()
             contactMeTitle = {
                 order = 90,
                 type = "header",
-                name = L["How to contact Me"],
+                name = L["How to contact me"],
             },
             contactMeGithub = {
                 order = 91,
