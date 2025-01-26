@@ -136,18 +136,17 @@ function x:OnDisable() end
 
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
-    local major, minor, iteration, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
-    major, minor, iteration = tonumber(major) or 0, tonumber(minor) or 0, tonumber(iteration) or 0
-    local isAlpha, isBeta =
-        string.find(releaseMsg, "alpha") and true or false, string.find(releaseMsg, "beta") and true or false
+    local major, minor, patch, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
+    local isAlpha = string.find(releaseMsg, "alpha") and true or false
+    local isBeta = string.find(releaseMsg, "beta") and true or false
 
     return {
-        major = major,
-        minor = minor,
-        iteration = iteration,
+        major = tonumber(major) or 0,
+        minor = tonumber(minor) or 0,
+        patch = tonumber(patch) or 0,
         isAlpha = isAlpha,
         isBeta = isBeta,
-        isRelease = not (isAlpha or isBeta)
+        devBuild = tonumber(string.match(releaseMsg or "", "(%d+)")) or 0,
     }
 end
 
@@ -177,10 +176,10 @@ local function CompareVersions(a, b, debug)
         return -1
     end
 
-    -- Compare Iteration numbers
-    if a.iteration > b.iteration then
+    -- Compare Patch numbers
+    if a.patch > b.patch then
         return 1
-    elseif a.iteration < b.iteration then
+    elseif a.patch < b.patch then
         return -1
     end
 
