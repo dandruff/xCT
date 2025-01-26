@@ -382,7 +382,9 @@ end
 local nameFormatter = {}
 nameFormatter.controllerName = function(args, settings, useSource)
     -- [1] = Source/Destination Name
-    local name = useSource and args.sourceName or args.destName
+    local name = args.controllerName
+            or useSource and args.sourceName
+            or args.destName
 
     if not name then
         return ""
@@ -399,6 +401,7 @@ nameFormatter.controllerName = function(args, settings, useSource)
         elseif args.prefix == "ENVIRONMENTAL" then
             color = x.spellColors[args.school or args.spellSchool or 1]
         else
+            -- todo guid in the spam merger
             local guid = useSource and args.sourceGUID or args.destGUID
             if string.match(guid, "^Player") then
                 local _, class = GetPlayerInfoByGUID(guid)
@@ -588,7 +591,7 @@ end
 local EventHandlers = {}
 
 -- Outgoing healing
-EventHandlers.HealingOutgoing = function(args)
+EventHandlers.OutgoingHealing = function(args)
     local isHoT = args.prefix == "SPELL_PERIODIC"
 
     -- Keep track of spells that go by
@@ -653,7 +656,8 @@ EventHandlers.HealingOutgoing = function(args)
                         useSource = false,
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
-                        controller = args:GetDestinationController()
+                        controller = args:GetDestinationController(),
+                        controllerName = args.destName
                     }
                 )
                 return
@@ -668,7 +672,8 @@ EventHandlers.HealingOutgoing = function(args)
                         useSource = false,
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
-                        controller = args:GetDestinationController()
+                        controller = args:GetDestinationController(),
+                        controllerName = args.destName
                     }
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -682,7 +687,8 @@ EventHandlers.HealingOutgoing = function(args)
                         useSource = false,
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
-                        controller = args:GetDestinationController()
+                        controller = args:GetDestinationController(),
+                        controllerName = args.destName
                     }
                 )
                 return
@@ -698,7 +704,8 @@ EventHandlers.HealingOutgoing = function(args)
                     useSource = false,
                     spellName = args.spellName,
                     spellSchool = args.spellSchool,
-                    controller = args:GetDestinationController()
+                    controller = args:GetDestinationController(),
+                    controllerName = args.destName
                 }
             )
             return
@@ -735,7 +742,7 @@ EventHandlers.HealingOutgoing = function(args)
 end
 
 -- Outgoing damage
-EventHandlers.DamageOutgoing = function(args)
+EventHandlers.OutgoingDamage = function(args)
     local spellId, isEnvironmental, isSwing, isAutoShot, isDoT =
         args.spellId,
         args.prefix == "ENVIRONMENTAL",
@@ -804,7 +811,8 @@ EventHandlers.DamageOutgoing = function(args)
                     -- We switch to "auto attack" so that each spell of the pet is merged together and displayed as "auto attack"
                     spellName = spellId == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
                     spellSchool = args.spellSchool,
-                    controller = args:GetDestinationController()
+                    controller = args:GetDestinationController(),
+                    controllerName = args.destName
                 }
             )
             return
@@ -866,7 +874,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                     return
@@ -881,7 +890,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -895,7 +905,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                     return
@@ -911,7 +922,8 @@ EventHandlers.DamageOutgoing = function(args)
                         useSource = false,
                         spellName = L_AUTOATTACK,
                         spellSchool = args.spellSchool,
-                        controller = args:GetDestinationController()
+                        controller = args:GetDestinationController(),
+                        controllerName = args.destName
                     }
                 )
                 return
@@ -929,7 +941,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                     return
@@ -944,7 +957,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -958,7 +972,8 @@ EventHandlers.DamageOutgoing = function(args)
                             useSource = false,
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
-                            controller = args:GetDestinationController()
+                            controller = args:GetDestinationController(),
+                            controllerName = args.destName
                         }
                     )
                     return
@@ -974,7 +989,8 @@ EventHandlers.DamageOutgoing = function(args)
                         useSource = false,
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
-                        controller = args:GetDestinationController()
+                        controller = args:GetDestinationController(),
+                        controllerName = args.destName
                     }
                 )
                 return
@@ -1064,7 +1080,8 @@ EventHandlers.IncomingDamage = function(args)
                 useSource = true,
                 spellName = args.spellName,
                 spellSchool = args.spellSchool,
-                controller = args:GetSourceController()
+                controller = args:GetSourceController(),
+                controllerName = args.sourceName
             }
         )
         return
@@ -1185,7 +1202,8 @@ EventHandlers.IncomingHealing = function(args)
             {
                 useSource = true,
                 sourceGUID = args.sourceGUID,
-                controller = args:GetSourceController()
+                controller = args:GetSourceController(),
+                controllerName = args.sourceName
             }
         )
         return
@@ -1210,7 +1228,7 @@ EventHandlers.IncomingHealing = function(args)
     x:AddMessage(outputFrame, message, color)
 end
 
-EventHandlers.AuraIncoming = function(args)
+EventHandlers.IncomingAura = function(args)
     -- Some useful information about the event
     local isBuff, isGaining =
         args.auraType == "BUFF", args.suffix == "_AURA_APPLIED" or args.suffix == "_AURA_APPLIED_DOSE"
@@ -1940,16 +1958,16 @@ function x.onCombatLogEvent(args)
     -- Is the source someone we care about?
     if args.isPlayer or args:IsSourceMyVehicle() or x:Options_Outgoing_ShowPetDamage() and args:IsSourceMyPet() then
         if args.suffix == "_HEAL" then
-            EventHandlers.HealingOutgoing(args)
+            EventHandlers.OutgoingHealing(args)
         elseif args.suffix == "_DAMAGE" then
-            EventHandlers.DamageOutgoing(args)
+            EventHandlers.OutgoingDamage(args)
         elseif args.suffix == "_MISSED" then
             if args.missType == "ABSORB" then
                 if x:Options_Outgoing_ShowAbsorbedDamageAsNormalDamage() then
                     -- This was fully absorbed, but we would like to display it... use the DamageOutgoing EventHandler
                     -- TODO What about fully absorbed heals?
                     args.amount = args.amountMissed
-                    EventHandlers.DamageOutgoing(args)
+                    EventHandlers.OutgoingDamage(args)
                 end
             else
                 EventHandlers.OutgoingMiss(args)
@@ -1982,7 +2000,7 @@ function x.onCombatLogEvent(args)
 
     -- Player Auras
     if args.atPlayer and BuffsOrDebuffs[args.suffix] then
-        EventHandlers.AuraIncoming(args)
+        EventHandlers.IncomingAura(args)
     end
 end
 

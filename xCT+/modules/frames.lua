@@ -488,8 +488,9 @@ function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, addi
 
     local heap, stack = x.spamMergerHeap[frameName], x.spamMergerStack[frameName]
     if heap[mergeId] then
+        -- There is already something in the heap with this mergeId.
+        -- Merge them!
         heap[mergeId].color = colorName
-        heap[mergeId].update = interval
 
         if tonumber(message) then
             heap[mergeId].mergedAmount = heap[mergeId].mergedAmount + tonumber(message)
@@ -504,21 +505,30 @@ function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, addi
         end
 
         if additionalInfo then
-            heap[mergeId].args = additionalInfo
+            if heap[mergeId].args then
+                -- There are args in the heap... dont overwrite them
+                if heap[mergeId].args.controllerName
+                    and additionalInfo.controllerName
+                    and heap[mergeId].args.controllerName ~= additionalInfo.controllerName
+                then
+                    -- remove the controller name if it differs
+                    heap[mergeId].args.controllerName = nil
+                end
+            else
+                -- No args are set in the heap - set them!
+                heap[mergeId].args = additionalInfo
+            end
         end
     else
+        -- this mergeId is new! Add it to the heap and stack
         heap[mergeId] = {
             -- after this time we display it on the frame
             displayTime = now + interval,
-
-            -- how often to update
-            update = interval,
 
             -- merged entries
             mergedAmount = 0,
             mergedCount = 1,
 
-            -- color
             color = colorName,
         }
 
