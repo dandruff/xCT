@@ -128,7 +128,6 @@ function x:Options_OutgoingHealing_ShowHots()
     return x.db.profile.frames.outgoing_healing.enableHots
 end
 
--- TODO currently unused
 function x:Options_OutgoingHealing_ShowOverhealing()
     return x.db.profile.frames.outgoing_healing.enableOverhealing
 end
@@ -151,6 +150,10 @@ end
 
 function x:Options_OutgoingHealing_SubtractOverhealing()
     return x.db.profile.frames.outgoing_healing.enableOverhealingSubtraction
+end
+
+function x:Options_OutgoingHealing_HideAbsorbedHealing()
+    return x.db.profile.frames.outgoing_healing.hideAbsorbedOutgoingHeals
 end
 
 -- Frame "Incoming Damage"

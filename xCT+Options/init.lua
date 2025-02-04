@@ -13,7 +13,7 @@
  [====================================]]
 
 local AddonName, optionsAddon = ...
-optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceEvent-3.0", "AceTimer-3.0")
+optionsAddon.engine = LibStub("AceAddon-3.0"):NewAddon(AddonName, "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0")
 
 local xo = optionsAddon.engine
 

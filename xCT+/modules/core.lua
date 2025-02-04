@@ -136,22 +136,18 @@ function x:OnDisable() end
 
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
-    local major, minor, iteration, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
-    major, minor, iteration = tonumber(major) or 0, tonumber(minor) or 0, tonumber(iteration) or 0
-    local isAlpha, isBeta =
-        string.find(releaseMsg, "alpha") and true or false, string.find(releaseMsg, "beta") and true or false
-    local t = {}
-    t.major = major
-    t.minor = minor
-    t.iteration = iteration
-    t.isAlpha = isAlpha
-    t.isBeta = isBeta
-    t.isRelease = not (isAlpha or isBeta)
+    local major, minor, patch, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
+    local isAlpha = string.find(releaseMsg, "alpha") and true or false
+    local isBeta = string.find(releaseMsg, "beta") and true or false
 
-    if not t.isReleased then
-        t.devBuild = tonumber(string.match(releaseMsg, "(%d+)")) or 1
-    end
-    return t
+    return {
+        major = tonumber(major) or 0,
+        minor = tonumber(minor) or 0,
+        patch = tonumber(patch) or 0,
+        isAlpha = isAlpha,
+        isBeta = isBeta,
+        devBuild = tonumber(string.match(releaseMsg or "", "(%d+)")) or 0,
+    }
 end
 
 local function CompareVersions(a, b, debug)
@@ -180,10 +176,10 @@ local function CompareVersions(a, b, debug)
         return -1
     end
 
-    -- Compare Iteration numbers
-    if a.iteration > b.iteration then
+    -- Compare Patch numbers
+    if a.patch > b.patch then
         return 1
-    elseif a.iteration < b.iteration then
+    elseif a.patch < b.patch then
         return -1
     end
 
@@ -246,12 +242,7 @@ end
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic(existing)
     local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
-    local currentVersion = VersionToTable(addonVersionString)
     local previousVersion = VersionToTable(self.db.profile.dbVersion or "4.3.0 Beta 2")
-
-    if not currentVersion.devBuild and UnitName("player") == "Dandraffbal" then
-        currentVersion.devBuild = 1
-    end
 
     if existing then
         -- Pre-Legion Requires Complete Reset
@@ -262,11 +253,6 @@ function x:CompatibilityLogic(existing)
 
         -- 4.3.0 Beta 3 -> Removes Spell School Colors from Outgoing fraame settings
         if CompareVersions(VersionToTable("4.3.0 Beta 3"), previousVersion) > 0 then
-            if currentVersion.devBuild then
-                x.MigratePrint(
-                    "|cff798BDDSpell School Colors|r (|cffFFFF00From: Config Tool->Frames->Outgoing|r | |cff00FF00To: Config Tool->Spell School Colors|r)"
-                )
-            end
             if x.db.profile.frames.outgoing.colors and x.db.profile.frames.outgoing.colors.spellSchools then
                 local oldDB = x.db.profile.frames.outgoing.colors.spellSchools.colors
                 local newDB = x.db.profile.SpellColors
@@ -291,9 +277,6 @@ function x:CompatibilityLogic(existing)
 
         -- 4.3.0 Beta 4 -> Remove redundant Merge Entries from the Config
         if CompareVersions(VersionToTable("4.3.0 Beta 5"), previousVersion) > 0 then
-            if currentVersion.devBuild then
-                x.MigratePrint("|cff798BDDMerge Entries:|r (|cffFFFF00Optimizing SavedVars|r)")
-            end
             local merge = x.db.profile.spells.merge
             for id, entry in pairs(merge) do
                 merge[id] = nil
@@ -305,11 +288,6 @@ function x:CompatibilityLogic(existing)
 
         -- Clean up colors names in the database
         if CompareVersions(VersionToTable("4.3.3 Beta 1"), previousVersion) > 0 then
-            if currentVersion.devBuild then --currentVersion.devBuild then
-                x.MigratePrint(
-                    "|cff798BDDCustom Colors|r (|cffFFFF00From: Config Tool->Frames-> All Frames ->Colors|r) Removing old options."
-                )
-            end
             for name, settings in pairs(x.db.profile.frames) do
                 if settings.colors then
                     for exists in pairs(settings.colors) do
@@ -326,14 +304,10 @@ function x:CompatibilityLogic(existing)
 
         -- Clean up class frame from database
         if CompareVersions(VersionToTable("4.5.1-beta5"), previousVersion) > 0 then
-            if currentVersion.devBuild then --currentVersion.devBuild then
-                x.MigratePrint("|cffFFFF00Cleaning Frame DB (Removing Class)|r")
-            end
             self.db.profile.frames.class = nil
         end
-    else
-        -- Created New: Dont need to do anything right now
     end
+
     self.db.profile.dbVersion = addonVersionString
 
     return true
@@ -500,18 +474,20 @@ function x:CacheColors()
                 if colorSettings.colors then
                     for currentColorName, currentColorSettings in pairs(colorSettings.colors) do
                         -- if there is a valid color here, migrate it to the new version
-                        if currentColorSettings.color and unpack(currentColorSettings.color) then
+                        -- only migrate if the target color still exists
+                        if x.db.profile.Colors[currentColorName] and currentColorSettings.color and unpack(currentColorSettings.color) then
+                            self:Print("Migrating color", currentColorName, "of", frameName, "to new format.")
                             x.db.profile.Colors[currentColorName].enabled = currentColorSettings.enabled
                             x.db.profile.Colors[currentColorName].color = currentColorSettings.color
-                            self:Print("Migrating color", currentColorName, "to new format.")
                         end
                     end
                 else
                     -- if there is a valid color here, migrate it to the new version
-                    if colorSettings.color and unpack(colorSettings.color) then
+                    -- only migrate if the target color still exists
+                    if x.db.profile.Colors[colorName] and colorSettings.color and unpack(colorSettings.color) then
+                        self:Print("Migrating color", colorName, "of", frameName, "to new format.")
                         x.db.profile.Colors[colorName].enabled = colorSettings.enabled
                         x.db.profile.Colors[colorName].color = colorSettings.color
-                        self:Print("Migrating color", colorName, "to new format.")
                     end
                 end
             end

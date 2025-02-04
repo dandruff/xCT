@@ -1556,23 +1556,15 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
+                                name = L["The |cffFFFF00Names Settings|r allows you to add the player / npc / spell name to each message. The spam merger will hide player / npc names if different players / npcs were hit."],
                                 fontSize = "small",
                             },
 
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = L["|cff798BDDName Appearance|r:\n\n"],
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
                             namePrefix = {
-                                order = 3,
+                                order = 2,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying the name."],
+                                name = L["Name Prefix"],
+                                desc = L["Add these character(s) to the beginning of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -1580,8 +1572,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying the name."],
+                                name = L["Name Suffix"],
+                                desc = L["Add these character(s) to the end of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -1592,10 +1584,9 @@ function x:InitOptionsTable()
                                 name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Player Name Format"],
                                     },
 
                                     enableNameColor = {
@@ -1630,10 +1621,9 @@ function x:InitOptionsTable()
                                     },
 
                                     playerSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
 
                                     enableSpellColor = {
@@ -1668,25 +1658,24 @@ function x:InitOptionsTable()
                                         width = "half",
                                     },
 
-                                    playerNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
-                                        order = 30,
-                                        name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
+                                        order = 21,
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Player Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (Player Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - Player Name)"],
+                                            [3] = L["Player Name"] .. " - " .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. " - " .. L["Player Name"],
                                         },
                                     },
                                 },
@@ -1699,40 +1688,34 @@ function x:InitOptionsTable()
                                 args = {
                                     npcNames = {
                                         order = 1,
-                                        type = "description",
-                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["NPC Name Format"],
                                     },
-
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = L["NPC Name's Color"],
+                                        name = L["NPC Name Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
 
                                     npcSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Spell Name"],
                                         desc = L["The spell name will be colored according to it's spell school."],
                                     },
-
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
@@ -1740,7 +1723,6 @@ function x:InitOptionsTable()
                                         desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -1750,25 +1732,24 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    npcNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC Name|r - The name of the NPC that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
-                                            [1] = L["NPC's Name"],
+                                            [1] = L["NPC Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (NPC Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - NPC Name)"],
+                                            [3] = L["NPC Name"] .. ' - ' .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. ' - ' .. L["NPC Name"],
                                         },
                                     },
                                 },
@@ -2276,23 +2257,15 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
+                                name = L["The |cffFFFF00Names Settings|r allows you to add the player / npc / spell name to each message. The spam merger will hide player / npc names if different players / npcs were hit."],
                                 fontSize = "small",
                             },
 
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = L["|cff798BDDName Appearance|r:\n\n"],
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
                             namePrefix = {
-                                order = 3,
+                                order = 2,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying the name."],
+                                name = L["Name Prefix"],
+                                desc = L["Add these character(s) to the beginning of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2300,8 +2273,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying the name."],
+                                name = L["Name Suffix"],
+                                desc = L["Add these character(s) to the end of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2312,10 +2285,9 @@ function x:InitOptionsTable()
                                 name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Player Name Format"],
                                     },
 
                                     enableNameColor = {
@@ -2350,10 +2322,9 @@ function x:InitOptionsTable()
                                     },
 
                                     playerSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
 
                                     enableSpellColor = {
@@ -2388,25 +2359,24 @@ function x:InitOptionsTable()
                                         width = "half",
                                     },
 
-                                    playerNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
-                                        order = 30,
-                                        name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
+                                        order = 21,
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Player Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (Player Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - Player Name)"],
+                                            [3] = L["Player Name"] .. " - " .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. " - " .. L["Player Name"],
                                         },
                                     },
                                 },
@@ -2418,41 +2388,35 @@ function x:InitOptionsTable()
                                 name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["NPC Name Format"],
                                     },
-
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = L["NPC Name's Color"],
+                                        name = L["NPC Name Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
 
                                     npcSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Spell Name"],
                                         desc = L["The spell name will be colored according to it's spell school."],
                                     },
-
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
@@ -2460,7 +2424,6 @@ function x:InitOptionsTable()
                                         desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -2470,25 +2433,24 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    npcNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC Name|r - The name of the NPC that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
-                                            [1] = L["NPC's Name"],
+                                            [1] = L["NPC Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (NPC Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - NPC Name)"],
+                                            [3] = L["NPC Name"] .. ' - ' .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. ' - ' .. L["NPC Name"],
                                         },
                                     },
                                 },
@@ -2504,7 +2466,7 @@ function x:InitOptionsTable()
                             headerHots = {
                                 order = 1,
                                 type = "header",
-                                name = L["HoTs"],
+                                name = L["Miscellaneous Settings"],
                             },
                             enableHots = {
                                 order = 2,
@@ -2512,6 +2474,14 @@ function x:InitOptionsTable()
                                 name = L["Show HoTs"],
                                 desc = L["Show your Heal-Over-Time (HOT) healing."],
                                 get = "Options_OutgoingHealing_ShowHots",
+                                set = set2,
+                            },
+                            hideAbsorbedOutgoingHeals = {
+                                order = 3,
+                                type = "toggle",
+                                name = L["Hide Absorbed Heals"],
+                                desc = L["If enabled, subtract any healing that was absorbed by a |cffFF0000debuff|r from the total."],
+                                get = "Options_OutgoingHealing_HideAbsorbedHealing",
                                 set = set2,
                             },
 
@@ -2527,7 +2497,6 @@ function x:InitOptionsTable()
                                 desc = L["Displays overhealing."],
                                 get = "Options_OutgoingHealing_ShowOverhealing",
                                 set = set2,
-                                disabled = isFrameItemDisabled,
                             },
                             enableOverhealingSubtraction = {
                                 order = 12,
@@ -2537,8 +2506,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_SubtractOverhealing",
                                 set = set2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                 end,
                             },
                             enableOverhealingFormat = {
@@ -2549,8 +2517,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_FormatOverhealing",
                                 set = set2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                 end,
                             },
                             overhealingPrefix = {
@@ -2561,8 +2528,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_OverhealingPrefix",
                                 set = setTextIn2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
                                 end,
                             },
@@ -2574,8 +2540,7 @@ function x:InitOptionsTable()
                                 get = "Options_OutgoingHealing_OverhealingPostfix",
                                 set = setTextIn2,
                                 disabled = function()
-                                    return not x.db.profile.frames.outgoing_healing.enabledFrame
-                                        or not x.db.profile.frames.outgoing_healing.enableOverhealing
+                                    return not x.db.profile.frames.outgoing_healing.enableOverhealing
                                         or not x.db.profile.frames.outgoing_healing.enableOverhealingFormat
                                 end,
                             },
@@ -2957,23 +2922,15 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
+                                name = L["The |cffFFFF00Names Settings|r allows you to add the player / npc / spell name to each message. The spam merger will hide player / npc names if different players / npcs were hit."],
                                 fontSize = "small",
                             },
 
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = L["|cff798BDDName Appearance|r:\n\n"],
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
                             namePrefix = {
-                                order = 3,
+                                order = 2,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying the name."],
+                                name = L["Name Prefix"],
+                                desc = L["Add these character(s) to the beginning of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2981,8 +2938,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying the name."],
+                                name = L["Name Suffix"],
+                                desc = L["Add these character(s) to the end of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -2993,10 +2950,9 @@ function x:InitOptionsTable()
                                 name = L["Events to a Player"],
                                 args = {
                                     playerNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Player Name Format"],
                                     },
 
                                     enableNameColor = {
@@ -3031,10 +2987,9 @@ function x:InitOptionsTable()
                                     },
 
                                     playerSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
 
                                     enableSpellColor = {
@@ -3069,25 +3024,24 @@ function x:InitOptionsTable()
                                         width = "half",
                                     },
 
-                                    playerNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
-                                        order = 30,
-                                        name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
+                                        order = 21,
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Player Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (Player Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - Player Name)"],
+                                            [3] = L["Player Name"] .. " - " .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. " - " .. L["Player Name"],
                                         },
                                     },
                                 },
@@ -3099,41 +3053,35 @@ function x:InitOptionsTable()
                                 name = L["Events to a NPC"],
                                 args = {
                                     npcNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["NPC Name Format"],
                                     },
-
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = L["NPC Name's Color"],
+                                        name = L["NPC Name Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
 
                                     npcSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Spell Name"],
                                         desc = L["The spell name will be colored according to it's spell school."],
                                     },
-
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
@@ -3141,7 +3089,6 @@ function x:InitOptionsTable()
                                         desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -3151,26 +3098,24 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    npcNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
-                                        desc = "",
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC Name|r - The name of the NPC that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
-                                            [1] = L["NPC's Name"],
+                                            [1] = L["NPC Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (NPC Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - NPC Name)"],
+                                            [3] = L["NPC Name"] .. ' - ' .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. ' - ' .. L["NPC Name"],
                                         },
                                     },
                                 },
@@ -3216,21 +3161,21 @@ function x:InitOptionsTable()
                             criticalAppearance = {
                                 type = "header",
                                 order = 10,
-                                name = L["Critical Appearance"],
+                                name = L["Critical Format"],
                             },
                             critPrefix = {
                                 order = 11,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying a critical amount."],
+                                name = L["Critical Prefix"],
+                                desc = L["Add these character(s) before the amount of a critical hit."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                             },
                             critPostfix = {
                                 order = 12,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying a critical amount."],
+                                name = L["Critical Suffix"],
+                                desc = L["Add these character(s) after the amount of a critical hit."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                             },
@@ -3644,23 +3589,15 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
+                                name = L["The |cffFFFF00Names Settings|r allows you to add the player / npc / spell name to each message. The spam merger will hide player / npc names if different players / npcs were hit."],
                                 fontSize = "small",
                             },
 
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = L["|cff798BDDName Appearance|r:\n\n"],
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
                             namePrefix = {
-                                order = 3,
+                                order = 2,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying the name."],
+                                name = L["Name Prefix"],
+                                desc = L["Add these character(s) to the beginning of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -3668,8 +3605,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying the name."],
+                                name = L["Name Suffix"],
+                                desc = L["Add these character(s) to the end of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -3680,10 +3617,9 @@ function x:InitOptionsTable()
                                 name = L["Events from a Player"],
                                 args = {
                                     playerNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Player Name Format"],
                                     },
 
                                     enableNameColor = {
@@ -3718,12 +3654,10 @@ function x:InitOptionsTable()
                                     },
 
                                     playerSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
@@ -3756,25 +3690,24 @@ function x:InitOptionsTable()
                                         width = "half",
                                     },
 
-                                    playerNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
-                                        order = 30,
-                                        name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
+                                        order = 21,
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Player Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (Player Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - Player Name)"],
+                                            [3] = L["Player Name"] .. " - " .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. " - " .. L["Player Name"],
                                         },
                                     },
                                 },
@@ -3786,41 +3719,35 @@ function x:InitOptionsTable()
                                 name = L["Events from a NPC"],
                                 args = {
                                     npcNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["NPC Name Format"],
                                     },
-
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = L["NPC Name's Color"],
+                                        name = L["NPC Name Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
 
                                     npcSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Spell Name"],
                                         desc = L["The spell name will be colored according to it's spell school."],
                                     },
-
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
@@ -3828,7 +3755,6 @@ function x:InitOptionsTable()
                                         desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -3838,26 +3764,24 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    npcNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
-                                        desc = "",
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC Name|r - The name of the NPC that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
-                                            [1] = L["NPC's Name"],
+                                            [1] = L["NPC Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (NPC Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - NPC Name)"],
+                                            [3] = L["NPC Name"] .. ' - ' .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. ' - ' .. L["NPC Name"],
                                         },
                                     },
                                 },
@@ -3869,33 +3793,28 @@ function x:InitOptionsTable()
                                 name = L["Events from the Environment"],
                                 args = {
                                     environmentNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDEnvironment Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Environment Format"],
                                     },
-
                                     enableNameColor = {
                                         order = 2,
                                         type = "toggle",
                                         name = L["Color Environment"],
                                         desc = L["The name will be colored according to it's environmental type."],
                                     },
-
                                     environmentNames_Spacer1 = {
                                         type = "description",
                                         order = 3,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomNameColor = {
                                         order = 4,
                                         type = "toggle",
                                         name = L["Custom"],
                                         width = "half",
                                     },
-
                                     customNameColor = {
                                         order = 5,
                                         type = "color",
@@ -3906,33 +3825,28 @@ function x:InitOptionsTable()
                                     },
 
                                     environmentSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Type"],
                                         desc = L["The type will be colored according to it's environmental type."],
                                     },
-
                                     environmentNames_Spacer2 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
                                         name = L["Custom"],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -3942,43 +3856,37 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    environmentNames_Spacer3 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display Environment Name"],
-                                        desc = L["Environment Damage Types:"]
-                                            .. "\n|cffFFFF00"
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDEnvironment|r: Displays 'Environment' as the one who damaged you.\n\n|cff798BDDDamage Types|r: Displays the damage type e.g. "]
+                                            .. " |cffFFFF00"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_DROWNING
-                                            .. "|r,"
-                                            .. " |cffFFFF00"
+                                            .. "|r, |cffFFFF00"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_FALLING
-                                            .. "|r,"
-                                            .. " |cffFFFF00"
+                                            .. "|r, |cffFFFF00"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_FATIGUE
-                                            .. "|r,"
-                                            .. "\n|cffFF8000"
+                                            .. "|r, |cffFF8000"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_FIRE
-                                            .. "|r,"
-                                            .. " |cffFF8000"
+                                            .. "|r, |cffFF8000"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_LAVA
-                                            .. "|r,"
-                                            .. " |cff4DFF4D"
+                                            .. "|r, |cff4DFF4D"
                                             .. ACTION_ENVIRONMENTAL_DAMAGE_SLIME
-                                            .. "|r",
+                                            .. "|r.",
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Environment"],
-                                            [2] = L["Environmental Damage Type"],
-                                            [3] = L["Both (Environment - Type)"],
-                                            [4] = L["Both (Type - Environment)"],
+                                            [2] = L["Damage Type"],
+                                            [3] = L["Environment"] .. " - " .. L["Damage Type"],
+                                            [4] = L["Damage Type"] .. " - " .. L["Environment"],
                                         },
                                     },
                                 },
@@ -4014,15 +3922,15 @@ function x:InitOptionsTable()
                             },
 
                             criticalAppearance = {
-                                type = "header",
                                 order = 10,
-                                name = L["Critical Appearance"],
+                                type = "header",
+                                name = L["Formatting of criticals"],
                             },
                             critPrefix = {
                                 order = 11,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying a critical amount."],
+                                name = L["Critical Prefix"],
+                                desc = L["Add these character(s) before the amount of a critical hit."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 disabled = isFrameItemDisabled,
@@ -4030,8 +3938,8 @@ function x:InitOptionsTable()
                             critPostfix = {
                                 order = 12,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying a critical amount."],
+                                name = L["Critical Suffix"],
+                                desc = L["Add these character(s) after the amount of a critical hit."],
                                 get = getTextIn2,
                                 set = setTextIn2,
                                 disabled = isFrameItemDisabled,
@@ -4414,23 +4322,15 @@ function x:InitOptionsTable()
                             namesDescription = {
                                 type = "description",
                                 order = 1,
-                                name = L["The |cffFFFF00Names Settings|r allows you to further format and customize your combat text frames. By selecting values from below, you will be able to see the source, destination or spell names of certain events.\n\n|cffFF8040NOTE:|r The |cffFFFF00Spam Merger|r will preempt formatting."],
+                                name = L["The |cffFFFF00Names Settings|r allows you to add the player / npc / spell name to each message. The spam merger will hide player / npc names if different players / npcs were hit."],
                                 fontSize = "small",
                             },
 
-                            nameAppearance = {
-                                type = "description",
-                                order = 2,
-                                name = L["|cff798BDDName Appearance|r:\n\n"],
-                                fontSize = "large",
-                                width = "normal",
-                            },
-
                             namePrefix = {
-                                order = 3,
+                                order = 2,
                                 type = "input",
-                                name = L["Prefix"],
-                                desc = L["Prefix this value to the beginning when displaying the name."],
+                                name = L["Name Prefix"],
+                                desc = L["Add these character(s) to the beginning of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -4438,8 +4338,8 @@ function x:InitOptionsTable()
                             namePostfix = {
                                 order = 4,
                                 type = "input",
-                                name = L["Postfix"],
-                                desc = L["Postfix this value to the end when displaying the name."],
+                                name = L["Name Suffix"],
+                                desc = L["Add these character(s) to the end of the message."],
                                 get = getNameFormatText,
                                 set = setNameFormatText,
                             },
@@ -4450,10 +4350,9 @@ function x:InitOptionsTable()
                                 name = L["Events from a Player"],
                                 args = {
                                     playerNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDPlayer Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Player Name Format"],
                                     },
 
                                     enableNameColor = {
@@ -4488,10 +4387,9 @@ function x:InitOptionsTable()
                                     },
 
                                     playerSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
 
                                     enableSpellColor = {
@@ -4526,25 +4424,24 @@ function x:InitOptionsTable()
                                         width = "half",
                                     },
 
-                                    playerNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
-                                        order = 30,
-                                        name = L["Display Player Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the player."],
+                                        order = 21,
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDPlayer Name|r - The name of the player that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
                                             [1] = L["Player Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (Player Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - Player Name)"],
+                                            [3] = L["Player Name"] .. " - " .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. " - " .. L["Player Name"],
                                         },
                                     },
                                 },
@@ -4556,41 +4453,35 @@ function x:InitOptionsTable()
                                 name = L["Events from a NPC"],
                                 args = {
                                     npcNames = {
-                                        type = "description",
                                         order = 1,
-                                        name = L["|cff798BDDNPC Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["NPC Name Format"],
                                     },
-
                                     customNameColor = {
                                         order = 2,
                                         type = "color",
-                                        name = L["NPC Name's Color"],
+                                        name = L["NPC Name Color"],
                                         get = getNameFormatColor,
                                         set = setNameFormatColor,
                                     },
 
                                     npcSpellNames = {
-                                        type = "description",
                                         order = 10,
-                                        name = L["\n|cff798BDDSpell Name Format Settings|r:"],
-                                        fontSize = "large",
+                                        type = "header",
+                                        name = L["Spell Name Format"],
                                     },
-
                                     enableSpellColor = {
                                         order = 11,
                                         type = "toggle",
                                         name = L["Color Spell Name"],
                                         desc = L["The spell name will be colored according to it's spell school."],
                                     },
-
                                     npcNames_Spacer1 = {
                                         type = "description",
                                         order = 12,
                                         name = "",
                                         width = "normal",
                                     },
-
                                     enableCustomSpellColor = {
                                         order = 13,
                                         type = "toggle",
@@ -4598,7 +4489,6 @@ function x:InitOptionsTable()
                                         desc = L["Preempt an automatic color with a custom one."],
                                         width = "half",
                                     },
-
                                     customSpellColor = {
                                         order = 14,
                                         type = "color",
@@ -4608,26 +4498,24 @@ function x:InitOptionsTable()
                                         set = setNameFormatColor,
                                     },
 
-                                    npcNames_Spacer2 = {
-                                        type = "description",
+                                    nameTypeHeader = {
                                         order = 20,
-                                        name = "",
+                                        type = "header",
+                                        name = L["Names to display"],
                                     },
-
                                     nameType = {
                                         type = "select",
                                         order = 21,
-                                        name = L["Display NPC Name"],
-                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC's Name|r - The name of the target that is affected by the event. Empty when using the spell merger.\n\n|cff798BDDSpell Name|r - The name of the spell that is affecting the target."],
-                                        desc = "",
+                                        name = L["Names to display"],
+                                        desc = L["|cff798BDDNone|r - Disabled\n\n|cff798BDDNPC Name|r - The name of the NPC that is affected by the event. Empty when using the spell merger and hitting different targets.\n\n|cff798BDDSpell Name|r - The name of the spell."],
                                         width = "double",
                                         style = "radio",
                                         values = {
                                             [0] = L["None"],
-                                            [1] = L["NPC's Name"],
+                                            [1] = L["NPC Name"],
                                             [2] = L["Spell Name"],
-                                            [3] = L["Both (NPC Name - Spell Name)"],
-                                            [4] = L["Both (Spell Name - NPC Name)"],
+                                            [3] = L["NPC Name"] .. ' - ' .. L["Spell Name"],
+                                            [4] = L["Spell Name"] .. ' - ' .. L["NPC Name"],
                                         },
                                     },
                                 },
@@ -7481,7 +7369,7 @@ function x:InitOptionsTable()
                 order = 1,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, |cffAAAAFFToludin|r, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile.",
+                name = "|cffAA0000Tukz|r, |cffAA0000Elv|r, |cffFFFF00Affli|r, |cffFF8000BuG|r, |cff8080FFShestak|r, Toludin, Nidra, gnangnan, NitZo, Naughtia, Derap, sortokk, ckaotik, Cecile",
             },
 
             testerTitle = {
@@ -7493,7 +7381,7 @@ function x:InitOptionsTable()
                 type = "description",
                 order = 11,
                 fontSize = "medium",
-                name = "|cffAAAAFF Alex|r,|cff8080EE BuG|r,|cffAAAAFF Kkthnxbye|r,|cff8080EE Azilroka|r,|cffAAAAFF Prizma|r,|cff8080EE schmeebs|r,|cffAAAAFF Pat|r,|cff8080EE hgwells|r,|cffAAAAFF Jaron|r,|cff8080EE Fitzbattleaxe|r,|cffAAAAFF Nihan|r,|cff8080EE Jaxo|r,|cffAAAAFF Schaduw|r,|cff8080EE sylenced|r,|cffAAAAFF kaleidoscope|r,|cff8080EE Killatones|r,|cffAAAAFF Trokko|r,|cff8080EE Yperia|r,|cffAAAAFF Edoc|r,|cff8080EE Cazart|r,|cffAAAAFF Nevah|r,|cff8080EE Refrakt|r,|cffAAAAFF Thakah|r,|cff8080EE johnis007|r,|cffAAAAFF Sgt|r,|cff8080EE NitZo|r,|cffAAAAFF cptblackgb|r,|cff8080EE pollyzoid|r.",
+                name = "Alex, BuG, Kkthnxbye, Azilroka, Prizma, schmeebs, Pat, hgwells, Jaron, Fitzbattleaxe, Nihan, Jaxo, Schaduw, sylenced, kaleidoscope, Killatones, Trokko, Yperia, Edoc, Cazart, Nevah, Refrakt, Thakah, johnis007, Sgt, NitZo, cptblackgb, pollyzoid",
             },
 
             curseTitle = {
@@ -7505,7 +7393,7 @@ function x:InitOptionsTable()
                 order = 21,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF CadjieBOOM|r,|cff8080EE Mokal|r,|cffAAAAFF ShadoFall|r,|cff8080EE alloman|r,|cffAAAAFF chhld|r,|cff8080EE chizzlestick|r,|cffAAAAFF egreym|r,|cff8080EE nukme|r,|cffAAAAFF razrwolf|r,|cff8080EE star182|r,|cffAAAAFF zacheklund|r",
+                name = "CadjieBOOM, Mokal, ShadoFall, alloman, chhld, chizzlestick, egreym, nukme, razrwolf, star182, zacheklund",
             },
 
             tukuiTitle = {
@@ -7517,7 +7405,7 @@ function x:InitOptionsTable()
                 order = 31,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Affiniti|r,|cff8080EE Badinfluence|r,|cffAAAAFF Badinfluence|r,|cff8080EE BuG|r,|cffAAAAFF Curdi|r,|cff8080EE Dorkie|r,|cffAAAAFF Galadeon|r,|cff8080EE HarryDotter|r,|cffAAAAFF Joebacsi21|r,|cff8080EE Kuron|r,|cffAAAAFF Mabb22|r,|cff8080EE Narlya|r,|cffAAAAFF Nihan|r,|cff8080EE Verdell|r,|cffAAAAFF arzelia|r,|cff8080EE blessed|r,|cffAAAAFF djouga|r,|cff8080EE fakemessiah|r,|cffAAAAFF faze|r,|cff8080EE firewall|r,|cffAAAAFF jatha86|r,|cff8080EE jaydogg10|r,|cffAAAAFF jlor|r,|cff8080EE lunariongames|r,|cffAAAAFF stoankold|r",
+                name = "Affiniti, Badinfluence, BuG, Curdi, Dorkie, Galadeon, HarryDotter, Joebacsi21, Kuron, Mabb22, Narlya, Nihan, Verdell, arzelia, blessed, djouga, fakemessiah, faze, firewall, jatha86, jaydogg10, jlor, lunariongames, stoankold",
             },
 
             tukuiTitleLegion = {
@@ -7529,7 +7417,7 @@ function x:InitOptionsTable()
                 order = 41,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Azazu|r,|cff8080EE Broni|r,|cffAAAAFF CursedBunny|r,|cff8080EE Daemios|r,|cffAAAAFF Dajova|r,|cff8080EE Delerionn|r,|cffAAAAFF dunger|r,|cff8080EE feetss|r,|cffAAAAFF gesuntight|r,|cff8080EE Homaxz|r,|cffAAAAFF karamei|r,|cff8080EE Merathilis|r,|cffAAAAFF re1jo|r,|cff8080EE sammael666|r,|cffAAAAFF scathee|r,|cff8080EE Tonyleila|r,|cffAAAAFF Torch|r,|cff8080EE WetU|r,|cffAAAAFF Znuff|r,|cff8080EE Zylos|r",
+                name = "Azazu, Broni, CursedBunny, Daemios, Dajova, Delerionn, dunger, feetss, gesuntight, Homaxz, karamei, Merathilis, re1jo, sammael666, scathee, Tonyleila, Torch, WetU, Znuff, Zylos",
             },
 
             tukuiTitleBfA = {
@@ -7541,43 +7429,53 @@ function x:InitOptionsTable()
                 order = 51,
                 type = "description",
                 fontSize = "medium",
-                name = "|cffAAAAFF Toludin|r",
-            },
-
-            githubTitleSL = {
-                type = "header",
-                order = 60,
-                name = L["Github Contributors"],
-            },
-            userNameSL = {
-                type = "description",
-                order = 61,
-                fontSize = "medium",
-                name = "|cff1AAD59 RedAces|r,|cff22FF80 oBusk|r,|cff1AAD59 BourgeoisM|r,|cff22FF80 Witnesscm|r",
+                name = "Toludin",
             },
 
             githubTitle = {
                 type = "header",
                 order = 70,
-                name = L["|cffFFFF00Thank You Github Contributors!|r"],
+                name = L["Github Contributors"],
             },
-            userName4 = {
+            githubUsers = {
                 order = 71,
                 type = "description",
                 fontSize = "medium",
-                name = "|cff22FF80 Tonyleila|r,|cff1AAD59 ckaotik|r,|cff22FF80 Stanzilla|r,|cff1AAD59 Torch (behub)|r,|cff22FF80 vforge|r,|cff1AAD59 Toludin (BfA Update!)|r",
+                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!)",
             },
 
-            contactTitle = {
-                order = 80,
+            translatorsTitle = {
                 type = "header",
-                name = L["Contact Me"],
+                order = 80,
+                name = L["zhCN Translators"],
             },
-            contactStep1 = {
-                type = "description",
+            gitHubUsers = {
                 order = 81,
-                name = "|cff22FF80https://github.com/dandruff/xCT|r",
+                type = "description",
+                fontSize = "medium",
+                name = "萌丶汉丶纸 (on CurseForge)",
             },
+
+            contactMeTitle = {
+                order = 90,
+                type = "header",
+                name = L["How to contact me"],
+            },
+            contactMeGithub = {
+                order = 91,
+                type = "description",
+                name = L["Create an issue at github:"] .. " https://github.com/dandruff/xCT",
+            },
+            contactMeCurseforgeComment = {
+                order = 93,
+                type = "description",
+                name = L["Create a comment on Curseforge:"] .. " https://www.curseforge.com/wow/addons/xct-plus/comments"
+            },
+            contactMeCurseforgePm = {
+                order = 93,
+                type = "description",
+                name = L["Write me a PM on Curseforge:"] .. " https://www.curseforge.com/members/redaces"
+            }
         },
     }
 
