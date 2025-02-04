@@ -7453,7 +7453,7 @@ function x:InitOptionsTable()
                 order = 81,
                 type = "description",
                 fontSize = "medium",
-                name = "萌丶汉丶纸 (on CurseForge)",
+                name = "萌丶汉丶纸 (fredako)",
             },
 
             contactMeTitle = {

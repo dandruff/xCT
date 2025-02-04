@@ -12,13 +12,15 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
--- Translator: https://www.curseforge.com/members/%E8%90%8C%E4%B8%B6%E6%B1%89%E4%B8%B6%E7%BA%B8/projects
+-- Translators:
+-- * https://www.curseforge.com/members/%E8%90%8C%E4%B8%B6%E6%B1%89%E4%B8%B6%E7%BA%B8/projects
+-- * https://github.com/fredako
 
 local AddonName = ...
 
 -- 3rd param: isDefault
 -- 4th param: silent
-local L = LibStub:GetLibrary("AceLocale-3.0"):NewLocale(AddonName, "zhCN", false, true)
+local L = LibStub:GetLibrary("AceLocale-3.0"):NewLocale(AddonName, "zhCN", false, false)
 if not L then return end
 
 L["                                                      Version: %s                                                      "] = "                                                      版本: %s                                                      "
