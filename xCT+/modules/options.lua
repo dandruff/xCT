@@ -298,6 +298,10 @@ function x:Options_SpamMerger_DispellInterval()
     return x.db.profile.spells.mergeDispellInterval or 0
 end
 
+function x:Options_SpamMerger_ReputationInterval()
+    return x.db.profile.spells.mergeReputationInterval or 0
+end
+
 function x:Options_SpamMerger_IncomingMissesInterval()
     return x.db.profile.spells.mergeIncomingMissesInterval or 0
 end

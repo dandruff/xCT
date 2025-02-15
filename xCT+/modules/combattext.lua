@@ -1913,6 +1913,7 @@ CombatTextUpdateHandlers.SPELL_CAST = function(spellName)
 end
 
 CombatTextUpdateHandlers.HONOR_GAINED = function()
+    -- TODO: Create a merger for honor xp
     -- UNTESTED
     if not x:Options_General_ShowHonor() then
         return
@@ -1926,27 +1927,32 @@ CombatTextUpdateHandlers.HONOR_GAINED = function()
 end
 
 CombatTextUpdateHandlers.FACTION = function()
-    -- TODO: Create a merger for faction and honor xp
     if not x:Options_General_ShowReputationChanges() then
         return
     end
 
     local faction, amount = GetCurrentCombatTextEventInfo()
-    local num = math.floor(tonumber(amount) or 0)
-
-    if num > 0 then
-        x:AddMessage(
-            "general",
-            string.format("%s: +%s %s", _G.REPUTATION, x:Abbreviate(amount, "general"), faction),
-            "reputationGain"
-        )
-    elseif num < 0 then
-        x:AddMessage(
-            "general",
-            string.format("%s: -%s %s", _G.REPUTATION, x:Abbreviate(amount, "general"), faction),
-            "reputationLoss"
-        )
+    amount = math.floor(tonumber(amount) or 0)
+    local outputFrame, color, outputFormat = "general"
+    if amount > 0 then
+        color = "reputationGain"
+        outputFormat = string.format("%s: +%s %s", _G.REPUTATION, "%s", faction)
+    else
+        color = "reputationLoss"
+        outputFormat = string.format("%s: -%s %s", _G.REPUTATION, "%s", faction)
     end
+
+    local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
+    if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
+        x:AddSpamMessage(outputFrame, faction, amount, color, spamMergerInterval, {outputFormat = outputFormat})
+        return
+    end
+
+    x:AddMessage(
+        outputFrame,
+        string.format(outputFormat, x:Abbreviate(amount, "general")),
+        "reputationGain"
+    )
 end
 
 EventHandlers.COMBAT_TEXT_UPDATE = function(_, subevent, ...)

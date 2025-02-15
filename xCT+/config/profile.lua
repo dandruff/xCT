@@ -1102,6 +1102,7 @@ addon.defaults = {
             mergeIncomingMissesInterval = 3,
             mergeOutgoingDamageMissesInterval = 3,
             mergeDispellInterval = 1,
+            mergeReputationInterval = 3,
             mergePetInterval = 3,
             mergeVehicle = true,
             mergePetColor = { 1, 0.5, 0 },

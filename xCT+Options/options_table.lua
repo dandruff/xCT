@@ -6596,32 +6596,14 @@ function x:InitOptionsTable()
                         set = set0_1,
                     },
 
-                    dispellHeader = {
-                        type = "header",
-                        order = 30,
-                        name = L["Dispells"],
-                    },
-
-                    mergeDispellInterval = {
-                        order = 31,
-                        name = L["Merge-Interval for Dispells"],
-                        desc = L["The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable."],
-                        type = "range",
-                        min = 0,
-                        max = 5,
-                        step = 0.1,
-                        get = "Options_SpamMerger_DispellInterval",
-                        set = set0_1,
-                    },
-
                     petAttacksHeader = {
                         type = "header",
-                        order = 40,
+                        order = 30,
                         name = L["Pet Attacks"],
                     },
 
                     mergePetInterval = {
-                        order = 41,
+                        order = 31,
                         name = L["Merge-Interval for ALL Pet Abilities"],
                         desc = L["The interval (seconds) in which ALL pet damage will be merged. It will use your pet's icon instead of an spell icon. Use 0 to disable."],
                         type = "range",
@@ -6633,7 +6615,7 @@ function x:InitOptionsTable()
                     },
 
                     mergePetColor = {
-                        order = 42,
+                        order = 32,
                         type = "color",
                         name = L["Pet Color"],
                         desc = L["Which color do you want the merged pet messages to be?"],
@@ -6669,18 +6651,18 @@ function x:InitOptionsTable()
 
                     criticalHitsHeader = {
                         type = "header",
-                        order = 50,
+                        order = 40,
                         name = L["Critical Hits"],
                     },
 
                     criticalHitsExplanation = {
                         type = "description",
-                        order = 51,
+                        order = 41,
                         name = L["Please choose one:"],
                     },
 
                     mergeDontMergeCriticals = {
-                        order = 52,
+                        order = 42,
                         type = "toggle",
                         name = L["Don't Merge Critical Hits Together"],
                         desc = L["Crits will not get merged in the critical frame, but they will be included in the outgoing total. |cffFFFF00(Default)|r"],
@@ -6690,7 +6672,7 @@ function x:InitOptionsTable()
                     },
 
                     mergeCriticalsWithOutgoing = {
-                        order = 53,
+                        order = 43,
                         type = "toggle",
                         name = L["Merge Critical Hits with Outgoing"],
                         desc = L["Crits will be merged, but the total merged amount in the outgoing frame includes crits."],
@@ -6700,7 +6682,7 @@ function x:InitOptionsTable()
                     },
 
                     mergeCriticalsByThemselves = {
-                        order = 54,
+                        order = 44,
                         type = "toggle",
                         name = L["Merge Critical Hits by Themselves"],
                         desc = L["Crits will be merged and the total merged amount in the outgoing frame |cffFF0000DOES NOT|r include crits."],
@@ -6710,13 +6692,43 @@ function x:InitOptionsTable()
                     },
 
                     mergeHideMergedCriticals = {
-                        order = 55,
+                        order = 45,
                         type = "toggle",
                         name = L["Hide Merged Criticals"],
                         desc = L["Criticals that have been merged with the Outgoing frame will not be shown in the Critical frame"],
                         get = "Options_SpamMerger_HideMergedCriticals",
                         set = setSpecialCriticalOptions,
                         width = "full",
+                    },
+
+                    dispellHeader = {
+                        type = "header",
+                        order = 50,
+                        name = L["Other"],
+                    },
+
+                    mergeDispellInterval = {
+                        order = 51,
+                        name = L["Merge-Interval for Dispells"],
+                        desc = L["The interval (seconds) in which dispells are merged together. Only dispells for the same aura (by name) will be merged. Use 0 to disable."],
+                        type = "range",
+                        min = 0,
+                        max = 5,
+                        step = 0.1,
+                        get = "Options_SpamMerger_DispellInterval",
+                        set = set0_1,
+                    },
+
+                    mergeReputationInterval = {
+                        order = 52,
+                        name = L["Merge-Interval for Reputation"],
+                        desc = L["The interval (seconds) in which reputation gains / losses are merged together. Use 0 to disable."],
+                        type = "range",
+                        min = 0,
+                        max = 15,
+                        step = 0.1,
+                        get = "Options_SpamMerger_ReputationInterval",
+                        set = set0_1,
                     },
                 },
             },

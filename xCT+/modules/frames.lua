@@ -690,11 +690,17 @@ do
                         message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                     end
 
-                    if item.args and item.args.controller and frameSettings.names[item.args.controller].nameType > 0 then
-                        if frameSettings.fontJustify == "RIGHT" then
-                            message = x:formatName(item.args, frameSettings.names, item.args.useSource) .. " " .. message
-                        else
-                            message = message .. x:formatName(item.args, frameSettings.names, item.args.useSource)
+                    if item.args then
+                        if item.args.controller and frameSettings.names[item.args.controller].nameType > 0 then
+                            if frameSettings.fontJustify == "RIGHT" then
+                                message = x:formatName(item.args, frameSettings.names, item.args.useSource) .. " " .. message
+                            else
+                                message = message .. x:formatName(item.args, frameSettings.names, item.args.useSource)
+                            end
+                        end
+
+                        if item.args.outputFormat then
+                            message = string.format(item.args.outputFormat, message)
                         end
                     end
 
