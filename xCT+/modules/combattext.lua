@@ -22,6 +22,14 @@ local function utf8_fc_upper(source)
     return string.utf8upper(string.utf8sub(source, 1, 1)) .. string.utf8sub(source, 2)
 end
 
+local function table_clone(source)
+    local clone = {}
+    for k,v in pairs(source) do
+        clone[k] = v
+    end
+    return setmetatable(clone, getmetatable(source))
+end
+
 x.locale = GetLocale()
 
 local L_AUTOATTACK = C_Spell.GetSpellName(6603)
@@ -784,7 +792,7 @@ EventHandlers.OutgoingDamage = function(args)
         end
     end
 
-    local amount = args.amount
+    local amount = args.amount or 0
     if x:Options_Outgoing_ShowAbsorbedDamageAsNormalDamage() then
         -- Its a partial absorb, add it to the amount
         amount = amount + (args.absorbed or 0)
@@ -2022,6 +2030,60 @@ function x.onCombatLogEvent(args)
     -- Player Auras
     if args.atPlayer and BuffsOrDebuffs[args.suffix] then
         EventHandlers.IncomingAura(args)
+    end
+
+    -- Special case: Warrior's Spell reflect
+    if x.player.class == "WARRIOR" then
+        -- Spell reflect is weird:
+        -- 1. The Buff "Spell Reflect" is gained
+        -- 2. The Buff "Spell Reflect" is lost, this comes directly after a spell is reflected.
+        -- 3. There is a SPELL_DAMAGE event with the source == destination, this will come when the spell LANDS back on the caster.
+        -- 4. There is a SPELL_MISSED event (type REFLECT) with target = player, this usually comes after 3!
+
+        -- We can match the SPELL_MISSED to the SPELL_DAMAGE event via the sourceGUID while the Buff is up
+        -- Now we have to correlate all the 4 events to each other to get the correct SPELL_DAMAGE event to the SPELL_MISSED
+
+        if args.isPlayer and args.atPlayer and args.spellId == 23920
+        then
+            -- The warrior self-buffed (or lost) Spell reflect
+            if args.event == "SPELL_AURA_APPLIED" then
+                x.spellReflectApplied = args.timestamp
+                x.spellReflectRemoved = nil
+            elseif args.event == "SPELL_AURA_REMOVED" then
+                x.spellReflectRemoved = args.timestamp
+            end
+        elseif x.spellReflectApplied
+            and x.spellReflectApplied <= args.timestamp
+            and (x.spellReflectRemoved == nil or x.spellReflectRemoved + 1 >= args.timestamp)
+        then
+            -- The SPELL_DAMAGE event can / will come after the buff is lost, because of spell travel time
+            -- The SPELL_MISSED event came after the SPELL_DAMAGE event, idk why.
+
+            -- This event was triggered while spell reflect is active
+            local runHandler = false
+            if args.atPlayer and args.event == "SPELL_MISSED" and args.missType == "REFLECT" then
+                -- args get reused by the combatparser-lib, we have to clone it
+                x.spellReflectSpellMissed = table_clone(args)
+                runHandler = true
+            elseif args.event == "SPELL_DAMAGE" and args.sourceGUID == args.destGUID then
+                -- args get reused by the combatparser-lib, we have to clone it
+                x.spellReflectReflectedSpell = table_clone(args)
+                runHandler = true
+            end
+
+            if runHandler
+                and x.spellReflectSpellMissed
+                and x.spellReflectReflectedSpell
+                and x.spellReflectSpellMissed.sourceGUID == x.spellReflectReflectedSpell.sourceGUID
+            then
+                EventHandlers.OutgoingDamage(x.spellReflectReflectedSpell)
+                -- We found the reflected spell, nil everything so that it stops!
+                x.spellReflectSpellMissed = nil
+                x.spellReflectReflectedSpell = nil
+                x.spellReflectApplied = nil
+                x.spellReflectRemoved = nil
+            end
+        end
     end
 end
 
