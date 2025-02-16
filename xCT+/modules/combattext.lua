@@ -658,7 +658,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
-                        controllerName = args.destName
+                        controllerName = args.destName,
+                        outputFormat = "+%s"
                     }
                 )
                 return
@@ -674,7 +675,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
-                        controllerName = args.destName
+                        controllerName = args.destName,
+                        outputFormat = "+%s"
                     }
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -689,7 +691,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
-                        controllerName = args.destName
+                        controllerName = args.destName,
+                        outputFormat = "+%s"
                     }
                 )
                 return
@@ -706,7 +709,8 @@ EventHandlers.OutgoingHealing = function(args)
                     spellName = args.spellName,
                     spellSchool = args.spellSchool,
                     controller = args:GetDestinationController(),
-                    controllerName = args.destName
+                    controllerName = args.destName,
+                    outputFormat = "+%s"
                 }
             )
             return

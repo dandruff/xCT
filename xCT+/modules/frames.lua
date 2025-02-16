@@ -690,7 +690,7 @@ do
                         message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                     end
 
-                    local disableIcon = true
+                    local disableIcon = false
                     if item.args then
                         if item.args.controller and frameSettings.names[item.args.controller].nameType > 0 then
                             if frameSettings.fontJustify == "RIGHT" then
