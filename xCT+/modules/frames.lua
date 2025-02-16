@@ -690,6 +690,7 @@ do
                         message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
                     end
 
+                    local disableIcon = true
                     if item.args then
                         if item.args.controller and frameSettings.names[item.args.controller].nameType > 0 then
                             if frameSettings.fontJustify == "RIGHT" then
@@ -702,23 +703,29 @@ do
                         if item.args.outputFormat then
                             message = string.format(item.args.outputFormat, message)
                         end
+
+                        if item.args.disableIcon then
+                            disableIcon = item.args.disableIcon
+                        end
                     end
 
                     -- Add Icons
-                    local iconSize
-                    if mergeId == 6603 and not x:ShowAutoAttackIcons(frameName) then
-                        -- Disable the auto attack icon for the incoming damage frame
-                        iconSize = -1
-                    end
+                    if not disableIcon then
+                        local iconSize
+                        if mergeId == 6603 and not x:ShowAutoAttackIcons(frameName) then
+                            -- Disable the auto attack icon for the incoming damage frame
+                            iconSize = -1
+                        end
 
-                    message = x:GetSpellTextureFormatted(
-                        mergeId,
-                        message,
-                        frameSettings,
-                        iconSize,
-                        strColor,
-                        item.mergedCount
-                    )
+                        message = x:GetSpellTextureFormatted(
+                            mergeId,
+                            message,
+                            frameSettings,
+                            iconSize,
+                            strColor,
+                            item.mergedCount
+                        )
+                    end
 
                     x:AddMessage(frameName, message, item.color)
 

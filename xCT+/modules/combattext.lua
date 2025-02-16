@@ -1944,7 +1944,17 @@ CombatTextUpdateHandlers.FACTION = function()
 
     local spamMergerInterval = x:Options_SpamMerger_DispellInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
-        x:AddSpamMessage(outputFrame, faction, amount, color, spamMergerInterval, {outputFormat = outputFormat})
+        x:AddSpamMessage(
+            outputFrame,
+            faction,
+            amount,
+            color,
+            spamMergerInterval,
+            {
+                outputFormat = outputFormat,
+                disableIcon = true
+            }
+        )
         return
     end
 
