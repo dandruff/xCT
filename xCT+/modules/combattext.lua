@@ -404,7 +404,7 @@ nameFormatter.controllerName = function(args, settings, useSource)
         else
             -- todo guid in the spam merger
             local guid = useSource and args.sourceGUID or args.destGUID
-            if string.match(guid, "^Player") then
+            if guid and string.match(guid, "^Player") then
                 local _, class = GetPlayerInfoByGUID(guid)
                 color = RAID_CLASS_COLORS[class or 0]
             end
