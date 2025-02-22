@@ -798,6 +798,10 @@ EventHandlers.OutgoingDamage = function(args)
         amount = amount + (args.absorbed or 0)
     end
 
+    if amount <= 0 then
+        return
+    end
+
     local outputFrame = "outgoing"
 
     -- Check to see if my pet is doing things
