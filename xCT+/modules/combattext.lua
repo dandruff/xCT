@@ -72,8 +72,6 @@ local BuffsOrDebuffs = {
 --[=====================================================[
  String Formatters
 --]=====================================================]
-local format_pet = string.format("|cff798BDD[%s]:|r %%s (%%s)", string.gsub(BATTLE_PET_CAGE_ITEM_NAME, "%s?%%s", "")) -- [Caged]: Pet Name (Pet Family)
-
 -- TODO: Remove old loot pattern
 --local format_loot = "([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
 -- "You create: |cffa335ee|Hitem:124515::::::::100:254:4:3::530:::|h[Talisman of the Master Tracker]|h|r"
@@ -1652,7 +1650,7 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
     end
 
     -- Decode item string: (linkQuality for pets only)
-    local linkType, linkID = strsplit(":", itemString)
+    local linkType, linkID, _, linkQuality = strsplit(":", itemString)
 
     -- TODO: Clean up this debug scratch stuff
     --"([^|]*)|cff(%x*)|H([^:]*):(%d+):%d+:(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
@@ -1674,12 +1672,18 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
     -- Check to see if this is a battle pet
     if linkType == "battlepet" then
         -- TODO: Add pet icons!
-        local speciesName, speciesIcon, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
-        local petTypeName = PET_TYPE_SUFFIX[petType]
-        local message = string.format(format_pet, speciesName, petTypeName)
-        local itemQualityColor = ITEM_QUALITY_COLORS[itemQuality]
+        local speciesName, speciesIconTexture, petType = C_PetJournal.GetPetInfoBySpeciesID(linkID)
 
-        -- Add the message
+        -- [Caged]: Pet Name (Pet Family)
+        local message = string.format(
+            "|cff798BDD[%s]:|r %s (%s)",
+            string.gsub(BATTLE_PET_CAGE_ITEM_NAME, "%s?%%s", ""),
+            speciesName,
+            PET_TYPE_SUFFIX[petType] or ""
+        )
+        local itemQualityColor = ITEM_QUALITY_COLORS[tonumber(linkQuality)]
+        x:Print(linkID, linkQuality, itemQualityColor)
+
         x:AddMessage("loot", message, { itemQualityColor.r, itemQualityColor.g, itemQualityColor.b })
         return
     end
@@ -1712,8 +1716,12 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
 
             local icon = ""
             if x:Options_Loot_ShowIcons() then
-                icon =
-                    string.format(format_loot_icon, itemTexture, x:Options_Loot_IconSize(), x:Options_Loot_IconSize())
+                icon = string.format(
+                    format_loot_icon,
+                    itemTexture,
+                    x:Options_Loot_IconSize(),
+                    x:Options_Loot_IconSize()
+                )
             end
 
             local itemQualityText = ""
