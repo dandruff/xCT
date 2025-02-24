@@ -1629,7 +1629,11 @@ EventHandlers.CHAT_MSG_SKILL = function(_, msg)
         return
     end
 
-    x:AddMessage("general", profession .. " increased to " .. newSkillLevel .. "!", { 0, 0.44, 0.87 })
+    x:AddMessage(
+        "general",
+        string.format("%s increased to %s", profession, newSkillLevel),
+        { 0, 0.44, 0.87 }
+    )
 end
 
 EventHandlers.CHAT_MSG_LOOT = function(_, msg)
