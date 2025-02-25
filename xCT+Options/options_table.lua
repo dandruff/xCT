@@ -7592,13 +7592,19 @@ function xo:UpdateOptionsTableSpamMergerSpells()
         if name then
             --TODO better code when i understand more the code
             -- Create a useful description for the spell
-            local spellDesc = C_Spell.GetSpellDescription(spellID) or L["No Description"]
             local desc = ""
             if entry.desc and not xo.CLASS_NAMES[entry.category] then
                 -- TODO localization for entry.desc
                 desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
             end
-            desc = desc .. spellDesc .. "\n\n|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. spellID .. "|r"
+
+            desc = string.format(
+                "%s%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
+                desc,
+                C_Spell.GetSpellDescription(spellID) or L["No Description"],
+                L["ID"],
+                spellID
+            )
 
             local firstSecondaryIdFound = true
             for originalSpellId, replaceSpellId in pairs(xCT_Plus.replaceSpellId) do
@@ -8019,7 +8025,7 @@ local setColorOverrideEnabled = function(info, enabled)
     x.db.profile[category][colorName].enabled = enabled
 end
 
-local getColorOverride = function(info, r, g, b)
+local getColorOverride = function(info)
     local colorName = string.match(info[#info], "(.*)_color")
     local category = info[#info - 1]
     if category ~= "SpellColors" then
