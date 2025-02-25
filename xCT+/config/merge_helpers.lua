@@ -44,7 +44,7 @@ do
     -- Adds a spell to the merge list
     -- Either call class() & spec() or header() before!
     local function spell(id, interval)
-        addon.merges[tonumber(id) or id] = {
+        addon.merges[id] = {
             category = _working_category,
             categoryOrder = _working_category_order, -- doesnt matter
             interval = tonumber(interval) or interval,
@@ -55,7 +55,7 @@ do
     -- Adds a merge for a racial spell
     -- Call header() before!
     local function racial_spell(id, interval)
-        addon.merges[tonumber(id) or id] = {
+        addon.merges[id] = {
             category = _working_category,
             categoryOrder = _working_category_order,
             interval = tonumber(interval) or interval,
@@ -74,10 +74,10 @@ do
         }
     end
 
-    -- If spell with id "spellId" is found, use the "replacementSpellId" instead
-    -- e. g. for merges
-    local function alias(spellId, replacementSpellId)
-        addon.replaceSpellId[tonumber(spellId)] = tonumber(replacementSpellId)
+    -- If spell with the "id" is found, use the "replacementId" instead
+    -- e. g. in order to merge multiple spell variants into one message
+    local function alias(id, replacementId)
+        addon.replaceSpellId[id] = replacementId
     end
 
     addon.merge_helpers = { spell, class, spec, alias, item, header, racial_spell }
