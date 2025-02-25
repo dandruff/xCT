@@ -293,14 +293,12 @@ function x:InitOptionsTable()
     local function GetSpellHistory()
         local result = {}
 
-        for i in pairs(x.spellCache.spells) do
-            result[tostring(i)] = string.format(
-                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s |cff798BDD(%d)|r",
-                C_Spell.GetSpellTexture(i) or 0,
-                16,
-                16,
-                C_Spell.GetSpellName(i) or UNKNOWN,
-                i
+        for id in pairs(x.spellCache.spells) do
+            result[tostring(id)] = string.format(
+                "%s %s |cff798BDD(%d)|r",
+                x:FormatIcon(C_Spell.GetSpellTexture(id) or 0, 16),
+                C_Spell.GetSpellName(id) or UNKNOWN,
+                id
             )
         end
 
@@ -320,13 +318,12 @@ function x:InitOptionsTable()
     local function GetItemHistory()
         local result = {}
 
-        for i in pairs(x.spellCache.items) do
-            result[i] = string.format(
-                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s",
-                C_Item.GetItemIconByID(i),
-                16,
-                16,
-                C_Item.GetItemNameByID(i)
+        for id in pairs(x.spellCache.items) do
+            result[tostring(id)] = string.format(
+                "%s %s |cff798BDD(%d)|r",
+                x:FormatIcon(C_Item.GetItemIconByID(id) or 0, 16),
+                C_Item.GetItemNameByID(id) or UNKNOWN,
+                id
             )
         end
 
@@ -336,14 +333,12 @@ function x:InitOptionsTable()
     local function GetDamageIncomingHistory()
         local result = {}
 
-        for i in pairs(x.spellCache.damage) do
-            result[tostring(i)] = string.format(
-                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)",
-                C_Spell.GetSpellTexture(i) or 0,
-                16,
-                16,
-                C_Spell.GetSpellName(i) or UNKNOWN,
-                i
+        for id in pairs(x.spellCache.damage) do
+            result[tostring(id)] = string.format(
+                "%s %s |cff798BDD(%d)|r",
+                x:FormatIcon(C_Spell.GetSpellTexture(id) or 0, 16),
+                C_Spell.GetSpellName(id) or UNKNOWN,
+                id
             )
         end
 
@@ -353,14 +348,12 @@ function x:InitOptionsTable()
     local function GetHealingIncomingHistory()
         local result = {}
 
-        for i in pairs(x.spellCache.healing) do
-            result[tostring(i)] = string.format(
-                "|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s (|cff798BDD%d)",
-                C_Spell.GetSpellTexture(i) or 0,
-                16,
-                16,
-                C_Spell.GetSpellName(i) or UNKNOWN,
-                i
+        for id in pairs(x.spellCache.healing) do
+            result[tostring(id)] = string.format(
+                "%s %s |cff798BDD(%d)|r",
+                x:FormatIcon(C_Spell.GetSpellTexture(id) or 0, 16),
+                C_Spell.GetSpellName(id) or UNKNOWN,
+                id
             )
         end
 
@@ -7807,18 +7800,30 @@ function xo:UpdateAuraSpellFilter(specific)
 
         for id in pairs(x.db.profile.spellFilter.listSpells) do
             local spellID = tonumber(string.match(id, "%d+"))
-            local spellName = C_Spell.GetSpellName(spellID)
-            if spellName then
-                local spellDesc = C_Spell.GetSpellDescription(spellID)
-                updated = true
-                spells[id] = {
-                    name = spellName,
-                    desc = spellDesc .. "\n\n|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. spellID .. "|r",
-                    type = "toggle",
-                    get = isSpellFiltered,
-                    set = setIsSpellFiltered,
-                }
+            if spellID then
+                local spellName = C_Spell.GetSpellName(spellID)
+                if spellName then
+                    local texture = C_Spell.GetSpellTexture(spellID) or x.BLANK_ICON
+                    local spellDesc = C_Spell.GetSpellDescription(spellID)
+                    updated = true
+                    spells[tostring(spellID)] = {
+                        name = x:FormatIcon(texture, 16) .. " " .. spellName,
+                        desc = string.format(
+                            "%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
+                            spellDesc,
+                            L["ID"],
+                            spellID
+                        ),
+                        type = "toggle",
+                        get = isSpellFiltered,
+                        set = setIsSpellFiltered,
+                    }
+                else
+                    x:Print("Removing deleted spell", id, "from the outgoing spell filter.")
+                    x.db.profile.spellFilter.listSpells[id] = nil
+                end
             else
+                x:Print("Removing deleted spell", id, "from the outgoing spell filter.")
                 x.db.profile.spellFilter.listSpells[id] = nil
             end
         end
@@ -7831,7 +7836,7 @@ function xo:UpdateAuraSpellFilter(specific)
         end
     end
 
-    -- Update spells
+    -- Update items
     if not specific or specific == "items" then
         optionsAddon.optionsTable.args.spellFilter.args.listItems.args.headerFilterList = {
             order = 100,
@@ -7850,18 +7855,31 @@ function xo:UpdateAuraSpellFilter(specific)
         local updated = false
 
         for id in pairs(x.db.profile.spellFilter.listItems) do
-            local spellID = tonumber(string.match(id, "%d+"))
-            local name = C_Item.GetItemNameByID(spellID or id)
-            local texture = C_Item.GetItemIconByID(spellID or id)
-            name = name or L["Unknown Item"]
-            updated = true
-            spells[id] = {
-                name = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t %s", texture or x.BLANK_ICON, 16, 16, name),
-                desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
-                type = "toggle",
-                get = isSpellFiltered,
-                set = setIsSpellFiltered,
-            }
+            local itemID = tonumber(string.match(id, "%d+"))
+            if itemID then
+                local name = C_Item.GetItemNameByID(itemID)
+                if name then
+                    local texture = C_Item.GetItemIconByID(itemID) or x.BLANK_ICON
+                    updated = true
+                    spells[id] = {
+                        name = x:FormatIcon(texture, 16) .. " " .. name,
+                        desc = string.format(
+                            "|cffFF0000%s|r |cff798BDD%s|r",
+                            L["ID"],
+                            id
+                        ),
+                        type = "toggle",
+                        get = isSpellFiltered,
+                        set = setIsSpellFiltered,
+                    }
+                else
+                    x:Print("Removing deleted item", id, "from the spell filter.")
+                    x.db.profile.spellFilter.listItems[id] = nil
+                end
+            else
+                x:Print("Removing deleted item", id, "from the spell filter.")
+                x.db.profile.spellFilter.listItems[id] = nil
+            end
         end
 
         if not updated then
@@ -7891,17 +7909,30 @@ function xo:UpdateAuraSpellFilter(specific)
 
         for id in pairs(x.db.profile.spellFilter.listDamage) do
             local spellID = tonumber(string.match(id, "%d+"))
-            local spellName = C_Spell.GetSpellName(spellID or id)
-            if spellName then
-                updated = true
-                spells[id] = {
-                    name = spellName,
-                    desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
-                    type = "toggle",
-                    get = isSpellFiltered,
-                    set = setIsSpellFiltered,
-                }
+            if spellID then
+                local spellName = C_Spell.GetSpellName(spellID)
+                if spellName then
+                    local texture = C_Spell.GetSpellTexture(spellID) or x.BLANK_ICON
+                    local spellDesc = C_Spell.GetSpellDescription(spellID)
+                    updated = true
+                    spells[tostring(spellID)] = {
+                        name = x:FormatIcon(texture, 16) .. " " .. spellName,
+                        desc = string.format(
+                            "%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
+                            spellDesc,
+                            L["ID"],
+                            spellID
+                        ),
+                        type = "toggle",
+                        get = isSpellFiltered,
+                        set = setIsSpellFiltered,
+                    }
+                else
+                    x:Print("Removing deleted spell", id, "from the incoming damage spell filter.")
+                    x.db.profile.spellFilter.listDamage[id] = nil
+                end
             else
+                x:Print("Removing deleted spell", id, "from the incoming damage spell filter.")
                 x.db.profile.spellFilter.listDamage[id] = nil
             end
         end
@@ -7933,17 +7964,30 @@ function xo:UpdateAuraSpellFilter(specific)
 
         for id in pairs(x.db.profile.spellFilter.listHealing) do
             local spellID = tonumber(string.match(id, "%d+"))
-            local spellName = C_Spell.GetSpellName(spellID or id)
-            if spellName then
-                updated = true
-                spells[id] = {
-                    name = spellName,
-                    desc = "|cffFF0000" .. L["ID"] .. "|r |cff798BDD" .. id .. "|r\n",
-                    type = "toggle",
-                    get = isSpellFiltered,
-                    set = setIsSpellFiltered,
-                }
+            if spellID then
+                local spellName = C_Spell.GetSpellName(spellID)
+                if spellName then
+                    local texture = C_Spell.GetSpellTexture(spellID) or x.BLANK_ICON
+                    local spellDesc = C_Spell.GetSpellDescription(spellID)
+                    updated = true
+                    spells[tostring(spellID)] = {
+                        name = x:FormatIcon(texture, 16) .. " " .. spellName,
+                        desc = string.format(
+                            "%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
+                            spellDesc,
+                            L["ID"],
+                            spellID
+                        ),
+                        type = "toggle",
+                        get = isSpellFiltered,
+                        set = setIsSpellFiltered,
+                    }
+                else
+                    x:Print("Removing deleted spell", id, "from the incoming healing spell filter.")
+                    x.db.profile.spellFilter.listHealing[id] = nil
+                end
             else
+                x:Print("Removing deleted spell", id, "from the incoming healing spell filter.")
                 x.db.profile.spellFilter.listHealing[id] = nil
             end
         end

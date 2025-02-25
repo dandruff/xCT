@@ -386,7 +386,6 @@ end
 function x:GetSpellTextureFormatted(spellId, message, frameSettings, iconSize, strColor, mergeCount)
     iconSize = iconSize or frameSettings.iconsEnabled and frameSettings.iconsSize or -1
     local showInvisibleIcon = frameSettings.spacerIconsEnabled
-    local justify = frameSettings.fontJustify
 
     strColor = strColor or "ffffff"
 
@@ -411,11 +410,10 @@ function x:GetSpellTextureFormatted(spellId, message, frameSettings, iconSize, s
     end
 
     if showInvisibleIcon then
-        local iconStr = string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, iconSize, iconSize)
-        if justify == "LEFT" then
-            message = iconStr .. " " .. message
+        if frameSettings.fontJustify == "LEFT" then
+            message = x:FormatIcon(icon, iconSize) .. " " .. message
         else
-            message = message .. " " .. iconStr
+            message = message .. " " .. x:FormatIcon(icon, iconSize)
         end
     end
 
@@ -424,6 +422,20 @@ function x:GetSpellTextureFormatted(spellId, message, frameSettings, iconSize, s
     end
 
     return message
+end
+
+--[=====================================================[
+ AddOn:FormatIcon(
+    iconTexture, [number] - The ID of the icon.
+    iconSize,    [number] - The width and heigth of the icon.
+  )
+  Returns:
+    icon         [string] - The formatted icon.
+
+    Creates a string for an icon to use in a message.
+--]=====================================================]
+function x:FormatIcon(iconTexture, iconSize)
+    return string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", iconTexture, iconSize, iconSize)
 end
 
 -- WoW - Battle for Azeroth doesn't support fading textures with SetAlpha?

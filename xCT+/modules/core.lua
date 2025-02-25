@@ -411,20 +411,12 @@ function x:EnableLibSinkSupport()
         "Created for optimal performance in the toughest fights, this rugged combat text add-on is ready to be put to the test!",
 
         function(_, text, r, g, b, _, _, _, _, location, icon)
-            local settings = x.db.profile.frames[location or "general"]
-            if settings.iconsEnabled and icon then
-                if settings.fontJustify == "LEFT" then
-                    text = string.format(
-                        "%s %s",
-                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize),
-                        text
-                    )
+            local frameSettings = x.db.profile.frames[location or "general"]
+            if frameSettings.iconsEnabled and icon then
+                if frameSettings.fontJustify == "LEFT" then
+                    text = x:FormatIcon(icon, frameSettings.iconSize) .. " " .. text
                 else
-                    text = string.format(
-                        "%s%s",
-                        text,
-                        string.format(" |T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, settings.iconSize, settings.iconSize)
-                    )
+                    text = text .. " " .. x:FormatIcon(icon, frameSettings.iconSize) .. " " .. text
                 end
             end
             x:AddMessage(location or "general", text, { r, g, b })

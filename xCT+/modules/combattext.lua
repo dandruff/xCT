@@ -83,7 +83,6 @@ local format_crit = "%s%s%s"
 local format_quality = "ITEM_QUALITY%s_DESC"
 local format_remove_realm = "(.*)-.*"
 
-local format_loot_icon = "|T%s:%d:%d:0:0:64:64:5:59:5:59|t"
 local format_lewtz_blind = "(%s)"
 local format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.*", "")) -- "You create: "
 if x.locale == "koKR" then
@@ -1720,12 +1719,7 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
 
             local icon = ""
             if x:Options_Loot_ShowIcons() then
-                icon = string.format(
-                    format_loot_icon,
-                    itemTexture,
-                    x:Options_Loot_IconSize(),
-                    x:Options_Loot_IconSize()
-                )
+                icon = x:FormatIcon(itemTexture, x:Options_Loot_IconSize())
             end
 
             local itemQualityText = ""
@@ -1789,12 +1783,7 @@ EventHandlers.CHAT_MSG_CURRENCY = function(_, msg)
 
     local icon = ""
     if x:Options_Loot_ShowIcons() then
-        icon = string.format(
-            format_loot_icon,
-            currencyInfo.iconFileID,
-            x:Options_Loot_IconSize(),
-            x:Options_Loot_IconSize()
-        )
+        icon = x:FormatIcon(currencyInfo.iconFileID, x:Options_Loot_IconSize())
     end
 
     local message
@@ -1920,14 +1909,11 @@ CombatTextUpdateHandlers.SPELL_ACTIVE = function(spellName)
     end
 
     -- Add Icons
-    if icon and x.db.profile.frames.procs.iconsEnabled then
-        local iconStr =
-            string.format("|T%s:%d:%d:0:0:64:64:5:59:5:59|t", icon, frameSettings.iconsSize, frameSettings.iconsSize)
-
-        if x.db.profile.frames.procs.fontJustify == "LEFT" then
-            message = iconStr .. "  " .. message
+    if icon and frameSettings.iconsEnabled then
+        if frameSettings.fontJustify == "LEFT" then
+            message = x:FormatIcon(icon, frameSettings.iconsSize) .. "  " .. message
         else
-            message = message .. " " .. iconStr
+            message = message .. " " .. x:FormatIcon(icon, frameSettings.iconsSize)
         end
     end
 
