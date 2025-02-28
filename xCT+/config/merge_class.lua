@@ -65,17 +65,17 @@ do
     spell(185123, 1.5) --  Throw Glaive
     spell(199552, 2.0) --  Blade Dance
     spell(210153, 2.0) --  Death Sweep
-    spell(258921, 1.5) --  Immolation Aura
-    spell(258922, 1.5) --  Immolation Aura
+    spell(258920, 1.5) --  Immolation Aura
     spell(203796, 2.5) --  Talent: Demon Blades
     spell(211052, 1.5) --  Talent: Fel Barrage
     spell(201628, 1.5) --  Artifact: Fury of the Illidari
+    alias(258921, 258920) --  Immolation Aura
+    alias(258922, 258920) --  Immolation Aura
     alias(199547, 222031) --  [MH/OH Merger] Chaos Strike
     alias(200685, 199552) --  [MH/OH Merger] Blade Dance
     alias(258883, 199552) --  [MH/OH Merger] Blade Dance
     alias(210155, 210153) --  [MH/OH Merger] Death Sweep
     alias(201789, 201628) --  [MH/OH Merger] Fury of the Illidari
-    -- alias(258922, 258921) --  [DD/DOT Merger]Immolation Aura
 
     spec(581) -- Vengeance
     spell(204157, 1.5) --  Throw Glaive (Vengeance)
