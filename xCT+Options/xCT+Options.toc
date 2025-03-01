@@ -5,6 +5,18 @@
 ## Version: @project-version@
 ## LoadOnDemand: 1
 ## Dependencies: xCT+
+## IconTexture: 982414
+## Category-enUS: Combat
+## Category-deDE: Kampf
+## Category-esES: Combate
+## Category-esMX: Combate
+## Category-frFR: Combat
+## Category-itIT: Combattimento
+## Category-koKR: 전투
+## Category-ptBR: Combate
+## Category-ruRU: Бой
+## Category-zhCN: 战斗
+## Category-zhTW: 戰鬥
 
 # Locales first
 # enUS first (because its the default!)
