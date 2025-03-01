@@ -56,45 +56,45 @@ end
 
 class("DEMONHUNTER")
 do
+    spec(0)
+    spell(258920, 1.5) --  Immolation Aura
+    alias(258921, 258920) --  Immolation Aura
+    alias(258922, 258920) --  Immolation Aura
+
     spec(577) -- Havoc
-    spell(342857, 3.5) --  Glaive Tempest (damage over 3 sec to 5 nearby enemies)
-    spell(222031, 3.0) --  Chaos Strike (server side delay?)
+    spell(342857, 3.5) --  Glaive Tempest
+    spell(222031, 3.0) --  Chaos Strike
     spell(185123, 1.5) --  Throw Glaive (Havoc)
     spell(198030, 1.5) --  Eye Beam
     spell(192611, 1.5) --  Fel Rush
-    spell(185123, 1.5) --  Throw Glaive
     spell(199552, 2.0) --  Blade Dance
     spell(210153, 2.0) --  Death Sweep
-    spell(258920, 1.5) --  Immolation Aura
     spell(203796, 2.5) --  Talent: Demon Blades
     spell(211052, 1.5) --  Talent: Fel Barrage
-    spell(201628, 1.5) --  Artifact: Fury of the Illidari
-    alias(258921, 258920) --  Immolation Aura
-    alias(258922, 258920) --  Immolation Aura
     alias(199547, 222031) --  [MH/OH Merger] Chaos Strike
-    alias(200685, 199552) --  [MH/OH Merger] Blade Dance
-    alias(258883, 199552) --  [MH/OH Merger] Blade Dance
     alias(210155, 210153) --  [MH/OH Merger] Death Sweep
-    alias(201789, 201628) --  [MH/OH Merger] Fury of the Illidari
+    alias(258883, 199552) --  Talent: Blade of Ruin => Blade Dance
+    alias(391374, 199552) --  Blade Dance
+    alias(391378, 199552) --  Blade Dance
+    alias(200685, 199552) --  Blade Dance
+    alias(393035, 185123) --  Throw Glaive (Havoc)
+    alias(337819, 185123) --  Throw Glaive (Havoc)
+    alias(444979, 185123) --  Hero Talent: Preemptive Strike => Throw Glaive (Havoc)
+    alias(390181, 185123) --  Talent: Soulscar => Throw Glaive (Havoc)
 
     spec(581) -- Vengeance
     spell(204157, 1.5) --  Throw Glaive (Vengeance)
-    spell(187727, 2.5) --  Immolation Aura
     spell(204598, 2.5) --  Sigil of Flame
     spell(203794, 1.5) --  Consume Soul
     spell(207771, 2.5) --  Talent: Burning Alive
-    --spell(227255, 1.5) --  Talent: Fel Devastation
     spell(218677, 1.5) --  Talent: Spirit Bomb (Frailty Heal)
     spell(213011, 2.5) --  Artifact: Charred Warblades
     spell(207407, 1.5) --  Artifact: Soul Carver (DoT)
-    spell(212105, 1.5) --  spell fel devastation
-    alias(178741, 187727) --  [DD/DoT Merger] Immolation Aura
-    -- alias(208038, 222030) --  [DD/DoT Merger] Soul Cleave
-    -- alias(214743, 207407) --  [DD/DoT Merger] Soul Cleave
-    -- alias(228478, 228477) --  [DD/DoT Merger] Soul Cleave
-    alias(212106, 227255) --  [MH/OH Merger] Fel Devastation
-    alias(212105, 227255) --  [MH/OH Merger] Fel Devastation
-    alias(212084, 227255) --  Reported From Curse: Should be Fel Devastation
+    spell(212105, 1.5) --  Talent: Fel Devastation
+    alias(212106, 212105) --  Talent: Fel Devastation
+    alias(212084, 212105) --  Talent: Fel Devastation
+    alias(225919, 263642) --  Talent: Fracture
+    alias(225921, 263642) --  Talent: Fracture
 end
 
 class("DRUID")
