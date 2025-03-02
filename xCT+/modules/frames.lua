@@ -473,7 +473,7 @@ end)
 
 -- =====================================================
 -- AddOn:AddSpamMessage(
---     framename,      [string]              - the frame's name
+--     frameName,      [string]              - the name of the frame you want to output the message to
 --     mergeId,        [number or string]    - identity items to merge, if number then it HAS TO BE the valid spell ID
 --     message,        [number or string]    - the pre-formatted message to be sent, if its not a number, then only the
 --                                             first 'message' value that is sent this mergeId will be used.
@@ -482,7 +482,7 @@ end)
 --     interval,       [number]              - the merge interval
 --     additionalInfo, [nil or table]        - additional infos for this message
 -- )
--- Sends a message to the framename specified.
+-- Sends a message to the frameName specified.
 -- =====================================================
 function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, additionalInfo)
     if message == 0 or message == "" then
@@ -525,6 +525,12 @@ function x:AddSpamMessage(frameName, mergeId, message, colorName, interval, addi
                 then
                     -- remove the controller name if it differs
                     heap[mergeId].args.controllerName = nil
+                end
+
+                if heap[mergeId].args.critical ~= additionalInfo.critical then
+                    -- We want to track if all events are crits in this merge
+                    -- So either the existing event(s) are no crits or the new one isnt
+                    heap[mergeId].args.critical = false
                 end
             else
                 -- No args are set in the heap - set them!
@@ -623,6 +629,7 @@ do
         for _, mergeId in pairs(stack) do
             -- This has all the information for the message we want to display
             local item = heap[mergeId]
+            local critical = item.args and item.args.critical
 
             if item and item.displayTime <= now and item.mergedCount > 0 then
                 item.displayTime = now
@@ -638,7 +645,7 @@ do
                     item.args = nil
                 elseif frameName == "outgoing" then
                     -- Outgoing damage
-                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount) then
+                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, critical) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -647,7 +654,7 @@ do
                     end
                 elseif frameName == "outgoing_healing" then
                     -- Outgoing healing
-                    if not item.message and x:Options_Filter_OutgoingHealing_HideEvent(item.mergedAmount) then
+                    if not item.message and x:Options_Filter_OutgoingHealing_HideEvent(item.mergedAmount, critical) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -656,7 +663,7 @@ do
                     end
                 elseif frameName == "critical" then
                     -- Outgoing damage and healing crits
-                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, true) then
+                    if not item.message and x:Options_Filter_OutgoingDamage_HideEvent(item.mergedAmount, critical) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -665,7 +672,7 @@ do
                     end
                 elseif frameName == "healing" then
                     -- Incoming healing
-                    if not item.message and x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount) then
+                    if not item.message and x:Options_Filter_IncomingHealing_HideEvent(item.mergedAmount, critical) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -674,7 +681,7 @@ do
                     end
                 elseif frameName == "damage" then
                     -- Incoming damage
-                    if not item.message and x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount) then
+                    if not item.message and x:Options_Filter_IncomingDamage_HideEvent(item.mergedAmount, critical) then
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
@@ -698,8 +705,8 @@ do
                     end
 
                     -- Add critical Prefix and Postfix
-                    if frameName == "critical" then
-                        message = string.format("%s%s%s", frameSettings.critPrefix, message, frameSettings.critPostfix)
+                    if critical then
+                        message = string.format("%s%s%s", x.db.profile.frames.critical.critPrefix, message, x.db.profile.frames.critical.critPostfix)
                     end
 
                     local disableIcon = false

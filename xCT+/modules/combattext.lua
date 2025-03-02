@@ -664,7 +664,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
                         controllerName = args.destName,
-                        outputFormat = "+%s"
+                        outputFormat = "+%s",
+                        critical = args.critical
                     }
                 )
                 return
@@ -681,7 +682,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
                         controllerName = args.destName,
-                        outputFormat = "+%s"
+                        outputFormat = "+%s",
+                        critical = args.critical
                     }
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -697,7 +699,8 @@ EventHandlers.OutgoingHealing = function(args)
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
                         controllerName = args.destName,
-                        outputFormat = "+%s"
+                        outputFormat = "+%s",
+                        critical = args.critical
                     }
                 )
                 return
@@ -715,7 +718,8 @@ EventHandlers.OutgoingHealing = function(args)
                     spellSchool = args.spellSchool,
                     controller = args:GetDestinationController(),
                     controllerName = args.destName,
-                    outputFormat = "+%s"
+                    outputFormat = "+%s",
+                    critical = args.critical
                 }
             )
             return
@@ -826,7 +830,8 @@ EventHandlers.OutgoingDamage = function(args)
                     spellName = spellId == 34026 and L_KILLCOMMAND or L_AUTOATTACK,
                     spellSchool = args.spellSchool,
                     controller = args:GetDestinationController(),
-                    controllerName = args.destName
+                    controllerName = args.destName,
+                    critical = args.critical
                 }
             )
             return
@@ -889,7 +894,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                     return
@@ -905,7 +911,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -920,7 +927,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = L_AUTOATTACK,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                     return
@@ -937,7 +945,8 @@ EventHandlers.OutgoingDamage = function(args)
                         spellName = L_AUTOATTACK,
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
-                        controllerName = args.destName
+                        controllerName = args.destName,
+                        critical = args.critical
                     }
                 )
                 return
@@ -956,7 +965,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                     return
@@ -972,7 +982,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                 elseif x:Options_SpamMerger_HideMergedCriticals() then
@@ -987,7 +998,8 @@ EventHandlers.OutgoingDamage = function(args)
                             spellName = args.spellName,
                             spellSchool = args.spellSchool,
                             controller = args:GetDestinationController(),
-                            controllerName = args.destName
+                            controllerName = args.destName,
+                            critical = args.critical
                         }
                     )
                     return
@@ -1004,7 +1016,8 @@ EventHandlers.OutgoingDamage = function(args)
                         spellName = args.spellName,
                         spellSchool = args.spellSchool,
                         controller = args:GetDestinationController(),
-                        controllerName = args.destName
+                        controllerName = args.destName,
+                        critical = args.critical
                     }
                 )
                 return
@@ -1095,7 +1108,8 @@ EventHandlers.IncomingDamage = function(args)
                 spellName = args.spellName,
                 spellSchool = args.spellSchool,
                 controller = args:GetSourceController(),
-                controllerName = args.sourceName
+                controllerName = args.sourceName,
+                critical = args.critical
             }
         )
         return
@@ -1217,7 +1231,8 @@ EventHandlers.IncomingHealing = function(args)
                 useSource = true,
                 sourceGUID = args.sourceGUID,
                 controller = args:GetSourceController(),
-                controllerName = args.sourceName
+                controllerName = args.sourceName,
+                critical = args.critical
             }
         )
         return
