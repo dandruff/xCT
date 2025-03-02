@@ -478,9 +478,11 @@ do
     spell(5308, 1.0) --  Execute
     spell(199658, 1.0) --  Whirlwind
     alias(44949, 199658) --  Whirlwind
+    alias(199667, 199658) --  Whirlwind
     alias(199850, 199658) --  Whirlwind
     alias(199851, 199658) --  Whirlwind
     alias(199852, 199658) --  Whirlwind
+    alias(385233, 199658) --  Whirlwind
     alias(163558, 5308) --  Execute (OH - Fury)
     alias(280849, 5308) --  Execute (OH - Fury)
 
