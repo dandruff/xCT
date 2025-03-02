@@ -304,6 +304,16 @@ function x:CompatibilityLogic(existing)
         end
     end
 
+    if x.db.profile.frames.critical.critPrefix then
+        x.db.profile.megaDamage.critPrefix = x.db.profile.frames.critical.critPrefix
+        x.db.profile.frames.critical.critPrefix = nil
+    end
+
+    if x.db.profile.frames.critical.critPostfix then
+        x.db.profile.megaDamage.critSuffix = x.db.profile.frames.critical.critPostfix
+        x.db.profile.frames.critical.critPostfix = nil
+    end
+
     self.db.profile.dbVersion = addonVersionString
 
     return true

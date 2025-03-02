@@ -273,6 +273,8 @@ addon.defaults = {
             millionSymbol = "|cffFF0000M|r",
             billionSymbol = "|cffFF0000G|r",
             decimalPoint = true,
+            critPrefix = "|cffFF0000*|r",
+            critSuffix = "|cffFF0000*|r"
         },
 
         frames = {
@@ -531,10 +533,6 @@ addon.defaults = {
                     },
                 },
 
-                -- critical appearance
-                critPrefix = "|cffFF0000*|r",
-                critPostfix = "|cffFF0000*|r",
-
                 -- icons
                 iconsEnabled = true,
                 iconsSize = 16,
@@ -700,10 +698,6 @@ addon.defaults = {
                 -- font colors
                 customColor = false,
                 fontColor = { 1.00, 1.00, 1.00 },
-
-                -- critical appearance
-                critPrefix = "|cffFF0000*|r",
-                critPostfix = "|cffFF0000*|r",
 
                 -- name formatting
                 names = {

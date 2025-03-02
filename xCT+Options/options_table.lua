@@ -186,7 +186,12 @@ function x:InitOptionsTable()
         x.db.profile.frames[info[#info - 2]][info[#info]] = { r, g, b, a }
     end
     local function getTextIn2(info)
-        return string.gsub(x.db.profile.frames[info[#info - 2]][info[#info]], "|", "||")
+        local value = x.db.profile.frames[info[#info - 2]][info[#info]]
+        if not value then
+            return ""
+        end
+
+        return string.gsub(value, "|", "||")
     end
     local function setTextIn2(info, value)
         x.db.profile.frames[info[#info - 2]][info[#info]] = string.gsub(value, "||", "|")
@@ -506,26 +511,15 @@ function x:InitOptionsTable()
                 type = "group",
                 guiInline = true,
                 args = {
-                    formatNumberHeader = {
-                        order = 0,
-                        type = "header",
-                        name = L["Format Numbers in the Frames (Choose one)"],
-                    },
-                    abbreviateExplanation = {
-                        order = 1,
-                        type = "description",
-                        name = L["|cffFFFF00PLEASE NOTE|r |cffAAAAAAFormat settings need to be independently enabled on each frame through its respective settings page.|r\n"],
-                        fontSize = "small",
-                    },
                     formatAbbreviate = {
-                        order = 2,
+                        order = 1,
                         type = "toggle",
                         name = L["Abbreviate Numbers"],
                         set = setFormatting,
                         get = getDBSpells,
                     },
                     formatGroups = {
-                        order = 3,
+                        order = 2,
                         type = "toggle",
                         name = L["Decimal Marks"],
                         desc = L["Groups decimals and separates them by commas; this allows for better responsiveness when reading numbers.\n\n|cffFF0000EXAMPLE|r |cff798BDD12,890|r"],
@@ -533,16 +527,15 @@ function x:InitOptionsTable()
                         get = getDBSpells,
                     },
                     decimalPoint = {
-                        order = 4,
+                        order = 3,
                         type = "toggle",
                         name = L["Single Decimal Precision"],
                         desc = L["Shows a single digit of precision when abbreviating the value (e.g. will show |cff798BDD5.9K|r instead of |cff798BDD6K|r)."],
                         get = get0,
                         set = set0,
                     },
-
                     thousandSymbol = {
-                        order = 5,
+                        order = 4,
                         type = "input",
                         name = L["Thousand Symbol"],
                         desc = L["Symbol for: |cffFF0000Thousands|r |cff798BDD(10e+3)|r"],
@@ -550,7 +543,7 @@ function x:InitOptionsTable()
                         set = setTextIn0,
                     },
                     millionSymbol = {
-                        order = 6,
+                        order = 5,
                         type = "input",
                         name = L["Million Symbol"],
                         desc = L["Symbol for: |cffFF0000Millions|r |cff798BDD(10e+6)|r"],
@@ -558,12 +551,48 @@ function x:InitOptionsTable()
                         set = setTextIn0,
                     },
                     billionSymbol = {
-                        order = 7,
+                        order = 6,
                         type = "input",
                         name = L["Billion Symbol"],
                         desc = L["Symbol for: |cffFF0000Billions|r |cff798BDD(10e+9)|r"],
                         get = getTextIn0,
                         set = setTextIn0,
+                    },
+
+                    critPrefix = {
+                        order = 11,
+                        type = "input",
+                        name = L["Critical Prefix"],
+                        desc = L["Add these character(s) before the amount of a critical hit."],
+                        get = function()
+                            return string.gsub(x.db.profile.megaDamage.critPrefix, "|", "||")
+                        end,
+                        set = setTextIn0,
+                    },
+                    critSuffix = {
+                        order = 12,
+                        type = "input",
+                        name = L["Critical Suffix"],
+                        desc = L["Add these character(s) after the amount of a critical hit."],
+                        get = function()
+                            return string.gsub(x.db.profile.megaDamage.critSuffix, "|", "||")
+                        end,
+                        set = setTextIn0,
+                    },
+                    critPrefixSuffixReset = {
+                        order = 13,
+                        type = "execute",
+                        name = L["Reset"],
+                        desc = L["Reset the prefix and the suffix of criticals to their default setting."],
+                        func = function()
+                            x.db.profile.megaDamage.critPrefix = "|cffFF0000*|r"
+                            x.db.profile.megaDamage.critSuffix = "|cffFF0000*|r"
+                        end,
+                        width = "half",
+                        disabled = function()
+                            return x:Options_Global_CritPrefix() == "|cffFF0000*|r"
+                                and x:Options_Global_CritSuffix() == "|cffFF0000*|r"
+                        end,
                     },
                 },
             },
@@ -3150,45 +3179,6 @@ function x:InitOptionsTable()
                                 get = "Options_Critical_ShowPetCrits",
                                 set = set2,
                             },
-
-                            criticalAppearance = {
-                                type = "header",
-                                order = 10,
-                                name = L["Critical Format"],
-                            },
-                            critPrefix = {
-                                order = 11,
-                                type = "input",
-                                name = L["Critical Prefix"],
-                                desc = L["Add these character(s) before the amount of a critical hit."],
-                                get = getTextIn2,
-                                set = setTextIn2,
-                            },
-                            critPostfix = {
-                                order = 12,
-                                type = "input",
-                                name = L["Critical Suffix"],
-                                desc = L["Add these character(s) after the amount of a critical hit."],
-                                get = getTextIn2,
-                                set = setTextIn2,
-                            },
-                            critPostPreReset = {
-                                order = 13,
-                                type = "execute",
-                                name = L["Reset"],
-                                desc = L["Reset Prefix and Postfix to their default setting."],
-                                func = function()
-                                    local critical = x.db.profile.frames.critical
-                                    critical.critPrefix = "|cffFF0000*|r"
-                                    critical.critPostfix = "|cffFF0000*|r"
-                                end,
-                                width = "half",
-                                disabled = function()
-                                    local critical = x.db.profile.frames.critical
-                                    return critical.critPrefix == "|cffFF0000*|r"
-                                        and critical.critPostfix == "|cffFF0000*|r"
-                                end,
-                            },
                         },
                     },
                 },
@@ -3912,30 +3902,6 @@ function x:InitOptionsTable()
                                 desc = L["Formats incoming damage to show how much was absorbed. The spam merger hides these reduction and effectivly disables this option though."],
                                 get = "Options_IncomingDamage_ShowReductions",
                                 set = set2,
-                            },
-
-                            criticalAppearance = {
-                                order = 10,
-                                type = "header",
-                                name = L["Formatting of criticals"],
-                            },
-                            critPrefix = {
-                                order = 11,
-                                type = "input",
-                                name = L["Critical Prefix"],
-                                desc = L["Add these character(s) before the amount of a critical hit."],
-                                get = getTextIn2,
-                                set = setTextIn2,
-                                disabled = isFrameItemDisabled,
-                            },
-                            critPostfix = {
-                                order = 12,
-                                type = "input",
-                                name = L["Critical Suffix"],
-                                desc = L["Add these character(s) after the amount of a critical hit."],
-                                get = getTextIn2,
-                                set = setTextIn2,
-                                disabled = isFrameItemDisabled,
                             },
                         },
                     },

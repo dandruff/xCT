@@ -79,7 +79,6 @@ local BuffsOrDebuffs = {
 --local format_loot = "([^|]*)|cff(%x*)|H([^:]*):(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
 
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
-local format_crit = "%s%s%s"
 local format_quality = "ITEM_QUALITY%s_DESC"
 local format_remove_realm = "(.*)-.*"
 
@@ -153,12 +152,7 @@ function xCTFormat:SPELL_HEAL(outputFrame, spellId, amount, overhealing, critica
     -- Format Criticals and also abbreviate values
     if critical then
         outputColor = "healingOutCritical"
-        message = string.format(
-            format_crit,
-            x.db.profile.frames.critical.critPrefix,
-            x:Abbreviate(amount, "critical"),
-            x.db.profile.frames.critical.critPostfix
-        )
+        message = x:Options_Global_FormatCritical(x:Abbreviate(amount, "critical"))
     else
         message = x:Abbreviate(amount, outputFrame)
     end
@@ -183,12 +177,7 @@ function xCTFormat:SPELL_PERIODIC_HEAL(outputFrame, spellId, amount, overhealing
 
     -- Format Criticals and also abbreviate values
     if critical then
-        message = string.format(
-            format_crit,
-            x.db.profile.frames.critical.critPrefix,
-            x:Abbreviate(amount, "critical"),
-            x.db.profile.frames.critical.critPostfix
-        )
+        message = x:Options_Global_FormatCritical(x:Abbreviate(amount, "critical"))
     else
         message = x:Abbreviate(amount, outputFrame)
     end
@@ -1039,12 +1028,7 @@ EventHandlers.OutgoingDamage = function(args)
 
     if args.critical and (not (isSwing or isAutoShot) or x:Options_Critical_ShowAutoAttack()) then
         if not (isSwing or isAutoShot) or x:Options_Critical_PrefixAutoAttack() then
-            message = string.format(
-                format_crit,
-                x.db.profile.frames.critical.critPrefix,
-                x:Abbreviate(amount, outputFrame),
-                x.db.profile.frames.critical.critPostfix
-            )
+        message = x:Options_Global_FormatCritical(x:Abbreviate(amount, outputFrame))
         else
             message = x:Abbreviate(amount, outputFrame)
         end
@@ -1153,12 +1137,7 @@ EventHandlers.IncomingDamage = function(args)
     if not message then
         -- Format Criticals and also abbreviate values
         if args.critical then
-            message = string.format(
-                format_crit,
-                x.db.profile.frames.critical.critPrefix,
-                x:Abbreviate(-amount, "critical"),
-                x.db.profile.frames.critical.critPostfix
-            )
+            message = x:Options_Global_FormatCritical(x:Abbreviate(-amount, "critical"))
         else
             message = x:Abbreviate(-amount, outputFrame)
         end

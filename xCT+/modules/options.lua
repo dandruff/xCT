@@ -20,6 +20,18 @@ function x:Options_Global_ClearWhenLeavingCombat()
     return x.db.profile.frameSettings.clearLeavingCombat
 end
 
+function x:Options_Global_CritPrefix()
+    return x.db.profile.megaDamage.critPrefix
+end
+
+function x:Options_Global_CritSuffix()
+    return x.db.profile.megaDamage.critSuffix
+end
+
+function x:Options_Global_FormatCritical(amount)
+    return x.db.profile.megaDamage.critPrefix .. amount .. x.db.profile.megaDamage.critSuffix
+end
+
 -- Frame "General"
 function x:Options_General_ShowHonor()
     return x.db.profile.frames.general.showHonorGains
@@ -145,7 +157,7 @@ function x:Options_OutgoingHealing_OverhealingPostfix()
 end
 
 function x:Options_OutgoingHealing_FormatOverhealingAmount(amount)
-    return x:Options_OutgoingHealing_OverhealingPrefix() .. amount .. x:Options_OutgoingHealing_OverhealingPostfix()
+    return x.db.profile.frames.outgoing_healing.overhealingPrefix .. amount .. x.db.profile.frames.outgoing_healing.overhealingPostfix
 end
 
 function x:Options_OutgoingHealing_SubtractOverhealing()

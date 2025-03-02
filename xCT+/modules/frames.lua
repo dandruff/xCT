@@ -706,7 +706,7 @@ do
 
                     -- Add critical Prefix and Postfix
                     if critical then
-                        message = string.format("%s%s%s", x.db.profile.frames.critical.critPrefix, message, x.db.profile.frames.critical.critPostfix)
+                        message = x:Options_Global_FormatCritical(message)
                     end
 
                     local disableIcon = false
@@ -1183,9 +1183,8 @@ function x.TestMoreUpdate(self, elapsed)
                         return
                     end
                 end
-                local message = x.db.profile.frames.critical.critPrefix
-                    .. x:Abbreviate(math.random(60000), outputFrame)
-                    .. x.db.profile.frames.critical.critPostfix
+
+                local message = x:Options_Global_FormatCritical(x:Abbreviate(math.random(60000), outputFrame))
 
                 local mergeCount = 0
                 if
