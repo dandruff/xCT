@@ -71,14 +71,16 @@ do
     spell(210153, 2.0) --  Death Sweep
     spell(203796, 2.5) --  Talent: Demon Blades
     spell(211052, 1.5) --  Talent: Fel Barrage
-    alias(199547, 222031) --  [MH/OH Merger] Chaos Strike
-    alias(210155, 210153) --  [MH/OH Merger] Death Sweep
+    alias(199547, 222031) --  Chaos Strike
+    alias(210155, 210153) --  Death Sweep (Blade Dance in Metamorphosis)
     alias(258883, 199552) --  Talent: Blade of Ruin => Blade Dance
     alias(391374, 199552) --  Blade Dance
     alias(391378, 199552) --  Blade Dance
     alias(200685, 199552) --  Blade Dance
     alias(393035, 185123) --  Throw Glaive (Havoc)
     alias(337819, 185123) --  Throw Glaive (Havoc)
+    alias(201428, 201427) --  Annihilation (Chaos Strike in Metamorphosis)
+    alias(227518, 201427) --  Annihilation (Chaos Strike in Metamorphosis)
     alias(444979, 185123) --  Hero Talent: Preemptive Strike => Throw Glaive (Havoc)
     alias(390181, 185123) --  Talent: Soulscar => Throw Glaive (Havoc)
 

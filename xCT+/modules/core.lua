@@ -125,10 +125,6 @@ function x:OnEnable()
 
     x:UpdateFrames()
     x:UpdateCVar()
-
-    self:Print(
-        "Version 4.9.0 added a new Frame: 'Outgoing Healing'. The default is set to merge with 'Outgoing Damage' but you may want to change that!"
-    )
 end
 
 -- Gets only called when your addon is manually being disabled.
