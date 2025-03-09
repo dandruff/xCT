@@ -1081,6 +1081,10 @@ EventHandlers.IncomingDamage = function(args)
 
     local spamMergerInterval = x:Options_SpamMerger_IncomingDamageInterval()
     if x:Options_SpamMerger_EnableSpamMerger() and spamMergerInterval > 0 then
+        if amount <= 0 then
+            return
+        end
+
         x:AddSpamMessage(
             outputFrame,
             args.spellId,
