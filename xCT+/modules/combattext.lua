@@ -1372,7 +1372,9 @@ EventHandlers.SpellEnergize = function(args)
     if energy_type == "RUNES" then
         -- Something procced and a DK rune has gone off cooldown
         -- Use the corresponding function for it, but we dont know which rune came off CD
-        EventHandlers.RUNE_POWER_UPDATE(nil, 0)
+        if x:Options_Power_ShowResource("RUNES") then
+            EventHandlers.RUNE_POWER_UPDATE(nil, 0)
+        end
     else
         x:AddMessage(
             "power",
@@ -1383,10 +1385,7 @@ EventHandlers.SpellEnergize = function(args)
 end
 
 EventHandlers.UNIT_HEALTH = function()
-    if
-        x:Options_General_ShowLowManaAndHealth()
-        and UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_HEALTH_THRESHOLD
-    then
+    if UnitHealth(x.player.unit) / UnitHealthMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_HEALTH_THRESHOLD then
         if not x.lowHealth then
             x:AddMessage("general", _G.HEALTH_LOW, "lowResourcesHealth")
             x.lowHealth = true
@@ -1397,11 +1396,7 @@ EventHandlers.UNIT_HEALTH = function()
 end
 
 EventHandlers.UNIT_POWER_UPDATE = function(_, unit, powerType)
-    if
-        select(2, UnitPowerType(x.player.unit)) == "MANA"
-        and x:Options_General_ShowLowManaAndHealth()
-        and UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_MANA_THRESHOLD
-    then
+    if UnitPower(x.player.unit) / UnitPowerMax(x.player.unit) <= _G.COMBAT_TEXT_LOW_MANA_THRESHOLD then
         if not x.lowMana then
             x:AddMessage("general", MANA_LOW, "lowResourcesMana")
             x.lowMana = true
@@ -1473,10 +1468,7 @@ EventHandlers.UNIT_PET = function()
 end
 
 EventHandlers.CHAT_MSG_SKILL = function(_, msg)
-    if not x:Options_General_ShowProfessionSkillups() then
-        return
-    end
-
+    -- TODO must be localized!
     local profession, newSkillLevel = msg:match("Your skill in (.+) has increased to (%d+).")
     if not profession or not newSkillLevel then
         return
@@ -1620,10 +1612,6 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
 end
 
 EventHandlers.CHAT_MSG_CURRENCY = function(_, msg)
-    if not x:Options_Loot_ShowCurency() then
-        return
-    end
-
     -- get currency from chat
     local currencyLink, amountGained = msg:match(format_currency_multiple)
     if not currencyLink then
@@ -1657,10 +1645,6 @@ EventHandlers.CHAT_MSG_CURRENCY = function(_, msg)
 end
 
 EventHandlers.CHAT_MSG_MONEY = function(_, msg)
-    if not x:Options_Loot_ShowMoney() then
-        return
-    end
-
     local g, s, c =
         tonumber(msg:match(GOLD_AMOUNT:gsub("%%d", "(%%d+)"))),
         tonumber(msg:match(SILVER_AMOUNT:gsub("%%d", "(%%d+)"))),
@@ -1684,14 +1668,6 @@ EventHandlers.CHAT_MSG_MONEY = function(_, msg)
 end
 
 EventHandlers.RUNE_POWER_UPDATE = function(_, runeIndex)
-    if not x:Options_Power_ShowGains() then
-        return
-    end
-
-    if x:Options_Power_ShowResource("RUNES") then
-        return
-    end
-
     if not x.DeathKnightRunes then
         x.DeathKnightRunes = {}
     end
@@ -1943,24 +1919,57 @@ end
 
 -- Register for the needed events
 function x:RegisterCombatEvents()
+    -- Unregister all events
+    self:UnregisterAllEvents()
+    LibStub("xCombatParser-1.0"):UnregisterCombat(self.onCombatLogEvent)
+
+    -- Register handlers the events we need
+
     self:RegisterEvent("COMBAT_TEXT_UPDATE", EventHandlers.COMBAT_TEXT_UPDATE)
-    self:RegisterEvent("UNIT_HEALTH", EventHandlers.UNIT_HEALTH)
-    self:RegisterEvent("UNIT_POWER_UPDATE", EventHandlers.UNIT_POWER_UPDATE)
+
     self:RegisterEvent("PLAYER_REGEN_DISABLED", EventHandlers.PLAYER_REGEN_DISABLED)
     self:RegisterEvent("PLAYER_REGEN_ENABLED", EventHandlers.PLAYER_REGEN_ENABLED)
     self:RegisterEvent("UNIT_ENTERED_VEHICLE", EventHandlers.UNIT_ENTERED_VEHICLE)
     self:RegisterEvent("UNIT_EXITING_VEHICLE", EventHandlers.UNIT_EXITING_VEHICLE)
     self:RegisterEvent("PLAYER_ENTERING_WORLD", EventHandlers.PLAYER_ENTERING_WORLD)
     self:RegisterEvent("UNIT_PET", EventHandlers.UNIT_PET)
-    self:RegisterEvent("CHAT_MSG_SKILL", EventHandlers.CHAT_MSG_SKILL)
 
-    -- Loot frame
-    self:RegisterEvent("CHAT_MSG_LOOT", EventHandlers.CHAT_MSG_LOOT)
-    self:RegisterEvent("CHAT_MSG_CURRENCY", EventHandlers.CHAT_MSG_CURRENCY)
-    self:RegisterEvent("CHAT_MSG_MONEY", EventHandlers.CHAT_MSG_MONEY)
+    if self:GetFrameSettings("general") then
+        --  The "general" frame is enabled or its output is rerouted to a secondary frame.
 
-    if x.player.class == "DEATHKNIGHT" then
-        self:RegisterEvent("RUNE_POWER_UPDATE", EventHandlers.RUNE_POWER_UPDATE)
+        if x:Options_General_ShowLowManaAndHealth() then
+            self:RegisterEvent("UNIT_HEALTH", EventHandlers.UNIT_HEALTH)
+
+            if select(2, UnitPowerType(x.player.unit)) == "MANA" then
+                self:RegisterEvent("UNIT_POWER_UPDATE", EventHandlers.UNIT_POWER_UPDATE)
+            end
+        end
+
+        if x:Options_General_ShowProfessionSkillups() then
+            self:RegisterEvent("CHAT_MSG_SKILL", EventHandlers.CHAT_MSG_SKILL)
+        end
+    end
+
+    if self:GetFrameSettings("loot") then
+        --  The "loot" frame is enabled or its output is rerouted to a secondary frame.
+
+        self:RegisterEvent("CHAT_MSG_LOOT", EventHandlers.CHAT_MSG_LOOT)
+
+        if x:Options_Loot_ShowCurency() then
+            self:RegisterEvent("CHAT_MSG_CURRENCY", EventHandlers.CHAT_MSG_CURRENCY)
+        end
+
+        if x:Options_Loot_ShowMoney() then
+            self:RegisterEvent("CHAT_MSG_MONEY", EventHandlers.CHAT_MSG_MONEY)
+        end
+    end
+
+    if self:GetFrameSettings("power") then
+        --  The "power" frame is enabled or its output is rerouted to a secondary frame.
+
+        if x:Options_Power_ShowGains() and x:Options_Power_ShowResource("RUNES") and x.player.class == "DEATHKNIGHT" then
+            self:RegisterEvent("RUNE_POWER_UPDATE", EventHandlers.RUNE_POWER_UPDATE)
+        end
     end
 
     self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", EventHandlers.ACTIVE_TALENT_GROUP_CHANGED)

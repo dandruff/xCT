@@ -168,8 +168,18 @@ function x:InitOptionsTable()
         return x.db.profile.frames[info[#info - 2]][info[#info]]
     end
     local function set2(info, value)
-        x.db.profile.frames[info[#info - 2]][info[#info]] = value
-        x:UpdateCVar()
+        local optionKey = info[#info]
+        x.db.profile.frames[info[#info - 2]][optionKey] = value
+        if optionKey == "showProfessionSkillups"
+                or optionKey == "showLowManaHealth"
+                or optionKey == "showCurrency"
+                or optionKey == "showMoney"
+                or optionKey == "showEnergyGains"
+        then
+            x:RegisterCombatEvents()
+        else
+            x:UpdateCVar()
+        end
     end
     local function set2_update(info, value)
         set2(info, value)
@@ -4866,7 +4876,7 @@ function x:InitOptionsTable()
                                 type = "toggle",
                                 name = L["Show Gains"],
                                 desc = L["Show instant gains of class resources (e. g. energy, runic power, ...)."],
-                                get = get2,
+                                get = "Options_Power_ShowGains",
                                 set = set2,
                             },
                             showEnergyType = {
