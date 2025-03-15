@@ -1449,7 +1449,7 @@ StaticPopupDialogs["XCT_PLUS_HIDE_IN_COMBAT"] = {
     button2 = REVERT,
     OnCancel = function()
         x.db.profile.hideConfig = true
-        -- TODO what are we doing with this?
+        -- TODO Why are we doing with this?
         x:RefreshConfig()
     end,
 
