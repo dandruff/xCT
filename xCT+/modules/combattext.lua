@@ -112,36 +112,6 @@ function x:UpdatePlayer()
 end
 
 --[=====================================================[
- Fast Boolean Lookups
---]=====================================================]
-
--- TODO: Add Combo Point Support
-local function ShowRogueComboPoints()
-    return false
-end -- x.db.profile.spells.combo["ROGUE"][COMBAT_TEXT_SHOW_COMBO_POINTS_TEXT] and x.player.class == "ROGUE" end
-local function ShowFeralComboPoints()
-    return false
-end -- x.db.profile.spells.combo["DRUID"][2][COMBAT_TEXT_SHOW_COMBO_POINTS_TEXT] and x.player.class == "DRUID" and x.player.spec == 2 end
-local function ShowMonkChi()
-    return false
-end -- return x.db.profile.spells.combo["MONK"][CHI] and x.player.class == "MONK" end
-local function ShowPaladinHolyPower()
-    return false
-end -- return x.db.profile.spells.combo["PALADIN"][HOLY_POWER] and x.player.class == "PALADIN" end
-local function ShowPriestShadowOrbs()
-    return false
-end -- return x.db.profile.spells.combo["PRIEST"][3][SHADOW_ORBS] and x.player.class == "PRIEST" and x.player.spec == 3 end
-local function ShowWarlockSoulShards()
-    return false
-end -- return x.db.profile.spells.combo["WARLOCK"][1][SOUL_SHARDS] and x.player.class == "WARLOCK" and x.player.spec == 1 end
-local function ShowWarlockDemonicFury()
-    return false
-end -- return x.db.profile.spells.combo["WARLOCK"][2][DEMONIC_FURY] and x.player.class == "WARLOCK" and x.player.spec == 2 end
-local function ShowWarlockBurningEmbers()
-    return false
-end -- return x.db.profile.spells.combo["WARLOCK"][3][BURNING_EMBERS] and x.player.class == "WARLOCK" and x.player.spec == 3 end
-
---[=====================================================[
  Message Formatters
 --]=====================================================]
 local xCTFormat = {}
@@ -214,117 +184,6 @@ else
     XCT_STOLE = utf8_fc_upper(ACTION_SPELL_STOLEN)
     XCT_KILLED = utf8_fc_upper(ACTION_PARTY_KILL)
     XCT_DISPELLED = utf8_fc_upper(ACTION_SPELL_DISPEL)
-end
-
---[=====================================================[
- Combo Points - Rogues / Feral
---]=====================================================]
-local function UpdateComboPoints()
-    if ShowRogueComboPoints() or ShowFeralComboPoints() then
-        local comboPoints, outputColor = GetComboPoints(x.player.unit, "target"), "comboPoints"
-        if comboPoints == MAX_COMBO_POINTS then
-            outputColor = "comboPointsMax"
-        end
-        if comboPoints > 0 then
-            x.cpUpdated = true
-            x:AddMessage("class", comboPoints, outputColor)
-        elseif x.cpUpdated then
-            x.cpUpdated = false
-            x:AddMessage("class", " ", outputColor)
-        end
-    end
-end
-
---[=====================================================[
-  Combo Points - Class Power Types
---]=====================================================]
-local function UpdateUnitPower(unit, powertype)
-    if unit == x.player.unit then
-        local value
-
-        if powertype == "CHI" and ShowMonkChi() then
-            value = UnitPower(x.player.unit, SPELL_POWER_CHI)
-        elseif powertype == "HOLY_POWER" and ShowPaladinHolyPower() then
-            value = UnitPower(x.player.unit, SPELL_POWER_HOLY_POWER)
-        elseif powertype == "SHADOW_ORBS" and ShowPriestShadowOrbs() then
-            value = UnitPower(x.player.unit, SPELL_POWER_SHADOW_ORBS)
-        elseif powertype == "SOUL_SHARDS" and ShowWarlockSoulShards() then
-            value = UnitPower(x.player.unit, SPELL_POWER_SOUL_SHARDS) / 100
-        elseif powertype == "DEMONIC_FURY" and ShowWarlockDemonicFury() then
-            value = UnitPower(x.player.unit, SPELL_POWER_DEMONIC_FURY) / 100
-        elseif powertype == "BURNING_EMBERS" and ShowWarlockBurningEmbers() then
-            value = UnitPower(x.player.unit, SPELL_POWER_BURNING_EMBERS)
-        end
-
-        if value then
-            if value < 1 then
-                if value == 0 then
-                    x:AddMessage("class", " ", "comboPoints")
-                else
-                    x:AddMessage("class", "0", "comboPoints")
-                end
-            else
-                x:AddMessage("class", math.floor(value), "comboPoints")
-            end
-        end
-    end
-end
-
---[=====================================================[
- Combo Points - Class Aura Types
---]=====================================================]
-local function UpdateAuraTracking(_, unit)
-    local entry = x.TrackingEntry
-
-    if entry then
-        if unit == entry.unit then
-            local i, name, icon, count, _, _, _, _, _, _, spellId = 1, C_UnitAuras.GetBuffDataByIndex(entry.unit, 1)
-
-            while name do
-                if entry.id == spellId then
-                    break
-                end
-                i = i + 1
-                name, icon, count, _, _, _, _, _, _, spellId = C_UnitAuras.GetBuffDataByIndex(entry.unit, i)
-            end
-
-            if name and count > 0 then
-                x:AddMessage("class", count, "comboPoints")
-            else
-                x:AddMessage("class", " ", "comboPoints")
-            end
-
-        -- Fix issue of not reseting when unit disapears (e.g. dismiss pet)
-        elseif not UnitExists(entry.unit) then
-            x:AddMessage("class", " ", "comboPoints")
-        end
-    end
-end
-
-function x:QuickClassFrameUpdate()
-    local entry = x.TrackingEntry
-    if entry and UnitExists(entry.unit) then
-        -- Update Buffs
-        UpdateAuraTracking(nil, entry.unit)
-
-        -- Update Unit's Power
-        if ShowMonkChi() then
-            UpdateUnitPower(entry.unit, "LIGHT_FORCE")
-        elseif ShowPaladinHolyPower() then
-            UpdateUnitPower(entry.unit, "HOLY_POWER")
-        elseif ShowPriestShadowOrbs() then
-            UpdateUnitPower(entry.unit, "SHADOW_ORBS")
-        elseif ShowWarlockSoulShards() then
-            UpdateUnitPower(entry.unit, "SOUL_SHARDS")
-        elseif ShowWarlockDemonicFury() then
-            UpdateUnitPower(entry.unit, "DEMONIC_FURY")
-        elseif ShowWarlockBurningEmbers() then
-            UpdateUnitPower(entry.unit, "BURNING_EMBERS")
-        end
-    else
-        -- Update Combo Points
-        UpdateComboPoints()
-    end
 end
 
 --[=====================================================[
@@ -1538,9 +1397,6 @@ EventHandlers.UNIT_HEALTH = function()
 end
 
 EventHandlers.UNIT_POWER_UPDATE = function(_, unit, powerType)
-    -- Update for Class Combo Points
-    UpdateUnitPower(unit, powerType)
-
     if
         select(2, UnitPowerType(x.player.unit)) == "MANA"
         and x:Options_General_ShowLowManaAndHealth()
@@ -1872,8 +1728,6 @@ end
 
 EventHandlers.ACTIVE_TALENT_GROUP_CHANGED = function()
     x:UpdatePlayer()
-    -- x:UpdateComboTracker()
-    -- x:UpdateComboPointOptions(true)
 end
 
 -- Handlers for COMBAT_TEXT_UPDATE
@@ -2098,7 +1952,6 @@ function x:RegisterCombatEvents()
     self:RegisterEvent("UNIT_EXITING_VEHICLE", EventHandlers.UNIT_EXITING_VEHICLE)
     self:RegisterEvent("PLAYER_ENTERING_WORLD", EventHandlers.PLAYER_ENTERING_WORLD)
     self:RegisterEvent("UNIT_PET", EventHandlers.UNIT_PET)
-    self:RegisterEvent("PLAYER_TARGET_CHANGED", UpdateComboPoints)
     self:RegisterEvent("CHAT_MSG_SKILL", EventHandlers.CHAT_MSG_SKILL)
 
     -- Loot frame
@@ -2106,14 +1959,11 @@ function x:RegisterCombatEvents()
     self:RegisterEvent("CHAT_MSG_CURRENCY", EventHandlers.CHAT_MSG_CURRENCY)
     self:RegisterEvent("CHAT_MSG_MONEY", EventHandlers.CHAT_MSG_MONEY)
 
-    -- Class combo points / runes / ...
     if x.player.class == "DEATHKNIGHT" then
         self:RegisterEvent("RUNE_POWER_UPDATE", EventHandlers.RUNE_POWER_UPDATE)
     end
 
-    self:RegisterEvent("UNIT_AURA", UpdateAuraTracking)
     self:RegisterEvent("ACTIVE_TALENT_GROUP_CHANGED", EventHandlers.ACTIVE_TALENT_GROUP_CHANGED)
-    --self:RegisterEvent("UNIT_COMBO_POINTS", UpdateComboPoints)
 
     LibStub("xCombatParser-1.0"):RegisterCombat(self.onCombatLogEvent)
 end
