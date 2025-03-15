@@ -61,14 +61,6 @@ x.POWER_LOOKUP = {
     [25] = "VIGOR",
 }
 
-local BuffsOrDebuffs = {
-    ["_AURA_APPLIED"] = true,
-    ["_AURA_REMOVED"] = true,
-    ["_AURA_APPLIED_DOSE"] = true,
-    ["_AURA_REMOVED_DOSE"] = true,
-    --["_AURA_REFRESH"] = true, -- I dont know how we should support this
-}
-
 --[=====================================================[
  String Formatters
 --]=====================================================]
@@ -1858,7 +1850,14 @@ function x.onCombatLogEvent(args)
     end
 
     -- Player Auras
-    if args.atPlayer and BuffsOrDebuffs[args.suffix] then
+    if args.atPlayer
+        and (
+            args.suffix == "_AURA_APPLIED"
+            or args.suffix == "_AURA_REMOVED"
+            or args.suffix == "_AURA_APPLIED_DOSE"
+            or args.suffix == "_AURA_REMOVED_DOSE"
+        )
+    then
         EventHandlers.IncomingAura(args)
     end
 
