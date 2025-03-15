@@ -71,10 +71,7 @@ x.POWER_LOOKUP = {
 --local format_loot = "([^|]*)|cff(%x*)|H([^:]*):(%d+):[-?%d+:]+|h%[?([^%]]*)%]|h|r?%s?x?(%d*)%.?"
 
 local format_honor = string.gsub(COMBAT_TEXT_HONOR_GAINED, "%%s", "+%%s")
-local format_quality = "ITEM_QUALITY%s_DESC"
-local format_remove_realm = "(.*)-.*"
 
-local format_lewtz_blind = "(%s)"
 local format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.*", "")) -- "You create: "
 if x.locale == "koKR" then
     format_crafted = (LOOT_ITEM_CREATED_SELF:gsub("%%.+ ", ""))
@@ -96,6 +93,7 @@ function x:UpdatePlayer()
     else
         x.player.unit = "player"
     end
+
     CombatTextSetActiveUnit(x.player.unit)
 
     -- Set Player's Information
@@ -105,6 +103,7 @@ end
 
 --[=====================================================[
  Message Formatters
+ TODO remove or sync them mit dem Spam Merger!
 --]=====================================================]
 local xCTFormat = {}
 
@@ -236,7 +235,7 @@ nameFormatter.controllerName = function(args, settings, useSource)
     end
 
     if settings.removeRealmName then
-        name = string.match(name, format_remove_realm) or name
+        name = string.match(name, "(.*)-.*") or name
     end
 
     local color
@@ -1563,7 +1562,7 @@ EventHandlers.CHAT_MSG_LOOT = function(_, msg)
             local itemQualityText = ""
             if x:Options_Loot_ShowColorBlindMoney() then
                 -- Item Quality (Color Blind)
-                itemQualityText = string.format(format_lewtz_blind, _G[string.format(format_quality, itemQuality)])
+                itemQualityText = string.format("(%s)", _G[string.format("ITEM_QUALITY%s_DESC", itemQuality)])
             end
 
             local message
