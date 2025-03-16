@@ -17,7 +17,7 @@ spam.
 For those that have used Affli’s xCT Add-On, xCT+ expands the functionality of its predecessor. New features include:
 
 * An In-Game Configuration Tool
-* Frames for tracking Criticals, Loot and Money, Spell Procs, Unit Power (Mana), and Class Combo Points
+* Frames for tracking Criticals, Loot and Money, Spell Procs and Unit Power (e.g. Mana)
 * A grid when positioning the frames
 * Tons of new options and features
 * A redesigned Spell Merger to cut down on the spam

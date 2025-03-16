@@ -63,7 +63,6 @@ function x:OnInitialize()
         [6] = "power",
         [7] = "procs",
         [8] = "loot",
-        --[9] = "class",    -- this is not used by redirection
         [10] = "outgoing_healing",
     }
 
@@ -74,7 +73,6 @@ function x:OnInitialize()
         ["damage"] = "Incoming Damage",
         ["healing"] = "Incoming Healing",
         ["power"] = "Class Power",
-        --["class"]        = "Combo",
         ["procs"] = "Special Effects (Procs)",
         ["loot"] = "Loot & Money",
         ["outgoing_healing"] = "Outgoing Healing",
@@ -325,23 +323,6 @@ function x:CleanUpForLegion()
     ReloadUI()
 end
 
-function x:UpdateComboTracker()
-    local myClass, mySpec = x.player.class, x.player.spec
-    x.TrackingEntry = nil
-
-    if not mySpec or mySpec < 1 or mySpec > 4 then
-        return
-    end -- under Level 10 return 5
-
-    for _, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
-        if type(entry) == "table" and entry.enabled then
-            x.TrackingEntry = entry
-        end
-    end
-
-    x:QuickClassFrameUpdate()
-end
-
 do
     local cache = {
         [1] = "1",
@@ -403,11 +384,8 @@ function x:EnableLibSinkSupport()
     end
 
     local frames = {}
-
     for name, title in pairs(x.frameTitles) do
-        if name ~= "class" then
-            frames[title] = name
-        end
+        frames[title] = name
     end
 
     -- shortName, name, desc, func, scrollAreaFunc, hasSticky

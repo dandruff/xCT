@@ -48,7 +48,7 @@ do
             category = _working_category,
             categoryOrder = _working_category_order, -- doesnt matter
             interval = tonumber(interval) or interval,
-            desc = _working_desc, -- TODO its the spec ID
+            desc = _working_desc, -- its the spec ID
         }
     end
 
