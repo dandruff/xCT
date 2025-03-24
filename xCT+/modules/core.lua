@@ -234,6 +234,10 @@ end
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic(existing)
     local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
+    if self.db.profile.dbVersion == "4.22" then
+        self.db.profile.dbVersion = "4.9.22"
+    end
+
     local previousVersion = VersionToTable(self.db.profile.dbVersion or "4.3.0 Beta 2")
 
     if existing then
