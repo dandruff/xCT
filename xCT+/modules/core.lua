@@ -220,17 +220,6 @@ local function CompareVersions(a, b, debug)
     return 0
 end
 
-do
-    local cleanUpShown = false
-    function x.MigratePrint(msg)
-        if not cleanUpShown then
-            print("|cffFF0000x|rCT|cffFFFF00+|r: |cffFF8000Clean Up - Migrated Settings|r")
-            cleanUpShown = true
-        end
-        print("    " .. msg)
-    end
-end
-
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic(existing)
     local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
