@@ -63,7 +63,6 @@ function x:OnInitialize()
         [6] = "power",
         [7] = "procs",
         [8] = "loot",
-        --[9] = "class",    -- this is not used by redirection
         [10] = "outgoing_healing",
     }
 
@@ -74,7 +73,6 @@ function x:OnInitialize()
         ["damage"] = "Incoming Damage",
         ["healing"] = "Incoming Healing",
         ["power"] = "Class Power",
-        --["class"]        = "Combo",
         ["procs"] = "Special Effects (Procs)",
         ["loot"] = "Loot & Money",
         ["outgoing_healing"] = "Outgoing Healing",
@@ -133,15 +131,13 @@ function x:OnDisable() end
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
     local major, minor, patch, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
-    local isAlpha = string.find(releaseMsg, "alpha") and true or false
-    local isBeta = string.find(releaseMsg, "beta") and true or false
 
     return {
         major = tonumber(major) or 0,
         minor = tonumber(minor) or 0,
         patch = tonumber(patch) or 0,
-        isAlpha = isAlpha,
-        isBeta = isBeta,
+        isAlpha = string.find(releaseMsg or "", "alpha") and true or false,
+        isBeta = string.find(releaseMsg or "", "beta") and true or false,
         devBuild = tonumber(string.match(releaseMsg or "", "(%d+)")) or 0,
     }
 end
@@ -325,23 +321,6 @@ function x:CleanUpForLegion()
     ReloadUI()
 end
 
-function x:UpdateComboTracker()
-    local myClass, mySpec = x.player.class, x.player.spec
-    x.TrackingEntry = nil
-
-    if not mySpec or mySpec < 1 or mySpec > 4 then
-        return
-    end -- under Level 10 return 5
-
-    for _, entry in pairs(x.db.profile.spells.combo[myClass][mySpec]) do
-        if type(entry) == "table" and entry.enabled then
-            x.TrackingEntry = entry
-        end
-    end
-
-    x:QuickClassFrameUpdate()
-end
-
 do
     local cache = {
         [1] = "1",
@@ -403,11 +382,8 @@ function x:EnableLibSinkSupport()
     end
 
     local frames = {}
-
     for name, title in pairs(x.frameTitles) do
-        if name ~= "class" then
-            frames[title] = name
-        end
+        frames[title] = name
     end
 
     -- shortName, name, desc, func, scrollAreaFunc, hasSticky

@@ -158,27 +158,21 @@ function x:UpdateFrames(specificFrame)
                 f:SetJustifyH(frameSettings.fontJustify)
             end
 
-            -- Special Cases
-            if frameName == "class" then
-                f:SetMaxLines(1)
-                f:SetFading(false)
-            else
-                -- scrolling
-                if frameSettings.enableScrollable then
-                    f:SetMaxLines(frameSettings.scrollableLines)
-                    if not frameSettings.scrollableInCombat then
-                        if InCombatLockdown() then
-                            x:DisableFrameScrolling(frameName)
-                        else
-                            x:EnableFrameScrolling(frameName)
-                        end
+            -- Scrolling
+            if frameSettings.enableScrollable then
+                f:SetMaxLines(frameSettings.scrollableLines)
+                if not frameSettings.scrollableInCombat then
+                    if InCombatLockdown() then
+                        x:DisableFrameScrolling(frameName)
                     else
                         x:EnableFrameScrolling(frameName)
                     end
                 else
-                    f:SetMaxLines(math.max(1, math.floor(frameSettings.Height / frameSettings.fontSize) - 1)) --- shhhhhhhhhhhhhhhhhhhh
-                    x:DisableFrameScrolling(frameName)
+                    x:EnableFrameScrolling(frameName)
                 end
+            else
+                f:SetMaxLines(math.max(1, math.floor(frameSettings.Height / frameSettings.fontSize) - 1)) --- shhhhhhhhhhhhhhhhhhhh
+                x:DisableFrameScrolling(frameName)
             end
 
             -- fading
@@ -937,11 +931,6 @@ function x.StartConfigMode()
             -- TODO: Add option to adjust the number of lines for memory purposes
             -- TODO: Show Alignment Grid
 
-            if framename == "class" then
-                f.sizing.d:Hide()
-                f.sizing:Hide()
-            end
-
             f:SetFrameStrata("FULLSCREEN_DIALOG")
         end
     end
@@ -1273,24 +1262,6 @@ function x.TestMoreUpdate(self, elapsed)
                     color = x.db.profile.frames[outputFrame].fontColor
                 end
                 x:AddMessage(outputFrame, "+" .. x:Abbreviate(math.random(5000), "power") .. " " .. _G[powerToken], color)
-            elseif self == x.framesByName.class and math.random(4) % 4 == 0 then
-                local outputFrame = "class"
-                if not x.db.profile.frames.class.enabledFrame then
-                    x:Clear(outputFrame)
-                    return
-                end
-                if not self.testCombo then
-                    self.testCombo = 0
-                end
-                self.testCombo = self.testCombo + 1
-                if self.testCombo > 8 then
-                    self.testCombo = 1
-                end
-                local color = { 1, 0.82, 0 }
-                if x.db.profile.frames.class.customColor then
-                    color = x.db.profile.frames.class.fontColor
-                end
-                x:AddMessage(outputFrame, tostring(self.testCombo), color)
             elseif self == x.framesByName.procs and math.random(8) % 8 == 0 then
                 local outputFrame = "procs"
                 if not x.db.profile.frames[outputFrame].enabledFrame then
@@ -1478,7 +1449,7 @@ StaticPopupDialogs["XCT_PLUS_HIDE_IN_COMBAT"] = {
     button2 = REVERT,
     OnCancel = function()
         x.db.profile.hideConfig = true
-        -- TODO what are we doing with this?
+        -- TODO Why are we doing with this?
         x:RefreshConfig()
     end,
 

@@ -1112,86 +1112,6 @@ addon.defaults = {
             formatAbbreviate = false,
             formatGroups = true,
 
-            combo = {
-                DEATHKNIGHT = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                DEMONHUNTER = {
-                    [1] = {},
-                    [2] = {},
-                },
-
-                DRUID = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                    [4] = {},
-                },
-
-                EVOKER = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                HUNTER = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                MAGE = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                MONK = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                PALADIN = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                PRIEST = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                ROGUE = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                SHAMAN = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                WARLOCK = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-
-                WARRIOR = {
-                    [1] = {},
-                    [2] = {},
-                    [3] = {},
-                },
-            },
-
             -- This gets dynamically generated
             merge = {},
 
@@ -1591,16 +1511,6 @@ addon.defaults = {
                 default = { 0.10, 0.10, 0.98 },
             },
             -- TODO Vigor (Skyriding) & Evoker
-            --comboPoints = {
-            --    enabled = false,
-            --    desc = "Combo Points",
-            --    default = { 1.00, 0.82, 0.00 }
-            --},
-            --comboPointsMax = {
-            --    enabled = false,
-            --    desc = "Max Combo Points",
-            --    default = { 0.00, 0.82, 1.00 }
-            --},
 
             -- Procs
             spellProc = {
