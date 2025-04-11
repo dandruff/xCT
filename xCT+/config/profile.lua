@@ -75,153 +75,153 @@ addon.defaults = {
             -- Vanilla Schools
             [tostring(SCHOOL_MASK_PHYSICAL)] = {
                 enabled = false,
-                desc = "Physical",
+                desc = STRING_SCHOOL_PHYSICAL,
                 default = { 1.00, 1.00, 1.00 },
             },
             [tostring(SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Holy",
+                desc = STRING_SCHOOL_HOLY,
                 default = { 1.00, 1.00, 0.30 },
             },
             [tostring(SCHOOL_MASK_FIRE)] = {
                 enabled = false,
-                desc = "Fire",
+                desc = STRING_SCHOOL_FIRE,
                 default = { 1.00, 0.15, 0.18 },
             },
             [tostring(SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Nature",
+                desc = STRING_SCHOOL_NATURE,
                 default = { 0.40, 1.00, 0.40 },
             },
             [tostring(SCHOOL_MASK_FROST)] = {
                 enabled = false,
-                desc = "Frost",
+                desc = STRING_SCHOOL_FROST,
                 default = { 0.30, 0.30, 0.90 },
             },
             [tostring(SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Shadow",
+                desc = STRING_SCHOOL_SHADOW,
                 default = { 1.00, 0.70, 1.00 },
             },
             [tostring(SCHOOL_MASK_ARCANE)] = {
                 enabled = false,
-                desc = "Arcane",
+                desc = STRING_SCHOOL_ARCANE,
                 default = { 0.75, 0.75, 0.75 },
             },
 
             -- Physical and a Magical
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_FIRE)] = {
                 enabled = false,
-                desc = "Flamestrike",
+                desc = STRING_SCHOOL_FLAMESTRIKE,
                 default = { 1.00, 0.58, 0.59 },
             },
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_FROST)] = {
                 enabled = false,
-                desc = "Froststrike",
+                desc = STRING_SCHOOL_FROSTSTRIKE,
                 default = { 0.65, 0.65, 0.95 },
             },
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_ARCANE)] = {
                 enabled = false,
-                desc = "Spellstrike",
+                desc = STRING_SCHOOL_SPELLSTRIKE,
                 default = { 0.87, 0.87, 0.87 },
             },
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Stormstrike",
+                desc = STRING_SCHOOL_STORMSTRIKE,
                 default = { 0.70, 1.00, 0.70 },
             },
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Shadowstrike",
+                desc = STRING_SCHOOL_SHADOWSTRIKE,
                 default = { 1.00, 0.85, 1.00 },
             },
             [tostring(SCHOOL_MASK_PHYSICAL + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Holystrike",
+                desc = STRING_SCHOOL_HOLYSTRIKE,
                 default = { 1.00, 1.00, 0.83 },
             },
 
             -- Two Magical Schools
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_FROST)] = {
                 enabled = false,
-                desc = "Frostfire",
+                desc = STRING_SCHOOL_FROSTFIRE,
                 default = { 0.65, 0.23, 0.54 },
             },
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_ARCANE)] = {
                 enabled = false,
-                desc = "Spellfire",
+                desc = STRING_SCHOOL_SPELLFIRE,
                 default = { 0.87, 0.45, 0.47 },
             },
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Firestorm",
+                desc = STRING_SCHOOL_FIRESTORM,
                 default = { 0.70, 0.58, 0.29 },
             },
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Shadowflame",
+                desc = STRING_SCHOOL_SHADOWFLAME,
                 default = { 1.00, 0.43, 0.59 },
             },
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Holyfire (Radiant)",
+                desc = STRING_SCHOOL_HOLYFIRE,
                 default = { 1.00, 0.58, 0.24 },
             },
             [tostring(SCHOOL_MASK_FROST + SCHOOL_MASK_ARCANE)] = {
                 enabled = false,
-                desc = "Spellfrost",
+                desc = STRING_SCHOOL_SPELLFROST,
                 default = { 0.53, 0.53, 0.83 },
             },
             [tostring(SCHOOL_MASK_FROST + SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Froststorm",
+                desc = STRING_SCHOOL_FROSTSTORM,
                 default = { 0.35, 0.65, 0.65 },
             },
             [tostring(SCHOOL_MASK_FROST + SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Shadowfrost",
+                desc = STRING_SCHOOL_SHADOWFROST,
                 default = { 0.65, 0.50, 0.95 },
             },
             [tostring(SCHOOL_MASK_FROST + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Holyfrost",
+                desc = STRING_SCHOOL_HOLYFROST,
                 default = { 0.65, 0.65, 0.60 },
             },
             [tostring(SCHOOL_MASK_ARCANE + SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Spellstorm (Astral)",
+                desc = STRING_SCHOOL_SPELLSTORM,
                 default = { 0.58, 0.87, 0.58 },
             },
             [tostring(SCHOOL_MASK_ARCANE + SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Spellshadow",
+                desc = STRING_SCHOOL_SPELLSHADOW,
                 default = { 0.87, 0.73, 0.87 },
             },
             [tostring(SCHOOL_MASK_ARCANE + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Divine",
+                desc = STRING_SCHOOL_DIVINE,
                 default = { 0.87, 0.87, 0.53 },
             },
             [tostring(SCHOOL_MASK_NATURE + SCHOOL_MASK_SHADOW)] = {
                 enabled = false,
-                desc = "Shadowstorm (Plague)",
+                desc = STRING_SCHOOL_SHADOWSTORM,
                 default = { 0.70, 0.85, 0.70 },
             },
             [tostring(SCHOOL_MASK_NATURE + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Holystorm",
+                desc = STRING_SCHOOL_HOLYSTORM,
                 default = { 0.70, 1.00, 0.35 },
             },
             [tostring(SCHOOL_MASK_SHADOW + SCHOOL_MASK_HOLY)] = {
                 enabled = false,
-                desc = "Shadowlight (Twilight)",
+                desc = STRING_SCHOOL_SHADOWLIGHT,
                 default = { 1.00, 0.85, 0.65 },
             },
 
             -- Three or More Schools
             [tostring(SCHOOL_MASK_FIRE + SCHOOL_MASK_FROST + SCHOOL_MASK_NATURE)] = {
                 enabled = false,
-                desc = "Elemental",
+                desc = STRING_SCHOOL_ELEMENTAL,
                 default = { 0.57, 0.48, 0.49 },
             },
 
@@ -229,7 +229,7 @@ addon.defaults = {
                 SCHOOL_MASK_FIRE + SCHOOL_MASK_FROST + SCHOOL_MASK_ARCANE + SCHOOL_MASK_NATURE + SCHOOL_MASK_SHADOW
             )] = {
                 enabled = false,
-                desc = "Chromatic",
+                desc = STRING_SCHOOL_CHROMATIC,
                 default = { 0.69, 0.58, 0.65 },
             },
 
@@ -242,7 +242,7 @@ addon.defaults = {
                     + SCHOOL_MASK_HOLY
             )] = {
                 enabled = false,
-                desc = "Magic",
+                desc = STRING_SCHOOL_MAGIC,
                 default = { 0.74, 0.65, 0.59 },
             },
 
@@ -256,7 +256,7 @@ addon.defaults = {
                     + SCHOOL_MASK_HOLY
             )] = {
                 enabled = false,
-                desc = "Chaos",
+                desc = STRING_SCHOOL_CHAOS,
                 default = { 0.78, 0.70, 0.65 },
             },
         },
