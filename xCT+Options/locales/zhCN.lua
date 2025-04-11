@@ -26,6 +26,7 @@ if not L then return end
 L["                                                      Version: %s                                                      "] = "                                                      版本: %s                                                      "
 L["A frame to forward messages to when this frame is disabled."] = "当这个框体被禁用时要转发信息的框体."
 L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "已见过的|cff1AFF1ABuff|r名称列表. |cffFF0000需要:|r |cff798BDD追踪法术历史|r"
+L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "已见过的|cffFF0000Debuff|r名称列表. |cffFF0000需要:|r |cff798BDD追踪法术历史|r"
 L["A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "已见过的|cff1AFF1A触发|r名称列表. |cffFF0000需要:|r |cff798BDD追踪法术历史|r"
 L["A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "已见过的|cff71d5ff输出法术|rID列表. |cffFF0000需要:|r |cff798BDD追踪法术历史|r"
 L["A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "已见过的|cff798BDD物品|rID列表. |cffFF0000需要:|r |cff798BDD追踪法术历史|r"
