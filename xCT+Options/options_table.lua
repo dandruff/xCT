@@ -6775,7 +6775,7 @@ function x:InitOptionsTable()
                         order = 12,
                         type = "select",
                         name = L["Add via History"],
-                        desc = L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
+                        desc = L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetDebuffHistory,
                         set = AddFilteredSpell,

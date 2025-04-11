@@ -22,6 +22,7 @@ if not L then return end
 L["                                                      Version: %s                                                      "] = true
 L["A frame to forward messages to when this frame is disabled."] = true
 L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = true
+L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = true
 L["A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = true
 L["A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = true
 L["A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = true
