@@ -412,7 +412,7 @@ addon.defaults = {
                         customSpellColor = { 1, 1, 1 },
                     },
 
-                    -- events from the envirornment
+                    -- events from the environment
                     ENVIRONMENT = {
                         nameType = 0,
                     },
@@ -527,7 +527,7 @@ addon.defaults = {
                         customSpellColor = { 1, 1, 1 },
                     },
 
-                    -- events from the envirornment
+                    -- events from the environment
                     ENVIRONMENT = {
                         nameType = 0, -- NOT SHOWN
                     },
@@ -630,7 +630,7 @@ addon.defaults = {
                         customSpellColor = { 1, 1, 1 },
                     },
 
-                    -- events from the envirornment
+                    -- events from the environment
                     ENVIRONMENT = {
                         nameType = 0,
                     },
@@ -746,7 +746,7 @@ addon.defaults = {
                         customSpellColor = { 1, 1, 1 },
                     },
 
-                    -- events from the envirornment
+                    -- events from the environment
                     ENVIRONMENT = {
                         -- Name Types:
                         --   0 = None
@@ -865,7 +865,7 @@ addon.defaults = {
                         customSpellColor = { 1, 1, 1 },
                     },
 
-                    -- events from the envirornment
+                    -- events from the environment
                     ENVIRONMENT = {
                         nameType = 0, -- NOT SHOWN
                     },
@@ -1362,7 +1362,7 @@ addon.defaults = {
             },
             missTypeAbsorb = {
                 enabled = false,
-                desc = "Asorbed",
+                desc = "Absorbed",
                 category = "incoming_damage",
                 default = { 0.50, 0.50, 0.50 },
             },
@@ -1380,7 +1380,7 @@ addon.defaults = {
             },
             missTypeAbsorbPartial = {
                 enabled = false,
-                desc = "Asorbed |cff798BDD(Partial)|r",
+                desc = "Absorbed |cff798BDD(Partial)|r",
                 category = "incoming_damage",
                 default = { 0.75, 0.50, 0.50 },
             },
