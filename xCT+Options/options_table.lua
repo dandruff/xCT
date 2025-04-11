@@ -6267,7 +6267,7 @@ function x:InitOptionsTable()
 
                     mergeOutgoingDamageMissesInterval = {
                         order = 23,
-                        name = L["Merge-Interval Incoming Misses"],
+                        name = L["Merge-Interval Outgoing Misses"],
                         desc = L["The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable."],
                         type = "range",
                         min = 0,
