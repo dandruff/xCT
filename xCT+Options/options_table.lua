@@ -7188,7 +7188,7 @@ function x:InitOptionsTable()
                 order = 71,
                 type = "description",
                 fontSize = "medium",
-                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!)",
+                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!), Edarlingen",
             },
 
             translatorsTitle = {
