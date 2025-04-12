@@ -1953,7 +1953,7 @@ function x:RegisterCombatEvents()
 
         self:RegisterEvent("CHAT_MSG_LOOT", EventHandlers.CHAT_MSG_LOOT)
 
-        if x:Options_Loot_ShowCurency() then
+        if x:Options_Loot_ShowCurrency() then
             self:RegisterEvent("CHAT_MSG_CURRENCY", EventHandlers.CHAT_MSG_CURRENCY)
         end
 

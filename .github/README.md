@@ -57,7 +57,7 @@ Version 4.9.0 shapes up to be a major rewrite of the whole addon. The following 
 * Split xCT into a main addon and an options addon to reduce the footprint.
   * The main addon has a RAM footprint of about 800 KB, and the options of 1,8 MB ... wow!
 
-Feel free to try the alpha and beta versions and provide feedback in Github!
+Feel free to try the alpha and beta versions and provide feedback in GitHub!
 
 ## Download
 
