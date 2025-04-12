@@ -229,7 +229,7 @@ function x:Options_Loot_ShowMoney()
     return x.db.profile.frames.loot.showMoney
 end
 
-function x:Options_Loot_ShowCurency()
+function x:Options_Loot_ShowCurrency()
     return x.db.profile.frames.loot.showCurrency
 end
 

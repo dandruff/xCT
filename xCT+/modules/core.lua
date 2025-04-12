@@ -131,15 +131,13 @@ function x:OnDisable() end
 -- Version Compare Helpers... Yeah!
 local function VersionToTable(version)
     local major, minor, patch, releaseMsg = string.match(string.lower(version), "(%d+)%.(%d+)%.(%d+)(.*)")
-    local isAlpha = string.find(releaseMsg, "alpha") and true or false
-    local isBeta = string.find(releaseMsg, "beta") and true or false
 
     return {
         major = tonumber(major) or 0,
         minor = tonumber(minor) or 0,
         patch = tonumber(patch) or 0,
-        isAlpha = isAlpha,
-        isBeta = isBeta,
+        isAlpha = string.find(releaseMsg or "", "alpha") and true or false,
+        isBeta = string.find(releaseMsg or "", "beta") and true or false,
         devBuild = tonumber(string.match(releaseMsg or "", "(%d+)")) or 0,
     }
 end
@@ -222,20 +220,13 @@ local function CompareVersions(a, b, debug)
     return 0
 end
 
-do
-    local cleanUpShown = false
-    function x.MigratePrint(msg)
-        if not cleanUpShown then
-            print("|cffFF0000x|rCT|cffFFFF00+|r: |cffFF8000Clean Up - Migrated Settings|r")
-            cleanUpShown = true
-        end
-        print("    " .. msg)
-    end
-end
-
 -- This function was created as the central location for crappy code
 function x:CompatibilityLogic(existing)
     local addonVersionString = C_AddOns.GetAddOnMetadata("xCT+", "Version")
+    if self.db.profile.dbVersion == "4.22" then
+        self.db.profile.dbVersion = "4.9.22"
+    end
+
     local previousVersion = VersionToTable(self.db.profile.dbVersion or "4.3.0 Beta 2")
 
     if existing then

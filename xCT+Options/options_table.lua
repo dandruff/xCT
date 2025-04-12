@@ -614,7 +614,7 @@ function x:InitOptionsTable()
                     miscDesc = {
                         order = 51,
                         type = "description",
-                        name = L["The following settings are marked as experimental. They should all work, but they might not be very useful. Expect chanrges or updates to these in the near future.\n\nClick |cffFFFF00Set All|r to apply setting to all |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames.\n"],
+                        name = L["The following settings are marked as experimental. They should all work, but they might not be very useful. Expect changes or updates to these in the near future.\n\nClick |cffFFFF00Set All|r to apply setting to all |cffFF0000x|r|cffFFFF00CT|r|cffFF0000+|r frames.\n"],
                     },
                     font = {
                         order = 52,
@@ -984,7 +984,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -1449,7 +1449,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2165,7 +2165,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -2560,7 +2560,7 @@ function x:InitOptionsTable()
                                 order = 15,
                                 type = "input",
                                 name = L["Overhealing Postfix"],
-                                desc = L["Prefix this value to the endind when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r"],
+                                desc = L["Prefix this value to the ending when displaying an overheal amount.\n\n|cffFF0000Requires:|r |cff798BDDFormat Overhealing|r"],
                                 get = "Options_OutgoingHealing_OverhealingPostfix",
                                 set = setTextIn2,
                                 disabled = function()
@@ -2830,7 +2830,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -3443,7 +3443,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -3901,7 +3901,7 @@ function x:InitOptionsTable()
                                 order = 2,
                                 type = "toggle",
                                 name = L["Show Reductions"],
-                                desc = L["Formats incoming damage to show how much was absorbed. The spam merger hides these reduction and effectivly disables this option though."],
+                                desc = L["Formats incoming damage to show how much was absorbed. The spam merger hides these reduction and effectively disables this option though."],
                                 get = "Options_IncomingDamage_ShowReductions",
                                 set = set2,
                             },
@@ -4167,7 +4167,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -4799,7 +4799,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5278,7 +5278,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5634,7 +5634,7 @@ function x:InitOptionsTable()
 
                             fontShadowOffsetX = {
                                 order = 13,
-                                name = L["Horizonal Offset"],
+                                name = L["Horizontal Offset"],
                                 type = "range",
                                 min = -10,
                                 max = 10,
@@ -5769,8 +5769,8 @@ function x:InitOptionsTable()
                                 order = 3,
                                 type = "toggle",
                                 name = L["Gained Currency"],
-                                desc = L["Displays currecy that you gain."],
-                                get = "Options_Loot_ShowCurency",
+                                desc = L["Displays currency that you gain."],
+                                get = "Options_Loot_ShowCurrency",
                                 set = set2,
                             },
                             showItemTypes = {
@@ -6225,7 +6225,7 @@ function x:InitOptionsTable()
             explanation = {
                 type = "description",
                 order = 1,
-                name = L["Normally all damage / heal events of a spell will result in one message each.\nSo AE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\nIf the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\nUse an interval of 0 to disable the specific merge."],
+                name = L["Normally all damage / heal events of a spell will result in one message each.\nSo AoE spells like Rain of Fire or Spinning Crane Kick will spam a lot of messages into the xCT frames.\nIf the spam merger is enabled, then the damage events in a configured interval of X seconds of each spell will be merged into one message.\n|cffFF0000Drawback|r: the (merged) message will be delayed by the configured interval!!\nUse an interval of 0 to disable the specific merge."],
             },
 
             mergeOptions = {
@@ -6267,7 +6267,7 @@ function x:InitOptionsTable()
 
                     mergeOutgoingDamageMissesInterval = {
                         order = 23,
-                        name = L["Merge-Interval Incoming Misses"],
+                        name = L["Merge-Interval Outgoing Misses"],
                         desc = L["The interval (seconds) in which outgoing full misses, dodges and parries will be merged. Different messages will still be displayed for different types of miss. Use 0 to disable."],
                         type = "range",
                         min = 0,
@@ -6775,7 +6775,7 @@ function x:InitOptionsTable()
                         order = 12,
                         type = "select",
                         name = L["Add via History"],
-                        desc = L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
+                        desc = L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"],
                         disabled = IsTrackSpellsDisabled,
                         values = GetDebuffHistory,
                         set = AddFilteredSpell,
@@ -7182,13 +7182,13 @@ function x:InitOptionsTable()
             githubTitle = {
                 type = "header",
                 order = 70,
-                name = L["Github Contributors"],
+                name = L["GitHub Contributors"],
             },
             githubUsers = {
                 order = 71,
                 type = "description",
                 fontSize = "medium",
-                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!)",
+                name = "oBusk, BourgeoisM, Witnesscm, Tonyleila, ckaotik, Stanzilla, Torch (behub), vforge, Toludin (BfA Update!), Edarlingen",
             },
 
             translatorsTitle = {
@@ -7211,7 +7211,7 @@ function x:InitOptionsTable()
             contactMeGithub = {
                 order = 91,
                 type = "description",
-                name = L["Create an issue at github:"] .. " https://github.com/dandruff/xCT",
+                name = L["Create an issue at GitHub:"] .. " https://github.com/dandruff/xCT",
             },
             contactMeCurseforgeComment = {
                 order = 93,

@@ -635,7 +635,7 @@ do
 
                     item.mergedCount = 0
                     item.mergedAmount = 0
-                    item.message = ""
+                    item.message = nil
                     item.args = nil
                 elseif frameName == "outgoing" then
                     -- Outgoing damage
@@ -643,7 +643,7 @@ do
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
-                        item.message = ""
+                        item.message = nil
                         item.args = nil
                     end
                 elseif frameName == "outgoing_healing" then
@@ -652,7 +652,7 @@ do
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
-                        item.message = ""
+                        item.message = nil
                         item.args = nil
                     end
                 elseif frameName == "critical" then
@@ -661,7 +661,7 @@ do
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
-                        item.message = ""
+                        item.message = nil
                         item.args = nil
                     end
                 elseif frameName == "healing" then
@@ -670,7 +670,7 @@ do
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
-                        item.message = ""
+                        item.message = nil
                         item.args = nil
                     end
                 elseif frameName == "damage" then
@@ -679,7 +679,7 @@ do
                         -- not enough to display
                         item.mergedCount = 0
                         item.mergedAmount = 0
-                        item.message = ""
+                        item.message = nil
                         item.args = nil
                     end
                 end
@@ -745,7 +745,7 @@ do
                     -- Clear all the old amounts, we dont need them anymore
                     item.mergedCount = 0
                     item.mergedAmount = 0
-                    item.message = ""
+                    item.message = nil
                     item.args = nil
                 end
             end
