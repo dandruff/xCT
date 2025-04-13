@@ -12,8 +12,7 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
-local AddonName, addon = ...
-local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
+local _, addon = ...
 local spell, class, spec, alias = unpack(addon.merge_helpers)
 
 class("DEATHKNIGHT")
