@@ -12,11 +12,11 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
-local _, addon = ...
-
+local AddonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
 local _, _, _, alias, item, header = unpack(addon.merge_helpers)
 
-header(" 9.x |cffd2d3d8ShadowLands|r")
+header(" 9.x |cffd2d3d8" .. L["Shadowlands"] .. "|r")
 do
     alias(344540, 180117) --  Trinket: Empyreal Ordnance dot
 

@@ -12,11 +12,11 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
-local _, addon = ...
-
+local AddonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
 local _, _, _, _, item, header = unpack(addon.merge_helpers)
 
-header("Basic spells")
+header(L["Basic spells"])
 do
     item(143924, 3.5) -- Item Leech
 

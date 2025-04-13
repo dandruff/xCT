@@ -12,11 +12,11 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
-local _, addon = ...
-
+local AddonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
 local _, _, _, _, item, header = unpack(addon.merge_helpers)
 
-header(" 5.x |cffF1A864Mists of Pandaria|r")
+header(" 5.x |cffF1A864" .. L["Mists of Pandaria"] .. "|r")
 do
     item(147891, 5) -- Legendary Cloak for Melee
     item(148008, 5) -- Legendary Cloak for Casters

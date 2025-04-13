@@ -23,6 +23,14 @@ if not x then
     return
 end
 
+local function getColoredClassName(class)
+    return string.format(
+        "|c%s%s|r",
+        RAID_CLASS_COLORS[class].colorStr,
+        LOCALIZED_CLASS_NAMES_MALE[class]
+    )
+end
+
 function x:InitOptionsTable()
     -- Create the options table for AceConfig
     optionsAddon.optionsTable = {
@@ -6474,21 +6482,19 @@ function x:InitOptionsTable()
                 order = 21,
                 childGroups = "select",
                 args = {
-                    -- TODO: Add Check all and uncheck all buttons
-
-                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = L["|cffC41F3BDeath Knight|r"] },
-                    ["DEMONHUNTER"] = { type = "group", order = 2, name = L["|cffA330C9Demon Hunter|r"] },
-                    ["DRUID"] = { type = "group", order = 3, name = L["|cffFF7D0ADruid|r"] },
-                    ["EVOKER"] = { type = "group", order = 4, name = L["|cff33937FEvoker|r"] },
-                    ["HUNTER"] = { type = "group", order = 5, name = L["|cffABD473Hunter|r"] },
-                    ["MAGE"] = { type = "group", order = 6, name = L["|cff69CCF0Mage|r"] },
-                    ["MONK"] = { type = "group", order = 7, name = L["|cff00FF96Monk|r"] },
-                    ["PALADIN"] = { type = "group", order = 8, name = L["|cffF58CBAPaladin|r"] },
-                    ["PRIEST"] = { type = "group", order = 9, name = L["|cffFFFFFFPriest|r"] },
-                    ["ROGUE"] = { type = "group", order = 10, name = L["|cffFFF569Rogue|r"] },
-                    ["SHAMAN"] = { type = "group", order = 11, name = L["|cff0070DEShaman|r"] },
-                    ["WARLOCK"] = { type = "group", order = 12, name = L["|cff9482C9Warlock|r"] },
-                    ["WARRIOR"] = { type = "group", order = 13, name = L["|cffC79C6EWarrior|r"] },
+                    ["DEATHKNIGHT"] = { type = "group", order = 1, name = getColoredClassName("DEATHKNIGHT") },
+                    ["DEMONHUNTER"] = { type = "group", order = 2, name = getColoredClassName("DEMONHUNTER") },
+                    ["DRUID"] = { type = "group", order = 3, name = getColoredClassName("DRUID") },
+                    ["EVOKER"] = { type = "group", order = 4, name = getColoredClassName("EVOKER") },
+                    ["HUNTER"] = { type = "group", order = 5, name = getColoredClassName("HUNTER") },
+                    ["MAGE"] = { type = "group", order = 6, name = getColoredClassName("MAGE") },
+                    ["MONK"] = { type = "group", order = 7, name = getColoredClassName("MONK") },
+                    ["PALADIN"] = { type = "group", order = 8, name = getColoredClassName("PALADIN") },
+                    ["PRIEST"] = { type = "group", order = 9, name = getColoredClassName("PRIEST") },
+                    ["ROGUE"] = { type = "group", order = 10, name = getColoredClassName("ROGUE") },
+                    ["SHAMAN"] = { type = "group", order = 11, name = getColoredClassName("SHAMAN") },
+                    ["WARLOCK"] = { type = "group", order = 12, name = getColoredClassName("WARLOCK") },
+                    ["WARRIOR"] = { type = "group", order = 13, name = getColoredClassName("WARRIOR") },
                 },
             },
 

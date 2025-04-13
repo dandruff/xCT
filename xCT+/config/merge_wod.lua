@@ -12,11 +12,11 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
-local _, addon = ...
-
+local AddonName, addon = ...
+local L = LibStub("AceLocale-3.0"):GetLocale(AddonName)
 local _, _, _, _, item, header = unpack(addon.merge_helpers)
 
-header(" 6.x |cffA32C12Warlords of Draenor|r")
+header(" 6.x |cffA32C12" .. L["Warlords of Draenor"] .. "|r")
 do
     -- WoD Trinkets
     item(184280, 5) -- Trinket: Mirror of the Blademaster
