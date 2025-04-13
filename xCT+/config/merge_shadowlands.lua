@@ -20,13 +20,13 @@ header(" 9.x |cffd2d3d8ShadowLands|r")
 do
     alias(344540, 180117) --  Trinket: Empyreal Ordnance dot
 
-    item(178769, 1.0, "Trinket: Infinitely Divisible Ooze")
+    item(178769, 0) -- Trinket: Infinitely Divisible Ooze
     alias(345495, 178769) --  Infinitely Divisible Ooze damage
 
     alias(345638, 178772) --  Satchel of Misbegotten Minions damage
 
-    item(184021, 2.0, "Trinket: Glyph of Assimilation")
+    item(184021, 0) -- Trinket: Glyph of Assimilation
     alias(345319, 184021) --  Glyph of Assimilation dot
 
-    item(324184, 1.5, "Enchant: Lightless Force")
+    item(324184, 5) -- Enchant: Lightless Force
 end

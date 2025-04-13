@@ -18,9 +18,9 @@ local _, _, _, _, item, header = unpack(addon.merge_helpers)
 
 header("Basic spells")
 do
-    item(143924, 3.5, "Item Leech")
+    item(143924, 3.5) -- Item Leech
 
     -- not technically an item but thats not important right now
-    item(6603, 5, "Auto Attack")
-    item(75, 5, "Auto Shot")
+    item(6603, 5) -- Auto Attack
+    item(75, 5) -- Auto Shot
 end

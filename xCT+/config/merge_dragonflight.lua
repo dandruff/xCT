@@ -20,7 +20,7 @@ header("10.x |cff33937FDragonflight|r")
 do
     alias(425461, 425701) -- Trinket: Tainted Rageheart (Spell: Shadowflame Lash)
 
-    item(417134, 3.0, "Legendary: Rage of Fyr'alath")
+    item(417134, 3.0) -- Legendary 2x Axe: Rage of Fyr'alath
     alias(424094, 417134) -- Rage of Fyr'alath -> Weapon Fyr'alath
     alias(413584, 417134) -- Explosive Rage -> Weapon Fyr'alath
 

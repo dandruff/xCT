@@ -19,11 +19,11 @@ local _, _, _, _, item, header = unpack(addon.merge_helpers)
 header(" 6.x |cffA32C12Warlords of Draenor|r")
 do
     -- WoD Trinkets
-    item(184280, 3.5, "Trinket: Mirror of the Blademaster")
-    item(184256, 2.5, "Trinket: Empty Drinking Horn")
-    item(185098, 4.5, "Trinket: Soothing Breeze")
-    item(185321, 1.5, "Trinket: Seed of Creation (Guardian)")
+    item(184280, 5) -- Trinket: Mirror of the Blademaster
+    item(184256, 5) -- Trinket: Empty Drinking Horn
+    item(185098, 5) -- Trinket: Soothing Breeze
+    item(185321, 5) -- Trinket: Seed of Creation (Guardian)
 
     -- HFC
-    item(180223, 1.5, "HFC Construct #4")
+    item(180223, 5) -- HFC Construct #4
 end

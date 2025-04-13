@@ -7274,7 +7274,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
     local spamMergerRacialSpellCategories = {}
     for _, entry in pairs(xCT_Plus.merges) do
         if not xo.CLASS_NAMES[entry.category] then
-            if entry.desc == "Racial Spell" then
+            if entry.racial_spell then
                 table.insert(
                     spamMergerRacialSpellCategories,
                     { category = entry.category, order = entry.categoryOrder }
@@ -7326,27 +7326,19 @@ function xo:UpdateOptionsTableSpamMergerSpells()
         spamMergerRacialSpellOrders[rcategory.category] = rcurrentIndex + 1
     end
 
-    ------------------------------------------------------
-
     -- Update the UI
     for spellID, entry in pairs(xCT_Plus.merges) do
         local name = C_Spell.GetSpellName(spellID)
         if name then
-            --TODO better code when i understand more the code
             -- Create a useful description for the spell
-            local desc = ""
-            if entry.desc and not xo.CLASS_NAMES[entry.category] then
-                -- TODO localization for entry.desc
-                desc = "|cff9F3ED5" .. entry.desc .. "|r\n\n"
-            end
-
-            desc = string.format(
-                "%s%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
-                desc,
+            local desc = string.format(
+                "%s\n\n|cffFF0000%s|r |cff798BDD%s|r",
                 C_Spell.GetSpellDescription(spellID) or L["No Description"],
                 L["ID"],
                 spellID
             )
+
+            -- TODO C_Spell.GetSpellDescription() sometimes returns "", what to do I do then ?
 
             local firstSecondaryIdFound = true
             for originalSpellId, replaceSpellId in pairs(xCT_Plus.replaceSpellId) do
@@ -7378,7 +7370,7 @@ function xo:UpdateOptionsTableSpamMergerSpells()
                     get = SpamMergerGetSpellInterval,
                     set = SpamMergerSetSpellInterval,
                 }
-            elseif entry.desc == "Racial Spell" then
+            elseif entry.racial_spell then
                 racetab[tostring(spellID)] = {
                     order = spamMergerRacialSpellOrders[entry.category],
                     name = name,

@@ -19,6 +19,6 @@ local _, _, _, _, item, header = unpack(addon.merge_helpers)
 header(" 8.x |cff325A93Battle for Azeroth|r")
 do
     -- Trinkets
-    item(276199, 1.0, "Trinket: Darkmoon Deck: Fathoms")
-    item(276132, 2.0, "Trinket: Darkmoon Deck: Squalls")
+    item(276199, 1.0) -- Trinket: Darkmoon Deck: Fathoms
+    item(276132, 2.0) -- Trinket: Darkmoon Deck: Squalls
 end

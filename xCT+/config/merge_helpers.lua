@@ -59,18 +59,17 @@ do
             category = _working_category,
             categoryOrder = _working_category_order,
             interval = tonumber(interval) or interval,
-            desc = "Racial Spell",
+            racial_spell = true,
         }
     end
 
     -- Adds an item to the merge list
     -- Call header() before!
-    local function item(id, interval, desc)
+    local function item(id, interval)
         addon.merges[id] = {
             category = _working_category,
             categoryOrder = _working_category_order,
             interval = tonumber(interval) or interval,
-            desc = desc,
         }
     end
 
