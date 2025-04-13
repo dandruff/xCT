@@ -21,7 +21,7 @@ addon.DEFAULT_PET_ICON = "ability_hunter_pet_goto"
 
 addon.PET_ICONS = {
 
-    -- Hunter Pets (from WoWHead) Updated for 9.1.0
+    -- Hunter Pets (from WoWHead) Updated for 10.0.2
     [236165] = "ability_druid_primalprecision", -- Spirit Beast
     [236191] = "ability_hunter_pet_corehound", -- Core Hound
     [1044794] = "inv_clefthoofdraenormount_blue", -- Clefthoof
@@ -81,6 +81,7 @@ addon.PET_ICONS = {
     [877479] = "inv_pet_crane", -- Crane
     [1044501] = "inv_talbukdraenor_white", -- Stag
     [132198] = "ability_hunter_pet_tallstrider", -- Tallstrider
+    [797547] = "inv_misc_head_dragon_nexus", -- Lesser Dragonkin
 
     -- TODO: Add other class pets here :(
 }
