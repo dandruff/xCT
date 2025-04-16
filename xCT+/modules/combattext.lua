@@ -510,7 +510,7 @@ EventHandlers.OutgoingHealing = function(args)
                 return
             elseif x:Options_SpamMerger_MergeCriticalsWithOutgoing() then
                 x:AddSpamMessage(
-                    "outgoing_healing",
+                    "outgoing_criticals",
                     args.spellId,
                     amount,
                     outputColor,
@@ -527,7 +527,7 @@ EventHandlers.OutgoingHealing = function(args)
                 )
             elseif x:Options_SpamMerger_HideMergedCriticals() then
                 x:AddSpamMessage(
-                    "outgoing_healing",
+                    "outgoing_criticals",
                     args.spellId,
                     amount,
                     outputColor,
