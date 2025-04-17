@@ -124,7 +124,7 @@ end
 
 -- Frame "Outgoing Damage (Criticals)"
 function x:Options_Critical_ShowAutoAttack()
-    return x.db.profile.frames.outgoing.enableAutoAttack_Critical
+    return x.db.profile.frames.critical.enableAutoAttack_Critical
 end
 
 function x:Options_Critical_PrefixAutoAttack()
