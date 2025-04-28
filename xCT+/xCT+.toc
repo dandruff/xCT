@@ -42,6 +42,7 @@ libs\AceConfig-3.0\AceConfig-3.0.xml
 # Locales first
 # enUS first (because its the default!)
 locales\enUS.lua
+locales\zhCN.lua
 
 init.lua
 
