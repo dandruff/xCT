@@ -1473,16 +1473,16 @@ EventHandlers.CHAT_MSG_SKILL = function(_, msg)
 end
 
 EventHandlers.CHAT_MSG_LOOT = function(_, msg)
-    local preMessage, linkColor, itemString, itemName, amount =
-        string.match(msg, "([^|]+)|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r[^%d]*(%d*)")
+    --x:Print(string.gsub(msg, "\124", "\124\124"))
 
-    if not preMessage or preMessage == "" then
-        local format_getCraftedItemString = ""
-        if x.locale == "koKR" then
-            format_getCraftedItemString = "|cff(%x+)|H([^|]+)|h%[([^%]]+)%]|h|r.+ (.+)"
-        end
+    local preMessage, itemString, itemName, amount = string.match(
+        msg,
+        "(.+)%|c.+%|H(.+)|h%[(.+)%]%|h%|rx?(.*)"
+    )
 
-        linkColor, itemString, itemName, preMessage = string.match(msg, format_getCraftedItemString)
+    if x.locale == "koKR" and (not preMessage or preMessage == "") then
+        -- TODO amount ?
+        itemString, itemName, preMessage = string.match(msg, "%|c.+%|H(.+)%|h%[(.+)%]%|h%|r.+ (.+)")
     end
 
     if not itemString or itemString == "" then
