@@ -12,7 +12,7 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
--- Translators: ZamestoTV
+-- Translators: ZamestoTV (https://github.com/Hubbotu)
 
 local AddonName = ...
 
@@ -24,11 +24,11 @@ if not L then return end
 L["                                                      Version: %s                                                      "] = "                                                      Версия: %s                                                      "
 L["A frame to forward messages to when this frame is disabled."] = "Рамка для перенаправления сообщений, когда эта рамка отключена."
 L["A list of |cff1AFF1ABuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список названий |cff1AFF1AБаффов|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
-L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список названий |cffFF0000Дебаффов|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
 L["A list of |cff1AFF1AProcs|r that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список |cff1AFF1AПроков|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
 L["A list of |cff71d5ffOutgoing Spell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список ID |cff71d5ffИсходящих заклинаний|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
 L["A list of |cff798BDDItem|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список ID |cff798BDDПредметов|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
 L["A list of |cff798BDDSpell|r IDs that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список ID |cff798BDDЗаклинаний|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
+L["A list of |cffFF0000Debuff|r names that have been seen. |cffFF0000Requires:|r |cff798BDDTrack Spell History|r"] = "Список названий |cffFF0000Дебаффов|r, которые были замечены. |cffFF0000Требуется:|r |cff798BDDОтслеживание истории заклинаний|r"
 L["Abbreviate Numbers"] = "Сокращать числа"
 L["Absorbed Healing"] = "Поглощенное исцеление"
 L["Add new Buff to filter"] = "Добавить новый бафф в фильтр"
@@ -492,6 +492,7 @@ L["Write me a PM on Curseforge:"] = "Напишите мне личное соо
 L["You can change how |cffFFFF00xCT+|r shows you names in the |cffFFFF00Names|r section of most frames."] = "Вы можете изменить, как |cffFFFFFleet00xCT+|r показывает вам имена в разделе |cffFFFF00Имена|r большинства рамок."
 L["Your Dispells / Spell Steals"] = "Ваши рассеивания / кражи заклинаний"
 L["\n\n|cffFF0000Requires Self Scrolling Combat Text|r"] = "\n\n|cffFF0000Требуется прокручивающийся боевой текст для себя|r"
+L["ruRU Translators"] = "Переводчики ruRU"
 L["zhCN Translators"] = "Переводчики на zhCN"
 L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"] = "|CffFF0000Требуется:|r |cff00FF33/reload|r после изменения"
 L["|CffFF0000Requires:|r |cff00FF33/reload|r after change"] = "|CffFF0000Требуется:|r |cff00FF33/reload|r после изменения"

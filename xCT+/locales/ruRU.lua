@@ -12,7 +12,7 @@
  [  ©2010-2025 All Rights Reserved.    ]
  [====================================]]
 
--- Translators: ZamestoTV
+-- Translators: ZamestoTV (https://github.com/Hubbotu)
 
 local AddonName = ...
 

@@ -7209,23 +7209,35 @@ function x:InitOptionsTable()
                 name = "萌丶汉丶纸 (fredako)",
             },
 
-            contactMeTitle = {
+            translatorsTitle = {
+                type = "header",
                 order = 90,
+                name = L["ruRU Translators"],
+            },
+            gitHubUsers = {
+                order = 91,
+                type = "description",
+                fontSize = "medium",
+                name = "ZamestoTV",
+            },
+
+            contactMeTitle = {
+                order = 100,
                 type = "header",
                 name = L["How to contact me"],
             },
             contactMeGithub = {
-                order = 91,
+                order = 101,
                 type = "description",
                 name = L["Create an issue at GitHub:"] .. " https://github.com/dandruff/xCT",
             },
             contactMeCurseforgeComment = {
-                order = 93,
+                order = 102,
                 type = "description",
                 name = L["Create a comment on Curseforge:"] .. " https://www.curseforge.com/wow/addons/xct-plus/comments"
             },
             contactMeCurseforgePm = {
-                order = 93,
+                order = 103,
                 type = "description",
                 name = L["Write me a PM on Curseforge:"] .. " https://www.curseforge.com/members/redaces"
             }
