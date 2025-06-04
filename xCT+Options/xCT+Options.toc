@@ -1,6 +1,8 @@
 ## Interface: 110105
 ## Title: xCT+Options
 ## Notes: Options for xCT+
+## Notes-ruRU: Варианты для xCT+
+## Notes-zhCN: xCT+ 的選項
 ## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
 ## Version: @project-version@
 ## LoadOnDemand: 1

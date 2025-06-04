@@ -2,6 +2,7 @@
 ## Title: xCT+
 ## Notes: An Add-On that can out-perform or enhance the default Floating Combat Text!
 ## Notes-ruRU: Аддон, который может превзойти или улучшить стандартный всплывающий текст боя!
+## Notes-zhCN: 可以超越或增強預設浮動戰鬥文字的附加元件！
 ## Author: Dandruff-Stormreaver US, Feylynn-Antonidas EU
 ## Version: @project-version@
 ## RequiredDeps: Blizzard_CombatText
