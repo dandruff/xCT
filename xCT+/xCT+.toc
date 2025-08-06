@@ -1,4 +1,4 @@
-## Interface: 110107
+## Interface: 110200
 ## Title: xCT+
 ## Notes: An Add-On that can out-perform or enhance the default Floating Combat Text!
 ## Notes-ruRU: Аддон, который может превзойти или улучшить стандартный всплывающий текст боя!
