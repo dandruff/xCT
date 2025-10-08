@@ -1,4 +1,4 @@
-## Interface: 110200
+## Interface: 110205
 ## Title: xCT+Options
 ## Notes: Options for xCT+
 ## Notes-ruRU: Варианты для xCT+
