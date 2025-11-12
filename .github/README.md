@@ -24,6 +24,23 @@ For those that have used Affli’s xCT Add-On, xCT+ expands the functionality of
 * Profiles
 * And many more exciting new features!
 
+## The future of xCT+ in Midnight
+
+I recently gained access to the Midnight beta and tested some things:
+- Listening for event `COMBAT_LOG_EVENT_UNFILTERED` is gone. Thats how this addon got almost all of its information.
+- Same for `COMBAT_LOG_EVENT`
+- I can register a handler for `UNIT_COMBAT` event and it gives me some data but its really lackluster:
+  - No source unit of the damage? (e. g. Did I do that or did another player do that? Who damaged me?)
+  - No spell ID (was it a melee attack or a spell?)
+  - Is dependent on your Combat Log filter (see your chat box).
+- `C_CombatText.GetCurrentEventInfo()` is supposed to provide these informations as `(secret value)`, but it just returns `nil` at the moment.
+
+Currently I'm not optimistic that xCT+ will work in any capacity in the WoW Midnight expansion. 
+If something changes I'll look at it again. Even a reduced form of xCT+ would be fine for me but that does not 
+seem possible right now.
+
+If anybody knows more and could help me bring some functionality to Midnight, please feel free to contact me via Github or ingame.
+
 ## The future of xCT+ in TWW and beyond
 
 As of TWW Season 1, [Dandruff](https://www.curseforge.com/members/tdandruff) (Dandruff-Stormreaver US) resigned from addon development and gave [RedAces](https://www.curseforge.com/members/redaces) (Feylynn-Antonidas EU) the 
