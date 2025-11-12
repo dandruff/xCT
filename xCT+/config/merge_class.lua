@@ -20,6 +20,8 @@ do
     spec(0) -- All Specs
     spell(52212, 3.0) --  Death and Decay
     alias(441426, 441424) --  Talent: Exterminate (Deathbringer)
+    alias(436304, 439843) --  Talent: Reaper's Mark (Deathbringer)
+    alias(439594, 439843) --  Talent: Reaper's Mark (Deathbringer)
 
     spec(250) -- Blood
     spell(55078, 3.0) --  Blood Plague
